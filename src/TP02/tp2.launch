@@ -4,5 +4,5 @@
         args="$(env HOME)/ros/worlds/stage/factory_laser.world"/>
   
   <!-- Run our application -->
-  <node pkg="mytp02" type="mytp2" name="mytp2"/>
+  <node pkg="tp02" type="tp2" name="tp2"/>
 </launch>

@@ -1,8 +1,8 @@
 <package>
-  <name>mytp02</name>
+  <name>tp02</name>
   <maintainer email="hugo.costelha@ipleiria.com">Hugo Costelha</maintainer>
   <description>
-     mytp02
+     tp02
   </description>
   <version>2.0.0</version>
   <license>BSD</license>

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.4.6)
-project(mytp02)
+project(tp02)
 
 # Set the build type.  Options are:
 #  Coverage       : w/ debug symbols, w/o optimization, w/ code-coverage
@@ -19,7 +19,7 @@ catkin_package()
 include_directories(include ${roscpp_INCLUDE_DIRS})
  
 # Define an executable target called tp1
-add_executable(mytp2 main.cpp)
+add_executable(tp2 main.cpp)
 
 # Link the target against the libraries used by roscpp
-target_link_libraries(mytp2 ${roscpp_LIBRARIES})
+target_link_libraries(tp2 ${roscpp_LIBRARIES})
