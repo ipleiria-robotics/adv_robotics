@@ -10,3 +10,8 @@ Folder Contents
 
  - Scripts: folder with installation scripts. Download both scripts, set them as executable and run install_RA.sh;
  - ros: folder with the files used in the laboratory tutorials;
+ 
+Getting the tutorials
+=====================
+
+  - git clone https://github.com/ipleiria-robotics/adv_robotics/ros ~/
