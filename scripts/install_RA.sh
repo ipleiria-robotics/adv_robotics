@@ -30,11 +30,9 @@ echo "" >> ~/.bashrc
 echo "# ROS Environment variables" >> ~/.bashrc
 echo ". /opt/ros/hydro/setup.bash" >> ~/.bashrc
 echo ". $HOME/ros/devel/setup.bash" >> ~/.bashrc
-mkdir -p ~/ros
-cd ~/ros
-mkdir build devel src worlds
+git clone https://github.com/ipleiria-robotics/adv_robotics ~/ros
 source "/opt/ros/hydro/setup.bash"
-catkin_make
+catkin_make -C ~/ros
 
 # Some updates might need a restart, so lets do it just to be safe
 echo
