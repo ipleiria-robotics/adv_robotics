@@ -1,8 +1,8 @@
 <package>
-  <name>tp01</name>
+  <name>mytp02</name>
   <maintainer email="hugo.costelha@ipleiria.com">Hugo Costelha</maintainer>
   <description>
-     tp01- Robot keyboard teleoperation
+     mytp02
   </description>
   <version>2.0.0</version>
   <license>BSD</license>
@@ -15,5 +15,3 @@
   <build_depend>tf</build_depend>
   <build_depend>geometry_msgs</build_depend>
 </package>
-
-
