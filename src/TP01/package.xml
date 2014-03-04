@@ -1,6 +1,6 @@
 <package>
   <name>tp01</name>
-  <maintainer email="hugo.costelha@gmail.com">Hugo Costelha</maintainer>
+  <maintainer email="hugo.costelha@ipleiria.com">Hugo Costelha</maintainer>
   <description>
      TP01- Robot keyboard teleoperation
   </description>

@@ -2,6 +2,11 @@ cmake_minimum_required(VERSION 2.4.6)
 project(tp01)
 
 # Set the build type.  Options are:
+#  Coverage       : w/ debug symbols, w/o optimization, w/ code-coverage
+#  Debug          : w/ debug symbols, w/o optimization
+#  Release        : w/o debug symbols, w/ optimization
+#  RelWithDebInfo : w/ debug symbols, w/ optimization
+#  MinSizeRel     : w/o debug symbols, w/ optimization, stripped binaries
 set(CMAKE_BUILD_TYPE Debug)
 
 # Find and get all the information about the roscpp package
