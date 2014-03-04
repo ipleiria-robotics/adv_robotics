@@ -14,4 +14,4 @@ Folder Contents
 Getting the tutorials
 =====================
 
-  - git clone https://github.com/ipleiria-robotics/adv_robotics/ros ~/
+  - git clone https://github.com/ipleiria-robotics/adv_robotics ~/ros
