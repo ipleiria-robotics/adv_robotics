@@ -11,7 +11,8 @@ echo "--> Type the root password if asked, sit back, and relax..."
 sudo apt-get update
 sudo apt-get upgrade
 sudo apt-get -y install qtcreator screen mesa-utils emacs23-nox firefox vlc vlc-plugin-pulse mozilla-plugin-vlc xterm
-sudo apt-get -y install texlive-latex-base gimp unrar git
+sudo apt-get -y install texlive-latex-base gimp unrar git kwrite
+sudo apt-get -y remove kate
 
 # ROS installation
 echo "Downloading the install ROS script"
@@ -30,7 +31,7 @@ echo "# ROS Environment variables" >> ~/.bashrc
 echo ". /opt/ros/hydro/setup.bash" >> ~/.bashrc
 echo ". $HOME/ros/devel/setup.bash" >> ~/.bashrc
 mkdir -p ~/ros
-cd ros
+cd ~/ros
 mkdir build devel src worlds
 source "/opt/ros/hydro/setup.bash"
 catkin_make
