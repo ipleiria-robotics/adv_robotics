@@ -26,5 +26,6 @@ Updating the tutorials
 If you have already set up the installation and tutorials, you can always update your workspace with the latest content by using the following command:
 
   > cd ~/ros
+  
   > git pull
   
