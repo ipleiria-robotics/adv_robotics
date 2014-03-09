@@ -252,13 +252,13 @@ StageNode::StageNode(int argc, char** argv, bool gui, const char* fname, bool us
   this->world->ForEachDescendant((Stg::model_callback_t)ghfunc, this);
   if (lasermodels.size() > 0 && lasermodels.size() != positionmodels.size())
   {
-    ROS_FATAL("number of position models and laser models must be equal in "
+    ROS_WARN("number of position models and laser models must be equal in "
               "the world file.");
-    ROS_BREAK();
+    //ROS_BREAK();
   }
   else if (cameramodels.size() > 0 && cameramodels.size() != positionmodels.size())
   {
-    ROS_FATAL("number of position models and camera models must be equal in "
+    ROS_WARN("number of position models and camera models should be equal in "
               "the world file.");
     ROS_BREAK();
   }
@@ -267,10 +267,7 @@ StageNode::StageNode(int argc, char** argv, bool gui, const char* fname, bool us
            (unsigned int)numRobots, (unsigned int) lasermodels.size(), (unsigned int) cameramodels.size(), (numRobots==1) ? "" : "s");
 
   this->laserMsgs = new sensor_msgs::LaserScan[numRobots];
-  if( fiducialmodels.size() > 0 )
-    this->markersMsgs = new markers_msgs::Markers[numRobots];
-  else
-    this->markersMsgs = 0;
+  this->markersMsgs = new markers_msgs::Markers[numRobots];
   this->odomMsgs = new nav_msgs::Odometry[numRobots];
   this->groundTruthMsgs = new nav_msgs::Odometry[numRobots];
   this->imageMsgs = new sensor_msgs::Image[numRobots];
@@ -295,11 +292,12 @@ StageNode::SubscribeModels()
     if(this->lasermodels.size()>r && this->lasermodels[r])
     {
       this->lasermodels[r]->Subscribe();
+      laser_pubs_.push_back(n_.advertise<sensor_msgs::LaserScan>(mapName(BASE_SCAN,r,static_cast<Stg::Model*>(positionmodels[r])), 10));
     }
     else if (this->lasermodels.size()>0)
     {
-      ROS_ERROR("no laser");
-      return(-1);
+      ROS_WARN("no laser");
+      //return(-1);
     }
     if(this->positionmodels[r])
     {
@@ -310,35 +308,30 @@ StageNode::SubscribeModels()
       ROS_ERROR("no position");
       return(-1);
     }
-    if(this->fiducialmodels[r])
+    if(this->fiducialmodels.size()>r && this->fiducialmodels[r])
     {
       this->fiducialmodels[r]->Subscribe();
+      fiducial_pubs_.push_back(n_.advertise<markers_msgs::Markers>(mapName(MARKERS,r,static_cast<Stg::Model*>(positionmodels[r])), 10));
     }
     else
     {
-      ROS_ERROR("no fiducial");
-      return(-1);
+      ROS_WARN("no fiducial");
+      //return(-1);
     }
     if(this->cameramodels.size()>r && this->cameramodels[r])
     {
       this->cameramodels[r]->Subscribe();
-    }
-    else if (this->cameramodels.size()>0)
-    {
-      ROS_ERROR_STREAM("no camera " << this->cameramodels.size());
-      return(-1);
-    }
-    if (this->lasermodels.size()>r)
-      laser_pubs_.push_back(n_.advertise<sensor_msgs::LaserScan>(mapName(BASE_SCAN,r,static_cast<Stg::Model*>(positionmodels[r])), 10));
-    odom_pubs_.push_back(n_.advertise<nav_msgs::Odometry>(mapName(ODOM,r,static_cast<Stg::Model*>(positionmodels[r])), 10));
-    if (this->fiducialmodels.size()>r)
-      fiducial_pubs_.push_back(n_.advertise<markers_msgs::Markers>(mapName(MARKERS,r,static_cast<Stg::Model*>(positionmodels[r])), 10));
-    ground_truth_pubs_.push_back(n_.advertise<nav_msgs::Odometry>(mapName(BASE_POSE_GROUND_TRUTH,r,static_cast<Stg::Model*>(positionmodels[r])), 10));
-    if (this->cameramodels.size()>r){
       image_pubs_.push_back(n_.advertise<sensor_msgs::Image>(mapName(IMAGE,r,static_cast<Stg::Model*>(positionmodels[r])), 10));
       depth_pubs_.push_back(n_.advertise<sensor_msgs::Image>(mapName(DEPTH,r,static_cast<Stg::Model*>(positionmodels[r])), 10));
       camera_pubs_.push_back(n_.advertise<sensor_msgs::CameraInfo>(mapName(CAMERA_INFO,r,static_cast<Stg::Model*>(positionmodels[r])), 10));
     }
+    else if (this->cameramodels.size()>0)
+    {
+      ROS_WARN_STREAM("no camera " << this->cameramodels.size());
+      //return(-1);
+    }
+    odom_pubs_.push_back(n_.advertise<nav_msgs::Odometry>(mapName(ODOM,r,static_cast<Stg::Model*>(positionmodels[r])), 10));
+    ground_truth_pubs_.push_back(n_.advertise<nav_msgs::Odometry>(mapName(BASE_POSE_GROUND_TRUTH,r,static_cast<Stg::Model*>(positionmodels[r])), 10));
     cmdvel_subs_.push_back(n_.subscribe<geometry_msgs::Twist>(mapName(CMD_VEL,r,static_cast<Stg::Model*>(positionmodels[r])), 10, boost::bind(&StageNode::cmdvelReceived, this, r, _1)));
   }
   clock_pub_ = n_.advertise<rosgraph_msgs::Clock>("/clock",10);
@@ -506,34 +499,35 @@ StageNode::WorldCallback()
 
     this->ground_truth_pubs_[r].publish(this->groundTruthMsgs[r]);
 
-    // Get latest fiducial data
-    if( this->fiducialmodels.size() > 0 )
-    {
-      // Will only read from the first fidutial sensor
-      std::vector<Stg::ModelFiducial::Fiducial> detectedMarkers = this->fiducialmodels[r]->GetFiducials();
-
-      if( detectedMarkers.size() > 0 )
-      {
-        this->markersMsgs[r].header.frame_id = mapName(MARKERS, r,static_cast<Stg::Model*>(positionmodels[r]));
-        this->markersMsgs[r].header.stamp = sim_time;
-
-        this->markersMsgs[r].num_markers = detectedMarkers.size();
-        this->markersMsgs[r].id.resize(detectedMarkers.size());
-        this->markersMsgs[r].bearing.resize(detectedMarkers.size());
-        this->markersMsgs[r].range.resize(detectedMarkers.size());
-
-        for(uint i=0; i < detectedMarkers.size(); i++)
-        {
-          this->markersMsgs[r].id[i] = detectedMarkers[i].id;
-          this->markersMsgs[r].bearing[i] = detectedMarkers[i].bearing;
-          this->markersMsgs[r].range[i] = detectedMarkers[i].range;
-        }
-
-        this-> fiducial_pubs_[r].publish(this->markersMsgs[r]);
-      }
-    }
   }
   
+  // Get latest fiducial data
+  for (size_t r = 0; r < this->fiducialmodels.size(); r++)
+  {
+    // Will only read from the first fidutial sensor
+    std::vector<Stg::ModelFiducial::Fiducial> detectedMarkers = this->fiducialmodels[r]->GetFiducials();
+
+    if( detectedMarkers.size() > 0 )
+    {
+      this->markersMsgs[r].header.frame_id = mapName(MARKERS, r,static_cast<Stg::Model*>(positionmodels[r]));
+      this->markersMsgs[r].header.stamp = sim_time;
+
+      this->markersMsgs[r].num_markers = detectedMarkers.size();
+      this->markersMsgs[r].id.resize(detectedMarkers.size());
+      this->markersMsgs[r].bearing.resize(detectedMarkers.size());
+      this->markersMsgs[r].range.resize(detectedMarkers.size());
+
+      for(uint i=0; i < detectedMarkers.size(); i++)
+      {
+        this->markersMsgs[r].id[i] = detectedMarkers[i].id;
+        this->markersMsgs[r].bearing[i] = detectedMarkers[i].bearing;
+        this->markersMsgs[r].range[i] = detectedMarkers[i].range;
+      }
+
+      this-> fiducial_pubs_[r].publish(this->markersMsgs[r]);
+    }
+  }
+
   this->base_last_globalpos_time = this->sim_time;
     
   for (size_t r = 0; r < this->cameramodels.size(); r++)

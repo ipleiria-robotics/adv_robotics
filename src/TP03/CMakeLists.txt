@@ -19,9 +19,9 @@ catkin_package()
 include_directories(include ${roscpp_INCLUDE_DIRS})
  
 # Define an executable target called tp1
-add_executable(tp3
+add_executable(tp03
 	       main.cpp
 	       LocalFrameWorldFrameTransformations.cpp)
 
 # Link the target against the libraries used by roscpp
-target_link_libraries(tp3 ${roscpp_LIBRARIES})
+target_link_libraries(tp03 ${roscpp_LIBRARIES})

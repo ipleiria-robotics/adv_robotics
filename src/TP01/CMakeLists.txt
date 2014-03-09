@@ -19,7 +19,7 @@ catkin_package()
 include_directories(include ${roscpp_INCLUDE_DIRS})
  
 # Define an executable target called tp1
-add_executable(tp1 main.cpp)
+add_executable(tp01 main.cpp)
 
 # Link the target against the libraries used by roscpp
-target_link_libraries(tp1 ${roscpp_LIBRARIES})
+target_link_libraries(tp01 ${roscpp_LIBRARIES})

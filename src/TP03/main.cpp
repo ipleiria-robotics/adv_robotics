@@ -186,10 +186,11 @@ int main(int argc, char** argv)
   double Kp_ang_vel = 3.0; // Propostional gain for the angular vel. control
   double min_distance = 0.1; // Minimum acceptance distance to target
   double max_angle_to_target = DEG2RAD(30.0);
+  std::string robot_name = "/robot_0";
   geometry_msgs::Pose2D robot_pose;
 
   // Init ROS
-  ros::init(argc, argv, "tp3");
+  ros::init(argc, argv, "tp03");
 
   // ROS variables/objects
   ros::NodeHandle nh; // Node handle
@@ -198,12 +199,12 @@ int main(int argc, char** argv)
 
   /// Setup subscribers
   // Odometry
-  ros::Subscriber sub_odom = nh.subscribe("odom", 1, odomCallback);
+  ros::Subscriber sub_odom = nh.subscribe(robot_name + "/odom", 1, odomCallback);
   // Markers detected
-  ros::Subscriber sub_markers = nh.subscribe("markers", 1, markersCallback);
+  ros::Subscriber sub_markers = nh.subscribe(robot_name + "/markers", 1, markersCallback);
 
   // Setup publisher
-  vel_pub = nh.advertise<geometry_msgs::Twist>("cmd_vel", 1);
+  vel_pub = nh.advertise<geometry_msgs::Twist>(robot_name + "/cmd_vel", 1);
 
   // Vector of points to be followed:
   uint  num_targets = 6;
