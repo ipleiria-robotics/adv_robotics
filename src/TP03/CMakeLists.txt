@@ -16,7 +16,7 @@ find_package(catkin REQUIRED COMPONENTS roscpp markers_msgs)
 catkin_package()
 
 # Add header folders
-include_directories(include ${roscpp_INCLUDE_DIRS})
+include_directories(include ${catkin_INCLUDE_DIRS})
  
 # Define an executable target called tp1
 add_executable(tp03
@@ -24,4 +24,4 @@ add_executable(tp03
 	       LocalFrameWorldFrameTransformations.cpp)
 
 # Link the target against the libraries used by roscpp
-target_link_libraries(tp03 ${roscpp_LIBRARIES})
+target_link_libraries(tp03 ${catkin_LIBRARIES})
