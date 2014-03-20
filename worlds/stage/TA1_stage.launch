@@ -1,0 +1,6 @@
+<launch>
+  <!-- Run the stage simulator -->
+  <node pkg="stage_ros" type="stageros" name="stage" 
+        args="$(env HOME)/ros/worlds/stage/TA1.world"
+        required="true"/>
+</launch>
