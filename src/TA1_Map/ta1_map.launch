@@ -1,0 +1,7 @@
+<launch>
+  <!-- Run the stage simulator -->
+  <include file="$(env HOME)/ros/worlds/stage/TA1_stage.launch"/>
+  
+  <!-- Run our application -->
+  <node pkg="ta1_map" type="ta1_map" name="ta1_map" required="true" cwd="node" output="screen"/>
+</launch>
