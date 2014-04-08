@@ -50,9 +50,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "utils.hpp"
 
 // Specify if the particle filter steps should run
-#undef STEP_PREDICTION
-#undef STEP_UPDATE
-#undef STEP_RESAMPLE
+#define STEP_PREDICTION
+#define STEP_UPDATE
+#define STEP_RESAMPLE
 
 
 // Radians <-> Degrees convertion tools
