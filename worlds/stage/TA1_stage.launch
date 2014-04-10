@@ -2,5 +2,10 @@
   <!-- Run the stage simulator -->
   <node pkg="stage_ros" type="stageros" name="stage" 
         args="$(env HOME)/ros/worlds/stage/TA1.world"
-        required="true"/>
+        required="true">
+        <remap from="/odom" to="/robot_0/odom"/>
+        <remap from="/base_scan" to="/robot_0/base_scan"/>
+        <remap from="/cmd_vel" to="/robot_0/cmd_vel"/>
+        <remap from="/base_pose_ground_truth" to="/robot_0/base_pose_ground_truth"/>
+  </node>
 </launch>
