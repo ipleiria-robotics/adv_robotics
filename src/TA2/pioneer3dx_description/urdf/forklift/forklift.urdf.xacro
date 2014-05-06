@@ -25,13 +25,13 @@
     <!-- Bottom (horizontal) link -->
     <link name="bottom_${suffix}">
       <inertial>
-        <origin xyz="${tft/2+bfl/2} ${reflect*(sbf/2+bfw/2)} ${-tfh/3}" rpy="0.0 ${M_PI/2+bfr} 0.0"/>
+        <origin xyz="${tft/2+bfl/2} ${reflect*(sbf/2+bfw/2)} ${-tfh/3+bft/2}" rpy="0.0 ${M_PI/2+bfr} 0.0"/>
         <mass value="0.1"/>
         <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
       </inertial>
 
       <collision name="collision">
-        <origin xyz="${tft/2+bfl/2} ${reflect*(sbf/2+bfw/2)} ${-tfh/3}" rpy="0.0 ${M_PI/2+bfr} 0.0"/>
+        <origin xyz="${tft/2+bfl/2} ${reflect*(sbf/2+bfw/2)} ${-tfh/3+bft/2}" rpy="0.0 ${M_PI/2+bfr} 0.0"/>
         <geometry>
            <box size="${bft} ${bfw} ${bfl}"/>
 <!--          <cylinder radius="${bft}" length="${bfl}"/> -->

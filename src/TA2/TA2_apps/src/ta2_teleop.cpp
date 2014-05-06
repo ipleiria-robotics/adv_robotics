@@ -60,6 +60,7 @@ bool forklift_up = false,
 #define FORKLIFT_DOWN 0.0   // Down position
 #define FORKLIFT_UP   0.07  // Up position
 
+bool save_next_frame = false;
 
 struct termios org_tios;
 
@@ -152,6 +153,15 @@ void cameraCallback(const sensor_msgs::ImageConstPtr& msg)
 
   // Show image
   cv::imshow("camera", cv_ptr->image);
+
+  // Save image if needed
+  if( save_next_frame )
+  {
+      cv::imwrite("frame.png", cv_ptr->image);
+      save_next_frame = false;
+      ROS_INFO("Image saved...");
+  }
+
   if( cv::waitKey(5) == 27 )
     ros::shutdown(); // Shutdown if ESC key was pressed
 }
@@ -197,7 +207,8 @@ int main(int argc, char** argv)
   // Output usage information
   std::cout << "Reading from keyboard\n"
             << "Use i, j, k, l and space to move front, left, back, right and stop, respectively\n"
-            << "Use w, s to move the forklift up and down\n"
+            << "Use e, d to move the forklift up and down\n"
+            << "Use s to save an image\n
             << "Press q to quit.\n"
             << "---------------------------" << std::endl;
 
@@ -276,15 +287,19 @@ int main(int argc, char** argv)
         lin_vel = 0;
         ang_vel = 0;
         break;
-      case 'w':
+      case 'e':
         // Send forklit up
         forklift_pos_cmd.data = FORKLIFT_UP;
         forklift_pub.publish(forklift_pos_cmd);
         break;
-      case 's':
+      case 'd':
         // Send forklit up
         forklift_pos_cmd.data = FORKLIFT_DOWN;
         forklift_pub.publish(forklift_pos_cmd);
+        break;
+      case 's':
+        // Save next frame
+        save_next_frame = true;
         break;
       }
       // Limit maximum velocities
