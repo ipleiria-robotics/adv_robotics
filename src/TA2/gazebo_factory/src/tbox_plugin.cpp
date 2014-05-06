@@ -47,9 +47,9 @@ namespace gazebo
     // Build colors vector
     colors_.resize(NUM_COLORS);
     colors_[RED] = "Gazebo/RedGlow";
-    colors_[YELLOW] = "Gazebo/YellowGlow";
-    colors_[GREEN] = "Gazebo/GreenGlow";
-    colors_[BLUE] = "Gazebo/BlueGlow";
+    colors_[YELLOW] = "Gazebo/Yellow";
+    colors_[GREEN] = "Gazebo/Green";
+    colors_[BLUE] = "Gazebo/Blue";
 
 
     // Build machines positions (area limits)
