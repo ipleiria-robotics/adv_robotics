@@ -14,7 +14,7 @@ find_package(gazebo REQUIRED)
 include_directories(include ${catkin_INCLUDE_DIRS} ${GAZEBO_INCLUDE_DIRS} ${SDFormat_INCLUDE_DIRS})
 
 catkin_package(
-    CATKIN_DEPENDS message_runtime robot_state_publisher urdf geometry_msgs sensor_msgs gazebo_ros
+    CATKIN_DEPENDS message_runtime robot_state_publisher urdf geometry_msgs sensor_msgs gazebo_ros ros_control ros_controllers
     LIBRARIES lib
 )
 
