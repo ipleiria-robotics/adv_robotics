@@ -2,7 +2,7 @@ DONE - Add the application to control both the robot speed and the forklift
 DONE - Set the LEDs to switch with random time between RED -> YELLOW -> GREEN -> BLUE 
 DONE - Add the FactoryField
 DONE - Make the processing time random
- - Change the camera to be placed below the sonars;
+DONE - Change the camera to be placed below the sonars;
  - Add fotos of the parts with different LEDs on and different distancces
  - Create a bag with a complete cycle with a single part
  - Update Figure 2

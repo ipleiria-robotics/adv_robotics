@@ -21,7 +21,7 @@
     <!-- Forward facing camera -->
     <xacro:include filename="$(find pioneer3dx_description)/urdf/sensors/gz_camera.xacro"/>
     <xacro:gz_camera parent="base_link" topic="/p3dx/camera_front">
-      <origin xyz="0.240 0.0 0.272" rpy="0 0 0"/>
+      <origin xyz="0.240 0.0 0.20" rpy="0 0 0"/>
     </xacro:gz_camera>
 
     <!-- Forklift -->
