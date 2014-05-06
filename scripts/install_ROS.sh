@@ -25,6 +25,6 @@ apt-get update
 #problems. To prevent this, we should first install texlive, then proceed with ROS.
 apt-get -y install ros-hydro-desktop-full
 # Install additional ros packages
-apt-get -y install ros-hydro-hector-quadrotor ros-hydro-turtlebot-simulator
+apt-get -y install ros-hydro-hector-quadrotor ros-hydro-turtlebot-simulator ros-hydro-ros-control ros-hydro-effort-controllers ros-hydro-joint-state-controller
 # ros-fuerte-p2os ros-fuerte-erratic-robot ros-fuerte-pr2-teleop-app
 

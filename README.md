@@ -28,3 +28,4 @@ If you have already set up the installation and tutorials, you can always update
     >> cd ~/ros
     >> git pull
   
+Make sure you have the following packages installed: ros-hydro-ros-control, ros-hydro-effort-controllers, ros-hydro-joint-state-controller
