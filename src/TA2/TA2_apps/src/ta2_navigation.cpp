@@ -38,5 +38,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 int main(int argc, char** argv)
 {
+  ros::init(argc, argv, "ta2_navigation");
+  ros::spin();
   return 1;
 }

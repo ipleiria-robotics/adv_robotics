@@ -208,7 +208,7 @@ int main(int argc, char** argv)
   std::cout << "Reading from keyboard\n"
             << "Use i, j, k, l and space to move front, left, back, right and stop, respectively\n"
             << "Use e, d to move the forklift up and down\n"
-            << "Use s to save an image\n
+            << "Use s to save an image\n"
             << "Press q to quit.\n"
             << "---------------------------" << std::endl;
 
