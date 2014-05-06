@@ -1,0 +1,233 @@
+<?xml version="1.0"?>
+
+<robot
+  xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
+  xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
+  xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
+  xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:property name="bh" value=".06" /> <!-- Base height -->
+  <xacro:property name="bw" value=".2" /> <!-- Base width -->
+  <xacro:property name="bt" value=".06" /> <!-- Base thickness -->
+  <xacro:property name="sbf" value=".12" /> <!-- Space between fingers -->    
+  <xacro:property name="bfl" value=".2" /> <!-- Bottom finger length -->
+  <xacro:property name="bft" value=".01" /> <!-- Bottom finger thickness -->
+  <xacro:property name="bfw" value=".02" /> <!-- Bottom finger width -->
+  <xacro:property name="bfr" value="-.05" /> <!-- Bottom finger rotation -->
+  <xacro:property name="tfh" value=".14" /> <!-- Top finger height -->
+  <xacro:property name="tft" value=".01" /> <!-- Top finger thickness -->
+  <xacro:property name="tfw" value=".02" /> <!-- Top finger width -->    
+  <xacro:property name="M_PI" value="3.1415927" />
+  
+  <!-- Internal macros -->
+  <!-- Macro for fork finger -->
+  <xacro:macro name="fork_link" params="suffix parent reflect">
+    <!-- Bottom (horizontal) link -->
+    <link name="bottom_${suffix}">
+      <inertial>
+        <origin xyz="${tft/2+bfl/2} ${reflect*(sbf/2+bfw/2)} ${-tfh/3}" rpy="0.0 ${M_PI/2+bfr} 0.0"/>
+        <mass value="0.1"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+
+      <collision name="collision">
+        <origin xyz="${tft/2+bfl/2} ${reflect*(sbf/2+bfw/2)} ${-tfh/3}" rpy="0.0 ${M_PI/2+bfr} 0.0"/>
+        <geometry>
+           <box size="${bft} ${bfw} ${bfl}"/>
+<!--          <cylinder radius="${bft}" length="${bfl}"/> -->
+        </geometry>
+      </collision>
+
+      <visual name="visual">
+        <origin xyz="${tft/2+bfl/2} ${reflect*(sbf/2+bfw/2)} ${-tfh/3+bft/2}" rpy="0.0 ${M_PI/2+bfr} 0.0"/>
+        <geometry>
+           <box size="${bft} ${bfw} ${bfl}"/>
+<!--          <cylinder radius="${bft}" length="${bfl}"/>-->
+        </geometry>
+        <material name="blue">
+          <color rgba="0.0 0.0 0.851 1.0"/>
+        </material>
+      </visual>
+    </link>
+    <gazebo reference="bottom_${suffix}">
+      <material value="Gazebo/Blue"/>
+      <mu1>0.5</mu1>
+      <mu2>50.0</mu2>
+      <kp>100000000.0</kp>
+      <kd>1.0</kd>
+    </gazebo>
+    
+    <!-- Attach bottom finger to support -->
+    <joint name="support_bottom_${suffix}_joint" type="fixed">
+      <parent link="${parent}"/>
+      <child link="bottom_${suffix}"/>
+    </joint>
+
+    <!-- Top (vertical) link -->
+    <link name="top_${suffix}">
+      <inertial>
+        <origin xyz="0.0 ${reflect*(sbf/2+bfw/2)} ${tfh/2-bft/2-tfh/3}" rpy="0.0 0.0 0.0"/>
+        <mass value="0.1"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+
+      <collision name="collision">
+        <origin xyz="0.0 ${reflect*(sbf/2+bfw/2)} ${tfh/2-bft/2-tfh/3}" rpy="0.0 0.0 0.0"/>
+        <geometry>
+          <box size="${tft} ${tfw} ${tfh}"/>
+        </geometry>
+      </collision>
+
+      <visual name="visual">
+        <origin xyz="0.0 ${reflect*(sbf/2+bfw/2)} ${tfh/2-bft/2-tfh/3}" rpy="0.0 0.0 0.0"/>
+        <geometry>
+          <box size="${tft} ${tfw} ${tfh}"/>
+        </geometry>
+        <material name="blue">
+          <color rgba="0.0 0.0 0.851 1.0"/>
+        </material>
+      </visual>
+    </link>
+    <gazebo reference="top_${suffix}">
+      <material value="Gazebo/Blue"/>
+    </gazebo>
+
+    <!-- Attach top finger to support -->
+    <joint name="support_top_${suffix}_joint" type="fixed">
+      <parent link="${parent}"/>
+      <child link="top_${suffix}"/>
+    </joint>
+
+  </xacro:macro>
+
+ <!-- Forkilft macro -->
+  <macro name="forklift" params="name parent *origin">
+   
+    <!-- Base link (support) of the forklift -->
+    <link name="${name}_base_link">
+      <inertial>
+        <origin xyz="${bt/2} 0.0 ${2/3*tfh}" rpy="0.0 0.0 0.0"/>
+        <mass value="0.1"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+      <collision name="collision">
+        <origin xyz="${bt/2} 0.0 ${2/3*tfh}" rpy="0.0 0.0 0.0"/>
+        <geometry>
+          <box size="${bt} ${bw} ${bh}"/>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <origin xyz="${bt/2} 0.0 ${2/3*tfh}" rpy="0.0 0.0 0.0"/>
+        <geometry>
+          <box size="${bt} ${bw} ${bh}"/>
+        </geometry>
+<!--        <material name="red">
+          <color rgba="0.0 0.0 0.851 1.0"/>
+        </material>-->
+      </visual>
+    </link>
+    <gazebo reference="${name}_base_link">
+      <material value="Gazebo/Red"/>
+    </gazebo>
+
+    <!-- Base fingers support -->
+    <link name="${name}_fingers_support_link">
+      <inertial>
+        <origin xyz="0 0.0 0" rpy="0.0 0.0 0.0"/>
+        <mass value="0.1"/>
+        <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+      </inertial>
+      <collision name="collision">
+        <origin xyz="0 0.0 0" rpy="0.0 0.0 0.0"/>
+        <geometry>
+          <box size="${tft} ${sbf} ${tfw}"/>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <origin xyz="0 0.0 0" rpy="0.0 0.0 0.0"/>
+        <geometry>
+          <box size="${tft} ${sbf} ${tfw}"/>
+        </geometry>
+<!--        <material name="red">
+          <color rgba="0.0 0.0 0.851 1.0"/>
+        </material>-->
+      </visual>
+    </link>
+    <gazebo reference="${name}_fingers_support_link">
+      <material value="Gazebo/Blue"/>
+    </gazebo>
+    
+    <!-- Add left horizontal fork finger -->
+    <xacro:fork_link suffix="${name}_left_link" parent="${name}_fingers_support_link" reflect="-1">
+    </xacro:fork_link>
+      
+    <!-- Add right horizontal fork finger -->
+    <xacro:fork_link suffix="${name}_right_link" parent="${name}_fingers_support_link" reflect="1">
+    </xacro:fork_link>
+     
+
+    <!-- Base joint - attachment of the forklift to the robot -->
+    <joint name="${name}_base_joint" type="fixed">
+      <insert_block name="origin" />
+      <parent link="${parent}"/>
+      <child link="${name}_base_link"/>
+    </joint>
+
+    <!-- Actual movable joint. Its a prismatic joint for linear movement -->
+    <joint name="${name}_joint" type="prismatic">
+      <origin xyz="${bt+tft/2} 0.0 ${tfh/3}" rpy="0.0 0.0 0.0"/>
+      <parent link="${name}_base_link"/>
+      <child link="${name}_fingers_support_link"/>
+      <axis xyz="0 0 1"/>
+      <limit effort="100.0" lower="0.0" upper="10.08" velocity="0.3"/>
+<!--      <stopKd value="0.0" />
+      <stopKp value="0.0" />
+      <fudgeFactor value="1.0" />
+      <provideFeedback value="true"/>
+      <dynamics damping="10" />-->
+    </joint>
+    <transmission name="${name}_link_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="${name}_joint"/>
+      <actuator name="${name}_joint_motor">
+        <hardwareInterface>EffortJointInterface</hardwareInterface>
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+<!--    <gazebo reference="${name}_joint">
+        <erp>0.1</erp>
+        <stopKd value="100000000.0" />
+        <stopKp value="100000000.0" />
+        <fudgeFactor value="0.5" />
+    </gazebo>
+ -->   
+ 
+ 
+<!--    <gazebo> -->
+<!--       <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so"> -->
+<!--         <robotNamespace>/forklift</robotNamespace> -->
+<!--       </plugin> -->
+<!--      <gripper name="simple_gripper">
+        <grasp_check attach_steps="400" detach_steps="200" min_contact_count="2" />
+        <gripper_link>bottom_${name}_left_link</gripper_link>
+        <gripper_link>bottom_${name}_right_link</gripper_link>
+        <palm_link>${name}_base_link</palm_link>
+      </gripper>-->
+    
+<!--      <controller:forklift_plugin name="${name}_drive_controller" plugin="libforklift_plugin.so">
+        <alwaysOn>true</alwaysOn>
+        <update>100</update>
+        <updateRate>100.0</updateRate>
+        <forkJoint>${name}_joint</forkJoint>
+        <minPosition>0.0</minPosition>
+        <maxPosition>0.02</maxPosition>
+        <torque>10</torque>
+        <interface:position name="${name}_position"/>
+        <robotNamespace>/</robotNamespace>
+        <cmdTopicName>${name}_cmd</cmdTopicName>
+        <stateTopicName>${name}_state</stateTopicName>
+      </controller:forklift_plugin>-->
+<!--     </gazebo> -->
+  </macro>
+</robot>
