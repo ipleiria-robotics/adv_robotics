@@ -9,10 +9,10 @@
   <xacro:property name="bh" value=".06" /> <!-- Base height -->
   <xacro:property name="bw" value=".2" /> <!-- Base width -->
   <xacro:property name="bt" value=".06" /> <!-- Base thickness -->
-  <xacro:property name="sbf" value=".09" /> <!-- Space between fingers -->    
+  <xacro:property name="sbf" value=".10" /> <!-- Space between fingers -->    
   <xacro:property name="bfl" value=".2" /> <!-- Bottom finger length -->
   <xacro:property name="bft" value=".01" /> <!-- Bottom finger thickness -->
-  <xacro:property name="bfw" value=".02" /> <!-- Bottom finger width -->
+  <xacro:property name="bfw" value=".03" /> <!-- Bottom finger width -->
   <xacro:property name="bfr" value="-.05" /> <!-- Bottom finger rotation -->
   <xacro:property name="tfh" value=".14" /> <!-- Top finger height -->
   <xacro:property name="tft" value=".01" /> <!-- Top finger thickness -->

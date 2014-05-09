@@ -31,7 +31,7 @@
   <!-- start robot state publisher (for rviz and others) -->
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
     respawn="false" output="screen">
-    <!-- param name="publish_frequency" type="double" value="50.0" / -->
+    <param name="publish_frequency" type="double" value="50.0" />
   </node>
 
 </launch>
