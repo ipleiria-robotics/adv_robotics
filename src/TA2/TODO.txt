@@ -4,7 +4,7 @@ DONE - Add the FactoryField
 DONE - Make the processing time random
 DONE - Change the camera to be placed below the sonars;
 DONE - Add fotos of the parts with different LEDs and different distancces
- - Create a bag with a complete cycle with a single part
+DONE - Create a bag with a complete cycle with a single part
 DONE - Update Figure 2
 DONE - Update point 2 so that the students do it.
 
