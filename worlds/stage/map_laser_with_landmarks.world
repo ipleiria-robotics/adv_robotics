@@ -30,8 +30,8 @@ floorplan
   name "cave"
   size [16.000 16.000 0.800]
   pose [0 0 0 0]
-  bitmap "cave.png"
-#  bitmap "cave2.png"
+#  bitmap "cave.png"
+  bitmap "cave2.png"
 )
 
 # Load the Pioneer P3-DX robot
@@ -40,8 +40,8 @@ pioneer2dx_base_no_sonar
 (
   # Can refer to the robot by this name
   name "robot0"
-  pose [ -2 3 0 0 ] # Initial posture
-#  pose [ 0 0 0 0 ] # Initial posture
+#  pose [ -2 3 0 0 ] # Initial posture
+  pose [ 0 0 0 0 ] # Initial posture
 
   # pioneer3dx's sonars, will be ranger:0 and the laser will be ranger:1
   sicklaser( pose [ 0 0 0 0 ] ) 
