@@ -10,7 +10,7 @@ echo "--> This installation will download ~1GB of software, and should take a wh
 echo "--> Type the root password if asked, sit back, and relax..."
 sudo apt-get update
 sudo apt-get upgrade
-sudo apt-get -y install qtcreator screen mesa-utils emacs23-nox firefox vlc vlc-plugin-pulse browser-plugin-vlc xterm
+sudo apt-get -y install qtcreator screen mesa-utils emacs24-nox firefox vlc vlc-plugin-pulse browser-plugin-vlc xterm
 sudo apt-get -y install texlive-latex-base gimp unrar git kwrite
 sudo apt-get -y remove kate
 
