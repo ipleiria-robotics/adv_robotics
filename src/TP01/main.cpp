@@ -214,7 +214,7 @@ int main(int argc, char** argv)
     // Show desired velocity
     std::cout << "Robot desired velocity = "
               << lin_vel << " [m/s], "
-              << lin_vel*180.0/M_PI << " [º/s]" << std::endl;
+              << ang_vel*180.0/M_PI << " [º/s]" << std::endl;
 
     // Send velocity commands
     vel_cmd.angular.z = a_scale*ang_vel;
