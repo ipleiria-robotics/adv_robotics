@@ -26,6 +26,7 @@
   <build_depend>stage</build_depend>
   <build_depend>std_msgs</build_depend>
   <build_depend>tf</build_depend>
+  <build_depend>markers_msgs</build_depend>
 
   <run_depend>boost</run_depend>
   <run_depend>fltk</run_depend>

@@ -25,3 +25,5 @@ add_executable(tp03
 
 # Link the target against the libraries used by roscpp
 target_link_libraries(tp03 ${catkin_LIBRARIES})
+# Make sure markers_msgs is compiled, as we need it
+add_dependencies(tp03 markers_msgs_generate_messages_cpp)

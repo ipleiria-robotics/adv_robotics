@@ -29,3 +29,5 @@ add_executable(tp07
 
 # Link the target against the libraries used by roscpp
 target_link_libraries(tp07 ${catkin_LIBRARIES} ${OpenCV_LIBS})
+# Make sure markers_msgs is compiled, as we need it
+add_dependencies(tp07 markers_msgs_generate_messages_cpp)

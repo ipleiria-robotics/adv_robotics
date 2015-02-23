@@ -11,8 +11,8 @@
       
   <!-- Package Dependencies -->
   <build_depend>roscpp</build_depend>
-  <run_depend>roscpp</run_depend>
   <build_depend>tf</build_depend>
   <build_depend>geometry_msgs</build_depend>
   <build_depend>markers_msgs</build_depend>
+  <run_depend>roscpp</run_depend>
 </package>
