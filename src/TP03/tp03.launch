@@ -4,5 +4,5 @@
         args="$(env HOME)/ros/worlds/stage/factory_laser_with_landmarks.world"/>
   
   <!-- Run our application -->
-  <node pkg="tp03" type="tp03" name="tp03"/>
+  <node pkg="tp03" type="tp03" name="tp03" output="screen"/>
 </launch>
