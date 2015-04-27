@@ -553,7 +553,7 @@ int main(int argc, char** argv)
   // Read original map and resize it to our resolution
   //  We need the original map, black and white, so that it is faster to find
   // occupied cells
-  cv::resize(cv::imread("cave.png", CV_LOAD_IMAGE_GRAYSCALE),
+  cv::resize(cv::imread("cave2.png", CV_LOAD_IMAGE_GRAYSCALE),
              org_map,
              org_map.size(),
              0, 0, cv::INTER_AREA );
