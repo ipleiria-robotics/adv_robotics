@@ -25,7 +25,7 @@ apt-get update
 #problems. To prevent this, we should first install texlive, then proceed with ROS.
 apt-get -y install ros-indigo-desktop-full
 # Install additional ros packages
-apt-get -y install ros-indigo-hector-quadrotor ros-indigo-turtlebot-simulator ros-indigo-ros-control ros-indigo-effort-controllers ros-indigo-joint-state-controller
+apt-get -y install ros-indigo-hector-quadrotor ros-indigo-turtlebot-simulator ros-indigo-ros-control ros-indigo-effort-controllers ros-indigo-joint-state-controller ros-indigo-gazebo-ros-control
 
 rosdep init
 
