@@ -1,7 +1,0 @@
-<launch>
-  <!-- Run the stage simulator -->
-  <include file="$(env HOME)/ros/worlds/stage/TA1_exame_stage.launch"/>
-  
-  <!-- Run our application -->
-  <node pkg="ta1_exame" type="ta1_exame_navagreedy" name="ta1_exame_navgreedy" required="true" cwd="node" output="screen"/>
-</launch>

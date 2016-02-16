@@ -11,7 +11,7 @@ echo "--> Type the root password if asked, sit back, and relax..."
 sudo apt-get update
 sudo apt-get upgrade
 sudo apt-get -y install qtcreator screen mesa-utils emacs24-nox firefox vlc vlc-plugin-pulse browser-plugin-vlc xterm
-sudo apt-get -y install texlive-latex-base gimp unrar git kwrite libfltk1.1-dev
+sudo apt-get -y install texlive-latex-base gimp unrar git kwrite libfltk1.1-dev kde-workspace-randr
 sudo apt-get -y remove kate
 
 # ROS installation
