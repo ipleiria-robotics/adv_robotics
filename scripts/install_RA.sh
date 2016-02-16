@@ -9,8 +9,8 @@ echo "--> Installing software needed for the Advanced Robotics class"
 echo "--> This installation will download ~1GB of software, and should take a while"
 echo "--> Type the root password if asked, sit back, and relax..."
 sudo apt-get update
-sudo apt-get upgrade
-sudo apt-get -y install qtcreator screen mesa-utils emacs24-nox firefox vlc vlc-plugin-pulse browser-plugin-vlc xterm
+sudo apt-get -y upgrade
+sudo apt-get -y install qtcreator screen mesa-utils nano firefox vlc vlc-plugin-pulse browser-plugin-vlc xterm
 sudo apt-get -y install texlive-latex-base gimp unrar git kwrite libfltk1.1-dev kde-workspace-randr
 sudo apt-get -y remove kate
 
@@ -25,8 +25,7 @@ rosdep update
 sudo sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list'
 wget http://packages.osrfoundation.org/gazebo.key -O - | sudo apt-key add -
 sudo apt-get update
-sudo apt-get install gazebo7
-sudo apt-get install libgazebo7-dev
+sudo apt-get -y install ros-indigo-gazebo7-ros gazebo7-doc libgdal-doc libgts-doc libhdf4-doc hdf4-tools
 
 # Set the user environment to use ROS
 echo "Setting ROS environment variables..." 
