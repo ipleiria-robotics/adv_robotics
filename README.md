@@ -3,7 +3,7 @@ adv-robotics
 
 Repository for the Advanced Robotics class, taught at School of Tecnhology and Management, Polytechnic Institute of Leiria, Portugal.
 
-Content currently being updated for the 2nd semester of 2014/2015 with ROS Indigo.
+Content currently being updated for the 2nd semester of 2015/2016 with ROS Indigo.
 
 Folder Contents
 ===============
