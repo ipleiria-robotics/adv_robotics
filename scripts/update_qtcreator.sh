@@ -6,7 +6,7 @@ wget http://download.qt.io/official_releases/qt/5.5/5.5.1/qt-opensource-linux-x6
 echo "--> Removing old QtCreator"
 sudo apt-get -y remove qtcreator qtcreator-doc qtcreator-plugin-remotelinux qtcreator-plugin-valgrind qtcreator-plugin-qnx qtcreator-plugin-cmake
 echo "--> Updating GDB"
-#sudo apt-get -y install gdb
+sudo apt-get -y install gdb
 chmod +x qt-opensource-linux-x64-5.5.1.run
 echo "--> Updating qt. Accept all default options in the window"
 sudo ./qt-opensource-linux-x64-5.5.1.run
