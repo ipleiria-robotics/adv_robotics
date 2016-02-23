@@ -52,6 +52,8 @@
 #include <geometry_msgs/Twist.h>
 #include <rosgraph_msgs/Clock.h>
 
+#include <std_srvs/Empty.h>
+
 #include "tf/transform_broadcaster.h"
 
 #define USAGE "stageros <worldfile>"
@@ -89,7 +91,7 @@ private:
         std::vector<Stg::ModelCamera *> cameramodels; //multiple cameras per position
         std::vector<Stg::ModelRanger *> lasermodels; //multiple rangers per position
         std::vector<Stg::ModelFiducial *> fiducialmodels;
-        
+
         //ros publishers
         ros::Publisher odom_pub; //one odom
         ros::Publisher ground_truth_pub; //one ground truth
@@ -105,7 +107,10 @@ private:
 
     std::vector<StageRobot const *> robotmodels_;
 
-
+    // Used to remember initial poses for soft reset
+    std::vector<Stg::Pose> initial_poses;
+    ros::ServiceServer reset_srv_;
+  
     ros::Publisher clock_pub_;
     
     bool isDepthCanonical;
@@ -162,6 +167,9 @@ public:
 
     // Message callback for a MsgBaseVel message, which set velocities.
     void cmdvelReceived(int idx, const boost::shared_ptr<geometry_msgs::Twist const>& msg);
+
+    // Service callback for soft reset
+    bool cb_reset_srv(std_srvs::Empty::Request& request, std_srvs::Empty::Response& response);
 
     // The main simulator object
     Stg::World* world;
@@ -229,13 +237,33 @@ StageNode::ghfunc(Stg::Model* mod, StageNode* node)
 {
     if (dynamic_cast<Stg::ModelRanger *>(mod))
         node->lasermodels.push_back(dynamic_cast<Stg::ModelRanger *>(mod));
-    if (dynamic_cast<Stg::ModelPosition *>(mod))
-        node->positionmodels.push_back(dynamic_cast<Stg::ModelPosition *>(mod));
+    if (dynamic_cast<Stg::ModelPosition *>(mod)) {
+      Stg::ModelPosition * p = dynamic_cast<Stg::ModelPosition *>(mod);
+      // remember initial poses
+      node->positionmodels.push_back(p);
+      node->initial_poses.push_back(p->GetGlobalPose());
+    }
     if (dynamic_cast<Stg::ModelCamera *>(mod))
         node->cameramodels.push_back(dynamic_cast<Stg::ModelCamera *>(mod));
     if (dynamic_cast<Stg::ModelFiducial*>(mod))
         node->fiducialmodels.push_back(dynamic_cast<Stg::ModelFiducial *>(mod));;
 }
+
+
+
+
+bool
+StageNode::cb_reset_srv(std_srvs::Empty::Request& request, std_srvs::Empty::Response& response)
+{
+  ROS_INFO("Resetting stage!");
+  for (size_t r = 0; r < this->positionmodels.size(); r++) {
+    this->positionmodels[r]->SetPose(this->initial_poses[r]);
+    this->positionmodels[r]->SetStall(false);
+  }
+  return true;
+}
+
+
 
 void
 StageNode::cmdvelReceived(int idx, const boost::shared_ptr<geometry_msgs::Twist const>& msg)
@@ -378,9 +406,14 @@ StageNode::SubscribeModels()
                 new_robot->fiducial_pubs.push_back(n_.advertise<markers_msgs::Markers>(mapName(MARKERS, r, s, static_cast<Stg::Model*>(new_robot->positionmodel)), 10));
 
         }
+
         this->robotmodels_.push_back(new_robot);
     }
     clock_pub_ = n_.advertise<rosgraph_msgs::Clock>("/clock", 10);
+
+    // advertising reset service
+    reset_srv_ = n_.advertiseService("reset_positions", &StageNode::cb_reset_srv, this);
+
     return(0);
 }
 
@@ -717,7 +750,7 @@ StageNode::WorldCallback()
             }
 
         }
-        
+
         // fidutials
         for (size_t s = 0; s < robotmodel->fiducialmodels.size(); ++s)
         {
@@ -746,7 +779,7 @@ StageNode::WorldCallback()
             }
             robotmodel->fiducial_pubs[s].publish(msg);
           }
-        }       
+        }
     }
 
     this->base_last_globalpos_time = this->sim_time;

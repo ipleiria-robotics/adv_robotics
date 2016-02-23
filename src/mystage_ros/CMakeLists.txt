@@ -9,32 +9,26 @@ project(mystage_ros)
 #  MinSizeRel     : w/o debug symbols, w/ optimization, stripped binaries
 set(CMAKE_BUILD_TYPE Debug)
 
-find_package(catkin REQUIRED COMPONENTS geometry_msgs nav_msgs roscpp rostest sensor_msgs std_msgs tf markers_msgs)
+find_package(catkin REQUIRED
+  COMPONENTS
+    geometry_msgs
+    nav_msgs
+    roscpp
+    sensor_msgs
+    std_msgs
+    std_srvs
+    tf
+    markers_msgs
+)
 
 find_package(Boost REQUIRED COMPONENTS system thread)
 
-find_package(FLTK REQUIRED)
-if(FLTK_FOUND)
-  # FindFLTK.cmake doesn't populate FLTK_INCLUDE_DIRS on some systems,
-  # so we try to use FLTK_INCLUDE_DIR if we need to.
-  if("${FLTK_INCLUDE_DIRS}" STREQUAL "")
-    set(FLTK_INCLUDE_DIRS "${FLTK_INCLUDE_DIR}")
-  endif()
-  message(status "FLTK_LIBRARIES=" ${FLTK_LIBRARIES})
-  message(status "FLTK_INCLUDE_DIR=" ${FLTK_INCLUDE_DIR})
-  message(status "FLTK_INCLUDE_DIRS=" ${FLTK_INCLUDE_DIRS})
-else()
-  message(fatal_error "FLTK not found...aborting!")
-endif()
-
-set(Stage_DIR cmake)
-find_package(Stage REQUIRED)
+find_package(stage REQUIRED)
 
 include_directories(
   ${catkin_INCLUDE_DIRS}
   ${Boost_INCLUDE_DIRS}
-  ${FLTK_INCLUDE_DIRS}
-  ${Stage_INCLUDE_DIRS}
+  ${STAGE_INCLUDE_DIRS}
 )
 
 catkin_package()
@@ -45,9 +39,14 @@ set(${PROJECT_NAME}_extra_libs "")
 if(UNIX AND NOT APPLE)
   set(${PROJECT_NAME}_extra_libs dl)
 endif()
-target_link_libraries(stageros ${catkin_LIBRARIES} ${Boost_LIBRARIES} ${FLTK_LIBRARIES} ${Stage_LIBRARIES} ${${PROJECT_NAME}_extra_libs})
+target_link_libraries(stageros
+  ${catkin_LIBRARIES}
+  ${Boost_LIBRARIES}
+  ${STAGE_LIBRARIES}
+  ${${PROJECT_NAME}_extra_libs}
+)
 if(catkin_EXPORTED_TARGETS)
-	add_dependencies(stageros ${catkin_EXPORTED_TARGETS} markers_msgs_generate_messages_cpp)
+  add_dependencies(stageros ${catkin_EXPORTED_TARGETS} markers_msgs_generate_messages_cpp)
 endif()
 
 ## Install
@@ -69,4 +68,7 @@ install(DIRECTORY world
 
 ## Tests
 
-add_rostest(test/hztest.xml)
+if(CATKIN_ENABLE_TESTING)
+  find_package(rostest REQUIRED)
+  add_rostest(test/hztest.xml)
+endif()

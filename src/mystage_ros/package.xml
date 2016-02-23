@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
   <name>mystage_ros</name>
-  <version>1.7.4</version>
+  <version>1.7.5</version>
   <description>This package provides ROS specific hooks for stage</description>
 
   <maintainer email="william@osrfoundation.org">William Woodall</maintainer>
@@ -17,7 +17,6 @@
   <buildtool_depend>catkin</buildtool_depend>
 
   <build_depend>boost</build_depend>
-  <build_depend>libfltk-dev</build_depend>
   <build_depend>geometry_msgs</build_depend>
   <build_depend>nav_msgs</build_depend>
   <build_depend>roscpp</build_depend>
@@ -25,16 +24,17 @@
   <build_depend>sensor_msgs</build_depend>
   <build_depend>stage</build_depend>
   <build_depend>std_msgs</build_depend>
+  <build_depend>std_srvs</build_depend>
   <build_depend>tf</build_depend>
   <build_depend>markers_msgs</build_depend>
 
   <run_depend>boost</run_depend>
-  <run_depend>fluid</run_depend>
   <run_depend>geometry_msgs</run_depend>
   <run_depend>nav_msgs</run_depend>
   <run_depend>roscpp</run_depend>
   <run_depend>sensor_msgs</run_depend>
   <run_depend>stage</run_depend>
   <run_depend>std_msgs</run_depend>
+  <run_depend>std_srvs</run_depend>
   <run_depend>tf</run_depend>
 </package>
