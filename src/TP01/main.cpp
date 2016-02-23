@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2013, Hugo Costelha
+Copyright (c) 2016, Hugo Costelha
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
