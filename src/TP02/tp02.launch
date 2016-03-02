@@ -1,0 +1,11 @@
+<launch>
+  <group ns="robot_0">
+    <!-- Run the stage simulator -->
+    <node pkg="mystage_ros" type="stageros" name="stage" 
+          args="$(env HOME)/ros/worlds/stage/factory_laser.world"
+          required="true"/>
+    
+    <!-- Run our application -->
+    <node pkg="tp02" type="tp02" name="tp02" required="true" cwd="node" output="screen"/>
+  </group>
+</launch>
