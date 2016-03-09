@@ -23,18 +23,18 @@ include_directories(include ${catkin_INCLUDE_DIRS} ${OpenCV_INCLUDE_DIRS})
  
 # Add application
 add_executable(ta1_map
-	       src/map.cpp)
+	       map.cpp)
 # Link the target against the libraries used by roscpp
 target_link_libraries(ta1_map ${catkin_LIBRARIES} ${OpenCV_LIBS})
 
 # Add application
 add_executable(ta1_navastar
-               src/navastar.cpp)
+               navastar.cpp)
 # Link the target against the libraries used by roscpp
 target_link_libraries(ta1_navastar ${catkin_LIBRARIES} ${OpenCV_LIBS})
 
 # Add application
 add_executable(ta1_virtualforces
-               src/virtualforces.cpp)
+               virtualforces.cpp)
 # Link the target against the libraries used by roscpp
 target_link_libraries(ta1_virtualforces ${catkin_LIBRARIES} ${OpenCV_LIBS})
