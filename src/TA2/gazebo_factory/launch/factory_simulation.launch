@@ -1,0 +1,17 @@
+<launch>
+
+  <!-- Load Gazebo world -->
+  <include file="$(find pioneer3dx_description)/launch/pioneer3dx_gazebo_hokuyo_urg_camera.launch">
+    <arg name="world_name" value="$(find gazebo_factory)/worlds/factory_world.sdf"/>
+  </include>
+
+  <!-- Add working pieces -->
+  <param name="factory_box" command="$(find xacro)/xacro.py $(find gazebo_factory)/urdf/tbox/tbox.urdf.xacro" />
+<!--  <node name="spawn_box0" pkg="gazebo_ros" type="spawn_model" args="-x 0.37 -y 0 -z 0.102 -P 0.0 -Y 3.14159 -urdf -param factory_box -model tbox0" respawn="false" output="screen" /> -->
+  <node name="spawn_box1" pkg="gazebo_ros" type="spawn_model" args="-x 3.05 -y -3.0 -z 0.001 -P 0.0 -Y 1.5708 -urdf -param factory_box -model tbox1" respawn="false" output="screen" />
+  <node name="spawn_box2" pkg="gazebo_ros" type="spawn_model" args="-x 2.55 -y -3.0 -z 0.001 -P 0.0 -Y 1.5708 -urdf -param factory_box -model tbox2" respawn="false" output="screen" />
+  <node name="spawn_box3" pkg="gazebo_ros" type="spawn_model" args="-x 2.05 -y -3.0 -z 0.001 -P 0.0 -Y 1.5708 -urdf -param factory_box -model tbox3" respawn="false" output="screen" />
+  <node name="spawn_box4" pkg="gazebo_ros" type="spawn_model" args="-x 1.55 -y -3.0 -z 0.001 -P 0.0 -Y 1.5708 -urdf -param factory_box -model tbox4" respawn="false" output="screen" />
+  <node name="spawn_box5" pkg="gazebo_ros" type="spawn_model" args="-x 1.05 -y -3.0 -z 0.001 -P 0.0 -Y 1.5708 -urdf -param factory_box -model tbox5" respawn="false" output="screen" />
+
+</launch>
