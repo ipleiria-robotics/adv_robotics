@@ -10,9 +10,17 @@ echo "--> This installation will download ~1GB of software, and should take a wh
 echo "--> Type the root password if asked, sit back, and relax..."
 sudo apt-get update
 sudo apt-get -y upgrade
-sudo apt-get -y install qtcreator screen mesa-utils nano firefox vlc vlc-plugin-pulse browser-plugin-vlc xterm
-sudo apt-get -y install texlive-latex-base gimp unrar git kwrite libfltk1.1-dev kde-workspace-randr gdb
+sudo apt-get -y install screen mesa-utils nano firefox vlc vlc-plugin-pulse browser-plugin-vlc xterm
+sudo apt-get -y install texlive-latex-base gimp unrar git libfltk1.1-dev gdb open-vm-tools
+#sudo apt-get kde-workspace-randr kwrite open-vm-tools-desktop
 sudo apt-get -y remove kate
+
+# Gazebo installation
+sudo sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list'
+wget http://packages.osrfoundation.org/gazebo.key -O - | sudo apt-key add -
+sudo apt-get update
+#sudo apt-get -y install ros-indigo-gazebo7-ros gazebo7-doc libgdal-doc libgts-doc libhdf4-doc hdf4-tools
+sudo apt-get -y install gazebo7 gazebo7-plugin-base gazebo7-common libgazebo7
 
 # ROS installation
 echo "Downloading the install ROS script"
@@ -20,12 +28,6 @@ wget https://raw.githubusercontent.com/ipleiria-robotics/adv_robotics/master/scr
 echo "Installing ROS (you might need to type the root password)..."
 sudo sh install_ROS.sh
 rosdep update
-
-# Gazeo installation
-sudo sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list'
-wget http://packages.osrfoundation.org/gazebo.key -O - | sudo apt-key add -
-sudo apt-get update
-sudo apt-get -y install ros-indigo-gazebo7-ros gazebo7-doc libgdal-doc libgts-doc libhdf4-doc hdf4-tools
 
 # Set the user environment to use ROS
 echo "Setting ROS environment variables..." 

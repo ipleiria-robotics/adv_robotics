@@ -1,4 +1,0 @@
-FUTURE:
- - Use youbot and/or a robotic manipulator arm on top
- - Make the robot name a parameter in order to allow multi-robot scenarios.
- - Use ROS_lint to improve the packaging

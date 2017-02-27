@@ -25,9 +25,10 @@ apt-get update
 # Perform full ROS installation
 # In systems with low memory, installing everything simultaneously can lead to 
 #problems. To prevent this, we should first install texlive, then proceed with ROS.
-apt-get -y install ros-indigo-desktop-full
+apt-get -y install ros-indigo-desktop ros-indigo-stage-ros
 # Install additional ros packages
-apt-get -y install ros-indigo-hector-quadrotor ros-indigo-turtlebot-simulator ros-indigo-ros-control ros-indigo-effort-controllers ros-indigo-joint-state-controller ros-indigo-gazebo-ros-control
+# ros-indigo-turtlebot-simulator
+apt-get -y install ros-indigo-hector-quadrotor ros-indigo-ros-control ros-indigo-effort-controllers ros-indigo-joint-state-controller ros-indigo-gazebo7-ros-control ros-indigo-gazebo7-ros-pkgs
 
 rosdep init
 
