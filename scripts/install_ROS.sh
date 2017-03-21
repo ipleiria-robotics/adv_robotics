@@ -29,6 +29,6 @@ apt-get -y install ros-indigo-desktop ros-indigo-stage-ros
 # Install additional ros packages
 # ros-indigo-turtlebot-simulator
 apt-get -y install ros-indigo-hector-quadrotor ros-indigo-ros-control ros-indigo-effort-controllers ros-indigo-joint-state-controller ros-indigo-gazebo7-ros-control ros-indigo-gazebo7-ros-pkgs
-
+apt-get -y install ros-indigo-pcl-conversions ros-indigo-pcl-ros ros-indigo-laser-filters
 rosdep init
 

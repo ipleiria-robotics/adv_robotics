@@ -13,7 +13,7 @@ sudo apt-get -y upgrade
 sudo apt-get -y install screen mesa-utils nano firefox vlc vlc-plugin-pulse browser-plugin-vlc xterm
 sudo apt-get -y install texlive-latex-base gimp unrar git libfltk1.1-dev gdb open-vm-tools open-vm-tools-desktop
 #sudo apt-get kde-workspace-randr kwrite
-sudo apt-get -y remove kate
+#sudo apt-get -y remove kate
 
 # Gazebo installation
 sudo sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list'
