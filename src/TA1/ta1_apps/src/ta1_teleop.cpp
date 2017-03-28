@@ -193,7 +193,7 @@ int main(int argc, char** argv)
   double lin_vel=0, ang_vel=0;
   double l_scale, a_scale;
   // Velocity increase for each keystroke
-  double delta_lin_vel=0.1, delta_ang_vel = 5.0/180.0*3.14;
+  double delta_lin_vel=0.1, delta_ang_vel = 5.0/180.0*M_PI;
 
   // Init ROS
   ros::init(argc, argv, "robot_keyboard_teleop");
@@ -316,7 +316,7 @@ int main(int argc, char** argv)
     // Show desired velocity
     std::cout << "Robot desired velocity = "
               << lin_vel << " [m/s], "
-              << lin_vel*180.0/M_PI << " [º/s]" << std::endl;
+              << ang_vel*180.0/M_PI << " [º/s]" << std::endl;
 
     // Send velocity commands
     vel_cmd.angular.z = a_scale*ang_vel;

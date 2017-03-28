@@ -18,7 +18,7 @@
   <group ns="$(arg namespace)">
     <!-- Add the robot -->
     <node name="robot" pkg="gazebo_ros" type="spawn_model"
-          args="-file $(find pioneer2dx_description)/models/model.sdf -sdf -model robot
+          args="-file $(find pioneer2dx_description)/models/robot/model.sdf -sdf -model robot
                 -gazebo_namespace /gazebo
                 -x 0.0 -y -0.0 -z 0.0 -R 0.0 -P 0.0 -Y 0.0">
     </node>

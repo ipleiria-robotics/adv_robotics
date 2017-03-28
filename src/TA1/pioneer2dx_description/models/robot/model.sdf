@@ -43,7 +43,7 @@
         <pose>0 0 0.04 0 0 0</pose>
         <geometry>
           <mesh>
-            <uri>model://pioneer2dx/meshes/chassis.dae</uri>
+            <uri>model://pioneer2dx_description/robot/meshes/chassis.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -178,20 +178,31 @@
       <torque>5</torque>
     </plugin>
  -->
+    <include>
+       <uri>model://hokuyo</uri>
+       <name>laser</name>
+       <pose>0.0 0.0 0.30 0 0 0</pose>
+    </include>
+    <joint type="fixed" name="chassis_laser_joint">
+      <child>laser</child>
+      <parent>chassis</parent>
+    </joint>
+
     <plugin name='differential_drive_controller' filename='libgazebo_ros_diff_drive.so'>
+      <legacyMode>false</legacyMode>
       <rosDebugLevel>Debug</rosDebugLevel>
-      <publishWheelTF>False</publishWheelTF>
+      <publishWheelTF>false</publishWheelTF>
       <publishTf>1</publishTf>
       <publishWheelJointState>true</publishWheelJointState>
       <alwaysOn>true</alwaysOn>
-      <updateRate>50</updateRate>
-      <leftJoint>left_wheel_hinge</leftJoint>
-      <rightJoint>right_wheel_hinge</rightJoint>
-      <wheelSeparation>0.39</wheelSeparation>
-      <wheelDiameter>0.15</wheelDiameter>
+      <updateRate>100</updateRate>
+      <leftJoint>right_wheel_hinge</leftJoint> <!-- Default gazebo model as the wheels switched -->
+      <rightJoint>left_wheel_hinge</rightJoint>
+      <wheelSeparation>0.34</wheelSeparation> <!-- This values could be calibrated experimentally -->
+      <wheelDiameter>0.22</wheelDiameter>
       <wheelAcceleration>1.8</wheelAcceleration>
       <wheelTorque>5</wheelTorque>
-      <odometrySource>world</odometrySource> <!-- Used world (no error) or encoder -->
+      <odometrySource>encoder</odometrySource> <!-- Used world (no error) or encoder -->
       <commandTopic>cmd_vel</commandTopic>
       <odometryTopic>odom</odometryTopic>
       <odometryFrame>odom</odometryFrame>
