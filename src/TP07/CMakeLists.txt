@@ -44,3 +44,7 @@ target_link_libraries(tp07_ex5 ${catkin_LIBRARIES} ${OpenCV_LIBS})
 # Executable 6
 add_executable(tp07_ex6 ex6.cpp)
 target_link_libraries(tp07_ex6 ${catkin_LIBRARIES} ${OpenCV_LIBS})
+
+# Executable 7
+add_executable(tp07_ex7 ex7.cpp)
+target_link_libraries(tp07_ex7 ${catkin_LIBRARIES} ${OpenCV_LIBS})
