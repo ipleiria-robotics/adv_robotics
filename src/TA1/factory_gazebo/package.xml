@@ -16,4 +16,10 @@
   <build_depend>roscpp</build_depend>
   <run_depend>gazebo_ros</run_depend>
   <run_depend>roscpp</run_depend>
+  <export>
+    <!-- Allow gazebo to find models in our path -->
+    <gazebo_ros
+        gazebo_media_path="${prefix}/.."
+        gazebo_model_path="${prefix}/.." />
+  </export>
 </package>

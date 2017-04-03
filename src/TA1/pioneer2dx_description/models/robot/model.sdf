@@ -43,7 +43,7 @@
         <pose>0 0 0.04 0 0 0</pose>
         <geometry>
           <mesh>
-            <uri>model://pioneer2dx_description/robot/meshes/chassis.dae</uri>
+            <uri>model://pioneer2dx_description/models/robot/meshes/chassis.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -179,12 +179,14 @@
     </plugin>
  -->
     <include>
-       <uri>model://hokuyo</uri>
+       <uri>model://pioneer2dx_description/models/UTM_30LX</uri>
        <name>laser</name>
        <pose>0.0 0.0 0.30 0 0 0</pose>
+       <static>false</static>
     </include>
-    <joint type="fixed" name="chassis_laser_joint">
-      <child>laser</child>
+    <joint name="chassis_laser_joint" type="fixed" >
+      <pose frame="chassis">0.0 0.0 0.30 0 0 0</pose>
+      <child>laser::link</child>
       <parent>chassis</parent>
     </joint>
 
@@ -202,7 +204,7 @@
       <wheelDiameter>0.22</wheelDiameter>
       <wheelAcceleration>1.8</wheelAcceleration>
       <wheelTorque>5</wheelTorque>
-      <odometrySource>encoder</odometrySource> <!-- Used world (no error) or encoder -->
+      <odometrySource>world</odometrySource> <!-- Used world (no error) or encoder -->
       <commandTopic>cmd_vel</commandTopic>
       <odometryTopic>odom</odometryTopic>
       <odometryFrame>odom</odometryFrame>

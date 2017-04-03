@@ -28,4 +28,10 @@
   <run_depend>cv_bridge</run_depend>
   <run_depend>image_transport</run_depend>
   <run_depend>roscpp</run_depend>
+  <export>
+    <!-- Allow gazebo to find models in our path -->
+    <gazebo_ros
+        gazebo_media_path="${prefix}/.."
+        gazebo_model_path="${prefix}/.." />
+  </export>
 </package>

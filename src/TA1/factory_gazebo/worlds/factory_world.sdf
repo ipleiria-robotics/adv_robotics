@@ -26,90 +26,48 @@
           <contact_surface_layer>0.005</contact_surface_layer>
         </constraints>
       </ode>
-      <real_time_update_rate>2000.0</real_time_update_rate>
+      <real_time_update_rate>1000.0</real_time_update_rate>
       <max_step_size>0.001</max_step_size>
     </physics> -->
     <!-- Ground Plane -->
-    <model name="plane1_model">
-      <link name="body">
-        <collision name="geom_1">
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="plane_link">
+        <collision name="collision">
           <geometry>
             <plane>
               <normal>0 0 1</normal>
+              <size>10 10</size>
             </plane>
           </geometry>
           <surface>
             <friction>
               <ode>
-                <mu>-1.0</mu>
-                <mu2>-1.0</mu2>
-                <fdir1>0.0 0.0 0.0</fdir1>
-                <slip1>0.0</slip1>
-                <slip2>0.0</slip2>
+                <mu>100</mu>
+                <mu2>50</mu2>
               </ode>
             </friction>
-            <bounce>
-              <restitution_coefficient>0.0</restitution_coefficient>
-              <threshold>100000.0</threshold>
-            </bounce>
-            <contact>
-              <ode>
-                <soft_cfm>0.0</soft_cfm>
-                <soft_erp>0.2</soft_erp>
-                <kp>1000000.0</kp>
-                <kd>1.0</kd>
-                <max_vel>100.0</max_vel>
-                <min_depth>0.001</min_depth>
-              </ode>
-            </contact>
           </surface>
         </collision>
-        <visual name="visual_1">
+<!--        <visual name="visual">
+          <cast_shadows>false</cast_shadows>
           <geometry>
             <plane>
               <normal>0 0 1</normal>
+              <size>10 10</size>
             </plane>
           </geometry>
-          <!-- <material script='Gazebo/CeilingTiled'/> -->
-          <cast_shadows>0</cast_shadows>
-        </visual>
-      </link>
-      <static>1</static>
-    </model>
-    <!--
-    <model name="office_map" static="true">
-      <link name="link">
-        <origin pose="0.0 0.0 0.0 0.0 0.0 0.0"/>        
-        <collision name="collision">
-          <geometry>
-            <heightmap filename="simple_office.jpg" size="25.7 25.7 1" origin="0 0 0"/>
-          </geometry>
-        </collision>
-        <visual name="visual">
-          <geometry>
-            <heightmap filename="simple_office.jpg" size="25.7 25.7 1" origin="0 0 0">
-              <texture>
-                <diffuse>map.png</diffuse>
-                <normal>map.png</normal>
-                <size>10</size>
-              </texture>
-              <texture>
-                <diffuse>grass_diffusespecular.png</diffuse>
-                <normal>grass_normal.png</normal>
-                <size>10</size>
-              </texture>
-              <blend>
-                <min_height>0.2</min_height>
-                <fade_dist>0.6</fade_dist>
-              </blend>
-            </heightmap>
-          </geometry>
-        </visual>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/LightGrey</name>
+            </script>
+          </material>
+        </visual> -->
       </link>
     </model>
--->
     <!-- Directional Light -->
-    <!--    <light name='directional' type='directional' cast_shadows='0'>
+<!--    <light name='directional' type='directional' cast_shadows='0'>
       <origin pose="0 0 30 0 0 0"/>
       <diffuse rgba=".9 .9 .9 1"/>
       <specular rgba=".1 .1 .1 1"/>
@@ -118,7 +76,7 @@
     </light>
 -->
     <!-- Point Light -->
-    <!--  <light name='point_white' type='point' cast_shadows='1'>
+<!--  <light name='point_white' type='point' cast_shadows='1'>
       <origin pose='0.0 0.0 10.0 0.0 0.0 0.0'/>
       <diffuse rgba='1.000000 1.000000 1.000000 1.000000'/>
       <specular rgba='0.900000 0.900000 0.900000 9.000000'/>
@@ -179,7 +137,6 @@
             </script>
           </material>
           <cast_shadows>1</cast_shadows>
-          <laser_retro>0</laser_retro>
           <transparency>0</transparency>
         </visual>
         <gravity>1</gravity>
@@ -240,7 +197,6 @@
             </script>
           </material>
           <cast_shadows>1</cast_shadows>
-          <laser_retro>0</laser_retro>
           <transparency>0</transparency>
         </visual>
         <gravity>1</gravity>
@@ -301,7 +257,6 @@
             </script>
           </material>
           <cast_shadows>1</cast_shadows>
-          <laser_retro>0</laser_retro>
           <transparency>0</transparency>
         </visual>
         <gravity>1</gravity>
@@ -362,7 +317,6 @@
             </script>
           </material>
           <cast_shadows>1</cast_shadows>
-          <laser_retro>0</laser_retro>
           <transparency>0</transparency>
         </visual>
         <gravity>1</gravity>
@@ -423,7 +377,6 @@
             </script>
           </material>
           <cast_shadows>1</cast_shadows>
-          <laser_retro>0</laser_retro>
           <transparency>0</transparency>
         </visual>
         <gravity>1</gravity>
@@ -484,7 +437,6 @@
             </script>
           </material>
           <cast_shadows>1</cast_shadows>
-          <laser_retro>0</laser_retro>
           <transparency>0</transparency>
         </visual>
         <gravity>1</gravity>
@@ -545,7 +497,6 @@
             </script>
           </material>
           <cast_shadows>1</cast_shadows>
-          <laser_retro>0</laser_retro>
           <transparency>0</transparency>
         </visual>
         <gravity>1</gravity>
@@ -606,7 +557,6 @@
             </script>
           </material>
           <cast_shadows>1</cast_shadows>
-          <laser_retro>0</laser_retro>
           <transparency>0</transparency>
         </visual>
         <gravity>1</gravity>
@@ -667,7 +617,6 @@
             </script>
           </material>
           <cast_shadows>1</cast_shadows>
-          <laser_retro>0</laser_retro>
           <transparency>0</transparency>
         </visual>
         <gravity>1</gravity>
@@ -728,7 +677,6 @@
             </script>
           </material>
           <cast_shadows>1</cast_shadows>
-          <laser_retro>0</laser_retro>
           <transparency>0</transparency>
         </visual>
         <gravity>1</gravity>
@@ -850,7 +798,6 @@
             </script>
           </material>
           <cast_shadows>1</cast_shadows>
-          <laser_retro>0</laser_retro>
           <transparency>0</transparency>
         </visual>
         <gravity>1</gravity>
@@ -911,7 +858,6 @@
             </script>
           </material>
           <cast_shadows>1</cast_shadows>
-          <laser_retro>0</laser_retro>
           <transparency>0</transparency>
         </visual>
         <gravity>1</gravity>
@@ -972,7 +918,6 @@
             </script>
           </material>
           <cast_shadows>1</cast_shadows>
-          <laser_retro>0</laser_retro>
           <transparency>0</transparency>
         </visual>
         <gravity>1</gravity>
@@ -1033,7 +978,6 @@
             </script>
           </material>
           <cast_shadows>1</cast_shadows>
-          <laser_retro>0</laser_retro>
           <transparency>0</transparency>
         </visual>
         <gravity>1</gravity>
@@ -1094,7 +1038,6 @@
             </script>
           </material>
           <cast_shadows>1</cast_shadows>
-          <laser_retro>0</laser_retro>
           <transparency>0</transparency>
         </visual>
         <gravity>1</gravity>
@@ -1155,7 +1098,6 @@
             </script>
           </material>
           <cast_shadows>1</cast_shadows>
-          <laser_retro>0</laser_retro>
           <transparency>0</transparency>
         </visual>
         <gravity>1</gravity>
@@ -1216,7 +1158,6 @@
             </script>
           </material>
           <cast_shadows>1</cast_shadows>
-          <laser_retro>0</laser_retro>
           <transparency>0</transparency>
         </visual>
         <gravity>1</gravity>
@@ -1277,7 +1218,6 @@
             </script>
           </material>
           <cast_shadows>1</cast_shadows>
-          <laser_retro>0</laser_retro>
           <transparency>0</transparency>
         </visual>
         <gravity>1</gravity>
@@ -1338,7 +1278,6 @@
             </script>
           </material>
           <cast_shadows>1</cast_shadows>
-          <laser_retro>0</laser_retro>
           <transparency>0</transparency>
         </visual>
         <gravity>1</gravity>
@@ -1399,7 +1338,6 @@
             </script>
           </material>
           <cast_shadows>1</cast_shadows>
-          <laser_retro>0</laser_retro>
           <transparency>0</transparency>
         </visual>
         <gravity>1</gravity>
@@ -1460,7 +1398,6 @@
             </script>
           </material>
           <cast_shadows>1</cast_shadows>
-          <laser_retro>0</laser_retro>
           <transparency>0</transparency>
         </visual>
         <gravity>1</gravity>
@@ -1521,7 +1458,6 @@
             </script>
           </material>
           <cast_shadows>1</cast_shadows>
-          <laser_retro>0</laser_retro>
           <transparency>0</transparency>
         </visual>
         <gravity>1</gravity>
@@ -1582,7 +1518,6 @@
             </script>
           </material>
           <cast_shadows>1</cast_shadows>
-          <laser_retro>0</laser_retro>
           <transparency>0</transparency>
         </visual>
         <gravity>1</gravity>
@@ -1643,7 +1578,6 @@
             </script>
           </material>
           <cast_shadows>1</cast_shadows>
-          <laser_retro>0</laser_retro>
           <transparency>0</transparency>
         </visual>
         <gravity>1</gravity>
@@ -1704,7 +1638,6 @@
             </script>
           </material>
           <cast_shadows>1</cast_shadows>
-          <laser_retro>0</laser_retro>
           <transparency>0</transparency>
         </visual>
         <gravity>1</gravity>
@@ -1765,7 +1698,6 @@
             </script>
           </material>
           <cast_shadows>1</cast_shadows>
-          <laser_retro>0</laser_retro>
           <transparency>0</transparency>
         </visual>
         <gravity>1</gravity>
@@ -1826,7 +1758,6 @@
             </script>
           </material>
           <cast_shadows>1</cast_shadows>
-          <laser_retro>0</laser_retro>
           <transparency>0</transparency>
         </visual>
         <gravity>1</gravity>
@@ -1835,5 +1766,168 @@
       </link>
       <static>1</static>
     </model>
+    <!-- Include markers/beacons -->
+    <!-- Right wall markers -->
+    <include>
+       <uri>model://factory_gazebo/models/marker</uri>
+       <name>marker1</name>
+       <static>true</static>
+       <pose>3.975 -2.0 0.25 0 0 0</pose>
+    </include>
+    <include>
+       <uri>model://factory_gazebo/models/marker</uri>
+       <name>marker2</name>
+       <static>true</static>
+       <pose>3.975 0.0 0.25 0 0 0</pose>
+    </include>
+    <include>
+       <uri>model://factory_gazebo/models/marker</uri>
+       <name>marker3</name>
+       <static>true</static>
+       <pose>3.975 2.0 0.25 0 0 0</pose>
+    </include>
+    <!-- Top wall markers -->
+    <include>
+       <uri>model://factory_gazebo/models/marker</uri>
+       <name>marker4</name>
+       <static>true</static>
+       <pose>3.0 3.025 0.25 0 0 1.570796</pose>
+    </include>
+    <include>
+       <uri>model://factory_gazebo/models/marker</uri>
+       <name>marker5</name>
+       <static>true</static>
+       <pose>1.0 3.025 0.25 0 0 1.570796</pose>
+    </include>
+    <include>
+       <uri>model://factory_gazebo/models/marker</uri>
+       <name>marker6</name>
+       <static>true</static>
+       <pose>-1.3 3.025 0.25 0 0 1.570796</pose>
+    </include>
+    <include>
+       <uri>model://factory_gazebo/models/marker</uri>
+       <name>marker7</name>
+       <static>true</static>
+       <pose>-2.8 3.025 0.25 0 0 1.570796</pose>
+    </include>
+    <!-- Left wall markers -->
+    <include>
+       <uri>model://factory_gazebo/models/marker</uri>
+       <name>marker8</name>
+       <static>true</static>
+       <pose>-3.975 2.0 0.25 0 0 3.1415926</pose>
+    </include>
+    <include>
+       <uri>model://factory_gazebo/models/marker</uri>
+       <name>marker9</name>
+       <static>true</static>
+       <pose>-3.975 0.0 0.25 0 0 3.1415926</pose>
+    </include>
+    <include>
+       <uri>model://factory_gazebo/models/marker</uri>
+       <name>marker10</name>
+       <static>true</static>
+       <pose>-3.975 -2.0 0.25 0 0 3.1415926</pose>
+    </include>
+    <!-- Bottom wall markers -->
+    <include>
+       <uri>model://factory_gazebo/models/marker</uri>
+       <name>marker11</name>
+       <static>true</static>
+       <pose>-3.0 -2.925 0.25 0 0 1.570796</pose>
+    </include>
+    <include>
+       <uri>model://factory_gazebo/models/marker</uri>
+       <name>marker12</name>
+       <static>true</static>
+       <pose>-1.0 -2.925 0.25 0 0 1.570796</pose>
+    </include>
+    <include>
+       <uri>model://factory_gazebo/models/marker</uri>
+       <name>marker13</name>
+       <static>true</static>
+       <pose>1.3 -2.925 0.25 0 0 1.570796</pose>
+    </include>
+    <include>
+       <uri>model://factory_gazebo/models/marker</uri>
+       <name>marker14</name>
+       <static>true</static>
+       <pose>2.8 -2.925 0.25 0 0 1.570796</pose>
+    </include>
+    <!-- Right machine markers -->
+    <include>
+       <uri>model://factory_gazebo/models/marker</uri>
+       <name>marker15</name>
+       <static>true</static>
+       <pose>1.14 0.55 0.25 0 0 0</pose>
+    </include>
+    <include>
+       <uri>model://factory_gazebo/models/marker</uri>
+       <name>marker16</name>
+       <static>true</static>
+       <pose>1.14 -0.45 0.25 0 0 0</pose>
+    </include>
+    <include>
+       <uri>model://factory_gazebo/models/marker</uri>
+       <name>marker17</name>
+       <static>true</static>
+       <pose>1.525 -0.475 0.25 0 0 -1.570796</pose>
+    </include>
+    <include>
+       <uri>model://factory_gazebo/models/marker</uri>
+       <name>marker18</name>
+       <static>true</static>
+       <pose>1.91 -0.45 0.25 0 0 3.1415926</pose>
+    </include>
+    <include>
+       <uri>model://factory_gazebo/models/marker</uri>
+       <name>marker19</name>
+       <static>true</static>
+       <pose>1.91 0.55 0.25 0 0 3.1415926</pose>
+    </include>
+    <include>
+       <uri>model://factory_gazebo/models/marker</uri>
+       <name>marker20</name>
+       <static>true</static>
+       <pose>1.525 0.575 0.25 0 0 1.570796</pose>
+    </include>
+    <!-- Left machine markers -->
+    <include>
+       <uri>model://factory_gazebo/models/marker</uri>
+       <name>marker21</name>
+       <static>true</static>
+       <pose>-1.14 0.55 0.25 0 0 0</pose>
+    </include>
+    <include>
+       <uri>model://factory_gazebo/models/marker</uri>
+       <name>marker22</name>
+       <static>true</static>
+       <pose>-1.14 -0.45 0.25 0 0 0</pose>
+    </include>
+    <include>
+       <uri>model://factory_gazebo/models/marker</uri>
+       <name>marker23</name>
+       <static>true</static>
+       <pose>-1.525 -0.475 0.25 0 0 -1.570796</pose>
+    </include>
+    <include>
+       <uri>model://factory_gazebo/models/marker</uri>
+       <name>marker24</name>
+       <static>true</static>
+       <pose>-1.91 -0.45 0.25 0 0 3.1415926</pose>
+    </include>
+    <include>
+       <uri>model://factory_gazebo/models/marker</uri>
+       <name>marker25</name>
+       <static>true</static>
+       <pose>-1.91 0.55 0.25 0 0 3.1415926</pose>
+    </include>
+    <include>
+       <uri>model://factory_gazebo/models/marker</uri>
+       <name>marker26</name>
+       <static>true</static>
+       <pose>-1.525 0.575 0.25 0 0 1.570796</pose>
+    </include>
   </world>
 </sdf>
