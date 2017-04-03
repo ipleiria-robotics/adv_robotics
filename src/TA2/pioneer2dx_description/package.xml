@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package>
+  <name>pioneer2dx_description</name>
+  <version>1.0.0</version>
+  <description>The pioneer2dx gazebo model with ROS plugin. Adapted from the pioneer2dx model from gazebo.</description>
+  <maintainer email="hugo.costelha@ipleiria.pt">Hugo Costelha</maintainer>
+  <license>GPLv3</license>
+  <url type="website">https://github.com/ipleiria-robotics/adv_robotics</url>
+  <author email="hugo.costelha@ipleiria.pt">Hugo Costelha</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <run_depend>joint_state_publisher</run_depend>
+	<run_depend>robot_state_publisher</run_depend>
+	<run_depend>rviz</run_depend>
+	<run_depend>xacro</run_depend>
+  <run_depend>controller_manager</run_depend>
+  <export>
+    <!-- Allow gazebo to find models in our path -->
+    <gazebo_ros
+        gazebo_media_path="${prefix}/.."
+        gazebo_model_path="${prefix}/.." />
+  </export>
+</package>

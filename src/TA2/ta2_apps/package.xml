@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<package>
+  <name>ta1_apps</name>
+  <version>1.0.0</version>
+  <description>
+    Control a Pioneer robot in a simulated factory environment.
+  </description>
+  <license>GPL-3</license>
+  <maintainer email="hugo.costelha@ipleiria.pt">Hugo Costelha</maintainer>
+  <author email="hugo.costelha@ipleiria.pt">Hugo Costelha</author>
+
+  <url type="website">https://github.com/ipleiria-robotics/adv_robotics</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>sensor_msgs</build_depend>
+  <build_depend>std_msgs</build_depend>
+  <build_depend>message_generation</build_depend>
+  <build_depend>geometry_msgs</build_depend>
+  <build_depend>robot_state_publisher</build_depend>
+  <build_depend>cv_bridge</build_depend>
+  <build_depend>image_transport</build_depend>
+  <build_depend>roscpp</build_depend>
+  <run_depend>sensor_msgs</run_depend>
+  <run_depend>robot_state_publisher</run_depend>
+  <run_depend>geometry_msgs</run_depend>
+  <run_depend>message_runtime</run_depend>
+  <run_depend>std_msgs</run_depend>
+  <run_depend>cv_bridge</run_depend>
+  <run_depend>image_transport</run_depend>
+  <run_depend>roscpp</run_depend>
+  <export>
+    <!-- Allow gazebo to find models in our path -->
+    <gazebo_ros
+        gazebo_media_path="${prefix}/.."
+        gazebo_model_path="${prefix}/.." />
+  </export>
+</package>
