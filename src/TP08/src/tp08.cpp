@@ -76,7 +76,7 @@ int main(int argc, char** argv)
   for(uint n=1; n <= NUM_DATA_VECTORS; n++)
   {
     tmpstream.str(std::string());
-    tmpstream << "./data/" << n << ".png";
+    tmpstream << "../data/" << n << ".png";
     // Read image and convert it to  a single row float vector
     cv::Mat x;
     cv::imread(tmpstream.str(), 0).reshape(0, 1).convertTo(x, CV_32FC1);
