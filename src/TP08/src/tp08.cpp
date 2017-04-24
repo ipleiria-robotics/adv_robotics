@@ -40,7 +40,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #define LAYER_2_SIZE      25
 #define OUTPUT_LAYER_SIZE 10
 
-#define DEBUG_NN 0
+#define DEBUG_NN 0 // 0, 1 or 2
 
 /**
  * Main function
@@ -70,7 +70,7 @@ int main(int argc, char** argv)
   // We split the set as we read into the training set and the validation set
   std::stringstream tmpstream;
   std::ifstream yfile;
-  yfile.open ("./data/y.txt", std::ifstream::in);
+  yfile.open ("../data/y.txt", std::ifstream::in);
   uint num_training_samples = 0,
        num_validation_samples = 0;
   for(uint n=1; n <= NUM_DATA_VECTORS; n++)
@@ -102,8 +102,8 @@ int main(int argc, char** argv)
   }
 
   // DEBUG
-#if DEBUG_NN
-  for(uint n=0; n < NUM_DATA_VECTORS; n++)
+#if DEBUG_NN == 2
+  for(uint n=0; n < num_validation_samples; n++)
   {
     cv::imshow("Debug", X.row(n).reshape(0,20));
     cv::waitKey(10);
@@ -130,7 +130,7 @@ int main(int argc, char** argv)
   {
     cv::Mat y;
     ann.predict(X_t.row(n), y);
-#if DEBUG_NN
+#if DEBUG_NN > 0
     std::cout << y << "\n"
               << Y.row(n) << "\n" << std::endl;
 #endif
@@ -151,7 +151,7 @@ int main(int argc, char** argv)
   {
     cv::Mat y;
     ann.predict(X.row(n), y);
-#if DEBUG_NN
+#if DEBUG_NN > 0
     std::cout << y << "\n"
               << Y.row(n) << "\n" << std::endl;
 #endif
