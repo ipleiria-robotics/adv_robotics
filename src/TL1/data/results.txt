@@ -1,0 +1,4520 @@
+Robot motion control
+---------------------------
+[20.500000000] : Robot real posture: (X,Y,Theta) = 0, 0, 0)
+
+[20.500000000] : Found 6 beacons.
+Beacon 1: (range,bearing) = (3.97915, -0.526627)
+Beacon 3: (range,bearing) = (3.97915, 0.526627)
+Beacon 4: (range,bearing) = (3.8544, 0.678793)
+Beacon 5: (range,bearing) = (2.61847, 1.17894)
+Beacon 13: (range,bearing) = (2.60903, -1.1878)
+Beacon 14: (range,bearing) = (3.8544, -0.678793)
+Robot estimated posture: (X,Y,Theta) = -8.96543e-10, -2.12426e-09, 1.05739e-07)
+
+[20.600000000] : Robot real posture: (X,Y,Theta) = 0, 0, 0)
+
+[20.600000000] : Found 6 beacons.
+Beacon 1: (range,bearing) = (3.97915, -0.526627)
+Beacon 3: (range,bearing) = (3.97915, 0.526627)
+Beacon 4: (range,bearing) = (3.8544, 0.678793)
+Beacon 5: (range,bearing) = (2.61847, 1.17894)
+Beacon 13: (range,bearing) = (2.60903, -1.1878)
+Beacon 14: (range,bearing) = (3.8544, -0.678793)
+Robot estimated posture: (X,Y,Theta) = -8.96543e-10, -2.12426e-09, 1.05739e-07)
+
+[20.700000000] : Robot real posture: (X,Y,Theta) = 0, 0, 0)
+
+[20.700000000] : Found 6 beacons.
+Beacon 1: (range,bearing) = (3.97915, -0.640627)
+Beacon 3: (range,bearing) = (3.97915, 0.412627)
+Beacon 4: (range,bearing) = (3.8544, 0.564793)
+Beacon 5: (range,bearing) = (2.61847, 1.06494)
+Beacon 13: (range,bearing) = (2.60903, -1.3018)
+Beacon 14: (range,bearing) = (3.8544, -0.792793)
+Robot estimated posture: (X,Y,Theta) = -8.96543e-10, -2.12426e-09, 6.53172)
+
+[20.800000000] : Robot real posture: (X,Y,Theta) = 0, 0, 6.53172)
+
+[20.800000000] : Found 6 beacons.
+Beacon 1: (range,bearing) = (3.97915, -0.754627)
+Beacon 3: (range,bearing) = (3.97915, 0.298627)
+Beacon 4: (range,bearing) = (3.8544, 0.450793)
+Beacon 5: (range,bearing) = (2.61847, 0.950943)
+Beacon 13: (range,bearing) = (2.60903, -1.4158)
+Beacon 14: (range,bearing) = (3.8544, -0.906793)
+Robot estimated posture: (X,Y,Theta) = -8.96543e-10, -2.12426e-09, 13.0634)
+
+[20.900000000] : Robot real posture: (X,Y,Theta) = 0, 0, 13.0634)
+
+[20.900000000] : Found 6 beacons.
+Beacon 1: (range,bearing) = (3.97915, -0.868627)
+Beacon 3: (range,bearing) = (3.97915, 0.184627)
+Beacon 4: (range,bearing) = (3.8544, 0.336793)
+Beacon 5: (range,bearing) = (2.61847, 0.836943)
+Beacon 13: (range,bearing) = (2.60903, -1.5298)
+Beacon 14: (range,bearing) = (3.8544, -1.02079)
+Robot estimated posture: (X,Y,Theta) = -8.96543e-10, -2.12426e-09, 19.5952)
+
+[21.0] : Robot real posture: (X,Y,Theta) = 0, 0, 19.5952)
+
+[21.0] : Found 6 beacons.
+Beacon 1: (range,bearing) = (3.97915, -0.982627)
+Beacon 3: (range,bearing) = (3.97915, 0.0706273)
+Beacon 4: (range,bearing) = (3.8544, 0.222793)
+Beacon 5: (range,bearing) = (2.61847, 0.722943)
+Beacon 6: (range,bearing) = (2.60903, 1.49779)
+Beacon 14: (range,bearing) = (3.8544, -1.13479)
+Robot estimated posture: (X,Y,Theta) = -2.59341e-09, -1.8337e-09, 26.1269)
+
+[21.100000000] : Robot real posture: (X,Y,Theta) = 0, 0, 26.1269)
+
+[21.100000000] : Found 6 beacons.
+Beacon 1: (range,bearing) = (3.97915, -1.09663)
+Beacon 3: (range,bearing) = (3.97915, -0.0433727)
+Beacon 4: (range,bearing) = (3.8544, 0.108793)
+Beacon 5: (range,bearing) = (2.61847, 0.608943)
+Beacon 6: (range,bearing) = (2.60903, 1.38379)
+Beacon 14: (range,bearing) = (3.8544, -1.24879)
+Robot estimated posture: (X,Y,Theta) = -2.59341e-09, -1.8337e-09, 32.6586)
+
+[21.200000000] : Robot real posture: (X,Y,Theta) = 0, 0, 32.6586)
+
+[21.200000000] : Found 6 beacons.
+Beacon 1: (range,bearing) = (3.97915, -1.21063)
+Beacon 3: (range,bearing) = (3.97915, -0.157373)
+Beacon 4: (range,bearing) = (3.8544, -0.00520722)
+Beacon 5: (range,bearing) = (2.61847, 0.494943)
+Beacon 6: (range,bearing) = (2.60903, 1.26979)
+Beacon 14: (range,bearing) = (3.8544, -1.36279)
+Robot estimated posture: (X,Y,Theta) = -2.59341e-09, -1.8337e-09, 39.1903)
+
+[21.300000000] : Robot real posture: (X,Y,Theta) = 0, 0, 39.1903)
+
+[21.300000000] : Found 6 beacons.
+Beacon 1: (range,bearing) = (3.97915, -1.32463)
+Beacon 3: (range,bearing) = (3.97915, -0.271373)
+Beacon 4: (range,bearing) = (3.8544, -0.119207)
+Beacon 5: (range,bearing) = (2.61847, 0.380943)
+Beacon 6: (range,bearing) = (2.60903, 1.15579)
+Beacon 14: (range,bearing) = (3.8544, -1.47679)
+Robot estimated posture: (X,Y,Theta) = -2.59341e-09, -1.8337e-09, 45.722)
+
+[21.400000000] : Robot real posture: (X,Y,Theta) = 0, 0, 45.722)
+
+[21.400000000] : Found 6 beacons.
+Beacon 1: (range,bearing) = (3.97915, -1.43863)
+Beacon 3: (range,bearing) = (3.97915, -0.385373)
+Beacon 4: (range,bearing) = (3.8544, -0.233207)
+Beacon 5: (range,bearing) = (2.61847, 0.266943)
+Beacon 6: (range,bearing) = (2.60903, 1.04179)
+Beacon 7: (range,bearing) = (3.8544, 1.5508)
+Robot estimated posture: (X,Y,Theta) = -2.81811e-10, -1.38277e-09, 52.2538)
+
+[21.500000000] : Robot real posture: (X,Y,Theta) = 0, 0, 52.2538)
+
+[21.500000000] : Found 6 beacons.
+Beacon 1: (range,bearing) = (3.97915, -1.55263)
+Beacon 3: (range,bearing) = (3.97915, -0.499373)
+Beacon 4: (range,bearing) = (3.8544, -0.347207)
+Beacon 5: (range,bearing) = (2.61847, 0.152943)
+Beacon 6: (range,bearing) = (2.60903, 0.927794)
+Beacon 7: (range,bearing) = (3.8544, 1.4368)
+Robot estimated posture: (X,Y,Theta) = -2.81811e-10, -1.38277e-09, 58.7855)
+
+[21.600000000] : Robot real posture: (X,Y,Theta) = 0, 0, 58.7855)
+
+[21.600000000] : Found 6 beacons.
+Beacon 3: (range,bearing) = (3.97915, -0.613373)
+Beacon 4: (range,bearing) = (3.8544, -0.461207)
+Beacon 5: (range,bearing) = (2.61847, 0.0389429)
+Beacon 6: (range,bearing) = (2.60903, 0.813794)
+Beacon 7: (range,bearing) = (3.8544, 1.3228)
+Beacon 8: (range,bearing) = (3.97915, 1.47497)
+Robot estimated posture: (X,Y,Theta) = -3.39006e-10, -1.79991e-08, 65.3172)
+
+[21.700000000] : Robot real posture: (X,Y,Theta) = 0, 0, 65.3172)
+
+[21.700000000] : Found 6 beacons.
+Beacon 3: (range,bearing) = (3.97915, -0.727373)
+Beacon 4: (range,bearing) = (3.8544, -0.575207)
+Beacon 5: (range,bearing) = (2.61847, -0.0750571)
+Beacon 6: (range,bearing) = (2.60903, 0.699794)
+Beacon 7: (range,bearing) = (3.8544, 1.2088)
+Beacon 8: (range,bearing) = (3.97915, 1.36097)
+Robot estimated posture: (X,Y,Theta) = -3.39006e-10, -1.79991e-08, 71.8489)
+
+[21.800000000] : Robot real posture: (X,Y,Theta) = 0, 0, 71.8489)
+
+[21.800000000] : Found 6 beacons.
+Beacon 3: (range,bearing) = (3.96721, -0.844054)
+Beacon 4: (range,bearing) = (3.84098, -0.691473)
+Beacon 5: (range,bearing) = (2.60252, -0.189518)
+Beacon 6: (range,bearing) = (2.59681, 0.589762)
+Beacon 7: (range,bearing) = (3.84876, 1.09869)
+Beacon 8: (range,bearing) = (3.97584, 1.2509)
+Robot estimated posture: (X,Y,Theta) = 0.00498438, 0.0152038, 78.3806)
+
+[21.900000000] : Robot real posture: (X,Y,Theta) = 0.00498438, 0.0152038, 78.3806)
+
+[21.900000000] : Found 6 beacons.
+Beacon 3: (range,bearing) = (3.9566, -0.942115)
+Beacon 4: (range,bearing) = (3.82867, -0.789177)
+Beacon 5: (range,bearing) = (2.58681, -0.285722)
+Beacon 6: (range,bearing) = (2.58353, 0.498168)
+Beacon 7: (range,bearing) = (3.84151, 1.00736)
+Beacon 8: (range,bearing) = (3.97084, 1.15969)
+Robot estimated posture: (X,Y,Theta) = 0.00820693, 0.0308759, 83.826)
+
+[22.0] : Robot real posture: (X,Y,Theta) = 0.00820693, 0.0308759, 83.826)
+
+[22.0] : Found 6 beacons.
+Beacon 3: (range,bearing) = (3.94791, -1.00987)
+Beacon 4: (range,bearing) = (3.81826, -0.856655)
+Beacon 5: (range,bearing) = (2.5726, -0.352069)
+Beacon 6: (range,bearing) = (2.57053, 0.436196)
+Beacon 7: (range,bearing) = (3.83362, 0.945899)
+Beacon 8: (range,bearing) = (3.96495, 1.09839)
+Robot estimated posture: (X,Y,Theta) = 0.00979965, 0.0455993, 87.5344)
+
+[22.100000000] : Robot real posture: (X,Y,Theta) = 0.00979965, 0.0455993, 87.5344)
+
+[22.100000000] : Found 6 beacons.
+Beacon 3: (range,bearing) = (3.94067, -1.0518)
+Beacon 4: (range,bearing) = (3.80934, -0.898355)
+Beacon 5: (range,bearing) = (2.55981, -0.392902)
+Beacon 6: (range,bearing) = (2.55818, 0.399451)
+Beacon 7: (range,bearing) = (3.82567, 0.909793)
+Beacon 8: (range,bearing) = (3.95876, 1.06246)
+Robot estimated posture: (X,Y,Theta) = 0.0103861, 0.0592187, 89.7687)
+
+[22.200000000] : Robot real posture: (X,Y,Theta) = 0.0103861, 0.0592187, 89.7687)
+
+[22.200000000] : Found 6 beacons.
+Beacon 3: (range,bearing) = (3.93445, -1.07578)
+Beacon 4: (range,bearing) = (3.80152, -0.922145)
+Beacon 5: (range,bearing) = (2.5482, -0.415994)
+Beacon 6: (range,bearing) = (2.5466, 0.380167)
+Beacon 7: (range,bearing) = (3.81796, 0.891189)
+Beacon 8: (range,bearing) = (3.95266, 1.04403)
+Robot estimated posture: (X,Y,Theta) = 0.0104368, 0.0717882, 90.9836)
+
+[22.300000000] : Robot real posture: (X,Y,Theta) = 0.0104368, 0.0717882, 90.9836)
+
+[22.300000000] : Found 6 beacons.
+Beacon 3: (range,bearing) = (3.92894, -1.08873)
+Beacon 4: (range,bearing) = (3.79451, -0.934937)
+Beacon 5: (range,bearing) = (2.53757, -0.428196)
+Beacon 6: (range,bearing) = (2.53581, 0.371517)
+Beacon 7: (range,bearing) = (3.81067, 0.88321)
+Beacon 8: (range,bearing) = (3.94683, 1.03623)
+Robot estimated posture: (X,Y,Theta) = 0.0102373, 0.0834104, 91.5767)
+
+[22.400000000] : Robot real posture: (X,Y,Theta) = 0.0102373, 0.0834105, 91.5767)
+
+[22.400000000] : Found 6 beacons.
+Beacon 3: (range,bearing) = (3.92395, -1.09555)
+Beacon 4: (range,bearing) = (3.78812, -0.941614)
+Beacon 5: (range,bearing) = (2.52777, -0.434354)
+Beacon 6: (range,bearing) = (2.52577, 0.36868)
+Beacon 7: (range,bearing) = (3.80383, 0.881014)
+Beacon 8: (range,bearing) = (3.94135, 1.03419)
+Robot estimated posture: (X,Y,Theta) = 0.00994061, 0.0941895, 91.828)
+
+[22.500000000] : Robot real posture: (X,Y,Theta) = 0.00994061, 0.0941896, 91.828)
+
+[22.500000000] : Found 6 beacons.
+Beacon 3: (range,bearing) = (3.91937, -1.09927)
+Beacon 4: (range,bearing) = (3.78222, -0.945201)
+Beacon 5: (range,bearing) = (2.51867, -0.437472)
+Beacon 6: (range,bearing) = (2.51641, 0.368675)
+Beacon 7: (range,bearing) = (3.79745, 0.88161)
+Beacon 8: (range,bearing) = (3.93623, 1.03494)
+Robot estimated posture: (X,Y,Theta) = 0.00962055, 0.104218, 91.9106)
+
+Going for target 4
+[22.600000000] : Robot real posture: (X,Y,Theta) = 0.00962055, 0.104218, 91.9106)
+
+[22.600000000] : Found 6 beacons.
+Beacon 3: (range,bearing) = (3.91483, -1.103)
+Beacon 4: (range,bearing) = (3.77636, -0.948797)
+Beacon 5: (range,bearing) = (2.50959, -0.440608)
+Beacon 6: (range,bearing) = (2.50705, 0.368675)
+Beacon 7: (range,bearing) = (3.79108, 0.882211)
+Beacon 8: (range,bearing) = (3.93111, 1.03569)
+Robot estimated posture: (X,Y,Theta) = 0.00928603, 0.114246, 91.9932)
+
+[22.700000000] : Robot real posture: (X,Y,Theta) = 0.00928604, 0.114246, 91.9932)
+
+[22.700000000] : Found 6 beacons.
+Beacon 3: (range,bearing) = (3.91031, -0.991287)
+Beacon 4: (range,bearing) = (3.77052, -0.836959)
+Beacon 5: (range,bearing) = (2.50051, -0.32832)
+Beacon 6: (range,bearing) = (2.4977, 0.484123)
+Beacon 7: (range,bearing) = (3.78471, 0.998258)
+Beacon 8: (range,bearing) = (3.92601, 1.15189)
+Robot estimated posture: (X,Y,Theta) = 0.00893706, 0.124273, 85.4615)
+
+[22.800000000] : Robot real posture: (X,Y,Theta) = 0.00893706, 0.124273, 85.4615)
+
+[22.800000000] : Found 6 beacons.
+Beacon 3: (range,bearing) = (3.90483, -0.879437)
+Beacon 4: (range,bearing) = (3.76381, -0.724939)
+Beacon 5: (range,bearing) = (2.49102, -0.215618)
+Beacon 6: (range,bearing) = (2.48882, 0.599999)
+Beacon 7: (range,bearing) = (3.77929, 1.11449)
+Beacon 8: (range,bearing) = (3.92194, 1.26823)
+Robot estimated posture: (X,Y,Theta) = 0.00973098, 0.134275, 78.9298)
+
+[22.900000000] : Robot real posture: (X,Y,Theta) = 0.00973098, 0.134275, 78.9298)
+
+[22.900000000] : Found 6 beacons.
+Beacon 3: (range,bearing) = (3.89844, -0.767419)
+Beacon 4: (range,bearing) = (3.7563, -0.61271)
+Beacon 5: (range,bearing) = (2.48122, -0.102484)
+Beacon 6: (range,bearing) = (2.48055, 0.716283)
+Beacon 7: (range,bearing) = (3.77488, 1.23088)
+Beacon 8: (range,bearing) = (3.91896, 1.38467)
+Robot estimated posture: (X,Y,Theta) = 0.0116575, 0.144121, 72.3981)
+
+[23.0] : Robot real posture: (X,Y,Theta) = 0.0116575, 0.144122, 72.3981)
+
+[23.0] : Found 5 beacons.
+Beacon 3: (range,bearing) = (3.89122, -0.65521)
+Beacon 4: (range,bearing) = (3.7481, -0.50025)
+Beacon 5: (range,bearing) = (2.47124, 0.011101)
+Beacon 6: (range,bearing) = (2.47299, 0.832947)
+Beacon 8: (range,bearing) = (3.91711, 1.50119)
+Robot estimated posture: (X,Y,Theta) = 0.0146916, 0.153685, 65.8664)
+
+[23.100000000] : Robot real posture: (X,Y,Theta) = 0.0146916, 0.153685, 65.8664)
+
+[23.100000000] : Found 5 beacons.
+Beacon 3: (range,bearing) = (3.88327, -0.542784)
+Beacon 4: (range,bearing) = (3.7393, -0.387537)
+Beacon 5: (range,bearing) = (2.4612, 0.125146)
+Beacon 6: (range,bearing) = (2.46625, 0.949957)
+Beacon 7: (range,bearing) = (3.76933, 1.46398)
+Robot estimated posture: (X,Y,Theta) = 0.0187939, 0.162841, 59.3346)
+
+[23.200000000] : Robot real posture: (X,Y,Theta) = 0.0187939, 0.162842, 59.3346)
+
+[23.200000000] : Found 5 beacons.
+Beacon 1: (range,bearing) = (4.04783, -1.48781)
+Beacon 3: (range,bearing) = (3.87468, -0.430121)
+Beacon 4: (range,bearing) = (3.73001, -0.274553)
+Beacon 5: (range,bearing) = (2.45125, 0.239657)
+Beacon 6: (range,bearing) = (2.46043, 1.06727)
+Robot estimated posture: (X,Y,Theta) = 0.0239112, 0.171472, 52.8029)
+
+[23.300000000] : Robot real posture: (X,Y,Theta) = 0.0239112, 0.171472, 52.8029)
+
+[23.300000000] : Found 5 beacons.
+Beacon 3: (range,bearing) = (3.8293, -0.321566)
+Beacon 4: (range,bearing) = (3.68191, -0.164235)
+Beacon 5: (range,bearing) = (2.40271, 0.358597)
+Beacon 6: (range,bearing) = (2.4367, 1.19925)
+Beacon 14: (range,bearing) = (3.94992, -1.53664)
+Robot estimated posture: (X,Y,Theta) = 0.0541391, 0.2113, 46.2712)
+
+[23.400000000] : Robot real posture: (X,Y,Theta) = 0.0541391, 0.2113, 46.2712)
+
+[23.400000000] : Found 5 beacons.
+Beacon 3: (range,bearing) = (3.78189, -0.211745)
+Beacon 4: (range,bearing) = (3.63259, -0.0524854)
+Beacon 5: (range,bearing) = (2.35595, 0.480045)
+Beacon 6: (range,bearing) = (2.41899, 1.33251)
+Beacon 14: (range,bearing) = (3.94852, -1.4353)
+Robot estimated posture: (X,Y,Theta) = 0.0887014, 0.247431, 39.7395)
+
+[23.500000000] : Robot real posture: (X,Y,Theta) = 0.0887014, 0.247431, 39.7395)
+
+[23.500000000] : Found 5 beacons.
+Beacon 3: (range,bearing) = (3.73302, -0.131024)
+Beacon 4: (range,bearing) = (3.58266, 0.030318)
+Beacon 5: (range,bearing) = (2.31172, 0.57357)
+Beacon 6: (range,bearing) = (2.40768, 1.43623)
+Beacon 14: (range,bearing) = (3.94208, -1.36433)
+Robot estimated posture: (X,Y,Theta) = 0.127149, 0.279396, 34.9533)
+
+[23.600000000] : Robot real posture: (X,Y,Theta) = 0.127149, 0.279396, 34.9533)
+
+[23.600000000] : Found 5 beacons.
+Beacon 3: (range,bearing) = (3.68346, -0.0820408)
+Beacon 4: (range,bearing) = (3.53268, 0.0815037)
+Beacon 5: (range,bearing) = (2.26988, 0.63628)
+Beacon 6: (range,bearing) = (2.40148, 1.50762)
+Beacon 14: (range,bearing) = (3.93214, -1.32602)
+Robot estimated posture: (X,Y,Theta) = 0.16813, 0.308041, 32.0451)
+
+[23.700000000] : Robot real posture: (X,Y,Theta) = 0.16813, 0.308041, 32.0451)
+
+[23.700000000] : Found 5 beacons.
+Beacon 3: (range,bearing) = (3.63363, -0.0565867)
+Beacon 4: (range,bearing) = (3.48285, 0.109254)
+Beacon 5: (range,bearing) = (2.22987, 0.676185)
+Beacon 6: (range,bearing) = (2.39884, 1.555)
+Beacon 14: (range,bearing) = (3.92032, -1.31181)
+Robot estimated posture: (X,Y,Theta) = 0.210512, 0.334571, 30.5221)
+
+[23.800000000] : Robot real posture: (X,Y,Theta) = 0.210512, 0.334571, 30.5221)
+
+[23.800000000] : Found 3 beacons.
+Beacon 3: (range,bearing) = (3.58371, -0.0455474)
+Beacon 4: (range,bearing) = (3.43315, 0.122671)
+Beacon 5: (range,bearing) = (2.19109, 0.702295)
+Robot estimated posture: (X,Y,Theta) = 0.253584, 0.359964, 29.8444)
+
+[23.900000000] : Robot real posture: (X,Y,Theta) = 0.253584, 0.359964, 29.8444)
+
+[23.900000000] : Found 3 beacons.
+Beacon 3: (range,bearing) = (3.53376, -0.0421229)
+Beacon 4: (range,bearing) = (3.38354, 0.128548)
+Beacon 5: (range,bearing) = (2.15317, 0.721365)
+Robot estimated posture: (X,Y,Theta) = 0.296953, 0.384846, 29.6113)
+
+[24.0] : Robot real posture: (X,Y,Theta) = 0.296953, 0.384846, 29.6113)
+
+[24.0] : Found 3 beacons.
+Beacon 3: (range,bearing) = (3.48381, -0.0421318)
+Beacon 4: (range,bearing) = (3.33395, 0.131066)
+Beacon 5: (range,bearing) = (2.11588, 0.737567)
+Robot estimated posture: (X,Y,Theta) = 0.340422, 0.409552, 29.5771)
+
+[24.100000000] : Robot real posture: (X,Y,Theta) = 0.340422, 0.409552, 29.5771)
+
+[24.100000000] : Found 3 beacons.
+Beacon 3: (range,bearing) = (3.43385, -0.043359)
+Beacon 4: (range,bearing) = (3.28439, 0.132441)
+Beacon 5: (range,bearing) = (2.07915, 0.753126)
+Robot estimated posture: (X,Y,Theta) = 0.383907, 0.434232, 29.6123)
+
+[24.200000000] : Robot real posture: (X,Y,Theta) = 0.383907, 0.434232, 29.6123)
+
+[24.200000000] : Found 3 beacons.
+Beacon 3: (range,bearing) = (3.3839, -0.0448038)
+Beacon 4: (range,bearing) = (3.23483, 0.133678)
+Beacon 5: (range,bearing) = (2.04295, 0.769062)
+Robot estimated posture: (X,Y,Theta) = 0.427376, 0.458938, 29.6584)
+
+[24.300000000] : Robot real posture: (X,Y,Theta) = 0.427376, 0.458938, 29.6584)
+
+[24.300000000] : Found 3 beacons.
+Beacon 3: (range,bearing) = (3.33395, -0.0461114)
+Beacon 4: (range,bearing) = (3.18529, 0.135134)
+Beacon 5: (range,bearing) = (2.00733, 0.78575)
+Robot estimated posture: (X,Y,Theta) = 0.470826, 0.483679, 29.6948)
+
+[24.400000000] : Robot real posture: (X,Y,Theta) = 0.470826, 0.48368, 29.6948)
+
+[24.400000000] : Found 3 beacons.
+Beacon 3: (range,bearing) = (3.284, -0.0472206)
+Beacon 4: (range,bearing) = (3.13575, 0.136875)
+Beacon 5: (range,bearing) = (1.9723, 0.803275)
+Robot estimated posture: (X,Y,Theta) = 0.51426, 0.508449, 29.7182)
+
+[24.500000000] : Robot real posture: (X,Y,Theta) = 0.51426, 0.508449, 29.7182)
+
+[24.500000000] : Found 3 beacons.
+Beacon 3: (range,bearing) = (3.23406, -0.0481752)
+Beacon 4: (range,bearing) = (3.08623, 0.138861)
+Beacon 5: (range,bearing) = (1.93792, 0.821619)
+Robot estimated posture: (X,Y,Theta) = 0.557684, 0.533235, 29.7311)
+
+[24.600000000] : Robot real posture: (X,Y,Theta) = 0.557684, 0.533235, 29.7311)
+
+[24.600000000] : Found 3 beacons.
+Beacon 3: (range,bearing) = (3.18412, -0.0490388)
+Beacon 4: (range,bearing) = (3.03672, 0.141033)
+Beacon 5: (range,bearing) = (1.90422, 0.84074)
+Robot estimated posture: (X,Y,Theta) = 0.601102, 0.558032, 29.7372)
+
+[24.700000000] : Robot real posture: (X,Y,Theta) = 0.601102, 0.558032, 29.7372)
+
+[24.700000000] : Found 3 beacons.
+Beacon 3: (range,bearing) = (3.13418, -0.0498629)
+Beacon 4: (range,bearing) = (2.98722, 0.143343)
+Beacon 5: (range,bearing) = (1.87124, 0.860609)
+Robot estimated posture: (X,Y,Theta) = 0.644517, 0.582833, 29.7396)
+
+[24.800000000] : Robot real posture: (X,Y,Theta) = 0.644517, 0.582833, 29.7396)
+
+[24.800000000] : Found 4 beacons.
+Beacon 2: (range,bearing) = (2.81835, -0.736371)
+Beacon 3: (range,bearing) = (3.08424, -0.0506818)
+Beacon 4: (range,bearing) = (2.93774, 0.145764)
+Beacon 5: (range,bearing) = (1.83904, 0.881215)
+Robot estimated posture: (X,Y,Theta) = 0.687932, 0.607636, 29.7402)
+
+[24.900000000] : Robot real posture: (X,Y,Theta) = 0.687932, 0.607636, 29.7402)
+
+[24.900000000] : Found 4 beacons.
+Beacon 2: (range,bearing) = (2.78151, -0.748443)
+Beacon 3: (range,bearing) = (3.03431, -0.0515151)
+Beacon 4: (range,bearing) = (2.88828, 0.14828)
+Beacon 5: (range,bearing) = (1.80764, 0.902558)
+Robot estimated posture: (X,Y,Theta) = 0.731346, 0.632439, 29.7402)
+
+[25.0] : Robot real posture: (X,Y,Theta) = 0.731346, 0.632439, 29.7402)
+
+[25.0] : Found 4 beacons.
+Beacon 2: (range,bearing) = (2.74508, -0.760833)
+Beacon 3: (range,bearing) = (2.98438, -0.052373)
+Beacon 4: (range,bearing) = (2.83884, 0.150886)
+Beacon 5: (range,bearing) = (1.77709, 0.924649)
+Robot estimated posture: (X,Y,Theta) = 0.77476, 0.657243, 29.7399)
+
+[25.100000000] : Robot real posture: (X,Y,Theta) = 0.77476, 0.657243, 29.7399)
+
+[25.100000000] : Found 4 beacons.
+Beacon 2: (range,bearing) = (2.70909, -0.773555)
+Beacon 3: (range,bearing) = (2.93445, -0.0532604)
+Beacon 4: (range,bearing) = (2.78942, 0.153585)
+Beacon 5: (range,bearing) = (1.74744, 0.947501)
+Robot estimated posture: (X,Y,Theta) = 0.818174, 0.682046, 29.7396)
+
+[25.200000000] : Robot real posture: (X,Y,Theta) = 0.818174, 0.682046, 29.7396)
+
+[25.200000000] : Found 4 beacons.
+Beacon 2: (range,bearing) = (2.67354, -0.786619)
+Beacon 3: (range,bearing) = (2.88452, -0.0541801)
+Beacon 4: (range,bearing) = (2.74002, 0.15638)
+Beacon 5: (range,bearing) = (1.71873, 0.971127)
+Robot estimated posture: (X,Y,Theta) = 0.861589, 0.706849, 29.7394)
+
+[25.300000000] : Robot real posture: (X,Y,Theta) = 0.861589, 0.706849, 29.7394)
+
+[25.300000000] : Found 4 beacons.
+Beacon 2: (range,bearing) = (2.63847, -0.800034)
+Beacon 3: (range,bearing) = (2.83459, -0.0551334)
+Beacon 4: (range,bearing) = (2.69064, 0.159276)
+Beacon 5: (range,bearing) = (1.69102, 0.99554)
+Robot estimated posture: (X,Y,Theta) = 0.905003, 0.731652, 29.7393)
+
+[25.400000000] : Robot real posture: (X,Y,Theta) = 0.905003, 0.731652, 29.7393)
+
+[25.400000000] : Found 4 beacons.
+Beacon 2: (range,bearing) = (2.60388, -0.813808)
+Beacon 3: (range,bearing) = (2.78467, -0.0561219)
+Beacon 4: (range,bearing) = (2.64128, 0.16228)
+Beacon 5: (range,bearing) = (1.66435, 1.02075)
+Robot estimated posture: (X,Y,Theta) = 0.948418, 0.756454, 29.7393)
+
+[25.500000000] : Robot real posture: (X,Y,Theta) = 0.948418, 0.756454, 29.7393)
+
+[25.500000000] : Found 4 beacons.
+Beacon 2: (range,bearing) = (2.5698, -0.827952)
+Beacon 3: (range,bearing) = (2.73475, -0.057147)
+Beacon 4: (range,bearing) = (2.59195, 0.165397)
+Beacon 5: (range,bearing) = (1.63876, 1.04676)
+Robot estimated posture: (X,Y,Theta) = 0.991832, 0.781257, 29.7393)
+
+[25.600000000] : Robot real posture: (X,Y,Theta) = 0.991832, 0.781257, 29.7393)
+
+[25.600000000] : Found 4 beacons.
+Beacon 2: (range,bearing) = (2.53625, -0.842472)
+Beacon 3: (range,bearing) = (2.68483, -0.0582105)
+Beacon 4: (range,bearing) = (2.54265, 0.168635)
+Beacon 5: (range,bearing) = (1.61433, 1.07358)
+Robot estimated posture: (X,Y,Theta) = 1.03525, 0.80606, 29.7392)
+
+[25.700000000] : Robot real posture: (X,Y,Theta) = 1.03525, 0.80606, 29.7392)
+
+[25.700000000] : Found 4 beacons.
+Beacon 2: (range,bearing) = (2.53625, -0.842472)
+Beacon 3: (range,bearing) = (2.68483, -0.0582105)
+Beacon 4: (range,bearing) = (2.54265, 0.168635)
+Beacon 5: (range,bearing) = (1.61433, 1.07358)
+Robot estimated posture: (X,Y,Theta) = 1.03525, 0.80606, 29.7392)
+
+[25.800000000] : Robot real posture: (X,Y,Theta) = 1.07866, 0.830862, 29.7392)
+
+[25.800000000] : Found 4 beacons.
+Beacon 2: (range,bearing) = (2.50325, -0.857379)
+Beacon 3: (range,bearing) = (2.63492, -0.0593145)
+Beacon 4: (range,bearing) = (2.49337, 0.172)
+Beacon 5: (range,bearing) = (1.59108, 1.10121)
+Robot estimated posture: (X,Y,Theta) = 1.07866, 0.830862, 29.7392)
+
+[25.900000000] : Robot real posture: (X,Y,Theta) = 1.12208, 0.855665, 29.7392)
+
+[25.900000000] : Found 4 beacons.
+Beacon 2: (range,bearing) = (2.47082, -0.872681)
+Beacon 3: (range,bearing) = (2.58501, -0.0604611)
+Beacon 4: (range,bearing) = (2.44412, 0.175502)
+Beacon 5: (range,bearing) = (1.56909, 1.12963)
+Robot estimated posture: (X,Y,Theta) = 1.12208, 0.855665, 29.7392)
+
+[26.0] : Robot real posture: (X,Y,Theta) = 1.16549, 0.880468, 29.7392)
+
+[26.0] : Found 4 beacons.
+Beacon 2: (range,bearing) = (2.43898, -0.888386)
+Beacon 3: (range,bearing) = (2.5351, -0.0616529)
+Beacon 4: (range,bearing) = (2.39491, 0.179147)
+Beacon 5: (range,bearing) = (1.5484, 1.15883)
+Robot estimated posture: (X,Y,Theta) = 1.16549, 0.880468, 29.7392)
+
+[26.100000000] : Robot real posture: (X,Y,Theta) = 1.20891, 0.90527, 29.7392)
+
+[26.100000000] : Found 5 beacons.
+Beacon 1: (range,bearing) = (3.66311, -1.43496)
+Beacon 2: (range,bearing) = (2.40776, -0.904503)
+Beacon 3: (range,bearing) = (2.4852, -0.0628925)
+Beacon 4: (range,bearing) = (2.34572, 0.182945)
+Beacon 5: (range,bearing) = (1.52907, 1.1888)
+Robot estimated posture: (X,Y,Theta) = 1.20891, 0.90527, 29.7392)
+
+[26.200000000] : Robot real posture: (X,Y,Theta) = 1.25232, 0.930073, 29.7392)
+
+[26.200000000] : Found 5 beacons.
+Beacon 1: (range,bearing) = (3.65667, -1.4485)
+Beacon 2: (range,bearing) = (2.37718, -0.921038)
+Beacon 3: (range,bearing) = (2.4353, -0.0641829)
+Beacon 4: (range,bearing) = (2.29658, 0.186906)
+Beacon 5: (range,bearing) = (1.51114, 1.21951)
+Robot estimated posture: (X,Y,Theta) = 1.25232, 0.930073, 29.7392)
+
+[26.300000000] : Robot real posture: (X,Y,Theta) = 1.29573, 0.954876, 29.7392)
+
+[26.300000000] : Found 5 beacons.
+Beacon 1: (range,bearing) = (3.65091, -1.4621)
+Beacon 2: (range,bearing) = (2.34727, -0.938)
+Beacon 3: (range,bearing) = (2.38541, -0.0655274)
+Beacon 4: (range,bearing) = (2.24747, 0.19104)
+Beacon 5: (range,bearing) = (1.49467, 1.25092)
+Robot estimated posture: (X,Y,Theta) = 1.29573, 0.954876, 29.7392)
+
+[26.400000000] : Robot real posture: (X,Y,Theta) = 1.33915, 0.979678, 29.7392)
+
+[26.400000000] : Found 5 beacons.
+Beacon 1: (range,bearing) = (3.64583, -1.47573)
+Beacon 2: (range,bearing) = (2.31805, -0.955394)
+Beacon 3: (range,bearing) = (2.33552, -0.0669292)
+Beacon 4: (range,bearing) = (2.1984, 0.195358)
+Beacon 5: (range,bearing) = (1.47971, 1.283)
+Robot estimated posture: (X,Y,Theta) = 1.33915, 0.979678, 29.7392)
+
+[26.500000000] : Robot real posture: (X,Y,Theta) = 1.38256, 1.00448, 29.7392)
+
+[26.500000000] : Found 5 beacons.
+Beacon 1: (range,bearing) = (3.64142, -1.4894)
+Beacon 2: (range,bearing) = (2.28955, -0.973227)
+Beacon 3: (range,bearing) = (2.28563, -0.0683922)
+Beacon 4: (range,bearing) = (2.14937, 0.199874)
+Beacon 5: (range,bearing) = (1.4663, 1.31571)
+Robot estimated posture: (X,Y,Theta) = 1.38256, 1.00448, 29.7392)
+
+[26.600000000] : Robot real posture: (X,Y,Theta) = 1.42598, 1.02928, 29.7392)
+
+[26.600000000] : Found 5 beacons.
+Beacon 1: (range,bearing) = (3.6377, -1.5031)
+Beacon 2: (range,bearing) = (2.26179, -0.991503)
+Beacon 3: (range,bearing) = (2.23575, -0.0699206)
+Beacon 4: (range,bearing) = (2.10039, 0.2046)
+Beacon 5: (range,bearing) = (1.45449, 1.34898)
+Robot estimated posture: (X,Y,Theta) = 1.42598, 1.02928, 29.7392)
+
+[26.700000000] : Robot real posture: (X,Y,Theta) = 1.46939, 1.05409, 29.7392)
+
+[26.700000000] : Found 5 beacons.
+Beacon 1: (range,bearing) = (3.63466, -1.51683)
+Beacon 2: (range,bearing) = (2.23481, -1.01023)
+Beacon 3: (range,bearing) = (2.18587, -0.0715186)
+Beacon 4: (range,bearing) = (2.05146, 0.209552)
+Beacon 5: (range,bearing) = (1.44432, 1.38275)
+Robot estimated posture: (X,Y,Theta) = 1.46939, 1.05409, 29.7392)
+
+[26.800000000] : Robot real posture: (X,Y,Theta) = 1.51281, 1.07889, 29.7392)
+
+[26.800000000] : Found 5 beacons.
+Beacon 1: (range,bearing) = (3.6323, -1.53057)
+Beacon 2: (range,bearing) = (2.20864, -1.0294)
+Beacon 3: (range,bearing) = (2.136, -0.0731913)
+Beacon 4: (range,bearing) = (2.00258, 0.214746)
+Beacon 5: (range,bearing) = (1.43581, 1.41697)
+Robot estimated posture: (X,Y,Theta) = 1.51281, 1.07889, 29.7392)
+
+[26.900000000] : Robot real posture: (X,Y,Theta) = 1.55622, 1.10369, 29.7392)
+
+[26.900000000] : Found 5 beacons.
+Beacon 1: (range,bearing) = (3.63064, -1.54433)
+Beacon 2: (range,bearing) = (2.18329, -1.04903)
+Beacon 3: (range,bearing) = (2.08614, -0.074944)
+Beacon 4: (range,bearing) = (1.95376, 0.2202)
+Beacon 5: (range,bearing) = (1.429, 1.45155)
+Robot estimated posture: (X,Y,Theta) = 1.55622, 1.10369, 29.7392)
+
+[27.0] : Robot real posture: (X,Y,Theta) = 1.59964, 1.12849, 29.7392)
+
+[27.0] : Found 5 beacons.
+Beacon 1: (range,bearing) = (3.62966, -1.5581)
+Beacon 2: (range,bearing) = (2.1588, -1.06911)
+Beacon 3: (range,bearing) = (2.03629, -0.0767825)
+Beacon 4: (range,bearing) = (1.90499, 0.225933)
+Beacon 5: (range,bearing) = (1.42392, 1.48642)
+Robot estimated posture: (X,Y,Theta) = 1.59964, 1.12849, 29.7392)
+
+[27.100000000] : Robot real posture: (X,Y,Theta) = 1.64305, 1.1533, 29.7392)
+
+[27.100000000] : Found 4 beacons.
+Beacon 2: (range,bearing) = (2.13521, -1.08964)
+Beacon 3: (range,bearing) = (1.98644, -0.0787133)
+Beacon 4: (range,bearing) = (1.8563, 0.231967)
+Beacon 5: (range,bearing) = (1.42058, 1.5215)
+Robot estimated posture: (X,Y,Theta) = 1.64305, 1.1533, 29.7392)
+
+[27.200000000] : Robot real posture: (X,Y,Theta) = 1.68647, 1.1781, 29.7392)
+
+[27.200000000] : Found 4 beacons.
+Beacon 2: (range,bearing) = (2.11253, -1.11063)
+Beacon 3: (range,bearing) = (1.9366, -0.0807434)
+Beacon 4: (range,bearing) = (1.80767, 0.238326)
+Beacon 5: (range,bearing) = (1.419, 1.5567)
+Robot estimated posture: (X,Y,Theta) = 1.68647, 1.1781, 29.7392)
+
+[27.300000000] : Robot real posture: (X,Y,Theta) = 1.72988, 1.2029, 29.7392)
+
+[27.300000000] : Found 3 beacons.
+Beacon 2: (range,bearing) = (2.09081, -1.13205)
+Beacon 3: (range,bearing) = (1.88676, -0.0828808)
+Beacon 4: (range,bearing) = (1.75913, 0.245036)
+Robot estimated posture: (X,Y,Theta) = 1.72988, 1.2029, 29.7392)
+
+[27.400000000] : Robot real posture: (X,Y,Theta) = 1.7733, 1.22771, 29.7392)
+
+[27.400000000] : Found 3 beacons.
+Beacon 2: (range,bearing) = (2.07006, -1.15392)
+Beacon 3: (range,bearing) = (1.83694, -0.0851342)
+Beacon 4: (range,bearing) = (1.71066, 0.252126)
+Robot estimated posture: (X,Y,Theta) = 1.7733, 1.22771, 29.7392)
+
+[27.500000000] : Robot real posture: (X,Y,Theta) = 1.81671, 1.25251, 29.7392)
+
+[27.500000000] : Found 3 beacons.
+Beacon 2: (range,bearing) = (2.05033, -1.17622)
+Beacon 3: (range,bearing) = (1.78713, -0.0875132)
+Beacon 4: (range,bearing) = (1.66229, 0.25963)
+Robot estimated posture: (X,Y,Theta) = 1.81671, 1.25251, 29.7392)
+
+[27.600000000] : Robot real posture: (X,Y,Theta) = 1.86012, 1.27731, 29.7392)
+
+[27.600000000] : Found 3 beacons.
+Beacon 2: (range,bearing) = (2.03163, -1.19894)
+Beacon 3: (range,bearing) = (1.73732, -0.0900286)
+Beacon 4: (range,bearing) = (1.61402, 0.267583)
+Robot estimated posture: (X,Y,Theta) = 1.86012, 1.27731, 29.7392)
+
+[27.700000000] : Robot real posture: (X,Y,Theta) = 1.90354, 1.30211, 29.7392)
+
+[27.700000000] : Found 3 beacons.
+Beacon 2: (range,bearing) = (2.014, -1.22207)
+Beacon 3: (range,bearing) = (1.68753, -0.0926925)
+Beacon 4: (range,bearing) = (1.56585, 0.276026)
+Robot estimated posture: (X,Y,Theta) = 1.90354, 1.30211, 29.7392)
+
+[27.800000000] : Robot real posture: (X,Y,Theta) = 1.94695, 1.32692, 29.7392)
+
+[27.800000000] : Found 3 beacons.
+Beacon 2: (range,bearing) = (1.99747, -1.2456)
+Beacon 3: (range,bearing) = (1.63775, -0.0955183)
+Beacon 4: (range,bearing) = (1.51781, 0.285004)
+Robot estimated posture: (X,Y,Theta) = 1.94695, 1.32692, 29.7392)
+
+[27.900000000] : Robot real posture: (X,Y,Theta) = 1.99037, 1.35172, 29.7392)
+
+[27.900000000] : Found 3 beacons.
+Beacon 2: (range,bearing) = (1.98206, -1.26951)
+Beacon 3: (range,bearing) = (1.58799, -0.0985213)
+Beacon 4: (range,bearing) = (1.46989, 0.294568)
+Robot estimated posture: (X,Y,Theta) = 1.99037, 1.35172, 29.7392)
+
+[28.0] : Robot real posture: (X,Y,Theta) = 2.03378, 1.37652, 29.7392)
+
+[28.0] : Found 3 beacons.
+Beacon 2: (range,bearing) = (1.96781, -1.29377)
+Beacon 3: (range,bearing) = (1.53824, -0.101719)
+Beacon 4: (range,bearing) = (1.42212, 0.304776)
+Robot estimated posture: (X,Y,Theta) = 2.03378, 1.37652, 29.7392)
+
+[28.100000000] : Robot real posture: (X,Y,Theta) = 2.07659, 1.40097, 29.7392)
+
+[28.100000000] : Found 3 beacons.
+Beacon 2: (range,bearing) = (1.9549, -1.31803)
+Beacon 3: (range,bearing) = (1.48921, -0.10508)
+Beacon 4: (range,bearing) = (1.37518, 0.315533)
+Robot estimated posture: (X,Y,Theta) = 2.07659, 1.40097, 29.7392)
+
+[28.200000000] : Robot real posture: (X,Y,Theta) = 2.11351, 1.42207, 29.7392)
+
+[28.200000000] : Found 3 beacons.
+Beacon 2: (range,bearing) = (1.9447, -1.33921)
+Beacon 3: (range,bearing) = (1.44692, -0.108162)
+Beacon 4: (range,bearing) = (1.33482, 0.325419)
+Robot estimated posture: (X,Y,Theta) = 2.11351, 1.42207, 29.7392)
+
+[28.300000000] : Robot real posture: (X,Y,Theta) = 2.14506, 1.44009, 29.7392)
+
+[28.300000000] : Found 3 beacons.
+Beacon 2: (range,bearing) = (1.93668, -1.35747)
+Beacon 3: (range,bearing) = (1.4108, -0.110943)
+Beacon 4: (range,bearing) = (1.30044, 0.334353)
+Robot estimated posture: (X,Y,Theta) = 2.14506, 1.44009, 29.7392)
+
+[28.400000000] : Robot real posture: (X,Y,Theta) = 2.17232, 1.45567, 29.7392)
+
+[28.400000000] : Found 3 beacons.
+Beacon 2: (range,bearing) = (1.93028, -1.37336)
+Beacon 3: (range,bearing) = (1.37961, -0.113462)
+Beacon 4: (range,bearing) = (1.27083, 0.342459)
+Robot estimated posture: (X,Y,Theta) = 2.17232, 1.45567, 29.7392)
+
+[28.500000000] : Robot real posture: (X,Y,Theta) = 2.19615, 1.46928, 29.7392)
+
+[28.500000000] : Found 3 beacons.
+Beacon 2: (range,bearing) = (1.92508, -1.38735)
+Beacon 3: (range,bearing) = (1.35234, -0.11576)
+Beacon 4: (range,bearing) = (1.245, 0.349863)
+Robot estimated posture: (X,Y,Theta) = 2.19615, 1.46928, 29.7392)
+
+[28.600000000] : Robot real posture: (X,Y,Theta) = 2.21722, 1.48132, 29.7392)
+
+[28.600000000] : Found 3 beacons.
+Beacon 2: (range,bearing) = (1.92081, -1.39977)
+Beacon 3: (range,bearing) = (1.32824, -0.11787)
+Beacon 4: (range,bearing) = (1.22224, 0.356667)
+Robot estimated posture: (X,Y,Theta) = 2.21722, 1.48132, 29.7392)
+
+[28.700000000] : Robot real posture: (X,Y,Theta) = 2.236, 1.49205, 29.7392)
+
+[28.700000000] : Found 3 beacons.
+Beacon 2: (range,bearing) = (1.91724, -1.41088)
+Beacon 3: (range,bearing) = (1.30676, -0.119817)
+Beacon 4: (range,bearing) = (1.20199, 0.362951)
+Robot estimated posture: (X,Y,Theta) = 2.236, 1.49205, 29.7392)
+
+[28.800000000] : Robot real posture: (X,Y,Theta) = 2.25288, 1.50169, 29.7392)
+
+[28.800000000] : Found 3 beacons.
+Beacon 2: (range,bearing) = (1.91424, -1.42091)
+Beacon 3: (range,bearing) = (1.28747, -0.121621)
+Beacon 4: (range,bearing) = (1.18384, 0.368779)
+Robot estimated posture: (X,Y,Theta) = 2.25288, 1.50169, 29.7392)
+
+[28.900000000] : Robot real posture: (X,Y,Theta) = 2.26814, 1.51041, 29.7392)
+
+[28.900000000] : Found 3 beacons.
+Beacon 2: (range,bearing) = (1.9117, -1.43)
+Beacon 3: (range,bearing) = (1.27003, -0.1233)
+Beacon 4: (range,bearing) = (1.16747, 0.374206)
+Robot estimated posture: (X,Y,Theta) = 2.26814, 1.51041, 29.7392)
+
+[29.0] : Robot real posture: (X,Y,Theta) = 2.28201, 1.51834, 29.7392)
+
+[29.0] : Found 3 beacons.
+Beacon 2: (range,bearing) = (1.90952, -1.43828)
+Beacon 3: (range,bearing) = (1.25417, -0.124867)
+Beacon 4: (range,bearing) = (1.15261, 0.379274)
+Robot estimated posture: (X,Y,Theta) = 2.28201, 1.51834, 29.7392)
+
+[29.100000000] : Robot real posture: (X,Y,Theta) = 2.2947, 1.52558, 29.7392)
+
+[29.100000000] : Found 3 beacons.
+Beacon 2: (range,bearing) = (1.90765, -1.44587)
+Beacon 3: (range,bearing) = (1.23967, -0.126335)
+Beacon 4: (range,bearing) = (1.13905, 0.384023)
+Robot estimated posture: (X,Y,Theta) = 2.2947, 1.52558, 29.7392)
+
+[29.200000000] : Robot real posture: (X,Y,Theta) = 2.30634, 1.53223, 29.7392)
+
+[29.200000000] : Found 3 beacons.
+Beacon 2: (range,bearing) = (1.90602, -1.45286)
+Beacon 3: (range,bearing) = (1.22637, -0.127713)
+Beacon 4: (range,bearing) = (1.12663, 0.388483)
+Robot estimated posture: (X,Y,Theta) = 2.30634, 1.53223, 29.7392)
+
+[29.300000000] : Robot real posture: (X,Y,Theta) = 2.31708, 1.53837, 29.7392)
+
+[29.300000000] : Found 3 beacons.
+Beacon 2: (range,bearing) = (1.90461, -1.4593)
+Beacon 3: (range,bearing) = (1.21411, -0.12901)
+Beacon 4: (range,bearing) = (1.11519, 0.392682)
+Robot estimated posture: (X,Y,Theta) = 2.31708, 1.53837, 29.7392)
+
+[29.400000000] : Robot real posture: (X,Y,Theta) = 2.32701, 1.54404, 29.7392)
+
+[29.400000000] : Found 3 beacons.
+Beacon 2: (range,bearing) = (1.90337, -1.46527)
+Beacon 3: (range,bearing) = (1.20277, -0.130233)
+Beacon 4: (range,bearing) = (1.10464, 0.396644)
+Robot estimated posture: (X,Y,Theta) = 2.32701, 1.54404, 29.7392)
+
+Going for target 5
+[29.500000000] : Robot real posture: (X,Y,Theta) = 2.33623, 1.54931, 29.7392)
+
+[29.500000000] : Found 3 beacons.
+Beacon 2: (range,bearing) = (1.90228, -1.47082)
+Beacon 3: (range,bearing) = (1.19224, -0.131389)
+Beacon 4: (range,bearing) = (1.09485, 0.40039)
+Robot estimated posture: (X,Y,Theta) = 2.33623, 1.54931, 29.7392)
+
+[29.600000000] : Robot real posture: (X,Y,Theta) = 2.34545, 1.55457, 29.7392)
+
+[29.600000000] : Found 3 beacons.
+Beacon 2: (range,bearing) = (1.90125, -1.47638)
+Beacon 3: (range,bearing) = (1.18172, -0.132567)
+Beacon 4: (range,bearing) = (1.08508, 0.404204)
+Robot estimated posture: (X,Y,Theta) = 2.34545, 1.55457, 29.7392)
+
+[29.700000000] : Robot real posture: (X,Y,Theta) = 2.35467, 1.55984, 23.2075)
+
+[29.700000000] : Found 3 beacons.
+Beacon 2: (range,bearing) = (1.90028, -1.36794)
+Beacon 3: (range,bearing) = (1.17119, -0.0197648)
+Beacon 4: (range,bearing) = (1.07533, 0.522087)
+Robot estimated posture: (X,Y,Theta) = 2.35467, 1.55984, 23.2075)
+
+[29.800000000] : Robot real posture: (X,Y,Theta) = 2.36442, 1.56402, 16.6758)
+
+[29.800000000] : Found 3 beacons.
+Beacon 2: (range,bearing) = (1.89817, -1.25942)
+Beacon 3: (range,bearing) = (1.16058, 0.0940544)
+Beacon 4: (range,bearing) = (1.06614, 0.641053)
+Robot estimated posture: (X,Y,Theta) = 2.36442, 1.56402, 16.6758)
+
+[29.900000000] : Robot real posture: (X,Y,Theta) = 2.37459, 1.56707, 10.1441)
+
+[29.900000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (3.72278, -1.4576)
+Beacon 2: (range,bearing) = (1.89494, -1.15076)
+Beacon 3: (range,bearing) = (1.15001, 0.208921)
+Beacon 4: (range,bearing) = (1.05765, 0.761057)
+Robot estimated posture: (X,Y,Theta) = 2.37459, 1.56707, 10.1441)
+
+[30.0] : Robot real posture: (X,Y,Theta) = 2.38504, 1.56894, 3.61237)
+
+[30.0] : Found 5 beacons.
+Beacon 1: (range,bearing) = (3.7216, -1.34643)
+Beacon 2: (range,bearing) = (1.89064, -1.04188)
+Beacon 3: (range,bearing) = (1.13962, 0.324854)
+Beacon 4: (range,bearing) = (1.04999, 0.882031)
+Beacon 14: (range,bearing) = (4.03607, -1.48088)
+Robot estimated posture: (X,Y,Theta) = 2.38504, 1.56894, 3.61237)
+
+[30.100000000] : Robot real posture: (X,Y,Theta) = 2.39564, 1.56961, -2.91935)
+
+[30.100000000] : Found 4 beacons.
+Beacon 2: (range,bearing) = (1.8853, -0.932745)
+Beacon 3: (range,bearing) = (1.12957, 0.441854)
+Beacon 4: (range,bearing) = (1.04327, 1.00389)
+Beacon 14: (range,bearing) = (4.03513, -1.3695)
+Robot estimated posture: (X,Y,Theta) = 2.39564, 1.56961, -2.91935)
+
+[30.200000000] : Robot real posture: (X,Y,Theta) = 2.40624, 1.56907, -9.45107)
+
+[30.200000000] : Found 5 beacons.
+Beacon 1: (range,bearing) = (3.71576, -1.12392)
+Beacon 2: (range,bearing) = (1.879, -0.823284)
+Beacon 3: (range,bearing) = (1.11998, 0.559907)
+Beacon 4: (range,bearing) = (1.03761, 1.12652)
+Beacon 14: (range,bearing) = (4.03302, -1.25808)
+Robot estimated posture: (X,Y,Theta) = 2.40624, 1.56907, -9.45107)
+
+[30.300000000] : Robot real posture: (X,Y,Theta) = 2.41672, 1.56733, -15.9828)
+
+[30.300000000] : Found 5 beacons.
+Beacon 1: (range,bearing) = (3.71119, -1.0125)
+Beacon 2: (range,bearing) = (1.8718, -0.713444)
+Beacon 3: (range,bearing) = (1.111, 0.678983)
+Beacon 4: (range,bearing) = (1.03309, 1.2498)
+Beacon 14: (range,bearing) = (4.02976, -1.14659)
+Robot estimated posture: (X,Y,Theta) = 2.41672, 1.56733, -15.9828)
+
+[30.400000000] : Robot real posture: (X,Y,Theta) = 2.42692, 1.5644, -22.5145)
+
+[30.400000000] : Found 6 beacons.
+Beacon 1: (range,bearing) = (3.70558, -0.900926)
+Beacon 2: (range,bearing) = (1.86378, -0.603172)
+Beacon 3: (range,bearing) = (1.10276, 0.799029)
+Beacon 4: (range,bearing) = (1.02979, 1.37358)
+Beacon 13: (range,bearing) = (4.2407, -1.52729)
+Beacon 14: (range,bearing) = (4.0254, -1.03499)
+Robot estimated posture: (X,Y,Theta) = 2.42692, 1.5644, -22.5145)
+
+[30.500000000] : Robot real posture: (X,Y,Theta) = 2.43673, 1.56034, -29.0462)
+
+[30.500000000] : Found 6 beacons.
+Beacon 1: (range,bearing) = (3.69899, -0.789176)
+Beacon 2: (range,bearing) = (1.85505, -0.492418)
+Beacon 3: (range,bearing) = (1.09538, 0.919976)
+Beacon 4: (range,bearing) = (1.02776, 1.49771)
+Beacon 13: (range,bearing) = (4.24025, -1.41579)
+Beacon 14: (range,bearing) = (4.01999, -0.923265)
+Robot estimated posture: (X,Y,Theta) = 2.43673, 1.56034, -29.0462)
+
+[30.600000000] : Robot real posture: (X,Y,Theta) = 2.44601, 1.55518, -35.5779)
+
+[30.600000000] : Found 4 beacons.
+Beacon 2: (range,bearing) = (1.8457, -0.381138)
+Beacon 3: (range,bearing) = (1.08898, 1.04173)
+Beacon 13: (range,bearing) = (4.23863, -1.30427)
+Beacon 14: (range,bearing) = (4.0136, -0.811374)
+Robot estimated posture: (X,Y,Theta) = 2.44601, 1.55518, -35.5779)
+
+[30.700000000] : Robot real posture: (X,Y,Theta) = 2.45465, 1.54901, -42.1097)
+
+[30.700000000] : Found 5 beacons.
+Beacon 1: (range,bearing) = (3.68325, -0.565024)
+Beacon 2: (range,bearing) = (1.83585, -0.269289)
+Beacon 3: (range,bearing) = (1.08366, 1.16419)
+Beacon 13: (range,bearing) = (4.23584, -1.19269)
+Beacon 14: (range,bearing) = (4.0063, -0.699296)
+Robot estimated posture: (X,Y,Theta) = 2.45465, 1.54901, -42.1097)
+
+[30.800000000] : Robot real posture: (X,Y,Theta) = 2.46252, 1.54189, -48.6414)
+
+[30.800000000] : Found 5 beacons.
+Beacon 1: (range,bearing) = (3.67429, -0.452571)
+Beacon 2: (range,bearing) = (1.82562, -0.156836)
+Beacon 3: (range,bearing) = (1.0795, 1.28722)
+Beacon 13: (range,bearing) = (4.23193, -1.08102)
+Beacon 14: (range,bearing) = (3.99818, -0.587006)
+Robot estimated posture: (X,Y,Theta) = 2.46252, 1.54189, -48.6414)
+
+[30.900000000] : Robot real posture: (X,Y,Theta) = 2.46954, 1.53392, -55.1731)
+
+[30.900000000] : Found 5 beacons.
+Beacon 1: (range,bearing) = (3.66475, -0.339838)
+Beacon 2: (range,bearing) = (1.81513, -0.0437497)
+Beacon 3: (range,bearing) = (1.07658, 1.41069)
+Beacon 13: (range,bearing) = (4.22695, -0.969233)
+Beacon 14: (range,bearing) = (3.98934, -0.47448)
+Robot estimated posture: (X,Y,Theta) = 2.46954, 1.53392, -55.1731)
+
+[31.0] : Robot real posture: (X,Y,Theta) = 2.4756, 1.5252, -61.7048)
+
+[31.0] : Found 5 beacons.
+Beacon 1: (range,bearing) = (3.65474, -0.226806)
+Beacon 2: (range,bearing) = (1.80452, 0.069993)
+Beacon 3: (range,bearing) = (1.07494, 1.53444)
+Beacon 13: (range,bearing) = (4.22095, -0.857307)
+Beacon 14: (range,bearing) = (3.9799, -0.361699)
+Robot estimated posture: (X,Y,Theta) = 2.4756, 1.5252, -61.7048)
+
+[31.100000000] : Robot real posture: (X,Y,Theta) = 2.48064, 1.51585, -68.2365)
+
+[31.100000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (3.64439, -0.113461)
+Beacon 2: (range,bearing) = (1.79393, 0.184407)
+Beacon 13: (range,bearing) = (4.21401, -0.745212)
+Beacon 14: (range,bearing) = (3.96997, -0.248645)
+Robot estimated posture: (X,Y,Theta) = 2.48064, 1.51585, -68.2365)
+
+[31.200000000] : Robot real posture: (X,Y,Theta) = 2.49917, 1.46942, -74.7683)
+
+[31.200000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (3.59472, -0.00103573)
+Beacon 2: (range,bearing) = (1.7448, 0.303661)
+Beacon 13: (range,bearing) = (4.1774, -0.639329)
+Beacon 14: (range,bearing) = (3.92153, -0.137783)
+Robot estimated posture: (X,Y,Theta) = 2.49917, 1.46942, -74.7683)
+
+[31.300000000] : Robot real posture: (X,Y,Theta) = 2.51231, 1.42117, -80.6596)
+
+[31.300000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (3.54472, 0.101773)
+Beacon 2: (range,bearing) = (1.69716, 0.415294)
+Beacon 13: (range,bearing) = (4.13738, -0.543716)
+Beacon 14: (range,bearing) = (3.87201, -0.036733)
+Robot estimated posture: (X,Y,Theta) = 2.51231, 1.42117, -80.6596)
+
+[31.400000000] : Robot real posture: (X,Y,Theta) = 2.52043, 1.37184, -84.6825)
+
+[31.400000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (3.49498, 0.173439)
+Beacon 2: (range,bearing) = (1.65153, 0.497722)
+Beacon 13: (range,bearing) = (4.09468, -0.47982)
+Beacon 14: (range,bearing) = (3.82204, 0.0329994)
+Robot estimated posture: (X,Y,Theta) = 2.52043, 1.37184, -84.6825)
+
+[31.500000000] : Robot real posture: (X,Y,Theta) = 2.52506, 1.32205, -87.0018)
+
+[31.500000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (3.44574, 0.216423)
+Beacon 2: (range,bearing) = (1.60777, 0.55305)
+Beacon 13: (range,bearing) = (4.05039, -0.445039)
+Beacon 14: (range,bearing) = (3.77207, 0.0739167)
+Robot estimated posture: (X,Y,Theta) = 2.52506, 1.32205, -87.0018)
+
+[31.600000000] : Robot real posture: (X,Y,Theta) = 2.52767, 1.27212, -88.1519)
+
+[31.600000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (3.39693, 0.239657)
+Beacon 2: (range,bearing) = (1.56545, 0.589901)
+Beacon 13: (range,bearing) = (4.00532, -0.43034)
+Beacon 14: (range,bearing) = (3.72221, 0.0949816)
+Robot estimated posture: (X,Y,Theta) = 2.52767, 1.27212, -88.1519)
+
+[31.700000000] : Robot real posture: (X,Y,Theta) = 2.52929, 1.22215, -88.6252)
+
+[31.700000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (3.34838, 0.251462)
+Beacon 2: (range,bearing) = (1.52415, 0.616411)
+Beacon 13: (range,bearing) = (3.95993, -0.427347)
+Beacon 14: (range,bearing) = (3.67244, 0.104533)
+Robot estimated posture: (X,Y,Theta) = 2.52929, 1.22215, -88.6252)
+
+[31.800000000] : Robot real posture: (X,Y,Theta) = 2.53049, 1.17216, -88.7614)
+
+[31.800000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (3.29997, 0.25761)
+Beacon 2: (range,bearing) = (1.48364, 0.638273)
+Beacon 13: (range,bearing) = (3.91448, -0.430263)
+Beacon 14: (range,bearing) = (3.62271, 0.108351)
+Robot estimated posture: (X,Y,Theta) = 2.53049, 1.17216, -88.7614)
+
+[31.900000000] : Robot real posture: (X,Y,Theta) = 2.53157, 1.12217, -88.758)
+
+[31.900000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (3.25165, 0.261467)
+Beacon 2: (range,bearing) = (1.44379, 0.658848)
+Beacon 13: (range,bearing) = (3.86909, -0.435713)
+Beacon 14: (range,bearing) = (3.57301, 0.109805)
+Robot estimated posture: (X,Y,Theta) = 2.53157, 1.12217, -88.758)
+
+[32.0] : Robot real posture: (X,Y,Theta) = 2.53265, 1.07218, -88.7136)
+
+[32.0] : Found 4 beacons.
+Beacon 1: (range,bearing) = (3.20337, 0.264728)
+Beacon 2: (range,bearing) = (1.40459, 0.679869)
+Beacon 13: (range,bearing) = (3.82382, -0.442006)
+Beacon 14: (range,bearing) = (3.52332, 0.110586)
+Robot estimated posture: (X,Y,Theta) = 2.53265, 1.07218, -88.7136)
+
+[32.100000000] : Robot real posture: (X,Y,Theta) = 2.53377, 1.0222, -88.6695)
+
+[32.100000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (3.15514, 0.268104)
+Beacon 2: (range,bearing) = (1.36606, 0.702112)
+Beacon 13: (range,bearing) = (3.77869, -0.448436)
+Beacon 14: (range,bearing) = (3.47363, 0.111404)
+Robot estimated posture: (X,Y,Theta) = 2.53377, 1.0222, -88.6695)
+
+[32.200000000] : Robot real posture: (X,Y,Theta) = 2.53493, 0.97221, -88.6379)
+
+[32.200000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (3.10696, 0.271816)
+Beacon 2: (range,bearing) = (1.32828, 0.725874)
+Beacon 13: (range,bearing) = (3.7337, -0.454794)
+Beacon 14: (range,bearing) = (3.42394, 0.112476)
+Robot estimated posture: (X,Y,Theta) = 2.53493, 0.97221, -88.6379)
+
+[32.300000000] : Robot real posture: (X,Y,Theta) = 2.53612, 0.922224, -88.619)
+
+[32.300000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (3.05882, 0.275874)
+Beacon 2: (range,bearing) = (1.29131, 0.751248)
+Beacon 13: (range,bearing) = (3.68884, -0.461079)
+Beacon 14: (range,bearing) = (3.37426, 0.113808)
+Robot estimated posture: (X,Y,Theta) = 2.53612, 0.922224, -88.619)
+
+[32.400000000] : Robot real posture: (X,Y,Theta) = 2.53733, 0.872239, -88.6092)
+
+[32.400000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (3.01074, 0.280226)
+Beacon 2: (range,bearing) = (1.25524, 0.778268)
+Beacon 13: (range,bearing) = (3.64413, -0.467355)
+Beacon 14: (range,bearing) = (3.32459, 0.115345)
+Robot estimated posture: (X,Y,Theta) = 2.53733, 0.872239, -88.6092)
+
+[32.500000000] : Robot real posture: (X,Y,Theta) = 2.53854, 0.822254, -88.6048)
+
+[32.500000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (2.96273, 0.284818)
+Beacon 2: (range,bearing) = (1.22013, 0.806966)
+Beacon 13: (range,bearing) = (3.59957, -0.473689)
+Beacon 14: (range,bearing) = (3.27493, 0.117027)
+Robot estimated posture: (X,Y,Theta) = 2.53854, 0.822253, -88.6048)
+
+[32.600000000] : Robot real posture: (X,Y,Theta) = 2.53976, 0.772268, -88.6034)
+
+[32.600000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (2.91477, 0.289613)
+Beacon 2: (range,bearing) = (1.1861, 0.837389)
+Beacon 13: (range,bearing) = (3.55514, -0.48013)
+Beacon 14: (range,bearing) = (3.22527, 0.118811)
+Robot estimated posture: (X,Y,Theta) = 2.53976, 0.772268, -88.6034)
+
+[32.700000000] : Robot real posture: (X,Y,Theta) = 2.54098, 0.722283, -88.6032)
+
+[32.700000000] : Found 3 beacons.
+Beacon 2: (range,bearing) = (1.15323, 0.869601)
+Beacon 13: (range,bearing) = (3.51087, -0.486711)
+Beacon 14: (range,bearing) = (3.17563, 0.120674)
+Robot estimated posture: (X,Y,Theta) = 2.54098, 0.722283, -88.6032)
+
+[32.800000000] : Robot real posture: (X,Y,Theta) = 2.5422, 0.672298, -88.6034)
+
+[32.800000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (2.81908, 0.299744)
+Beacon 2: (range,bearing) = (1.12162, 0.903672)
+Beacon 13: (range,bearing) = (3.46676, -0.493453)
+Beacon 14: (range,bearing) = (3.126, 0.122604)
+Robot estimated posture: (X,Y,Theta) = 2.5422, 0.672298, -88.6034)
+
+[32.900000000] : Robot real posture: (X,Y,Theta) = 2.54342, 0.622313, -88.6037)
+
+[32.900000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (2.77135, 0.305076)
+Beacon 2: (range,bearing) = (1.09139, 0.939676)
+Beacon 13: (range,bearing) = (3.42281, -0.500367)
+Beacon 14: (range,bearing) = (3.07638, 0.124597)
+Robot estimated posture: (X,Y,Theta) = 2.54342, 0.622313, -88.6037)
+
+[33.0] : Robot real posture: (X,Y,Theta) = 2.54463, 0.572328, -88.604)
+
+[33.0] : Found 4 beacons.
+Beacon 1: (range,bearing) = (2.7237, 0.310595)
+Beacon 2: (range,bearing) = (1.06266, 0.977678)
+Beacon 13: (range,bearing) = (3.37902, -0.507462)
+Beacon 14: (range,bearing) = (3.02678, 0.126654)
+Robot estimated posture: (X,Y,Theta) = 2.54463, 0.572328, -88.604)
+
+[33.100000000] : Robot real posture: (X,Y,Theta) = 2.54585, 0.522343, -88.6041)
+
+[33.100000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (2.67614, 0.316307)
+Beacon 2: (range,bearing) = (1.03554, 1.01773)
+Beacon 13: (range,bearing) = (3.33541, -0.514744)
+Beacon 14: (range,bearing) = (2.97718, 0.128778)
+Robot estimated posture: (X,Y,Theta) = 2.54585, 0.522343, -88.6041)
+
+[33.200000000] : Robot real posture: (X,Y,Theta) = 2.54707, 0.472357, -88.6042)
+
+[33.200000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (2.62866, 0.322226)
+Beacon 2: (range,bearing) = (1.01017, 1.05986)
+Beacon 13: (range,bearing) = (3.29198, -0.52222)
+Beacon 14: (range,bearing) = (2.92761, 0.130973)
+Robot estimated posture: (X,Y,Theta) = 2.54707, 0.472357, -88.6042)
+
+[33.300000000] : Robot real posture: (X,Y,Theta) = 2.54829, 0.422372, -88.6042)
+
+[33.300000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (2.58129, 0.32836)
+Beacon 2: (range,bearing) = (0.986686, 1.10408)
+Beacon 13: (range,bearing) = (3.24874, -0.529896)
+Beacon 14: (range,bearing) = (2.87804, 0.133242)
+Robot estimated posture: (X,Y,Theta) = 2.54829, 0.422372, -88.6042)
+
+[33.400000000] : Robot real posture: (X,Y,Theta) = 2.54951, 0.372387, -88.6043)
+
+[33.400000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (2.53401, 0.334724)
+Beacon 2: (range,bearing) = (0.965221, 1.15036)
+Beacon 13: (range,bearing) = (3.2057, -0.53778)
+Beacon 14: (range,bearing) = (2.82849, 0.135591)
+Robot estimated posture: (X,Y,Theta) = 2.54951, 0.372387, -88.6043)
+
+[33.500000000] : Robot real posture: (X,Y,Theta) = 2.55072, 0.322402, -88.6043)
+
+[33.500000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (2.48684, 0.341329)
+Beacon 2: (range,bearing) = (0.945915, 1.19863)
+Beacon 13: (range,bearing) = (3.16286, -0.545877)
+Beacon 14: (range,bearing) = (2.77896, 0.138023)
+Robot estimated posture: (X,Y,Theta) = 2.55072, 0.322402, -88.6043)
+
+[33.600000000] : Robot real posture: (X,Y,Theta) = 2.55194, 0.272417, -88.6043)
+
+[33.600000000] : Found 5 beacons.
+Beacon 1: (range,bearing) = (2.43978, 0.348189)
+Beacon 2: (range,bearing) = (0.928902, 1.24879)
+Beacon 12: (range,bearing) = (4.45706, -0.946547)
+Beacon 13: (range,bearing) = (3.12023, -0.554197)
+Beacon 14: (range,bearing) = (2.72944, 0.140543)
+Robot estimated posture: (X,Y,Theta) = 2.55194, 0.272417, -88.6043)
+
+[33.700000000] : Robot real posture: (X,Y,Theta) = 2.55316, 0.222432, -88.6043)
+
+[33.700000000] : Found 5 beacons.
+Beacon 1: (range,bearing) = (2.39284, 0.355319)
+Beacon 2: (range,bearing) = (0.91431, 1.30069)
+Beacon 12: (range,bearing) = (4.42802, -0.955709)
+Beacon 13: (range,bearing) = (3.07783, -0.562746)
+Beacon 14: (range,bearing) = (2.67995, 0.143157)
+Robot estimated posture: (X,Y,Theta) = 2.55316, 0.222432, -88.6043)
+
+[33.800000000] : Robot real posture: (X,Y,Theta) = 2.55438, 0.172446, -88.6043)
+
+[33.800000000] : Found 5 beacons.
+Beacon 1: (range,bearing) = (2.34603, 0.362733)
+Beacon 2: (range,bearing) = (0.902256, 1.35412)
+Beacon 12: (range,bearing) = (4.39936, -0.964992)
+Beacon 13: (range,bearing) = (3.03566, -0.571534)
+Beacon 14: (range,bearing) = (2.63047, 0.145869)
+Robot estimated posture: (X,Y,Theta) = 2.55438, 0.172446, -88.6043)
+
+[33.900000000] : Robot real posture: (X,Y,Theta) = 2.5556, 0.122461, -88.6043)
+
+[33.900000000] : Found 5 beacons.
+Beacon 1: (range,bearing) = (2.29935, 0.370449)
+Beacon 2: (range,bearing) = (0.892843, 1.40884)
+Beacon 12: (range,bearing) = (4.37108, -0.974395)
+Beacon 13: (range,bearing) = (2.99373, -0.580568)
+Beacon 14: (range,bearing) = (2.58101, 0.148685)
+Robot estimated posture: (X,Y,Theta) = 2.5556, 0.122461, -88.6043)
+
+[34.0] : Robot real posture: (X,Y,Theta) = 2.55681, 0.0724761, -88.6043)
+
+[34.0] : Found 5 beacons.
+Beacon 1: (range,bearing) = (2.25282, 0.378484)
+Beacon 2: (range,bearing) = (0.886156, 1.46456)
+Beacon 12: (range,bearing) = (4.3432, -0.98392)
+Beacon 13: (range,bearing) = (2.95205, -0.589858)
+Beacon 14: (range,bearing) = (2.53157, 0.15161)
+Robot estimated posture: (X,Y,Theta) = 2.55681, 0.0724761, -88.6043)
+
+[34.100000000] : Robot real posture: (X,Y,Theta) = 2.55803, 0.0224909, -88.6043)
+
+[34.100000000] : Found 5 beacons.
+Beacon 1: (range,bearing) = (2.20643, 0.386858)
+Beacon 2: (range,bearing) = (0.882256, 1.52094)
+Beacon 12: (range,bearing) = (4.31571, -0.993567)
+Beacon 13: (range,bearing) = (2.91063, -0.599414)
+Beacon 14: (range,bearing) = (2.48216, 0.154653)
+Robot estimated posture: (X,Y,Theta) = 2.55803, 0.0224909, -88.6043)
+
+[34.200000000] : Robot real posture: (X,Y,Theta) = 2.55925, -0.0274942, -88.6043)
+
+[34.200000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (2.16021, 0.395591)
+Beacon 12: (range,bearing) = (4.28863, -1.00334)
+Beacon 13: (range,bearing) = (2.86948, -0.609244)
+Beacon 14: (range,bearing) = (2.43276, 0.157819)
+Robot estimated posture: (X,Y,Theta) = 2.55925, -0.0274945, -88.6043)
+
+[34.300000000] : Robot real posture: (X,Y,Theta) = 2.56047, -0.0774794, -88.6043)
+
+[34.300000000] : Found 3 beacons.
+Beacon 12: (range,bearing) = (4.26196, -1.01323)
+Beacon 13: (range,bearing) = (2.82862, -0.61936)
+Beacon 14: (range,bearing) = (2.3834, 0.161116)
+Singular case, unable to localize!!
+[34.400000000] : Robot real posture: (X,Y,Theta) = 2.56168, -0.127465, -88.6043)
+
+[34.400000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (2.06829, 0.414223)
+Beacon 12: (range,bearing) = (4.23572, -1.02325)
+Beacon 13: (range,bearing) = (2.78806, -0.629771)
+Beacon 14: (range,bearing) = (2.33406, 0.164552)
+Robot estimated posture: (X,Y,Theta) = 2.56168, -0.127465, -88.6043)
+
+[34.500000000] : Robot real posture: (X,Y,Theta) = 2.5629, -0.17745, -88.6043)
+
+[34.500000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (2.02262, 0.424173)
+Beacon 12: (range,bearing) = (4.20991, -1.03339)
+Beacon 13: (range,bearing) = (2.74781, -0.640488)
+Beacon 14: (range,bearing) = (2.28475, 0.168137)
+Robot estimated posture: (X,Y,Theta) = 2.5629, -0.17745, -88.6043)
+
+[34.600000000] : Robot real posture: (X,Y,Theta) = 2.56412, -0.227435, -88.6043)
+
+[34.600000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (1.97716, 0.434581)
+Beacon 12: (range,bearing) = (4.18453, -1.04365)
+Beacon 13: (range,bearing) = (2.70789, -0.651522)
+Beacon 14: (range,bearing) = (2.23547, 0.17188)
+Robot estimated posture: (X,Y,Theta) = 2.56412, -0.227435, -88.6043)
+
+[34.700000000] : Robot real posture: (X,Y,Theta) = 2.56534, -0.27742, -88.6043)
+
+[34.700000000] : Found 3 beacons.
+Beacon 12: (range,bearing) = (4.1596, -1.05404)
+Beacon 13: (range,bearing) = (2.6683, -0.662886)
+Beacon 14: (range,bearing) = (2.18622, 0.175792)
+Singular case, unable to localize!!
+[34.800000000] : Robot real posture: (X,Y,Theta) = 2.56656, -0.327405, -88.6043)
+
+[34.800000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (1.88692, 0.456896)
+Beacon 12: (range,bearing) = (4.13513, -1.06455)
+Beacon 13: (range,bearing) = (2.62907, -0.674589)
+Beacon 14: (range,bearing) = (2.13701, 0.179884)
+Robot estimated posture: (X,Y,Theta) = 2.56656, -0.327405, -88.6043)
+
+[34.900000000] : Robot real posture: (X,Y,Theta) = 2.56777, -0.37739, -88.6043)
+
+[34.900000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (1.84218, 0.46887)
+Beacon 12: (range,bearing) = (4.11112, -1.07519)
+Beacon 13: (range,bearing) = (2.59021, -0.686646)
+Beacon 14: (range,bearing) = (2.08784, 0.184168)
+Robot estimated posture: (X,Y,Theta) = 2.56777, -0.377391, -88.6043)
+
+[35.0] : Robot real posture: (X,Y,Theta) = 2.56899, -0.427376, -88.6043)
+
+[35.0] : Found 4 beacons.
+Beacon 1: (range,bearing) = (1.79772, 0.481439)
+Beacon 12: (range,bearing) = (4.08757, -1.08595)
+Beacon 13: (range,bearing) = (2.55174, -0.699068)
+Beacon 14: (range,bearing) = (2.03871, 0.18866)
+Robot estimated posture: (X,Y,Theta) = 2.56899, -0.427376, -88.6043)
+
+[35.100000000] : Robot real posture: (X,Y,Theta) = 2.57021, -0.477361, -88.6043)
+
+[35.100000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (1.75356, 0.494642)
+Beacon 12: (range,bearing) = (4.06451, -1.09684)
+Beacon 13: (range,bearing) = (2.51367, -0.711869)
+Beacon 14: (range,bearing) = (1.98961, 0.193373)
+Robot estimated posture: (X,Y,Theta) = 2.57021, -0.477361, -88.6043)
+
+[35.200000000] : Robot real posture: (X,Y,Theta) = 2.57143, -0.527346, -88.6043)
+
+[35.200000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (1.70972, 0.508526)
+Beacon 12: (range,bearing) = (4.04193, -1.10784)
+Beacon 13: (range,bearing) = (2.47603, -0.725061)
+Beacon 14: (range,bearing) = (1.94057, 0.198324)
+Robot estimated posture: (X,Y,Theta) = 2.57143, -0.527346, -88.6043)
+
+[35.300000000] : Robot real posture: (X,Y,Theta) = 2.57265, -0.577331, -88.6043)
+
+[35.300000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (1.66622, 0.523137)
+Beacon 12: (range,bearing) = (4.01985, -1.11897)
+Beacon 13: (range,bearing) = (2.43883, -0.738657)
+Beacon 14: (range,bearing) = (1.89158, 0.203532)
+Robot estimated posture: (X,Y,Theta) = 2.57265, -0.577331, -88.6043)
+
+[35.400000000] : Robot real posture: (X,Y,Theta) = 2.57386, -0.627316, -88.6043)
+
+[35.400000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (1.6231, 0.538528)
+Beacon 12: (range,bearing) = (3.99828, -1.13022)
+Beacon 13: (range,bearing) = (2.4021, -0.752673)
+Beacon 14: (range,bearing) = (1.84264, 0.209017)
+Robot estimated posture: (X,Y,Theta) = 2.57386, -0.627316, -88.6043)
+
+[35.500000000] : Robot real posture: (X,Y,Theta) = 2.57508, -0.677301, -88.6043)
+
+[35.500000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (1.58038, 0.554755)
+Beacon 12: (range,bearing) = (3.97721, -1.14159)
+Beacon 13: (range,bearing) = (2.36585, -0.76712)
+Beacon 14: (range,bearing) = (1.79375, 0.214801)
+Robot estimated posture: (X,Y,Theta) = 2.57508, -0.677302, -88.6043)
+
+[35.600000000] : Robot real posture: (X,Y,Theta) = 2.5763, -0.727287, -88.6043)
+
+[35.600000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (1.53811, 0.571878)
+Beacon 12: (range,bearing) = (3.95666, -1.15308)
+Beacon 13: (range,bearing) = (2.33012, -0.782014)
+Beacon 14: (range,bearing) = (1.74494, 0.220909)
+Robot estimated posture: (X,Y,Theta) = 2.5763, -0.727287, -88.6043)
+
+[35.700000000] : Robot real posture: (X,Y,Theta) = 2.57752, -0.777272, -88.6043)
+
+[35.700000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (1.49631, 0.589964)
+Beacon 12: (range,bearing) = (3.93665, -1.16469)
+Beacon 13: (range,bearing) = (2.29491, -0.797368)
+Beacon 14: (range,bearing) = (1.69619, 0.227368)
+Robot estimated posture: (X,Y,Theta) = 2.57752, -0.777272, -88.6043)
+
+[35.800000000] : Robot real posture: (X,Y,Theta) = 2.57874, -0.827257, -88.6043)
+
+[35.800000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (1.45503, 0.609083)
+Beacon 12: (range,bearing) = (3.91716, -1.17642)
+Beacon 13: (range,bearing) = (2.26026, -0.813197)
+Beacon 14: (range,bearing) = (1.64751, 0.234209)
+Robot estimated posture: (X,Y,Theta) = 2.57874, -0.827257, -88.6043)
+
+[35.900000000] : Robot real posture: (X,Y,Theta) = 2.57995, -0.877242, -88.6043)
+
+[35.900000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (1.41431, 0.62931)
+Beacon 12: (range,bearing) = (3.89823, -1.18826)
+Beacon 13: (range,bearing) = (2.2262, -0.829515)
+Beacon 14: (range,bearing) = (1.59892, 0.241466)
+Robot estimated posture: (X,Y,Theta) = 2.57995, -0.877242, -88.6043)
+
+[36.0] : Robot real posture: (X,Y,Theta) = 2.58117, -0.927227, -88.6043)
+
+[36.0] : Found 4 beacons.
+Beacon 1: (range,bearing) = (1.3742, 0.650728)
+Beacon 12: (range,bearing) = (3.87984, -1.20022)
+Beacon 13: (range,bearing) = (2.19275, -0.846335)
+Beacon 14: (range,bearing) = (1.55042, 0.249178)
+Robot estimated posture: (X,Y,Theta) = 2.58117, -0.927227, -88.6043)
+
+[36.100000000] : Robot real posture: (X,Y,Theta) = 2.58239, -0.977212, -88.6043)
+
+[36.100000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (1.33476, 0.673421)
+Beacon 12: (range,bearing) = (3.86201, -1.21229)
+Beacon 13: (range,bearing) = (2.15994, -0.863671)
+Beacon 14: (range,bearing) = (1.50201, 0.257387)
+Robot estimated posture: (X,Y,Theta) = 2.58239, -0.977212, -88.6043)
+
+[36.200000000] : Robot real posture: (X,Y,Theta) = 2.58361, -1.0272, -88.6043)
+
+[36.200000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (1.29605, 0.697484)
+Beacon 12: (range,bearing) = (3.84475, -1.22446)
+Beacon 13: (range,bearing) = (2.1278, -0.881536)
+Beacon 14: (range,bearing) = (1.45371, 0.266143)
+Robot estimated posture: (X,Y,Theta) = 2.58361, -1.0272, -88.6043)
+
+[36.300000000] : Robot real posture: (X,Y,Theta) = 2.58482, -1.07718, -88.6043)
+
+[36.300000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (1.25814, 0.723012)
+Beacon 12: (range,bearing) = (3.82807, -1.23675)
+Beacon 13: (range,bearing) = (2.09635, -0.899943)
+Beacon 14: (range,bearing) = (1.40554, 0.275499)
+Robot estimated posture: (X,Y,Theta) = 2.58482, -1.07718, -88.6043)
+
+[36.400000000] : Robot real posture: (X,Y,Theta) = 2.58593, -1.12246, -88.6043)
+
+[36.400000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (1.22455, 0.747487)
+Beacon 12: (range,bearing) = (3.81346, -1.24797)
+Beacon 13: (range,bearing) = (2.0685, -0.917096)
+Beacon 14: (range,bearing) = (1.36201, 0.284545)
+Robot estimated posture: (X,Y,Theta) = 2.58593, -1.12246, -88.6043)
+
+[36.500000000] : Robot real posture: (X,Y,Theta) = 2.58687, -1.16126, -88.6043)
+
+[36.500000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (1.19637, 0.769543)
+Beacon 12: (range,bearing) = (3.80133, -1.25766)
+Beacon 13: (range,bearing) = (2.04513, -0.932162)
+Beacon 14: (range,bearing) = (1.3248, 0.29277)
+Robot estimated posture: (X,Y,Theta) = 2.58687, -1.16126, -88.6043)
+
+[36.600000000] : Robot real posture: (X,Y,Theta) = 2.58769, -1.19463, -88.6043)
+
+[36.600000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (1.17263, 0.789348)
+Beacon 12: (range,bearing) = (3.79118, -1.26603)
+Beacon 13: (range,bearing) = (2.02541, -0.945393)
+Beacon 14: (range,bearing) = (1.29288, 0.30022)
+Robot estimated posture: (X,Y,Theta) = 2.58769, -1.19463, -88.6043)
+
+[36.700000000] : Robot real posture: (X,Y,Theta) = 2.58839, -1.22366, -88.6043)
+
+[36.700000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (1.15236, 0.807239)
+Beacon 12: (range,bearing) = (3.78256, -1.27335)
+Beacon 13: (range,bearing) = (2.00855, -0.957115)
+Beacon 14: (range,bearing) = (1.26517, 0.307008)
+Robot estimated posture: (X,Y,Theta) = 2.58839, -1.22366, -88.6043)
+
+[36.800000000] : Robot real posture: (X,Y,Theta) = 2.58902, -1.24921, -88.6043)
+
+[36.800000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (1.13484, 0.823507)
+Beacon 12: (range,bearing) = (3.77515, -1.27983)
+Beacon 13: (range,bearing) = (1.99394, -0.967593)
+Beacon 14: (range,bearing) = (1.24083, 0.313232)
+Robot estimated posture: (X,Y,Theta) = 2.58902, -1.24921, -88.6043)
+
+[36.900000000] : Robot real posture: (X,Y,Theta) = 2.58957, -1.27191, -88.6043)
+
+[36.900000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (1.11953, 0.838383)
+Beacon 12: (range,bearing) = (3.7687, -1.2856)
+Beacon 13: (range,bearing) = (1.98115, -0.97703)
+Beacon 14: (range,bearing) = (1.21925, 0.31897)
+Robot estimated posture: (X,Y,Theta) = 2.58957, -1.27191, -88.6043)
+
+[37.0] : Robot real posture: (X,Y,Theta) = 2.59006, -1.29223, -88.6043)
+
+[37.0] : Found 4 beacons.
+Beacon 1: (range,bearing) = (1.10604, 0.852053)
+Beacon 12: (range,bearing) = (3.76303, -1.29078)
+Beacon 13: (range,bearing) = (1.96985, -0.985586)
+Beacon 14: (range,bearing) = (1.19996, 0.324284)
+Robot estimated posture: (X,Y,Theta) = 2.59006, -1.29223, -88.6043)
+
+[37.100000000] : Robot real posture: (X,Y,Theta) = 2.59051, -1.31056, -88.6043)
+
+[37.100000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (1.09405, 0.864669)
+Beacon 12: (range,bearing) = (3.75801, -1.29547)
+Beacon 13: (range,bearing) = (1.95978, -0.993386)
+Beacon 14: (range,bearing) = (1.18259, 0.329225)
+Robot estimated posture: (X,Y,Theta) = 2.59051, -1.31056, -88.6043)
+
+[37.200000000] : Robot real posture: (X,Y,Theta) = 2.59092, -1.3272, -88.6043)
+
+[37.200000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (1.08333, 0.876354)
+Beacon 12: (range,bearing) = (3.75352, -1.29974)
+Beacon 13: (range,bearing) = (1.95074, -1.00053)
+Beacon 14: (range,bearing) = (1.16686, 0.333834)
+Robot estimated posture: (X,Y,Theta) = 2.59092, -1.3272, -88.6043)
+
+[37.300000000] : Robot real posture: (X,Y,Theta) = 2.59129, -1.34237, -88.6043)
+
+[37.300000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (1.07368, 0.887215)
+Beacon 12: (range,bearing) = (3.74948, -1.30364)
+Beacon 13: (range,bearing) = (1.94259, -1.00711)
+Beacon 14: (range,bearing) = (1.15254, 0.338149)
+Robot estimated posture: (X,Y,Theta) = 2.59129, -1.34237, -88.6043)
+
+[37.400000000] : Robot real posture: (X,Y,Theta) = 2.59162, -1.35627, -88.6043)
+
+[37.400000000] : Found 3 beacons.
+Beacon 1: (range,bearing) = (1.06495, 0.897339)
+Beacon 13: (range,bearing) = (1.9352, -1.01318)
+Beacon 14: (range,bearing) = (1.13943, 0.342198)
+Robot estimated posture: (X,Y,Theta) = 2.59162, -1.35627, -88.6043)
+
+[37.500000000] : Robot real posture: (X,Y,Theta) = 2.59194, -1.36906, -88.6043)
+
+[37.500000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (1.05702, 0.906803)
+Beacon 12: (range,bearing) = (3.74252, -1.31052)
+Beacon 13: (range,bearing) = (1.92846, -1.01881)
+Beacon 14: (range,bearing) = (1.12738, 0.346007)
+Robot estimated posture: (X,Y,Theta) = 2.59194, -1.36906, -88.6043)
+
+[37.600000000] : Robot real posture: (X,Y,Theta) = 2.59222, -1.38088, -88.6043)
+
+[37.600000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (1.04978, 0.915672)
+Beacon 12: (range,bearing) = (3.7395, -1.31357)
+Beacon 13: (range,bearing) = (1.92229, -1.02405)
+Beacon 14: (range,bearing) = (1.11626, 0.349599)
+Robot estimated posture: (X,Y,Theta) = 2.59222, -1.38088, -88.6043)
+
+[37.700000000] : Robot real posture: (X,Y,Theta) = 2.59249, -1.39184, -88.6043)
+
+[37.700000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (1.04314, 0.924003)
+Beacon 12: (range,bearing) = (3.73672, -1.31641)
+Beacon 13: (range,bearing) = (1.91661, -1.02893)
+Beacon 14: (range,bearing) = (1.10598, 0.352992)
+Robot estimated posture: (X,Y,Theta) = 2.59249, -1.39184, -88.6043)
+
+Going for target 6
+[37.800000000] : Robot real posture: (X,Y,Theta) = 2.59274, -1.40202, -88.6043)
+
+[37.800000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (1.03703, 0.931844)
+Beacon 12: (range,bearing) = (3.73417, -1.31905)
+Beacon 13: (range,bearing) = (1.91138, -1.0335)
+Beacon 14: (range,bearing) = (1.09642, 0.356205)
+Robot estimated posture: (X,Y,Theta) = 2.59274, -1.40202, -88.6043)
+
+[37.900000000] : Robot real posture: (X,Y,Theta) = 2.59299, -1.41221, -88.6043)
+
+[37.900000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (1.03098, 0.939778)
+Beacon 12: (range,bearing) = (3.73165, -1.3217)
+Beacon 13: (range,bearing) = (1.90618, -1.03809)
+Beacon 14: (range,bearing) = (1.08688, 0.359475)
+Robot estimated posture: (X,Y,Theta) = 2.59299, -1.41221, -88.6043)
+
+[38.0] : Robot real posture: (X,Y,Theta) = 2.59324, -1.4224, -95.136)
+
+[38.0] : Found 4 beacons.
+Beacon 1: (range,bearing) = (1.025, 1.0618)
+Beacon 12: (range,bearing) = (3.72915, -1.21034)
+Beacon 13: (range,bearing) = (1.90103, -0.928711)
+Beacon 14: (range,bearing) = (1.07734, 0.476802)
+Robot estimated posture: (X,Y,Theta) = 2.59324, -1.4224, -95.136)
+
+[38.100000000] : Robot real posture: (X,Y,Theta) = 2.59232, -1.43255, -101.668)
+
+[38.100000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (1.02008, 1.18453)
+Beacon 12: (range,bearing) = (3.72557, -1.0989)
+Beacon 13: (range,bearing) = (1.89494, -0.819017)
+Beacon 14: (range,bearing) = (1.0683, 0.595179)
+Robot estimated posture: (X,Y,Theta) = 2.59232, -1.43255, -101.668)
+
+[38.200000000] : Robot real posture: (X,Y,Theta) = 2.59026, -1.44253, -108.199)
+
+[38.200000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (1.01628, 1.30782)
+Beacon 12: (range,bearing) = (3.72095, -0.987342)
+Beacon 13: (range,bearing) = (1.888, -0.70896)
+Beacon 14: (range,bearing) = (1.05988, 0.714569)
+Robot estimated posture: (X,Y,Theta) = 2.59026, -1.44253, -108.199)
+
+[38.300000000] : Robot real posture: (X,Y,Theta) = 2.58708, -1.45221, -114.731)
+
+[38.300000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (1.01368, 1.43152)
+Beacon 12: (range,bearing) = (3.71534, -0.875631)
+Beacon 13: (range,bearing) = (1.88027, -0.598488)
+Beacon 14: (range,bearing) = (1.0522, 0.834915)
+Robot estimated posture: (X,Y,Theta) = 2.58708, -1.45221, -114.731)
+
+[38.400000000] : Robot real posture: (X,Y,Theta) = 2.58282, -1.46146, -121.263)
+
+[38.400000000] : Found 4 beacons.
+Beacon 1: (range,bearing) = (1.01232, 1.55549)
+Beacon 12: (range,bearing) = (3.70882, -0.763741)
+Beacon 13: (range,bearing) = (1.87186, -0.487555)
+Beacon 14: (range,bearing) = (1.04539, 0.956141)
+Robot estimated posture: (X,Y,Theta) = 2.58282, -1.46146, -121.263)
+
+[38.500000000] : Robot real posture: (X,Y,Theta) = 2.57753, -1.47017, -127.795)
+
+[38.500000000] : Found 3 beacons.
+Beacon 12: (range,bearing) = (3.70147, -0.651645)
+Beacon 13: (range,bearing) = (1.86287, -0.376117)
+Beacon 14: (range,bearing) = (1.03955, 1.07815)
+Singular case, unable to localize!!
+[38.600000000] : Robot real posture: (X,Y,Theta) = 2.57129, -1.47822, -134.326)
+
+[38.600000000] : Found 2 beacons.
+Beacon 13: (range,bearing) = (1.85339, -0.264137)
+Beacon 14: (range,bearing) = (1.03477, 1.20082)
+Unable to localize!!
+[38.700000000] : Robot real posture: (X,Y,Theta) = 2.56417, -1.48551, -140.858)
+
+[38.700000000] : Found 3 beacons.
+Beacon 12: (range,bearing) = (3.68464, -0.426738)
+Beacon 13: (range,bearing) = (1.84356, -0.15158)
+Beacon 14: (range,bearing) = (1.03113, 1.32404)
+Singular case, unable to localize!!
+[38.800000000] : Robot real posture: (X,Y,Theta) = 2.55626, -1.49194, -147.39)
+
+[38.800000000] : Found 3 beacons.
+Beacon 12: (range,bearing) = (3.67536, -0.313886)
+Beacon 13: (range,bearing) = (1.83349, -0.038419)
+Beacon 14: (range,bearing) = (1.02868, 1.44764)
+Singular case, unable to localize!!
+[38.900000000] : Robot real posture: (X,Y,Theta) = 2.54768, -1.49744, -153.921)
+
+[38.900000000] : Found 1 beacons.
+Beacon 13: (range,bearing) = (1.82331, 0.0753664)
+Unable to localize!!
+[39.0] : Robot real posture: (X,Y,Theta) = 2.53853, -1.50191, -160.453)
+
+[39.0] : Found 3 beacons.
+Beacon 5: (range,bearing) = (4.21289, -1.53811)
+Beacon 12: (range,bearing) = (3.65569, -0.0873)
+Beacon 13: (range,bearing) = (1.81315, 0.18979)
+Robot estimated posture: (X,Y,Theta) = 2.53853, -1.50191, -160.453)
+
+[39.100000000] : Robot real posture: (X,Y,Theta) = 2.52892, -1.50532, -166.985)
+
+[39.100000000] : Found 3 beacons.
+Beacon 5: (range,bearing) = (4.21257, -1.42653)
+Beacon 12: (range,bearing) = (3.64554, 0.0264563)
+Beacon 13: (range,bearing) = (1.80314, 0.304856)
+Robot estimated posture: (X,Y,Theta) = 2.52892, -1.50532, -166.985)
+
+[39.200000000] : Robot real posture: (X,Y,Theta) = 2.519, -1.50762, -173.517)
+
+[39.200000000] : Found 3 beacons.
+Beacon 5: (range,bearing) = (4.21112, -1.31492)
+Beacon 12: (range,bearing) = (3.63535, 0.14053)
+Beacon 13: (range,bearing) = (1.79342, 0.420561)
+Robot estimated posture: (X,Y,Theta) = 2.519, -1.50762, -173.517)
+
+[39.300000000] : Robot real posture: (X,Y,Theta) = 2.50887, -1.50877, 179.952)
+
+[39.300000000] : Found 3 beacons.
+Beacon 5: (range,bearing) = (4.20855, -1.20327)
+Beacon 12: (range,bearing) = (3.62526, 0.254924)
+Beacon 13: (range,bearing) = (1.78413, 0.536893)
+Robot estimated posture: (X,Y,Theta) = 2.50887, -1.50877, 179.952)
+
+[39.400000000] : Robot real posture: (X,Y,Theta) = 2.49868, -1.50876, 173.42)
+
+[39.400000000] : Found 3 beacons.
+Beacon 5: (range,bearing) = (4.2049, -1.09153)
+Beacon 12: (range,bearing) = (3.6154, 0.369635)
+Beacon 13: (range,bearing) = (1.77538, 0.653828)
+Robot estimated posture: (X,Y,Theta) = 2.49868, -1.50876, 173.42)
+
+[39.500000000] : Robot real posture: (X,Y,Theta) = 2.44901, -1.50303, 166.888)
+
+[39.500000000] : Found 4 beacons.
+Beacon 4: (range,bearing) = (3.96154, -1.48149)
+Beacon 5: (range,bearing) = (4.18208, -0.988136)
+Beacon 12: (range,bearing) = (3.56883, 0.488696)
+Beacon 13: (range,bearing) = (1.73596, 0.785348)
+Robot estimated posture: (X,Y,Theta) = 2.44901, -1.50303, 166.888)
+
+[39.600000000] : Robot real posture: (X,Y,Theta) = 2.40032, -1.49169, 161.684)
+
+[39.600000000] : Found 5 beacons.
+Beacon 3: (range,bearing) = (3.64319, -1.54052)
+Beacon 4: (range,bearing) = (3.95739, -1.40324)
+Beacon 5: (range,bearing) = (4.15478, -0.907348)
+Beacon 12: (range,bearing) = (3.52476, 0.586193)
+Beacon 13: (range,bearing) = (1.70097, 0.896971)
+Robot estimated posture: (X,Y,Theta) = 2.40031, -1.49169, 161.684)
+
+[39.700000000] : Robot real posture: (X,Y,Theta) = 2.35285, -1.47598, 158.343)
+
+[39.700000000] : Found 5 beacons.
+Beacon 3: (range,bearing) = (3.64202, -1.49594)
+Beacon 4: (range,bearing) = (3.94936, -1.35742)
+Beacon 5: (range,bearing) = (4.12418, -0.858597)
+Beacon 12: (range,bearing) = (3.48321, 0.652437)
+Beacon 13: (range,bearing) = (1.67022, 0.978669)
+Robot estimated posture: (X,Y,Theta) = 2.35285, -1.47598, 158.343)
+
+[39.800000000] : Robot real posture: (X,Y,Theta) = 2.30638, -1.45752, 156.501)
+
+[39.800000000] : Found 4 beacons.
+Beacon 3: (range,bearing) = (3.63862, -1.47749)
+Beacon 4: (range,bearing) = (3.93907, -1.33767)
+Beacon 5: (range,bearing) = (4.09168, -0.835697)
+Beacon 13: (range,bearing) = (1.64284, 1.03608)
+Robot estimated posture: (X,Y,Theta) = 2.30638, -1.45752, 156.501)
+
+[39.900000000] : Robot real posture: (X,Y,Theta) = 2.26052, -1.43759, 155.626)
+
+[39.900000000] : Found 5 beacons.
+Beacon 3: (range,bearing) = (3.6343, -1.47591)
+Beacon 4: (range,bearing) = (3.92782, -1.33478)
+Beacon 5: (range,bearing) = (4.05831, -0.829556)
+Beacon 12: (range,bearing) = (3.40531, 0.718066)
+Beacon 13: (range,bearing) = (1.61793, 1.07795)
+Robot estimated posture: (X,Y,Theta) = 2.26052, -1.43759, 155.626)
+
+[40.0] : Robot real posture: (X,Y,Theta) = 2.21498, -1.41695, 155.286)
+
+[40.0] : Found 5 beacons.
+Beacon 3: (range,bearing) = (3.62991, -1.48369)
+Beacon 4: (range,bearing) = (3.91643, -1.34126)
+Beacon 5: (range,bearing) = (4.02472, -0.832785)
+Beacon 12: (range,bearing) = (3.36782, 0.73377)
+Beacon 13: (range,bearing) = (1.59489, 1.11151)
+Robot estimated posture: (X,Y,Theta) = 2.21498, -1.41695, 155.286)
+
+[40.100000000] : Robot real posture: (X,Y,Theta) = 2.16956, -1.39605, 155.201)
+
+[40.100000000] : Found 5 beacons.
+Beacon 3: (range,bearing) = (3.6259, -1.49595)
+Beacon 4: (range,bearing) = (3.90536, -1.35225)
+Beacon 5: (range,bearing) = (3.99125, -0.840582)
+Beacon 12: (range,bearing) = (3.33086, 0.745293)
+Beacon 13: (range,bearing) = (1.57336, 1.14147)
+Robot estimated posture: (X,Y,Theta) = 2.16956, -1.39605, 155.201)
+
+[40.200000000] : Robot real posture: (X,Y,Theta) = 2.12417, -1.37508, 155.217)
+
+[40.200000000] : Found 5 beacons.
+Beacon 3: (range,bearing) = (3.6225, -1.51)
+Beacon 4: (range,bearing) = (3.89483, -1.36507)
+Beacon 5: (range,bearing) = (3.95808, -0.850273)
+Beacon 12: (range,bearing) = (3.29429, 0.755307)
+Beacon 13: (range,bearing) = (1.55321, 1.17046)
+Robot estimated posture: (X,Y,Theta) = 2.12417, -1.37508, 155.217)
+
+[40.300000000] : Robot real posture: (X,Y,Theta) = 2.07878, -1.35412, 155.259)
+
+[40.300000000] : Found 4 beacons.
+Beacon 3: (range,bearing) = (3.61981, -1.52451)
+Beacon 4: (range,bearing) = (3.88492, -1.37839)
+Beacon 12: (range,bearing) = (3.25806, 0.765101)
+Beacon 13: (range,bearing) = (1.53442, 1.19975)
+Robot estimated posture: (X,Y,Theta) = 2.07878, -1.35412, 155.259)
+
+[40.400000000] : Robot real posture: (X,Y,Theta) = 2.03337, -1.33319, 155.297)
+
+[40.400000000] : Found 4 beacons.
+Beacon 3: (range,bearing) = (3.61784, -1.53898)
+Beacon 4: (range,bearing) = (3.87567, -1.39171)
+Beacon 12: (range,bearing) = (3.22218, 0.77519)
+Beacon 13: (range,bearing) = (1.517, 1.22981)
+Robot estimated posture: (X,Y,Theta) = 2.03337, -1.33319, 155.297)
+
+[40.500000000] : Robot real posture: (X,Y,Theta) = 1.98794, -1.31229, 155.323)
+
+[40.500000000] : Found 4 beacons.
+Beacon 3: (range,bearing) = (3.6166, -1.55325)
+Beacon 4: (range,bearing) = (3.86708, -1.40489)
+Beacon 12: (range,bearing) = (3.18666, 0.785717)
+Beacon 13: (range,bearing) = (1.50102, 1.26075)
+Robot estimated posture: (X,Y,Theta) = 1.98794, -1.31229, 155.323)
+
+[40.600000000] : Robot real posture: (X,Y,Theta) = 1.94251, -1.29142, 155.338)
+
+[40.600000000] : Found 4 beacons.
+Beacon 3: (range,bearing) = (3.61606, -1.56734)
+Beacon 4: (range,bearing) = (3.85914, -1.41794)
+Beacon 12: (range,bearing) = (3.15151, 0.796672)
+Beacon 13: (range,bearing) = (1.48653, 1.29252)
+Robot estimated posture: (X,Y,Theta) = 1.94251, -1.29142, 155.338)
+
+[40.700000000] : Robot real posture: (X,Y,Theta) = 1.89707, -1.27056, 155.346)
+
+[40.700000000] : Found 3 beacons.
+Beacon 4: (range,bearing) = (3.85184, -1.43091)
+Beacon 12: (range,bearing) = (3.11677, 0.808006)
+Beacon 13: (range,bearing) = (1.47358, 1.32502)
+Robot estimated posture: (X,Y,Theta) = 1.89707, -1.27056, 155.346)
+
+[40.800000000] : Robot real posture: (X,Y,Theta) = 1.85163, -1.2497, 155.349)
+
+[40.800000000] : Found 3 beacons.
+Beacon 4: (range,bearing) = (3.84519, -1.44384)
+Beacon 12: (range,bearing) = (3.08243, 0.819672)
+Beacon 13: (range,bearing) = (1.46222, 1.35813)
+Robot estimated posture: (X,Y,Theta) = 1.85163, -1.2497, 155.349)
+
+[40.900000000] : Robot real posture: (X,Y,Theta) = 1.80618, -1.22885, 155.351)
+
+[40.900000000] : Found 4 beacons.
+Beacon 4: (range,bearing) = (3.83918, -1.45678)
+Beacon 11: (range,bearing) = (4.95159, 0.673157)
+Beacon 12: (range,bearing) = (3.04853, 0.83164)
+Beacon 13: (range,bearing) = (1.45249, 1.39177)
+Robot estimated posture: (X,Y,Theta) = 1.80618, -1.22884, 155.351)
+
+[41.0] : Robot real posture: (X,Y,Theta) = 1.76074, -1.20799, 155.351)
+
+[41.0] : Found 4 beacons.
+Beacon 4: (range,bearing) = (3.83381, -1.46974)
+Beacon 11: (range,bearing) = (4.9126, 0.6795)
+Beacon 12: (range,bearing) = (3.01507, 0.843893)
+Beacon 13: (range,bearing) = (1.44442, 1.42583)
+Robot estimated posture: (X,Y,Theta) = 1.76074, -1.20799, 155.351)
+
+[41.100000000] : Robot real posture: (X,Y,Theta) = 1.7153, -1.18714, 155.351)
+
+[41.100000000] : Found 4 beacons.
+Beacon 4: (range,bearing) = (3.82909, -1.48273)
+Beacon 11: (range,bearing) = (4.8738, 0.68595)
+Beacon 12: (range,bearing) = (2.98208, 0.856426)
+Beacon 13: (range,bearing) = (1.43805, 1.46025)
+Robot estimated posture: (X,Y,Theta) = 1.7153, -1.18714, 155.351)
+
+[41.200000000] : Robot real posture: (X,Y,Theta) = 1.66985, -1.16629, 155.35)
+
+[41.200000000] : Found 4 beacons.
+Beacon 4: (range,bearing) = (3.82501, -1.49575)
+Beacon 11: (range,bearing) = (4.83522, 0.692504)
+Beacon 12: (range,bearing) = (2.94956, 0.869237)
+Beacon 13: (range,bearing) = (1.43339, 1.49493)
+Robot estimated posture: (X,Y,Theta) = 1.66985, -1.16629, 155.35)
+
+[41.300000000] : Robot real posture: (X,Y,Theta) = 1.62441, -1.14543, 155.35)
+
+[41.300000000] : Found 4 beacons.
+Beacon 4: (range,bearing) = (3.82159, -1.50879)
+Beacon 11: (range,bearing) = (4.79684, 0.699162)
+Beacon 12: (range,bearing) = (2.91754, 0.882331)
+Beacon 13: (range,bearing) = (1.43047, 1.52979)
+Robot estimated posture: (X,Y,Theta) = 1.62441, -1.14543, 155.35)
+
+[41.400000000] : Robot real posture: (X,Y,Theta) = 1.57896, -1.12458, 155.35)
+
+[41.400000000] : Found 4 beacons.
+Beacon 4: (range,bearing) = (3.81882, -1.52186)
+Beacon 11: (range,bearing) = (4.75868, 0.705927)
+Beacon 12: (range,bearing) = (2.88603, 0.895712)
+Beacon 13: (range,bearing) = (1.4293, 1.56475)
+Robot estimated posture: (X,Y,Theta) = 1.57896, -1.12458, 155.35)
+
+[41.500000000] : Robot real posture: (X,Y,Theta) = 1.53352, -1.10372, 155.35)
+
+[41.500000000] : Found 3 beacons.
+Beacon 4: (range,bearing) = (3.8167, -1.53494)
+Beacon 11: (range,bearing) = (4.72074, 0.712799)
+Beacon 12: (range,bearing) = (2.85505, 0.909386)
+Robot estimated posture: (X,Y,Theta) = 1.53352, -1.10372, 155.35)
+
+[41.600000000] : Robot real posture: (X,Y,Theta) = 1.48808, -1.08287, 155.35)
+
+[41.600000000] : Found 3 beacons.
+Beacon 4: (range,bearing) = (3.81523, -1.54804)
+Beacon 11: (range,bearing) = (4.68303, 0.719782)
+Beacon 12: (range,bearing) = (2.82461, 0.923355)
+Robot estimated posture: (X,Y,Theta) = 1.48808, -1.08287, 155.35)
+
+[41.700000000] : Robot real posture: (X,Y,Theta) = 1.44263, -1.06202, 155.35)
+
+[41.700000000] : Found 4 beacons.
+Beacon 4: (range,bearing) = (3.81442, -1.56114)
+Beacon 6: (range,bearing) = (4.23903, -0.533667)
+Beacon 11: (range,bearing) = (4.64555, 0.726877)
+Beacon 12: (range,bearing) = (2.79474, 0.937626)
+Robot estimated posture: (X,Y,Theta) = 1.44263, -1.06202, 155.35)
+
+[41.800000000] : Robot real posture: (X,Y,Theta) = 1.39719, -1.04116, 155.35)
+
+[41.800000000] : Found 4 beacons.
+Beacon 6: (range,bearing) = (4.19606, -0.539728)
+Beacon 10: (range,bearing) = (4.93131, 0.625911)
+Beacon 11: (range,bearing) = (4.6083, 0.734088)
+Beacon 12: (range,bearing) = (2.76545, 0.952202)
+Robot estimated posture: (X,Y,Theta) = 1.39719, -1.04116, 155.35)
+
+[41.900000000] : Robot real posture: (X,Y,Theta) = 1.35175, -1.02031, 155.35)
+
+[41.900000000] : Found 4 beacons.
+Beacon 6: (range,bearing) = (4.15325, -0.545915)
+Beacon 10: (range,bearing) = (4.89087, 0.631901)
+Beacon 11: (range,bearing) = (4.5713, 0.741415)
+Beacon 12: (range,bearing) = (2.73676, 0.967087)
+Robot estimated posture: (X,Y,Theta) = 1.35175, -1.02031, 155.35)
+
+[42.0] : Robot real posture: (X,Y,Theta) = 1.3063, -0.999455, 155.35)
+
+[42.0] : Found 4 beacons.
+Beacon 6: (range,bearing) = (4.1106, -0.55223)
+Beacon 10: (range,bearing) = (4.85062, 0.637989)
+Beacon 11: (range,bearing) = (4.53455, 0.748862)
+Beacon 12: (range,bearing) = (2.70869, 0.982284)
+Robot estimated posture: (X,Y,Theta) = 1.3063, -0.999455, 155.35)
+
+[42.100000000] : Robot real posture: (X,Y,Theta) = 1.26086, -0.978602, 155.35)
+
+[42.100000000] : Found 4 beacons.
+Beacon 6: (range,bearing) = (4.06811, -0.558678)
+Beacon 10: (range,bearing) = (4.81054, 0.64418)
+Beacon 11: (range,bearing) = (4.49806, 0.756429)
+Beacon 12: (range,bearing) = (2.68125, 0.997795)
+Robot estimated posture: (X,Y,Theta) = 1.26086, -0.978602, 155.35)
+
+[42.200000000] : Robot real posture: (X,Y,Theta) = 1.21542, -0.957748, 155.35)
+
+[42.200000000] : Found 3 beacons.
+Beacon 6: (range,bearing) = (4.0258, -0.565261)
+Beacon 10: (range,bearing) = (4.77066, 0.650474)
+Beacon 12: (range,bearing) = (2.65448, 1.01362)
+Robot estimated posture: (X,Y,Theta) = 1.21542, -0.957748, 155.35)
+
+[42.300000000] : Robot real posture: (X,Y,Theta) = 1.16997, -0.936894, 155.35)
+
+[42.300000000] : Found 4 beacons.
+Beacon 6: (range,bearing) = (3.98367, -0.571984)
+Beacon 10: (range,bearing) = (4.73097, 0.656874)
+Beacon 11: (range,bearing) = (4.42586, 0.771937)
+Beacon 12: (range,bearing) = (2.62838, 1.02977)
+Robot estimated posture: (X,Y,Theta) = 1.16997, -0.936894, 155.35)
+
+[42.400000000] : Robot real posture: (X,Y,Theta) = 1.12453, -0.91604, 155.35)
+
+[42.400000000] : Found 4 beacons.
+Beacon 6: (range,bearing) = (3.94172, -0.578851)
+Beacon 10: (range,bearing) = (4.69147, 0.663382)
+Beacon 11: (range,bearing) = (4.39017, 0.779882)
+Beacon 12: (range,bearing) = (2.60298, 1.04624)
+Robot estimated posture: (X,Y,Theta) = 1.12453, -0.91604, 155.35)
+
+[42.500000000] : Robot real posture: (X,Y,Theta) = 1.07908, -0.895186, 155.35)
+
+[42.500000000] : Found 4 beacons.
+Beacon 6: (range,bearing) = (3.89996, -0.585864)
+Beacon 10: (range,bearing) = (4.65218, 0.67)
+Beacon 11: (range,bearing) = (4.35477, 0.787955)
+Beacon 12: (range,bearing) = (2.5783, 1.06302)
+Robot estimated posture: (X,Y,Theta) = 1.07908, -0.895186, 155.35)
+
+[42.600000000] : Robot real posture: (X,Y,Theta) = 1.03364, -0.874333, 155.35)
+
+[42.600000000] : Found 4 beacons.
+Beacon 6: (range,bearing) = (3.8584, -0.59303)
+Beacon 10: (range,bearing) = (4.61309, 0.676731)
+Beacon 11: (range,bearing) = (4.31965, 0.796161)
+Beacon 12: (range,bearing) = (2.55437, 1.08013)
+Robot estimated posture: (X,Y,Theta) = 1.03364, -0.874332, 155.35)
+
+[42.700000000] : Robot real posture: (X,Y,Theta) = 0.988198, -0.853479, 155.35)
+
+[42.700000000] : Found 5 beacons.
+Beacon 5: (range,bearing) = (3.2735, -1.14418)
+Beacon 6: (range,bearing) = (3.81704, -0.600351)
+Beacon 10: (range,bearing) = (4.57422, 0.683576)
+Beacon 11: (range,bearing) = (4.28482, 0.804501)
+Beacon 12: (range,bearing) = (2.53119, 1.09755)
+Robot estimated posture: (X,Y,Theta) = 0.988198, -0.853479, 155.35)
+
+[42.800000000] : Robot real posture: (X,Y,Theta) = 0.942754, -0.832625, 155.35)
+
+[42.800000000] : Found 4 beacons.
+Beacon 5: (range,bearing) = (3.25313, -1.15817)
+Beacon 10: (range,bearing) = (4.53556, 0.690539)
+Beacon 11: (range,bearing) = (4.2503, 0.812977)
+Beacon 12: (range,bearing) = (2.5088, 1.11529)
+Robot estimated posture: (X,Y,Theta) = 0.942754, -0.832625, 155.35)
+
+[42.900000000] : Robot real posture: (X,Y,Theta) = 0.89731, -0.811771, 155.35)
+
+[42.900000000] : Found 5 beacons.
+Beacon 5: (range,bearing) = (3.2334, -1.17233)
+Beacon 6: (range,bearing) = (3.73496, -0.615477)
+Beacon 10: (range,bearing) = (4.49713, 0.697621)
+Beacon 11: (range,bearing) = (4.21609, 0.821591)
+Beacon 12: (range,bearing) = (2.4872, 1.13335)
+Robot estimated posture: (X,Y,Theta) = 0.89731, -0.811771, 155.35)
+
+[43.0] : Robot real posture: (X,Y,Theta) = 0.851867, -0.790917, 155.35)
+
+[43.0] : Found 5 beacons.
+Beacon 5: (range,bearing) = (3.21433, -1.18667)
+Beacon 6: (range,bearing) = (3.69424, -0.623291)
+Beacon 10: (range,bearing) = (4.45892, 0.704824)
+Beacon 11: (range,bearing) = (4.1822, 0.830345)
+Beacon 12: (range,bearing) = (2.46644, 1.15171)
+Robot estimated posture: (X,Y,Theta) = 0.851867, -0.790917, 155.35)
+
+[43.100000000] : Robot real posture: (X,Y,Theta) = 0.806423, -0.770063, 155.35)
+
+[43.100000000] : Found 6 beacons.
+Beacon 5: (range,bearing) = (3.19593, -1.20118)
+Beacon 6: (range,bearing) = (3.65376, -0.631279)
+Beacon 7: (range,bearing) = (4.96642, -0.267303)
+Beacon 10: (range,bearing) = (4.42096, 0.712152)
+Beacon 11: (range,bearing) = (4.14863, 0.839242)
+Beacon 12: (range,bearing) = (2.44652, 1.17038)
+Robot estimated posture: (X,Y,Theta) = 0.806423, -0.770063, 155.35)
+
+[43.200000000] : Robot real posture: (X,Y,Theta) = 0.76098, -0.74921, 155.35)
+
+[43.200000000] : Found 6 beacons.
+Beacon 5: (range,bearing) = (3.17821, -1.21585)
+Beacon 6: (range,bearing) = (3.61352, -0.639445)
+Beacon 7: (range,bearing) = (4.91822, -0.269988)
+Beacon 10: (range,bearing) = (4.38323, 0.719606)
+Beacon 11: (range,bearing) = (4.1154, 0.848283)
+Beacon 12: (range,bearing) = (2.42747, 1.18935)
+Robot estimated posture: (X,Y,Theta) = 0.76098, -0.74921, 155.35)
+
+[43.300000000] : Robot real posture: (X,Y,Theta) = 0.715536, -0.728356, 155.35)
+
+[43.300000000] : Found 6 beacons.
+Beacon 5: (range,bearing) = (3.16118, -1.23068)
+Beacon 6: (range,bearing) = (3.57352, -0.647795)
+Beacon 7: (range,bearing) = (4.87005, -0.272727)
+Beacon 10: (range,bearing) = (4.34575, 0.727189)
+Beacon 11: (range,bearing) = (4.08251, 0.85747)
+Beacon 12: (range,bearing) = (2.4093, 1.20861)
+Robot estimated posture: (X,Y,Theta) = 0.715536, -0.728356, 155.35)
+
+[43.400000000] : Robot real posture: (X,Y,Theta) = 0.670093, -0.707502, 155.35)
+
+[43.400000000] : Found 7 beacons.
+Beacon 5: (range,bearing) = (3.14485, -1.24567)
+Beacon 6: (range,bearing) = (3.53378, -0.656333)
+Beacon 7: (range,bearing) = (4.82191, -0.27552)
+Beacon 8: (range,bearing) = (4.92173, -0.152272)
+Beacon 10: (range,bearing) = (4.30853, 0.734904)
+Beacon 11: (range,bearing) = (4.04997, 0.866806)
+Beacon 12: (range,bearing) = (2.39204, 1.22816)
+Robot estimated posture: (X,Y,Theta) = 0.670093, -0.707502, 155.35)
+
+[43.500000000] : Robot real posture: (X,Y,Theta) = 0.624649, -0.686648, 155.35)
+
+[43.500000000] : Found 7 beacons.
+Beacon 5: (range,bearing) = (3.12924, -1.26081)
+Beacon 6: (range,bearing) = (3.4943, -0.665065)
+Beacon 7: (range,bearing) = (4.77382, -0.278369)
+Beacon 8: (range,bearing) = (4.87231, -0.153829)
+Beacon 10: (range,bearing) = (4.27156, 0.742753)
+Beacon 11: (range,bearing) = (4.01778, 0.876292)
+Beacon 12: (range,bearing) = (2.37571, 1.24798)
+Robot estimated posture: (X,Y,Theta) = 0.624649, -0.686648, 155.35)
+
+[43.600000000] : Robot real posture: (X,Y,Theta) = 0.579205, -0.665794, 155.35)
+
+[43.600000000] : Found 7 beacons.
+Beacon 5: (range,bearing) = (3.11435, -1.2761)
+Beacon 6: (range,bearing) = (3.45509, -0.673995)
+Beacon 7: (range,bearing) = (4.72576, -0.281277)
+Beacon 8: (range,bearing) = (4.82291, -0.155417)
+Beacon 10: (range,bearing) = (4.23487, 0.750738)
+Beacon 11: (range,bearing) = (3.98597, 0.885931)
+Beacon 12: (range,bearing) = (2.36032, 1.26807)
+Robot estimated posture: (X,Y,Theta) = 0.579205, -0.665794, 155.35)
+
+[43.700000000] : Robot real posture: (X,Y,Theta) = 0.536275, -0.646094, 155.35)
+
+[43.700000000] : Found 7 beacons.
+Beacon 5: (range,bearing) = (3.10096, -1.29068)
+Beacon 6: (range,bearing) = (3.41832, -0.682619)
+Beacon 7: (range,bearing) = (4.6804, -0.284078)
+Beacon 8: (range,bearing) = (4.77625, -0.156948)
+Beacon 10: (range,bearing) = (4.20045, 0.758409)
+Beacon 11: (range,bearing) = (3.95626, 0.895178)
+Beacon 12: (range,bearing) = (2.34667, 1.28729)
+Robot estimated posture: (X,Y,Theta) = 0.536275, -0.646094, 155.35)
+
+[43.800000000] : Robot real posture: (X,Y,Theta) = 0.499363, -0.629155, 155.35)
+
+[43.800000000] : Found 7 beacons.
+Beacon 5: (range,bearing) = (3.08998, -1.30331)
+Beacon 6: (range,bearing) = (3.3869, -0.690184)
+Beacon 7: (range,bearing) = (4.64143, -0.28653)
+Beacon 8: (range,bearing) = (4.73614, -0.158288)
+Beacon 10: (range,bearing) = (4.17107, 0.765106)
+Beacon 11: (range,bearing) = (3.93099, 0.90324)
+Beacon 12: (range,bearing) = (2.33564, 1.30398)
+Robot estimated posture: (X,Y,Theta) = 0.499363, -0.629155, 155.35)
+
+[43.900000000] : Robot real posture: (X,Y,Theta) = 0.46772, -0.614634, 155.35)
+
+[43.900000000] : Found 7 beacons.
+Beacon 5: (range,bearing) = (3.08096, -1.31421)
+Beacon 6: (range,bearing) = (3.36013, -0.696781)
+Beacon 7: (range,bearing) = (4.60805, -0.288666)
+Beacon 8: (range,bearing) = (4.70176, -0.159455)
+Beacon 10: (range,bearing) = (4.14602, 0.770922)
+Beacon 11: (range,bearing) = (3.90953, 0.910234)
+Beacon 12: (range,bearing) = (2.3267, 1.31842)
+Robot estimated posture: (X,Y,Theta) = 0.46772, -0.614634, 155.35)
+
+[44.0] : Robot real posture: (X,Y,Theta) = 0.440284, -0.602044, 155.35)
+
+[44.0] : Found 7 beacons.
+Beacon 5: (range,bearing) = (3.07344, -1.32371)
+Beacon 6: (range,bearing) = (3.33703, -0.702586)
+Beacon 7: (range,bearing) = (4.57912, -0.290542)
+Beacon 8: (range,bearing) = (4.67196, -0.160481)
+Beacon 10: (range,bearing) = (4.12443, 0.776022)
+Beacon 11: (range,bearing) = (3.89108, 0.91636)
+Beacon 12: (range,bearing) = (2.31935, 1.33102)
+Robot estimated posture: (X,Y,Theta) = 0.440284, -0.602044, 155.35)
+
+[44.100000000] : Robot real posture: (X,Y,Theta) = 0.416214, -0.590998, 155.35)
+
+[44.100000000] : Found 5 beacons.
+Beacon 5: (range,bearing) = (3.06707, -1.33208)
+Beacon 6: (range,bearing) = (3.31686, -0.707746)
+Beacon 10: (range,bearing) = (4.10557, 0.78054)
+Beacon 11: (range,bearing) = (3.87502, 0.921782)
+Beacon 12: (range,bearing) = (2.3132, 1.34214)
+Robot estimated posture: (X,Y,Theta) = 0.416214, -0.590998, 155.35)
+
+[44.200000000] : Robot real posture: (X,Y,Theta) = 0.394885, -0.581211, 155.35)
+
+[44.200000000] : Found 6 beacons.
+Beacon 5: (range,bearing) = (3.06161, -1.33953)
+Beacon 6: (range,bearing) = (3.29907, -0.71237)
+Beacon 7: (range,bearing) = (4.53128, -0.2937)
+Beacon 10: (range,bearing) = (4.08893, 0.784579)
+Beacon 11: (range,bearing) = (3.86088, 0.926624)
+Beacon 12: (range,bearing) = (2.308, 1.35205)
+Robot estimated posture: (X,Y,Theta) = 0.394885, -0.581211, 155.35)
+
+[44.300000000] : Robot real posture: (X,Y,Theta) = 0.375825, -0.572464, 155.35)
+
+[44.300000000] : Found 6 beacons.
+Beacon 5: (range,bearing) = (3.05687, -1.3462)
+Beacon 6: (range,bearing) = (3.28323, -0.716545)
+Beacon 7: (range,bearing) = (4.51121, -0.295046)
+Beacon 10: (range,bearing) = (4.07411, 0.788216)
+Beacon 11: (range,bearing) = (3.84832, 0.930982)
+Beacon 12: (range,bearing) = (2.30354, 1.36093)
+Robot estimated posture: (X,Y,Theta) = 0.375825, -0.572464, 155.35)
+
+[44.400000000] : Robot real posture: (X,Y,Theta) = 0.358668, -0.564591, 155.35)
+
+[44.400000000] : Found 6 beacons.
+Beacon 5: (range,bearing) = (3.05272, -1.35223)
+Beacon 6: (range,bearing) = (3.26901, -0.720338)
+Beacon 7: (range,bearing) = (4.49315, -0.296268)
+Beacon 10: (range,bearing) = (4.06082, 0.791512)
+Beacon 11: (range,bearing) = (3.83708, 0.934929)
+Beacon 12: (range,bearing) = (2.29968, 1.36896)
+Robot estimated posture: (X,Y,Theta) = 0.358668, -0.564591, 155.35)
+
+[44.500000000] : Robot real posture: (X,Y,Theta) = 0.343128, -0.557459, 155.35)
+
+[44.500000000] : Found 7 beacons.
+Beacon 5: (range,bearing) = (3.04906, -1.35771)
+Beacon 6: (range,bearing) = (3.25618, -0.723802)
+Beacon 7: (range,bearing) = (4.4768, -0.297383)
+Beacon 8: (range,bearing) = (4.56647, -0.164222)
+Beacon 10: (range,bearing) = (4.04882, 0.794516)
+Beacon 11: (range,bearing) = (3.82695, 0.938523)
+Beacon 12: (range,bearing) = (2.29631, 1.37626)
+Robot estimated posture: (X,Y,Theta) = 0.343128, -0.557459, 155.35)
+
+[44.600000000] : Robot real posture: (X,Y,Theta) = 0.328973, -0.550964, 155.35)
+
+[44.600000000] : Found 6 beacons.
+Beacon 5: (range,bearing) = (3.0458, -1.3627)
+Beacon 6: (range,bearing) = (3.24453, -0.72698)
+Beacon 7: (range,bearing) = (4.46192, -0.298406)
+Beacon 10: (range,bearing) = (4.03793, 0.797268)
+Beacon 11: (range,bearing) = (3.81777, 0.941814)
+Beacon 12: (range,bearing) = (2.29335, 1.38292)
+Robot estimated posture: (X,Y,Theta) = 0.328973, -0.550964, 155.35)
+
+[44.700000000] : Robot real posture: (X,Y,Theta) = 0.316019, -0.54502, 155.35)
+
+[44.700000000] : Found 6 beacons.
+Beacon 5: (range,bearing) = (3.04289, -1.36729)
+Beacon 6: (range,bearing) = (3.23389, -0.72991)
+Beacon 7: (range,bearing) = (4.44829, -0.299348)
+Beacon 10: (range,bearing) = (4.02798, 0.7998)
+Beacon 11: (range,bearing) = (3.8094, 0.944839)
+Beacon 12: (range,bearing) = (2.29073, 1.38903)
+Robot estimated posture: (X,Y,Theta) = 0.316019, -0.54502, 155.35)
+
+[44.800000000] : Robot real posture: (X,Y,Theta) = 0.304112, -0.539555, 155.35)
+
+[44.800000000] : Found 7 beacons.
+Beacon 5: (range,bearing) = (3.04027, -1.37151)
+Beacon 6: (range,bearing) = (3.22414, -0.732619)
+Beacon 7: (range,bearing) = (4.43578, -0.300219)
+Beacon 8: (range,bearing) = (4.52413, -0.165773)
+Beacon 10: (range,bearing) = (4.01886, 0.802138)
+Beacon 11: (range,bearing) = (3.80174, 0.947632)
+Beacon 12: (range,bearing) = (2.2884, 1.39466)
+Robot estimated posture: (X,Y,Theta) = 0.304112, -0.539555, 155.35)
+
+[44.900000000] : Robot real posture: (X,Y,Theta) = 0.293124, -0.534513, 155.35)
+
+[44.900000000] : Found 6 beacons.
+Beacon 5: (range,bearing) = (3.0379, -1.37541)
+Beacon 6: (range,bearing) = (3.21516, -0.735134)
+Beacon 7: (range,bearing) = (4.42423, -0.301027)
+Beacon 10: (range,bearing) = (4.01047, 0.804305)
+Beacon 11: (range,bearing) = (3.7947, 0.950219)
+Beacon 12: (range,bearing) = (2.28631, 1.39987)
+Robot estimated posture: (X,Y,Theta) = 0.293124, -0.534513, 155.35)
+
+[45.0] : Robot real posture: (X,Y,Theta) = 0.282948, -0.529843, 155.35)
+
+[45.0] : Found 5 beacons.
+Beacon 5: (range,bearing) = (3.03574, -1.37903)
+Beacon 6: (range,bearing) = (3.20687, -0.737476)
+Beacon 10: (range,bearing) = (4.00271, 0.80632)
+Beacon 11: (range,bearing) = (3.7882, 0.952624)
+Beacon 12: (range,bearing) = (2.28444, 1.4047)
+Robot estimated posture: (X,Y,Theta) = 0.282948, -0.529843, 155.35)
+
+Going for target 1
+[45.100000000] : Robot real posture: (X,Y,Theta) = 0.273494, -0.525505, 155.35)
+
+[45.100000000] : Found 6 beacons.
+Beacon 5: (range,bearing) = (3.03378, -1.38239)
+Beacon 6: (range,bearing) = (3.19918, -0.739662)
+Beacon 7: (range,bearing) = (4.40361, -0.302481)
+Beacon 10: (range,bearing) = (3.99552, 0.808199)
+Beacon 11: (range,bearing) = (3.78218, 0.954865)
+Beacon 12: (range,bearing) = (2.28274, 1.40919)
+Robot estimated posture: (X,Y,Theta) = 0.273494, -0.525505, 155.35)
+
+[45.200000000] : Robot real posture: (X,Y,Theta) = 0.264041, -0.521167, 155.35)
+
+[45.200000000] : Found 6 beacons.
+Beacon 5: (range,bearing) = (3.03185, -1.38576)
+Beacon 6: (range,bearing) = (3.1915, -0.741859)
+Beacon 7: (range,bearing) = (4.39368, -0.303186)
+Beacon 10: (range,bearing) = (3.98834, 0.810085)
+Beacon 11: (range,bearing) = (3.77618, 0.957113)
+Beacon 12: (range,bearing) = (2.28109, 1.41369)
+Robot estimated posture: (X,Y,Theta) = 0.264041, -0.521167, 155.35)
+
+[45.300000000] : Robot real posture: (X,Y,Theta) = 0.254587, -0.516829, 161.882)
+
+[45.300000000] : Found 6 beacons.
+Beacon 5: (range,bearing) = (3.02995, -1.50314)
+Beacon 6: (range,bearing) = (3.18384, -0.858066)
+Beacon 7: (range,bearing) = (4.38375, -0.417895)
+Beacon 10: (range,bearing) = (3.98118, 0.697977)
+Beacon 11: (range,bearing) = (3.7702, 0.845369)
+Beacon 12: (range,bearing) = (2.27948, 1.3042)
+Robot estimated posture: (X,Y,Theta) = 0.254587, -0.516829, 161.882)
+
+[45.400000000] : Robot real posture: (X,Y,Theta) = 0.244701, -0.513594, 168.413)
+
+[45.400000000] : Found 5 beacons.
+Beacon 6: (range,bearing) = (3.17705, -0.974543)
+Beacon 7: (range,bearing) = (4.37425, -0.53286)
+Beacon 10: (range,bearing) = (3.97321, 0.58566)
+Beacon 11: (range,bearing) = (3.76331, 0.733437)
+Beacon 12: (range,bearing) = (2.27677, 1.19461)
+Robot estimated posture: (X,Y,Theta) = 0.244701, -0.513594, 168.413)
+
+[45.500000000] : Robot real posture: (X,Y,Theta) = 0.234512, -0.511505, 174.945)
+
+[45.500000000] : Found 5 beacons.
+Beacon 6: (range,bearing) = (3.17122, -1.09126)
+Beacon 7: (range,bearing) = (4.36529, -0.64807)
+Beacon 10: (range,bearing) = (3.96455, 0.47311)
+Beacon 11: (range,bearing) = (3.75559, 0.621291)
+Beacon 12: (range,bearing) = (2.27297, 1.08486)
+Robot estimated posture: (X,Y,Theta) = 0.234512, -0.511505, 174.945)
+
+[45.600000000] : Robot real posture: (X,Y,Theta) = 0.224151, -0.510588, -178.523)
+
+[45.600000000] : Found 4 beacons.
+Beacon 6: (range,bearing) = (3.16643, -1.20817)
+Beacon 10: (range,bearing) = (3.95529, 0.360308)
+Beacon 11: (range,bearing) = (3.74713, 0.508907)
+Beacon 12: (range,bearing) = (2.26813, 0.974919)
+Robot estimated posture: (X,Y,Theta) = 0.224151, -0.510588, -178.523)
+
+[45.700000000] : Robot real posture: (X,Y,Theta) = 0.174167, -0.511877, -171.992)
+
+[45.700000000] : Found 5 beacons.
+Beacon 6: (range,bearing) = (3.14905, -1.33702)
+Beacon 7: (range,bearing) = (4.32102, -0.885512)
+Beacon 10: (range,bearing) = (3.90854, 0.250818)
+Beacon 11: (range,bearing) = (3.70355, 0.401484)
+Beacon 12: (range,bearing) = (2.24045, 0.879391)
+Robot estimated posture: (X,Y,Theta) = 0.174167, -0.511877, -171.992)
+
+[45.800000000] : Robot real posture: (X,Y,Theta) = 0.124655, -0.518843, -165.583)
+
+[45.800000000] : Found 4 beacons.
+Beacon 7: (range,bearing) = (4.28955, -1.00639)
+Beacon 10: (range,bearing) = (3.86013, 0.142182)
+Beacon 11: (range,bearing) = (3.65758, 0.294975)
+Beacon 12: (range,bearing) = (2.2089, 0.784978)
+Robot estimated posture: (X,Y,Theta) = 0.124655, -0.518843, -165.583)
+
+[45.900000000] : Robot real posture: (X,Y,Theta) = 0.0762294, -0.531292, -161.03)
+
+[45.900000000] : Found 5 beacons.
+Beacon 6: (range,bearing) = (3.13292, -1.5597)
+Beacon 7: (range,bearing) = (4.26302, -1.09576)
+Beacon 10: (range,bearing) = (3.81064, 0.0645794)
+Beacon 11: (range,bearing) = (3.60977, 0.21954)
+Beacon 12: (range,bearing) = (2.17382, 0.721775)
+Robot estimated posture: (X,Y,Theta) = 0.0762294, -0.531292, -161.03)
+
+[46.0] : Robot real posture: (X,Y,Theta) = 0.0289449, -0.547545, -158.324)
+
+[46.0] : Found 4 beacons.
+Beacon 7: (range,bearing) = (4.24038, -1.15347)
+Beacon 10: (range,bearing) = (3.76075, 0.0182087)
+Beacon 11: (range,bearing) = (3.56098, 0.17537)
+Beacon 12: (range,bearing) = (2.13654, 0.690009)
+Robot estimated posture: (X,Y,Theta) = 0.0289449, -0.547545, -158.324)
+
+[46.100000000] : Robot real posture: (X,Y,Theta) = -0.0175195, -0.566013, -156.938)
+
+[46.100000000] : Found 4 beacons.
+Beacon 7: (range,bearing) = (4.22036, -1.1885)
+Beacon 10: (range,bearing) = (3.71075, -0.00574148)
+Beacon 11: (range,bearing) = (3.51176, 0.153658)
+Beacon 12: (range,bearing) = (2.09822, 0.680983)
+Robot estimated posture: (X,Y,Theta) = -0.0175195, -0.566013, -156.938)
+
+[46.200000000] : Robot real posture: (X,Y,Theta) = -0.0635235, -0.5856, -156.339)
+
+[46.200000000] : Found 4 beacons.
+Beacon 7: (range,bearing) = (4.20197, -1.20999)
+Beacon 10: (range,bearing) = (3.66075, -0.0162678)
+Beacon 11: (range,bearing) = (3.46236, 0.145421)
+Beacon 12: (range,bearing) = (2.05961, 0.685819)
+Robot estimated posture: (X,Y,Theta) = -0.0635235, -0.5856, -156.339)
+
+[46.300000000] : Robot real posture: (X,Y,Theta) = -0.10932, -0.605666, -156.146)
+
+[46.300000000] : Found 4 beacons.
+Beacon 7: (range,bearing) = (4.18458, -1.22454)
+Beacon 10: (range,bearing) = (3.61076, -0.0198674)
+Beacon 11: (range,bearing) = (3.41289, 0.144169)
+Beacon 12: (range,bearing) = (2.02117, 0.698112)
+Robot estimated posture: (X,Y,Theta) = -0.10932, -0.605666, -156.146)
+
+[46.400000000] : Robot real posture: (X,Y,Theta) = -0.155049, -0.625886, -156.129)
+
+[46.400000000] : Found 3 beacons.
+Beacon 10: (range,bearing) = (3.56077, -0.0204473)
+Beacon 11: (range,bearing) = (3.36342, 0.146004)
+Beacon 12: (range,bearing) = (1.98313, 0.714018)
+Robot estimated posture: (X,Y,Theta) = -0.155049, -0.625886, -156.129)
+
+[46.500000000] : Robot real posture: (X,Y,Theta) = -0.200772, -0.64612, -156.169)
+
+[46.500000000] : Found 3 beacons.
+Beacon 10: (range,bearing) = (3.51078, -0.0200326)
+Beacon 11: (range,bearing) = (3.31396, 0.148905)
+Beacon 12: (range,bearing) = (1.94561, 0.731554)
+Robot estimated posture: (X,Y,Theta) = -0.200772, -0.64612, -156.169)
+
+[46.600000000] : Robot real posture: (X,Y,Theta) = -0.246509, -0.666322, -156.215)
+
+[46.600000000] : Found 3 beacons.
+Beacon 10: (range,bearing) = (3.46079, -0.0195127)
+Beacon 11: (range,bearing) = (3.26452, 0.151987)
+Beacon 12: (range,bearing) = (1.9087, 0.749863)
+Robot estimated posture: (X,Y,Theta) = -0.246509, -0.666322, -156.215)
+
+[46.700000000] : Robot real posture: (X,Y,Theta) = -0.292263, -0.686487, -156.251)
+
+[46.700000000] : Found 3 beacons.
+Beacon 10: (range,bearing) = (3.4108, -0.0191857)
+Beacon 11: (range,bearing) = (3.21511, 0.154954)
+Beacon 12: (range,bearing) = (1.87242, 0.768677)
+Robot estimated posture: (X,Y,Theta) = -0.292263, -0.686487, -156.251)
+
+[46.800000000] : Robot real posture: (X,Y,Theta) = -0.338028, -0.706624, -156.272)
+
+[46.800000000] : Found 3 beacons.
+Beacon 10: (range,bearing) = (3.36081, -0.0190889)
+Beacon 11: (range,bearing) = (3.16571, 0.157774)
+Beacon 12: (range,bearing) = (1.83681, 0.787984)
+Robot estimated posture: (X,Y,Theta) = -0.338028, -0.706624, -156.272)
+
+[46.900000000] : Robot real posture: (X,Y,Theta) = -0.383802, -0.726744, -156.284)
+
+[46.900000000] : Found 4 beacons.
+Beacon 9: (range,bearing) = (3.14142, -0.647375)
+Beacon 10: (range,bearing) = (3.31082, -0.0191714)
+Beacon 11: (range,bearing) = (3.11635, 0.160501)
+Beacon 12: (range,bearing) = (1.80189, 0.807863)
+Robot estimated posture: (X,Y,Theta) = -0.383802, -0.726744, -156.284)
+
+[47.0] : Robot real posture: (X,Y,Theta) = -0.429579, -0.746854, -156.29)
+
+[47.0] : Found 4 beacons.
+Beacon 9: (range,bearing) = (3.10168, -0.657002)
+Beacon 10: (range,bearing) = (3.26083, -0.01937)
+Beacon 11: (range,bearing) = (3.067, 0.163201)
+Beacon 12: (range,bearing) = (1.76771, 0.828405)
+Robot estimated posture: (X,Y,Theta) = -0.429579, -0.746854, -156.29)
+
+[47.100000000] : Robot real posture: (X,Y,Theta) = -0.475359, -0.766959, -156.292)
+
+[47.100000000] : Found 4 beacons.
+Beacon 9: (range,bearing) = (3.06224, -0.666939)
+Beacon 10: (range,bearing) = (3.21084, -0.019636)
+Beacon 11: (range,bearing) = (3.01767, 0.165929)
+Beacon 12: (range,bearing) = (1.7343, 0.849685)
+Robot estimated posture: (X,Y,Theta) = -0.475359, -0.766959, -156.292)
+
+[47.200000000] : Robot real posture: (X,Y,Theta) = -0.521139, -0.787063, -156.292)
+
+[47.200000000] : Found 4 beacons.
+Beacon 9: (range,bearing) = (3.02311, -0.677163)
+Beacon 10: (range,bearing) = (3.16085, -0.0199389)
+Beacon 11: (range,bearing) = (2.96837, 0.168719)
+Beacon 12: (range,bearing) = (1.7017, 0.871763)
+Robot estimated posture: (X,Y,Theta) = -0.521139, -0.787063, -156.292)
+
+[47.300000000] : Robot real posture: (X,Y,Theta) = -0.56692, -0.807167, -156.292)
+
+[47.300000000] : Found 4 beacons.
+Beacon 9: (range,bearing) = (2.98431, -0.687663)
+Beacon 10: (range,bearing) = (3.11086, -0.0202621)
+Beacon 11: (range,bearing) = (2.91909, 0.171592)
+Beacon 12: (range,bearing) = (1.66997, 0.894681)
+Robot estimated posture: (X,Y,Theta) = -0.56692, -0.807167, -156.292)
+
+[47.400000000] : Robot real posture: (X,Y,Theta) = -0.6127, -0.827271, -156.292)
+
+[47.400000000] : Found 4 beacons.
+Beacon 9: (range,bearing) = (2.94584, -0.698442)
+Beacon 10: (range,bearing) = (3.06087, -0.0205983)
+Beacon 11: (range,bearing) = (2.86984, 0.174562)
+Beacon 12: (range,bearing) = (1.63914, 0.918471)
+Robot estimated posture: (X,Y,Theta) = -0.6127, -0.827271, -156.292)
+
+[47.500000000] : Robot real posture: (X,Y,Theta) = -0.65848, -0.847375, -156.291)
+
+[47.500000000] : Found 4 beacons.
+Beacon 9: (range,bearing) = (2.90773, -0.709504)
+Beacon 10: (range,bearing) = (3.01088, -0.0209448)
+Beacon 11: (range,bearing) = (2.82061, 0.177636)
+Beacon 12: (range,bearing) = (1.60928, 0.94316)
+Robot estimated posture: (X,Y,Theta) = -0.65848, -0.847375, -156.291)
+
+[47.600000000] : Robot real posture: (X,Y,Theta) = -0.70426, -0.867479, -156.291)
+
+[47.600000000] : Found 4 beacons.
+Beacon 9: (range,bearing) = (2.86998, -0.720857)
+Beacon 10: (range,bearing) = (2.96089, -0.0213014)
+Beacon 11: (range,bearing) = (2.77142, 0.180821)
+Beacon 12: (range,bearing) = (1.58044, 0.968767)
+Robot estimated posture: (X,Y,Theta) = -0.70426, -0.867479, -156.291)
+
+[47.700000000] : Robot real posture: (X,Y,Theta) = -0.75004, -0.887583, -156.291)
+
+[47.700000000] : Found 4 beacons.
+Beacon 9: (range,bearing) = (2.83261, -0.732509)
+Beacon 10: (range,bearing) = (2.9109, -0.021669)
+Beacon 11: (range,bearing) = (2.72225, 0.184123)
+Beacon 12: (range,bearing) = (1.55267, 0.995309)
+Robot estimated posture: (X,Y,Theta) = -0.75004, -0.887583, -156.291)
+
+[47.800000000] : Robot real posture: (X,Y,Theta) = -0.79582, -0.907687, -156.291)
+
+[47.800000000] : Found 4 beacons.
+Beacon 9: (range,bearing) = (2.79564, -0.744471)
+Beacon 10: (range,bearing) = (2.86091, -0.0220486)
+Beacon 11: (range,bearing) = (2.67311, 0.187546)
+Beacon 12: (range,bearing) = (1.52603, 1.0228)
+Robot estimated posture: (X,Y,Theta) = -0.79582, -0.907687, -156.291)
+
+[47.900000000] : Robot real posture: (X,Y,Theta) = -0.8416, -0.927792, -156.291)
+
+[47.900000000] : Found 4 beacons.
+Beacon 9: (range,bearing) = (2.75907, -0.756751)
+Beacon 10: (range,bearing) = (2.81093, -0.0224411)
+Beacon 11: (range,bearing) = (2.624, 0.191099)
+Beacon 12: (range,bearing) = (1.50059, 1.05124)
+Robot estimated posture: (X,Y,Theta) = -0.8416, -0.927792, -156.291)
+
+[48.0] : Robot real posture: (X,Y,Theta) = -0.88738, -0.947896, -156.291)
+
+[48.0] : Found 4 beacons.
+Beacon 9: (range,bearing) = (2.72293, -0.769358)
+Beacon 10: (range,bearing) = (2.76094, -0.0228476)
+Beacon 11: (range,bearing) = (2.57493, 0.194787)
+Beacon 12: (range,bearing) = (1.47641, 1.08064)
+Robot estimated posture: (X,Y,Theta) = -0.88738, -0.947896, -156.291)
+
+[48.100000000] : Robot real posture: (X,Y,Theta) = -0.93316, -0.968001, -156.291)
+
+[48.100000000] : Found 4 beacons.
+Beacon 9: (range,bearing) = (2.68724, -0.782303)
+Beacon 10: (range,bearing) = (2.71095, -0.023269)
+Beacon 11: (range,bearing) = (2.52589, 0.198618)
+Beacon 12: (range,bearing) = (1.45354, 1.111)
+Robot estimated posture: (X,Y,Theta) = -0.93316, -0.968001, -156.291)
+
+[48.200000000] : Robot real posture: (X,Y,Theta) = -0.97894, -0.988105, -156.291)
+
+[48.200000000] : Found 4 beacons.
+Beacon 9: (range,bearing) = (2.65201, -0.795593)
+Beacon 10: (range,bearing) = (2.66097, -0.0237061)
+Beacon 11: (range,bearing) = (2.47689, 0.202601)
+Beacon 12: (range,bearing) = (1.43205, 1.14229)
+Robot estimated posture: (X,Y,Theta) = -0.97894, -0.988105, -156.291)
+
+[48.300000000] : Robot real posture: (X,Y,Theta) = -1.02472, -1.00821, -156.291)
+
+[48.300000000] : Found 4 beacons.
+Beacon 9: (range,bearing) = (2.61726, -0.809239)
+Beacon 10: (range,bearing) = (2.61098, -0.02416)
+Beacon 11: (range,bearing) = (2.42794, 0.206745)
+Beacon 12: (range,bearing) = (1.41201, 1.17451)
+Robot estimated posture: (X,Y,Theta) = -1.02472, -1.00821, -156.291)
+
+[48.400000000] : Robot real posture: (X,Y,Theta) = -1.0705, -1.02831, -156.291)
+
+[48.400000000] : Found 4 beacons.
+Beacon 9: (range,bearing) = (2.58301, -0.82325)
+Beacon 10: (range,bearing) = (2.561, -0.0246317)
+Beacon 11: (range,bearing) = (2.37902, 0.21106)
+Beacon 12: (range,bearing) = (1.39347, 1.20761)
+Robot estimated posture: (X,Y,Theta) = -1.0705, -1.02831, -156.291)
+
+[48.500000000] : Robot real posture: (X,Y,Theta) = -1.11628, -1.04842, -156.291)
+
+[48.500000000] : Found 4 beacons.
+Beacon 9: (range,bearing) = (2.54929, -0.837634)
+Beacon 10: (range,bearing) = (2.51101, -0.0251221)
+Beacon 11: (range,bearing) = (2.33016, 0.215555)
+Beacon 12: (range,bearing) = (1.3765, 1.24157)
+Robot estimated posture: (X,Y,Theta) = -1.11628, -1.04842, -156.291)
+
+[48.600000000] : Robot real posture: (X,Y,Theta) = -1.16206, -1.06852, -156.291)
+
+[48.600000000] : Found 5 beacons.
+Beacon 8: (range,bearing) = (3.82163, -1.346)
+Beacon 9: (range,bearing) = (2.5161, -0.8524)
+Beacon 10: (range,bearing) = (2.46103, -0.0256324)
+Beacon 11: (range,bearing) = (2.28134, 0.220243)
+Beacon 12: (range,bearing) = (1.36116, 1.27634)
+Robot estimated posture: (X,Y,Theta) = -1.16206, -1.06852, -156.291)
+
+[48.700000000] : Robot real posture: (X,Y,Theta) = -1.20784, -1.08863, -156.291)
+
+[48.700000000] : Found 5 beacons.
+Beacon 8: (range,bearing) = (3.81079, -1.35879)
+Beacon 9: (range,bearing) = (2.48347, -0.867558)
+Beacon 10: (range,bearing) = (2.41104, -0.0261639)
+Beacon 11: (range,bearing) = (2.23257, 0.225135)
+Beacon 12: (range,bearing) = (1.3475, 1.31186)
+Robot estimated posture: (X,Y,Theta) = -1.20784, -1.08863, -156.291)
+
+[48.800000000] : Robot real posture: (X,Y,Theta) = -1.25362, -1.10873, -156.291)
+
+[48.800000000] : Found 5 beacons.
+Beacon 8: (range,bearing) = (3.80059, -1.37166)
+Beacon 9: (range,bearing) = (2.45144, -0.883116)
+Beacon 10: (range,bearing) = (2.36106, -0.0267179)
+Beacon 11: (range,bearing) = (2.18386, 0.230247)
+Beacon 12: (range,bearing) = (1.33557, 1.34806)
+Robot estimated posture: (X,Y,Theta) = -1.25362, -1.10873, -156.291)
+
+[48.900000000] : Robot real posture: (X,Y,Theta) = -1.2994, -1.12884, -156.291)
+
+[48.900000000] : Found 6 beacons.
+Beacon 7: (range,bearing) = (3.93526, -1.53773)
+Beacon 8: (range,bearing) = (3.79101, -1.38458)
+Beacon 9: (range,bearing) = (2.42001, -0.899082)
+Beacon 10: (range,bearing) = (2.31108, -0.0272959)
+Beacon 11: (range,bearing) = (2.13521, 0.235591)
+Beacon 12: (range,bearing) = (1.32542, 1.38486)
+Robot estimated posture: (X,Y,Theta) = -1.2994, -1.12884, -156.291)
+
+[49.0] : Robot real posture: (X,Y,Theta) = -1.34518, -1.14894, -156.291)
+
+[49.0] : Found 6 beacons.
+Beacon 7: (range,bearing) = (3.93393, -1.55043)
+Beacon 8: (range,bearing) = (3.78208, -1.39758)
+Beacon 9: (range,bearing) = (2.38921, -0.915464)
+Beacon 10: (range,bearing) = (2.2611, -0.0278994)
+Beacon 11: (range,bearing) = (2.08663, 0.241184)
+Beacon 12: (range,bearing) = (1.3171, 1.42217)
+Robot estimated posture: (X,Y,Theta) = -1.34518, -1.14894, -156.291)
+
+[49.100000000] : Robot real posture: (X,Y,Theta) = -1.39096, -1.16905, -156.291)
+
+[49.100000000] : Found 6 beacons.
+Beacon 7: (range,bearing) = (3.93322, -1.56314)
+Beacon 8: (range,bearing) = (3.77378, -1.41063)
+Beacon 9: (range,bearing) = (2.35907, -0.932269)
+Beacon 10: (range,bearing) = (2.21112, -0.0285302)
+Beacon 11: (range,bearing) = (2.03811, 0.247044)
+Beacon 12: (range,bearing) = (1.31062, 1.45991)
+Robot estimated posture: (X,Y,Theta) = -1.39096, -1.16905, -156.291)
+
+[49.200000000] : Robot real posture: (X,Y,Theta) = -1.43674, -1.18915, -156.291)
+
+[49.200000000] : Found 5 beacons.
+Beacon 8: (range,bearing) = (3.76613, -1.42373)
+Beacon 9: (range,bearing) = (2.32962, -0.949504)
+Beacon 10: (range,bearing) = (2.16114, -0.0291902)
+Beacon 11: (range,bearing) = (1.98967, 0.253189)
+Beacon 12: (range,bearing) = (1.30604, 1.49797)
+Robot estimated posture: (X,Y,Theta) = -1.43674, -1.18915, -156.291)
+
+[49.300000000] : Robot real posture: (X,Y,Theta) = -1.48252, -1.20925, -156.291)
+
+[49.300000000] : Found 5 beacons.
+Beacon 8: (range,bearing) = (3.75913, -1.43689)
+Beacon 9: (range,bearing) = (2.30087, -0.967175)
+Beacon 10: (range,bearing) = (2.11116, -0.0298814)
+Beacon 11: (range,bearing) = (1.9413, 0.259641)
+Beacon 12: (range,bearing) = (1.30335, 1.53624)
+Robot estimated posture: (X,Y,Theta) = -1.48252, -1.20925, -156.291)
+
+[49.400000000] : Robot real posture: (X,Y,Theta) = -1.5283, -1.22936, -156.291)
+
+[49.400000000] : Found 4 beacons.
+Beacon 8: (range,bearing) = (3.75278, -1.4501)
+Beacon 9: (range,bearing) = (2.27287, -0.985287)
+Beacon 10: (range,bearing) = (2.06118, -0.0306062)
+Beacon 11: (range,bearing) = (1.89302, 0.266422)
+Robot estimated posture: (X,Y,Theta) = -1.5283, -1.22936, -156.291)
+
+[49.500000000] : Robot real posture: (X,Y,Theta) = -1.57408, -1.24946, -156.291)
+
+[49.500000000] : Found 4 beacons.
+Beacon 8: (range,bearing) = (3.74709, -1.46334)
+Beacon 9: (range,bearing) = (2.24562, -1.00384)
+Beacon 10: (range,bearing) = (2.01121, -0.031367)
+Beacon 11: (range,bearing) = (1.84483, 0.273557)
+Robot estimated posture: (X,Y,Theta) = -1.57408, -1.24946, -156.291)
+
+[49.600000000] : Robot real posture: (X,Y,Theta) = -1.61986, -1.26957, -156.291)
+
+[49.600000000] : Found 4 beacons.
+Beacon 8: (range,bearing) = (3.74206, -1.47663)
+Beacon 9: (range,bearing) = (2.21917, -1.02285)
+Beacon 10: (range,bearing) = (1.96123, -0.0321665)
+Beacon 11: (range,bearing) = (1.79674, 0.281076)
+Robot estimated posture: (X,Y,Theta) = -1.61986, -1.26957, -156.291)
+
+[49.700000000] : Robot real posture: (X,Y,Theta) = -1.66564, -1.28967, -156.291)
+
+[49.700000000] : Found 4 beacons.
+Beacon 8: (range,bearing) = (3.73769, -1.48995)
+Beacon 9: (range,bearing) = (2.19354, -1.04231)
+Beacon 10: (range,bearing) = (1.91126, -0.0330079)
+Beacon 11: (range,bearing) = (1.74876, 0.289007)
+Robot estimated posture: (X,Y,Theta) = -1.66564, -1.28967, -156.291)
+
+[49.800000000] : Robot real posture: (X,Y,Theta) = -1.71142, -1.30978, -156.291)
+
+[49.800000000] : Found 4 beacons.
+Beacon 8: (range,bearing) = (3.73398, -1.50329)
+Beacon 9: (range,bearing) = (2.16876, -1.06222)
+Beacon 10: (range,bearing) = (1.86129, -0.0338944)
+Beacon 11: (range,bearing) = (1.70089, 0.297385)
+Robot estimated posture: (X,Y,Theta) = -1.71142, -1.30978, -156.291)
+
+[49.900000000] : Robot real posture: (X,Y,Theta) = -1.7572, -1.32988, -156.291)
+
+[49.900000000] : Found 4 beacons.
+Beacon 8: (range,bearing) = (3.73094, -1.51667)
+Beacon 9: (range,bearing) = (2.14485, -1.08258)
+Beacon 10: (range,bearing) = (1.81132, -0.0348298)
+Beacon 11: (range,bearing) = (1.65315, 0.306247)
+Robot estimated posture: (X,Y,Theta) = -1.7572, -1.32988, -156.291)
+
+[50.0] : Robot real posture: (X,Y,Theta) = -1.80298, -1.34999, -156.291)
+
+[50.0] : Found 4 beacons.
+Beacon 8: (range,bearing) = (3.72857, -1.53006)
+Beacon 9: (range,bearing) = (2.12186, -1.1034)
+Beacon 10: (range,bearing) = (1.76135, -0.0358184)
+Beacon 11: (range,bearing) = (1.60555, 0.315636)
+Robot estimated posture: (X,Y,Theta) = -1.80298, -1.34999, -156.291)
+
+[50.100000000] : Robot real posture: (X,Y,Theta) = -1.84876, -1.37009, -156.291)
+
+[50.100000000] : Found 4 beacons.
+Beacon 8: (range,bearing) = (3.72687, -1.54346)
+Beacon 9: (range,bearing) = (2.09981, -1.12466)
+Beacon 10: (range,bearing) = (1.71138, -0.0368646)
+Beacon 11: (range,bearing) = (1.5581, 0.325598)
+Robot estimated posture: (X,Y,Theta) = -1.84876, -1.37009, -156.291)
+
+[50.200000000] : Robot real posture: (X,Y,Theta) = -1.89454, -1.39019, -156.291)
+
+[50.200000000] : Found 4 beacons.
+Beacon 8: (range,bearing) = (3.72584, -1.55688)
+Beacon 9: (range,bearing) = (2.07872, -1.14636)
+Beacon 10: (range,bearing) = (1.66142, -0.0379738)
+Beacon 11: (range,bearing) = (1.51081, 0.336184)
+Robot estimated posture: (X,Y,Theta) = -1.89454, -1.39019, -156.291)
+
+[50.300000000] : Robot real posture: (X,Y,Theta) = -1.94032, -1.4103, -156.291)
+
+[50.300000000] : Found 4 beacons.
+Beacon 8: (range,bearing) = (3.72548, -1.5703)
+Beacon 9: (range,bearing) = (2.05864, -1.16849)
+Beacon 10: (range,bearing) = (1.61145, -0.0391518)
+Beacon 11: (range,bearing) = (1.4637, 0.347454)
+Robot estimated posture: (X,Y,Theta) = -1.94032, -1.4103, -156.291)
+
+[50.400000000] : Robot real posture: (X,Y,Theta) = -1.9861, -1.4304, -156.291)
+
+[50.400000000] : Found 3 beacons.
+Beacon 9: (range,bearing) = (2.03958, -1.19105)
+Beacon 10: (range,bearing) = (1.56149, -0.0404051)
+Beacon 11: (range,bearing) = (1.41679, 0.359471)
+Robot estimated posture: (X,Y,Theta) = -1.9861, -1.4304, -156.291)
+
+[50.500000000] : Robot real posture: (X,Y,Theta) = -2.03188, -1.45051, -156.291)
+
+[50.500000000] : Found 3 beacons.
+Beacon 9: (range,bearing) = (2.02158, -1.21402)
+Beacon 10: (range,bearing) = (1.51154, -0.0417413)
+Beacon 11: (range,bearing) = (1.3701, 0.372309)
+Robot estimated posture: (X,Y,Theta) = -2.03188, -1.45051, -156.291)
+
+[50.600000000] : Robot real posture: (X,Y,Theta) = -2.07304, -1.46858, -156.291)
+
+[50.600000000] : Found 3 beacons.
+Beacon 9: (range,bearing) = (2.00632, -1.23502)
+Beacon 10: (range,bearing) = (1.46662, -0.0430204)
+Beacon 11: (range,bearing) = (1.32832, 0.38462)
+Robot estimated posture: (X,Y,Theta) = -2.07304, -1.46858, -156.291)
+
+[50.700000000] : Robot real posture: (X,Y,Theta) = -2.10829, -1.48407, -156.291)
+
+[50.700000000] : Found 3 beacons.
+Beacon 9: (range,bearing) = (1.99396, -1.25325)
+Beacon 10: (range,bearing) = (1.42816, -0.0441798)
+Beacon 11: (range,bearing) = (1.29272, 0.395795)
+Robot estimated posture: (X,Y,Theta) = -2.10829, -1.48407, -156.291)
+
+[50.800000000] : Robot real posture: (X,Y,Theta) = -2.13862, -1.49738, -156.291)
+
+[50.800000000] : Found 2 beacons.
+Beacon 10: (range,bearing) = (1.39507, -0.0452284)
+Beacon 11: (range,bearing) = (1.26222, 0.405913)
+Unable to localize!!
+[50.900000000] : Robot real posture: (X,Y,Theta) = -2.16503, -1.50898, -156.291)
+
+[50.900000000] : Found 3 beacons.
+Beacon 9: (range,bearing) = (1.97549, -1.28305)
+Beacon 10: (range,bearing) = (1.36626, -0.0461828)
+Beacon 11: (range,bearing) = (1.23577, 0.415128)
+Robot estimated posture: (X,Y,Theta) = -2.16503, -1.50898, -156.291)
+
+[51.0] : Robot real posture: (X,Y,Theta) = -2.18828, -1.51919, -156.291)
+
+[51.0] : Found 3 beacons.
+Beacon 9: (range,bearing) = (1.96844, -1.29542)
+Beacon 10: (range,bearing) = (1.34089, -0.0470571)
+Beacon 11: (range,bearing) = (1.21258, 0.423574)
+Robot estimated posture: (X,Y,Theta) = -2.18828, -1.51919, -156.291)
+
+[51.100000000] : Robot real posture: (X,Y,Theta) = -2.20894, -1.52826, -156.291)
+
+[51.100000000] : Found 3 beacons.
+Beacon 9: (range,bearing) = (1.96242, -1.30649)
+Beacon 10: (range,bearing) = (1.31835, -0.0478624)
+Beacon 11: (range,bearing) = (1.19204, 0.431356)
+Robot estimated posture: (X,Y,Theta) = -2.20894, -1.52826, -156.291)
+
+[51.200000000] : Robot real posture: (X,Y,Theta) = -2.22746, -1.5364, -156.291)
+
+[51.200000000] : Found 3 beacons.
+Beacon 9: (range,bearing) = (1.95724, -1.31646)
+Beacon 10: (range,bearing) = (1.29815, -0.0486076)
+Beacon 11: (range,bearing) = (1.1737, 0.438559)
+Robot estimated posture: (X,Y,Theta) = -2.22746, -1.5364, -156.291)
+
+[51.300000000] : Robot real posture: (X,Y,Theta) = -2.24416, -1.54373, -156.291)
+
+[51.300000000] : Found 3 beacons.
+Beacon 9: (range,bearing) = (1.95273, -1.32551)
+Beacon 10: (range,bearing) = (1.27993, -0.0493001)
+Beacon 11: (range,bearing) = (1.15721, 0.445253)
+Robot estimated posture: (X,Y,Theta) = -2.24416, -1.54373, -156.291)
+
+[51.400000000] : Robot real posture: (X,Y,Theta) = -2.25932, -1.55039, -156.291)
+
+[51.400000000] : Found 3 beacons.
+Beacon 9: (range,bearing) = (1.94877, -1.33375)
+Beacon 10: (range,bearing) = (1.26339, -0.0499459)
+Beacon 11: (range,bearing) = (1.1423, 0.451495)
+Robot estimated posture: (X,Y,Theta) = -2.25932, -1.55039, -156.291)
+
+[51.500000000] : Robot real posture: (X,Y,Theta) = -2.27315, -1.55646, -156.291)
+
+[51.500000000] : Found 2 beacons.
+Beacon 10: (range,bearing) = (1.24831, -0.05055)
+Beacon 11: (range,bearing) = (1.12872, 0.457334)
+Unable to localize!!
+[51.600000000] : Robot real posture: (X,Y,Theta) = -2.28582, -1.56203, -156.291)
+
+[51.600000000] : Found 3 beacons.
+Beacon 9: (range,bearing) = (1.94218, -1.34824)
+Beacon 10: (range,bearing) = (1.23448, -0.0511167)
+Beacon 11: (range,bearing) = (1.11632, 0.46281)
+Robot estimated posture: (X,Y,Theta) = -2.28582, -1.56203, -156.291)
+
+[51.700000000] : Robot real posture: (X,Y,Theta) = -2.29749, -1.56715, -156.291)
+
+[51.700000000] : Found 3 beacons.
+Beacon 9: (range,bearing) = (1.93941, -1.35465)
+Beacon 10: (range,bearing) = (1.22176, -0.0516496)
+Beacon 11: (range,bearing) = (1.10493, 0.467959)
+Robot estimated posture: (X,Y,Theta) = -2.29749, -1.56715, -156.291)
+
+[51.800000000] : Robot real posture: (X,Y,Theta) = -2.30827, -1.57189, -156.291)
+
+[51.800000000] : Found 3 beacons.
+Beacon 9: (range,bearing) = (1.93691, -1.36058)
+Beacon 10: (range,bearing) = (1.21, -0.052152)
+Beacon 11: (range,bearing) = (1.09443, 0.472812)
+Robot estimated posture: (X,Y,Theta) = -2.30827, -1.57189, -156.291)
+
+[51.900000000] : Robot real posture: (X,Y,Theta) = -2.31827, -1.57628, -156.291)
+
+Going for target 2
+[51.900000000] : Found 3 beacons.
+Beacon 9: (range,bearing) = (1.93467, -1.3661)
+Beacon 10: (range,bearing) = (1.1991, -0.0526266)
+Beacon 11: (range,bearing) = (1.08473, 0.477395)
+Robot estimated posture: (X,Y,Theta) = -2.31827, -1.57628, -156.291)
+
+[52.0] : Robot real posture: (X,Y,Theta) = -2.32756, -1.58036, -156.291)
+
+[52.0] : Found 3 beacons.
+Beacon 9: (range,bearing) = (1.93263, -1.37124)
+Beacon 10: (range,bearing) = (1.18896, -0.0530757)
+Beacon 11: (range,bearing) = (1.07572, 0.481731)
+Robot estimated posture: (X,Y,Theta) = -2.32756, -1.58036, -156.291)
+
+[52.100000000] : Robot real posture: (X,Y,Theta) = -2.33686, -1.58444, -156.291)
+
+[52.100000000] : Found 3 beacons.
+Beacon 9: (range,bearing) = (1.93064, -1.3764)
+Beacon 10: (range,bearing) = (1.17882, -0.0535326)
+Beacon 11: (range,bearing) = (1.06673, 0.48614)
+Robot estimated posture: (X,Y,Theta) = -2.33686, -1.58444, -156.291)
+
+[52.200000000] : Robot real posture: (X,Y,Theta) = -2.34615, -1.58852, -162.823)
+
+[52.200000000] : Found 3 beacons.
+Beacon 9: (range,bearing) = (1.92871, -1.26756)
+Beacon 10: (range,bearing) = (1.16868, 0.0600026)
+Beacon 11: (range,bearing) = (1.05777, 0.604625)
+Robot estimated posture: (X,Y,Theta) = -2.34615, -1.58852, -162.823)
+
+[52.300000000] : Robot real posture: (X,Y,Theta) = -2.35585, -1.59152, -169.355)
+
+[52.300000000] : Found 4 beacons.
+Beacon 8: (range,bearing) = (3.75159, -1.46343)
+Beacon 9: (range,bearing) = (1.9257, -1.15859)
+Beacon 10: (range,bearing) = (1.15855, 0.174528)
+Beacon 11: (range,bearing) = (1.04943, 0.724124)
+Robot estimated posture: (X,Y,Theta) = -2.35585, -1.59152, -169.355)
+
+[52.400000000] : Robot real posture: (X,Y,Theta) = -2.36583, -1.59339, -175.886)
+
+[52.400000000] : Found 5 beacons.
+Beacon 7: (range,bearing) = (4.06319, -1.48588)
+Beacon 8: (range,bearing) = (3.75051, -1.35212)
+Beacon 9: (range,bearing) = (1.92165, -1.04943)
+Beacon 10: (range,bearing) = (1.14855, 0.290063)
+Beacon 11: (range,bearing) = (1.04185, 0.844579)
+Robot estimated posture: (X,Y,Theta) = -2.36583, -1.59339, -175.886)
+
+[52.500000000] : Robot real posture: (X,Y,Theta) = -2.37595, -1.59412, 177.582)
+
+[52.500000000] : Found 5 beacons.
+Beacon 7: (range,bearing) = (4.06234, -1.37437)
+Beacon 8: (range,bearing) = (3.74832, -1.24076)
+Beacon 9: (range,bearing) = (1.91662, -0.940028)
+Beacon 10: (range,bearing) = (1.13883, 0.406613)
+Beacon 11: (range,bearing) = (1.03514, 0.965912)
+Robot estimated posture: (X,Y,Theta) = -2.37595, -1.59412, 177.582)
+
+[52.600000000] : Robot real posture: (X,Y,Theta) = -2.3861, -1.59369, 171.05)
+
+[52.600000000] : Found 5 beacons.
+Beacon 7: (range,bearing) = (4.06037, -1.26282)
+Beacon 8: (range,bearing) = (3.74504, -1.12933)
+Beacon 9: (range,bearing) = (1.91065, -0.830319)
+Beacon 10: (range,bearing) = (1.12951, 0.524167)
+Beacon 11: (range,bearing) = (1.0294, 1.08802)
+Robot estimated posture: (X,Y,Theta) = -2.3861, -1.59369, 171.05)
+
+[52.700000000] : Robot real posture: (X,Y,Theta) = -2.39612, -1.59212, 164.519)
+
+[52.700000000] : Found 5 beacons.
+Beacon 7: (range,bearing) = (4.05731, -1.1512)
+Beacon 8: (range,bearing) = (3.74072, -1.01778)
+Beacon 9: (range,bearing) = (1.90381, -0.720255)
+Beacon 10: (range,bearing) = (1.12074, 0.642701)
+Beacon 11: (range,bearing) = (1.02472, 1.2108)
+Robot estimated posture: (X,Y,Theta) = -2.39612, -1.59212, 164.519)
+
+[52.800000000] : Robot real posture: (X,Y,Theta) = -2.40591, -1.58941, 157.987)
+
+[52.800000000] : Found 6 beacons.
+Beacon 6: (range,bearing) = (4.25709, -1.52939)
+Beacon 7: (range,bearing) = (4.05318, -1.03949)
+Beacon 8: (range,bearing) = (3.7354, -0.906094)
+Beacon 9: (range,bearing) = (1.8962, -0.609786)
+Beacon 10: (range,bearing) = (1.11263, 0.76217)
+Beacon 11: (range,bearing) = (1.02119, 1.3341)
+Robot estimated posture: (X,Y,Theta) = -2.40591, -1.58941, 157.987)
+
+[52.900000000] : Robot real posture: (X,Y,Theta) = -2.41532, -1.5856, 151.455)
+
+[52.900000000] : Found 6 beacons.
+Beacon 6: (range,bearing) = (4.25668, -1.41777)
+Beacon 7: (range,bearing) = (4.04805, -0.927652)
+Beacon 8: (range,bearing) = (3.72914, -0.794237)
+Beacon 9: (range,bearing) = (1.88788, -0.498866)
+Beacon 10: (range,bearing) = (1.1053, 0.882512)
+Beacon 11: (range,bearing) = (1.01886, 1.45779)
+Robot estimated posture: (X,Y,Theta) = -2.41532, -1.5856, 151.455)
+
+[53.0] : Robot real posture: (X,Y,Theta) = -2.42424, -1.58075, 144.923)
+
+[53.0] : Found 5 beacons.
+Beacon 6: (range,bearing) = (4.25515, -1.30613)
+Beacon 7: (range,bearing) = (4.04197, -0.815662)
+Beacon 8: (range,bearing) = (3.72203, -0.682183)
+Beacon 9: (range,bearing) = (1.87897, -0.387451)
+Beacon 10: (range,bearing) = (1.09888, 1.00365)
+Robot estimated posture: (X,Y,Theta) = -2.42424, -1.58075, 144.923)
+
+[53.100000000] : Robot real posture: (X,Y,Theta) = -2.43255, -1.57492, 138.392)
+
+[53.100000000] : Found 5 beacons.
+Beacon 6: (range,bearing) = (4.2525, -1.19444)
+Beacon 7: (range,bearing) = (4.03502, -0.703494)
+Beacon 8: (range,bearing) = (3.71416, -0.569906)
+Beacon 9: (range,bearing) = (1.86958, -0.275502)
+Beacon 10: (range,bearing) = (1.09346, 1.12548)
+Robot estimated posture: (X,Y,Theta) = -2.43255, -1.57492, 138.392)
+
+[53.200000000] : Robot real posture: (X,Y,Theta) = -2.44014, -1.56817, 131.86)
+
+[53.200000000] : Found 5 beacons.
+Beacon 6: (range,bearing) = (4.24878, -1.08266)
+Beacon 7: (range,bearing) = (4.02728, -0.591125)
+Beacon 8: (range,bearing) = (3.70562, -0.457384)
+Beacon 9: (range,bearing) = (1.85981, -0.162987)
+Beacon 10: (range,bearing) = (1.08913, 1.24789)
+Robot estimated posture: (X,Y,Theta) = -2.44014, -1.56817, 131.86)
+
+[53.300000000] : Robot real posture: (X,Y,Theta) = -2.44691, -1.56061, 125.328)
+
+[53.300000000] : Found 5 beacons.
+Beacon 6: (range,bearing) = (4.24403, -0.970772)
+Beacon 7: (range,bearing) = (4.01885, -0.478532)
+Beacon 8: (range,bearing) = (3.69651, -0.344597)
+Beacon 9: (range,bearing) = (1.84979, -0.0498777)
+Beacon 10: (range,bearing) = (1.08595, 1.37076)
+Robot estimated posture: (X,Y,Theta) = -2.44691, -1.56061, 125.328)
+
+[53.400000000] : Robot real posture: (X,Y,Theta) = -2.45278, -1.55233, 118.797)
+
+[53.400000000] : Found 5 beacons.
+Beacon 6: (range,bearing) = (4.23831, -0.858748)
+Beacon 7: (range,bearing) = (4.00985, -0.365698)
+Beacon 8: (range,bearing) = (3.68696, -0.231527)
+Beacon 9: (range,bearing) = (1.83966, 0.0638472)
+Beacon 10: (range,bearing) = (1.08398, 1.49393)
+Robot estimated posture: (X,Y,Theta) = -2.45278, -1.55233, 118.797)
+
+[53.500000000] : Robot real posture: (X,Y,Theta) = -2.45767, -1.54343, 112.265)
+
+[53.500000000] : Found 4 beacons.
+Beacon 6: (range,bearing) = (4.23168, -0.746565)
+Beacon 7: (range,bearing) = (4.00037, -0.252606)
+Beacon 8: (range,bearing) = (3.67708, -0.11816)
+Beacon 9: (range,bearing) = (1.82952, 0.178201)
+Robot estimated posture: (X,Y,Theta) = -2.45767, -1.54343, 112.265)
+
+[53.600000000] : Robot real posture: (X,Y,Theta) = -2.47662, -1.49716, 105.733)
+
+[53.600000000] : Found 3 beacons.
+Beacon 6: (range,bearing) = (4.19512, -0.640659)
+Beacon 7: (range,bearing) = (3.95197, -0.141768)
+Beacon 9: (range,bearing) = (1.78034, 0.297179)
+Robot estimated posture: (X,Y,Theta) = -2.47662, -1.49716, 105.733)
+
+[53.700000000] : Robot real posture: (X,Y,Theta) = -2.49017, -1.44904, 99.8074)
+
+[53.700000000] : Found 4 beacons.
+Beacon 6: (range,bearing) = (4.15514, -0.544429)
+Beacon 7: (range,bearing) = (3.90248, -0.0401559)
+Beacon 8: (range,bearing) = (3.57743, 0.0975558)
+Beacon 9: (range,bearing) = (1.73259, 0.409052)
+Robot estimated posture: (X,Y,Theta) = -2.49017, -1.44904, 99.8074)
+
+[53.800000000] : Robot real posture: (X,Y,Theta) = -2.49869, -1.39977, 95.7505)
+
+[53.800000000] : Found 2 beacons.
+Beacon 6: (range,bearing) = (4.11245, -0.47992)
+Beacon 7: (range,bearing) = (3.85252, 0.0301295)
+Unable to localize!!
+[53.900000000] : Robot real posture: (X,Y,Theta) = -2.5037, -1.35002, 93.4075)
+
+[53.900000000] : Found 4 beacons.
+Beacon 6: (range,bearing) = (4.06816, -0.444702)
+Beacon 7: (range,bearing) = (3.80254, 0.0714186)
+Beacon 8: (range,bearing) = (3.4784, 0.213064)
+Beacon 9: (range,bearing) = (1.64293, 0.546909)
+Robot estimated posture: (X,Y,Theta) = -2.5037, -1.35002, 93.4075)
+
+[54.0] : Robot real posture: (X,Y,Theta) = -2.50667, -1.30011, 92.244)
+
+[54.0] : Found 4 beacons.
+Beacon 6: (range,bearing) = (4.02308, -0.42974)
+Beacon 7: (range,bearing) = (3.75267, 0.0926776)
+Beacon 8: (range,bearing) = (3.42955, 0.236455)
+Beacon 9: (range,bearing) = (1.60043, 0.583465)
+Robot estimated posture: (X,Y,Theta) = -2.50667, -1.30011, 92.244)
+
+[54.100000000] : Robot real posture: (X,Y,Theta) = -2.50863, -1.25014, 91.7642)
+
+[54.100000000] : Found 4 beacons.
+Beacon 6: (range,bearing) = (3.97769, -0.426604)
+Beacon 7: (range,bearing) = (3.70289, 0.1023)
+Beacon 8: (range,bearing) = (3.38096, 0.248292)
+Beacon 9: (range,bearing) = (1.55895, 0.609508)
+Robot estimated posture: (X,Y,Theta) = -2.50863, -1.25014, 91.7642)
+
+[54.200000000] : Robot real posture: (X,Y,Theta) = -2.51017, -1.20017, 91.6256)
+
+[54.200000000] : Found 4 beacons.
+Beacon 6: (range,bearing) = (3.93222, -0.429446)
+Beacon 7: (range,bearing) = (3.65316, 0.106118)
+Beacon 8: (range,bearing) = (3.33252, 0.254399)
+Beacon 9: (range,bearing) = (1.51822, 0.630783)
+Robot estimated posture: (X,Y,Theta) = -2.51017, -1.20017, 91.6256)
+
+[54.300000000] : Robot real posture: (X,Y,Theta) = -2.51159, -1.15019, 91.6285)
+
+[54.300000000] : Found 4 beacons.
+Beacon 6: (range,bearing) = (3.88682, -0.434853)
+Beacon 7: (range,bearing) = (3.60344, 0.107536)
+Beacon 8: (range,bearing) = (3.28415, 0.25818)
+Beacon 9: (range,bearing) = (1.47813, 0.650683)
+Robot estimated posture: (X,Y,Theta) = -2.51159, -1.15019, 91.6285)
+
+[54.400000000] : Robot real posture: (X,Y,Theta) = -2.51301, -1.10021, 91.6731)
+
+[54.400000000] : Found 4 beacons.
+Beacon 6: (range,bearing) = (3.84153, -0.441114)
+Beacon 7: (range,bearing) = (3.55373, 0.108269)
+Beacon 8: (range,bearing) = (3.23583, 0.261347)
+Beacon 9: (range,bearing) = (1.43867, 0.670958)
+Robot estimated posture: (X,Y,Theta) = -2.51301, -1.10021, 91.6731)
+
+[54.500000000] : Robot real posture: (X,Y,Theta) = -2.51447, -1.05023, 91.7175)
+
+[54.500000000] : Found 4 beacons.
+Beacon 6: (range,bearing) = (3.79637, -0.447514)
+Beacon 7: (range,bearing) = (3.50403, 0.109034)
+Beacon 8: (range,bearing) = (3.18756, 0.264624)
+Beacon 9: (range,bearing) = (1.39985, 0.692391)
+Robot estimated posture: (X,Y,Theta) = -2.51447, -1.05023, 91.7175)
+
+[54.600000000] : Robot real posture: (X,Y,Theta) = -2.51597, -1.00025, 91.7494)
+
+[54.600000000] : Found 4 beacons.
+Beacon 6: (range,bearing) = (3.75136, -0.453838)
+Beacon 7: (range,bearing) = (3.45433, 0.110053)
+Beacon 8: (range,bearing) = (3.13932, 0.268233)
+Beacon 9: (range,bearing) = (1.36174, 0.715277)
+Robot estimated posture: (X,Y,Theta) = -2.51597, -1.00025, 91.7494)
+
+[54.700000000] : Robot real posture: (X,Y,Theta) = -2.51749, -0.950276, 91.7686)
+
+[54.700000000] : Found 3 beacons.
+Beacon 6: (range,bearing) = (3.70649, -0.460086)
+Beacon 7: (range,bearing) = (3.40464, 0.111332)
+Beacon 9: (range,bearing) = (1.3244, 0.739704)
+Robot estimated posture: (X,Y,Theta) = -2.51749, -0.950275, 91.7686)
+
+[54.800000000] : Robot real posture: (X,Y,Theta) = -2.51904, -0.900299, 91.7785)
+
+[54.800000000] : Found 3 beacons.
+Beacon 6: (range,bearing) = (3.66175, -0.466322)
+Beacon 7: (range,bearing) = (3.35495, 0.112814)
+Beacon 9: (range,bearing) = (1.28791, 0.765703)
+Robot estimated posture: (X,Y,Theta) = -2.51904, -0.900299, 91.7785)
+
+[54.900000000] : Robot real posture: (X,Y,Theta) = -2.52059, -0.850323, 91.7829)
+
+[54.900000000] : Found 4 beacons.
+Beacon 6: (range,bearing) = (3.61716, -0.472613)
+Beacon 7: (range,bearing) = (3.30528, 0.114441)
+Beacon 8: (range,bearing) = (2.99494, 0.28091)
+Beacon 9: (range,bearing) = (1.25235, 0.793301)
+Robot estimated posture: (X,Y,Theta) = -2.52059, -0.850323, 91.7829)
+
+[55.0] : Robot real posture: (X,Y,Theta) = -2.52214, -0.800348, 91.7843)
+
+[55.0] : Found 4 beacons.
+Beacon 6: (range,bearing) = (3.57271, -0.47901)
+Beacon 7: (range,bearing) = (3.25561, 0.116169)
+Beacon 8: (range,bearing) = (2.94693, 0.285588)
+Beacon 9: (range,bearing) = (1.21779, 0.82254)
+Robot estimated posture: (X,Y,Theta) = -2.52214, -0.800348, 91.7843)
+
+[55.100000000] : Robot real posture: (X,Y,Theta) = -2.5237, -0.750372, 91.7845)
+
+[55.100000000] : Found 4 beacons.
+Beacon 6: (range,bearing) = (3.52842, -0.485544)
+Beacon 7: (range,bearing) = (3.20595, 0.117974)
+Beacon 8: (range,bearing) = (2.89899, 0.290444)
+Beacon 9: (range,bearing) = (1.18434, 0.853482)
+Robot estimated posture: (X,Y,Theta) = -2.5237, -0.750372, 91.7845)
+
+[55.200000000] : Robot real posture: (X,Y,Theta) = -2.52526, -0.700396, 91.7843)
+
+[55.200000000] : Found 4 beacons.
+Beacon 6: (range,bearing) = (3.48427, -0.492237)
+Beacon 7: (range,bearing) = (3.1563, 0.119842)
+Beacon 8: (range,bearing) = (2.85112, 0.295471)
+Beacon 9: (range,bearing) = (1.15209, 0.886197)
+Robot estimated posture: (X,Y,Theta) = -2.52526, -0.700396, 91.7843)
+
+[55.300000000] : Robot real posture: (X,Y,Theta) = -2.52681, -0.65042, 91.784)
+
+[55.300000000] : Found 4 beacons.
+Beacon 6: (range,bearing) = (3.44029, -0.499101)
+Beacon 7: (range,bearing) = (3.10667, 0.121772)
+Beacon 8: (range,bearing) = (2.80333, 0.30067)
+Beacon 9: (range,bearing) = (1.12114, 0.920757)
+Robot estimated posture: (X,Y,Theta) = -2.52681, -0.65042, 91.784)
+
+[55.400000000] : Robot real posture: (X,Y,Theta) = -2.52837, -0.600445, 91.7837)
+
+[55.400000000] : Found 4 beacons.
+Beacon 6: (range,bearing) = (3.39648, -0.506142)
+Beacon 7: (range,bearing) = (3.05704, 0.123763)
+Beacon 8: (range,bearing) = (2.75561, 0.306048)
+Beacon 9: (range,bearing) = (1.0916, 0.957232)
+Robot estimated posture: (X,Y,Theta) = -2.52837, -0.600445, 91.7837)
+
+[55.500000000] : Robot real posture: (X,Y,Theta) = -2.52993, -0.550469, 91.7836)
+
+[55.500000000] : Found 4 beacons.
+Beacon 6: (range,bearing) = (3.35283, -0.51337)
+Beacon 7: (range,bearing) = (3.00743, 0.125818)
+Beacon 8: (range,bearing) = (2.70797, 0.311613)
+Beacon 9: (range,bearing) = (1.0636, 0.99568)
+Robot estimated posture: (X,Y,Theta) = -2.52993, -0.550469, 91.7836)
+
+[55.600000000] : Robot real posture: (X,Y,Theta) = -2.53148, -0.500493, 91.7835)
+
+[55.600000000] : Found 4 beacons.
+Beacon 6: (range,bearing) = (3.30937, -0.520788)
+Beacon 7: (range,bearing) = (2.95783, 0.127941)
+Beacon 8: (range,bearing) = (2.66043, 0.317377)
+Beacon 9: (range,bearing) = (1.03725, 1.03614)
+Robot estimated posture: (X,Y,Theta) = -2.53148, -0.500493, 91.7835)
+
+[55.700000000] : Robot real posture: (X,Y,Theta) = -2.53304, -0.450517, 91.7834)
+
+[55.700000000] : Found 4 beacons.
+Beacon 6: (range,bearing) = (3.26609, -0.528405)
+Beacon 7: (range,bearing) = (2.90825, 0.130135)
+Beacon 8: (range,bearing) = (2.61297, 0.323349)
+Beacon 9: (range,bearing) = (1.01269, 1.07864)
+Robot estimated posture: (X,Y,Theta) = -2.53304, -0.450517, 91.7834)
+
+[55.800000000] : Robot real posture: (X,Y,Theta) = -2.5346, -0.400541, 91.7834)
+
+[55.800000000] : Found 4 beacons.
+Beacon 6: (range,bearing) = (3.22301, -0.536226)
+Beacon 7: (range,bearing) = (2.85868, 0.132405)
+Beacon 8: (range,bearing) = (2.56561, 0.329542)
+Beacon 9: (range,bearing) = (0.990046, 1.12316)
+Robot estimated posture: (X,Y,Theta) = -2.5346, -0.400541, 91.7834)
+
+[55.900000000] : Robot real posture: (X,Y,Theta) = -2.53615, -0.350566, 91.7834)
+
+[55.900000000] : Found 4 beacons.
+Beacon 6: (range,bearing) = (3.18013, -0.544258)
+Beacon 7: (range,bearing) = (2.80913, 0.134755)
+Beacon 8: (range,bearing) = (2.51835, 0.335967)
+Beacon 9: (range,bearing) = (0.969452, 1.16967)
+Robot estimated posture: (X,Y,Theta) = -2.53615, -0.350566, 91.7834)
+
+[56.0] : Robot real posture: (X,Y,Theta) = -2.53771, -0.30059, 91.7834)
+
+[56.0] : Found 4 beacons.
+Beacon 6: (range,bearing) = (3.13746, -0.55251)
+Beacon 7: (range,bearing) = (2.75959, 0.137189)
+Beacon 8: (range,bearing) = (2.4712, 0.342638)
+Beacon 9: (range,bearing) = (0.951044, 1.21809)
+Robot estimated posture: (X,Y,Theta) = -2.53771, -0.30059, 91.7834)
+
+[56.100000000] : Robot real posture: (X,Y,Theta) = -2.53926, -0.250614, 91.7834)
+
+[56.100000000] : Found 4 beacons.
+Beacon 5: (range,bearing) = (4.4338, -0.955505)
+Beacon 6: (range,bearing) = (3.09501, -0.560989)
+Beacon 7: (range,bearing) = (2.71007, 0.139712)
+Beacon 9: (range,bearing) = (0.934951, 1.2683)
+Robot estimated posture: (X,Y,Theta) = -2.53926, -0.250614, 91.7834)
+
+[56.200000000] : Robot real posture: (X,Y,Theta) = -2.54082, -0.200638, 91.7834)
+
+[56.200000000] : Found 5 beacons.
+Beacon 5: (range,bearing) = (4.40513, -0.964774)
+Beacon 6: (range,bearing) = (3.05279, -0.569703)
+Beacon 7: (range,bearing) = (2.66056, 0.142329)
+Beacon 8: (range,bearing) = (2.37725, 0.356771)
+Beacon 9: (range,bearing) = (0.921293, 1.32013)
+Robot estimated posture: (X,Y,Theta) = -2.54082, -0.200638, 91.7834)
+
+[56.300000000] : Robot real posture: (X,Y,Theta) = -2.54238, -0.150663, 91.7834)
+
+[56.300000000] : Found 5 beacons.
+Beacon 5: (range,bearing) = (4.37684, -0.974164)
+Beacon 6: (range,bearing) = (3.01081, -0.57866)
+Beacon 7: (range,bearing) = (2.61108, 0.145046)
+Beacon 8: (range,bearing) = (2.33047, 0.364264)
+Beacon 9: (range,bearing) = (0.91018, 1.37337)
+Robot estimated posture: (X,Y,Theta) = -2.54238, -0.150663, 91.7834)
+
+[56.400000000] : Robot real posture: (X,Y,Theta) = -2.54393, -0.100687, 91.7834)
+
+[56.400000000] : Found 5 beacons.
+Beacon 5: (range,bearing) = (4.34894, -0.983674)
+Beacon 6: (range,bearing) = (2.96908, -0.58787)
+Beacon 7: (range,bearing) = (2.56161, 0.147867)
+Beacon 8: (range,bearing) = (2.28382, 0.372064)
+Beacon 9: (range,bearing) = (0.901707, 1.42777)
+Robot estimated posture: (X,Y,Theta) = -2.54393, -0.100687, 91.7834)
+
+[56.500000000] : Robot real posture: (X,Y,Theta) = -2.54549, -0.050711, 91.7834)
+
+[56.500000000] : Found 5 beacons.
+Beacon 5: (range,bearing) = (4.32145, -0.993307)
+Beacon 6: (range,bearing) = (2.9276, -0.597342)
+Beacon 7: (range,bearing) = (2.51217, 0.150799)
+Beacon 8: (range,bearing) = (2.23731, 0.380189)
+Beacon 9: (range,bearing) = (0.895948, 1.48304)
+Robot estimated posture: (X,Y,Theta) = -2.54549, -0.050711, 91.7834)
+
+[56.600000000] : Robot real posture: (X,Y,Theta) = -2.54704, -0.000735234, 91.7834)
+
+[56.600000000] : Found 5 beacons.
+Beacon 5: (range,bearing) = (4.29435, -1.00306)
+Beacon 6: (range,bearing) = (2.8864, -0.607086)
+Beacon 7: (range,bearing) = (2.46275, 0.153849)
+Beacon 8: (range,bearing) = (2.19096, 0.388657)
+Beacon 9: (range,bearing) = (0.892956, 1.53885)
+Robot estimated posture: (X,Y,Theta) = -2.54704, -0.000735201, 91.7834)
+
+[56.700000000] : Robot real posture: (X,Y,Theta) = -2.5486, 0.0492405, 91.7834)
+
+[56.700000000] : Found 4 beacons.
+Beacon 5: (range,bearing) = (4.26768, -1.01294)
+Beacon 6: (range,bearing) = (2.84547, -0.61711)
+Beacon 7: (range,bearing) = (2.41335, 0.157024)
+Beacon 8: (range,bearing) = (2.14477, 0.397492)
+Robot estimated posture: (X,Y,Theta) = -2.5486, 0.0492408, 91.7834)
+
+[56.800000000] : Robot real posture: (X,Y,Theta) = -2.55016, 0.0992163, 91.7834)
+
+[56.800000000] : Found 4 beacons.
+Beacon 5: (range,bearing) = (4.24142, -1.02294)
+Beacon 6: (range,bearing) = (2.80484, -0.627426)
+Beacon 7: (range,bearing) = (2.36398, 0.160332)
+Beacon 8: (range,bearing) = (2.09876, 0.406714)
+Robot estimated posture: (X,Y,Theta) = -2.55016, 0.0992166, 91.7834)
+
+[56.900000000] : Robot real posture: (X,Y,Theta) = -2.55171, 0.149192, 91.7834)
+
+[56.900000000] : Found 4 beacons.
+Beacon 5: (range,bearing) = (4.21559, -1.03307)
+Beacon 6: (range,bearing) = (2.76452, -0.638044)
+Beacon 7: (range,bearing) = (2.31463, 0.16378)
+Beacon 8: (range,bearing) = (2.05294, 0.416349)
+Robot estimated posture: (X,Y,Theta) = -2.55171, 0.149192, 91.7834)
+
+[57.0] : Robot real posture: (X,Y,Theta) = -2.55327, 0.199168, 91.7834)
+
+[57.0] : Found 4 beacons.
+Beacon 5: (range,bearing) = (4.1902, -1.04332)
+Beacon 6: (range,bearing) = (2.72452, -0.648975)
+Beacon 7: (range,bearing) = (2.26532, 0.167379)
+Beacon 8: (range,bearing) = (2.00731, 0.426423)
+Robot estimated posture: (X,Y,Theta) = -2.55327, 0.199168, 91.7834)
+
+[57.100000000] : Robot real posture: (X,Y,Theta) = -2.55482, 0.249144, 91.7834)
+
+[57.100000000] : Found 4 beacons.
+Beacon 5: (range,bearing) = (4.16526, -1.05369)
+Beacon 6: (range,bearing) = (2.68486, -0.66023)
+Beacon 7: (range,bearing) = (2.21603, 0.171138)
+Beacon 8: (range,bearing) = (1.9619, 0.436965)
+Robot estimated posture: (X,Y,Theta) = -2.55482, 0.249144, 91.7834)
+
+[57.200000000] : Robot real posture: (X,Y,Theta) = -2.55638, 0.299119, 91.7834)
+
+[57.200000000] : Found 4 beacons.
+Beacon 5: (range,bearing) = (4.14077, -1.06418)
+Beacon 6: (range,bearing) = (2.64554, -0.671822)
+Beacon 7: (range,bearing) = (2.16678, 0.175068)
+Beacon 8: (range,bearing) = (1.91671, 0.448004)
+Robot estimated posture: (X,Y,Theta) = -2.55638, 0.29912, 91.7834)
+
+[57.300000000] : Robot real posture: (X,Y,Theta) = -2.55794, 0.349095, 91.7834)
+
+[57.300000000] : Found 4 beacons.
+Beacon 5: (range,bearing) = (4.11674, -1.07481)
+Beacon 6: (range,bearing) = (2.60659, -0.683761)
+Beacon 7: (range,bearing) = (2.11756, 0.179181)
+Beacon 8: (range,bearing) = (1.87177, 0.459576)
+Robot estimated posture: (X,Y,Theta) = -2.55794, 0.349095, 91.7834)
+
+[57.400000000] : Robot real posture: (X,Y,Theta) = -2.55949, 0.399071, 91.7834)
+
+[57.400000000] : Found 4 beacons.
+Beacon 5: (range,bearing) = (4.09318, -1.08555)
+Beacon 6: (range,bearing) = (2.56803, -0.696061)
+Beacon 7: (range,bearing) = (2.06838, 0.183489)
+Beacon 8: (range,bearing) = (1.82709, 0.471715)
+Robot estimated posture: (X,Y,Theta) = -2.55949, 0.399071, 91.7834)
+
+[57.500000000] : Robot real posture: (X,Y,Theta) = -2.56105, 0.449047, 91.7834)
+
+[57.500000000] : Found 4 beacons.
+Beacon 5: (range,bearing) = (4.0701, -1.09642)
+Beacon 6: (range,bearing) = (2.52986, -0.708734)
+Beacon 7: (range,bearing) = (2.01924, 0.188007)
+Beacon 8: (range,bearing) = (1.7827, 0.48446)
+Robot estimated posture: (X,Y,Theta) = -2.56105, 0.449047, 91.7834)
+
+[57.600000000] : Robot real posture: (X,Y,Theta) = -2.56261, 0.499023, 91.7834)
+
+[57.600000000] : Found 4 beacons.
+Beacon 5: (range,bearing) = (4.04751, -1.1074)
+Beacon 6: (range,bearing) = (2.49212, -0.721793)
+Beacon 7: (range,bearing) = (1.97014, 0.19275)
+Beacon 8: (range,bearing) = (1.73861, 0.497854)
+Robot estimated posture: (X,Y,Theta) = -2.56261, 0.499023, 91.7834)
+
+[57.700000000] : Robot real posture: (X,Y,Theta) = -2.56416, 0.548998, 91.7834)
+
+[57.700000000] : Found 4 beacons.
+Beacon 5: (range,bearing) = (4.02541, -1.11852)
+Beacon 6: (range,bearing) = (2.45481, -0.735251)
+Beacon 7: (range,bearing) = (1.92109, 0.197736)
+Beacon 8: (range,bearing) = (1.69484, 0.511943)
+Robot estimated posture: (X,Y,Theta) = -2.56416, 0.548999, 91.7834)
+
+[57.800000000] : Robot real posture: (X,Y,Theta) = -2.56572, 0.598974, 91.7834)
+
+[57.800000000] : Found 4 beacons.
+Beacon 5: (range,bearing) = (4.00381, -1.12975)
+Beacon 6: (range,bearing) = (2.41796, -0.749123)
+Beacon 7: (range,bearing) = (1.87209, 0.202983)
+Beacon 8: (range,bearing) = (1.65144, 0.526775)
+Robot estimated posture: (X,Y,Theta) = -2.56572, 0.598974, 91.7834)
+
+[57.900000000] : Robot real posture: (X,Y,Theta) = -2.56727, 0.64895, 91.7834)
+
+[57.900000000] : Found 4 beacons.
+Beacon 5: (range,bearing) = (3.98272, -1.1411)
+Beacon 6: (range,bearing) = (2.38159, -0.76342)
+Beacon 7: (range,bearing) = (1.82315, 0.208511)
+Beacon 8: (range,bearing) = (1.60841, 0.542404)
+Robot estimated posture: (X,Y,Theta) = -2.56727, 0.64895, 91.7834)
+
+[58.0] : Robot real posture: (X,Y,Theta) = -2.56883, 0.698926, 91.7834)
+
+[58.0] : Found 4 beacons.
+Beacon 5: (range,bearing) = (3.96215, -1.15257)
+Beacon 6: (range,bearing) = (2.34572, -0.778158)
+Beacon 7: (range,bearing) = (1.77426, 0.214345)
+Beacon 8: (range,bearing) = (1.5658, 0.558888)
+Robot estimated posture: (X,Y,Theta) = -2.56883, 0.698926, 91.7834)
+
+[58.100000000] : Robot real posture: (X,Y,Theta) = -2.57039, 0.748901, 91.7834)
+
+[58.100000000] : Found 4 beacons.
+Beacon 5: (range,bearing) = (3.94211, -1.16417)
+Beacon 6: (range,bearing) = (2.31037, -0.79335)
+Beacon 7: (range,bearing) = (1.72544, 0.220509)
+Beacon 8: (range,bearing) = (1.52364, 0.57629)
+Robot estimated posture: (X,Y,Theta) = -2.57039, 0.748902, 91.7834)
+
+[58.200000000] : Robot real posture: (X,Y,Theta) = -2.57194, 0.798877, 91.7834)
+
+[58.200000000] : Found 4 beacons.
+Beacon 5: (range,bearing) = (3.9226, -1.17587)
+Beacon 6: (range,bearing) = (2.27558, -0.809011)
+Beacon 7: (range,bearing) = (1.67669, 0.227032)
+Beacon 8: (range,bearing) = (1.48197, 0.594676)
+Robot estimated posture: (X,Y,Theta) = -2.57194, 0.798877, 91.7834)
+
+[58.300000000] : Robot real posture: (X,Y,Theta) = -2.5735, 0.848853, 91.7834)
+
+[58.300000000] : Found 4 beacons.
+Beacon 5: (range,bearing) = (3.90364, -1.1877)
+Beacon 6: (range,bearing) = (2.24136, -0.825154)
+Beacon 7: (range,bearing) = (1.62801, 0.233945)
+Beacon 8: (range,bearing) = (1.44082, 0.614119)
+Robot estimated posture: (X,Y,Theta) = -2.5735, 0.848853, 91.7834)
+
+[58.400000000] : Robot real posture: (X,Y,Theta) = -2.57505, 0.898829, 91.7834)
+
+[58.400000000] : Found 4 beacons.
+Beacon 5: (range,bearing) = (3.88522, -1.19963)
+Beacon 6: (range,bearing) = (2.20774, -0.841793)
+Beacon 7: (range,bearing) = (1.57941, 0.241283)
+Beacon 8: (range,bearing) = (1.40025, 0.634697)
+Robot estimated posture: (X,Y,Theta) = -2.57505, 0.898829, 91.7834)
+
+[58.500000000] : Robot real posture: (X,Y,Theta) = -2.57661, 0.948805, 91.7834)
+
+[58.500000000] : Found 4 beacons.
+Beacon 5: (range,bearing) = (3.86737, -1.21168)
+Beacon 6: (range,bearing) = (2.17476, -0.858941)
+Beacon 7: (range,bearing) = (1.53091, 0.249088)
+Beacon 8: (range,bearing) = (1.36031, 0.656492)
+Robot estimated posture: (X,Y,Theta) = -2.57661, 0.948805, 91.7834)
+
+[58.600000000] : Robot real posture: (X,Y,Theta) = -2.57817, 0.99878, 91.7834)
+
+[58.600000000] : Found 4 beacons.
+Beacon 5: (range,bearing) = (3.85008, -1.22384)
+Beacon 6: (range,bearing) = (2.14243, -0.876612)
+Beacon 7: (range,bearing) = (1.4825, 0.257402)
+Beacon 8: (range,bearing) = (1.32106, 0.679595)
+Robot estimated posture: (X,Y,Theta) = -2.57817, 0.99878, 91.7834)
+
+[58.700000000] : Robot real posture: (X,Y,Theta) = -2.57972, 1.04876, 91.7834)
+
+[58.700000000] : Found 4 beacons.
+Beacon 5: (range,bearing) = (3.83337, -1.23611)
+Beacon 6: (range,bearing) = (2.11079, -0.894819)
+Beacon 7: (range,bearing) = (1.4342, 0.266277)
+Beacon 8: (range,bearing) = (1.28255, 0.704098)
+Robot estimated posture: (X,Y,Theta) = -2.57972, 1.04876, 91.7834)
+
+[58.800000000] : Robot real posture: (X,Y,Theta) = -2.58125, 1.09795, 91.7834)
+
+[58.800000000] : Found 4 beacons.
+Beacon 5: (range,bearing) = (3.81749, -1.24828)
+Beacon 6: (range,bearing) = (2.08035, -0.913276)
+Beacon 7: (range,bearing) = (1.38678, 0.275616)
+Beacon 8: (range,bearing) = (1.24545, 0.729683)
+Robot estimated posture: (X,Y,Theta) = -2.58125, 1.09795, 91.7834)
+
+[58.900000000] : Robot real posture: (X,Y,Theta) = -2.58258, 1.14038, 91.7834)
+
+[58.900000000] : Found 4 beacons.
+Beacon 5: (range,bearing) = (3.80424, -1.25887)
+Beacon 6: (range,bearing) = (2.05468, -0.929631)
+Beacon 7: (range,bearing) = (1.34598, 0.2842)
+Beacon 8: (range,bearing) = (1.21413, 0.752995)
+Robot estimated posture: (X,Y,Theta) = -2.58258, 1.14038, 91.7834)
+
+[59.0] : Robot real posture: (X,Y,Theta) = -2.5837, 1.17665, 91.7834)
+
+[59.0] : Found 4 beacons.
+Beacon 5: (range,bearing) = (3.79327, -1.26797)
+Beacon 6: (range,bearing) = (2.03319, -0.943932)
+Beacon 7: (range,bearing) = (1.31119, 0.291958)
+Beacon 8: (range,bearing) = (1.18792, 0.773882)
+Robot estimated posture: (X,Y,Theta) = -2.5837, 1.17665, 91.7834)
+
+[59.100000000] : Robot real posture: (X,Y,Theta) = -2.58468, 1.20798, 91.7834)
+
+[59.100000000] : Found 4 beacons.
+Beacon 5: (range,bearing) = (3.78404, -1.27588)
+Beacon 6: (range,bearing) = (2.01496, -0.956532)
+Beacon 7: (range,bearing) = (1.2812, 0.299001)
+Beacon 8: (range,bearing) = (1.16571, 0.792678)
+Robot estimated posture: (X,Y,Theta) = -2.58468, 1.20798, 91.7834)
+
+[59.200000000] : Robot real posture: (X,Y,Theta) = -2.58553, 1.23538, 91.7834)
+
+[59.200000000] : Found 4 beacons.
+Beacon 5: (range,bearing) = (3.77616, -1.28283)
+Beacon 6: (range,bearing) = (1.99928, -0.967738)
+Beacon 7: (range,bearing) = (1.25503, 0.305436)
+Beacon 8: (range,bearing) = (1.14663, 0.809708)
+Robot estimated posture: (X,Y,Theta) = -2.58553, 1.23538, 91.7834)
+
+[59.300000000] : Robot real posture: (X,Y,Theta) = -2.58629, 1.2596, 91.7834)
+
+[59.300000000] : Found 4 beacons.
+Beacon 5: (range,bearing) = (3.76935, -1.28899)
+Beacon 6: (range,bearing) = (1.98564, -0.97779)
+Beacon 7: (range,bearing) = (1.23194, 0.311351)
+Beacon 8: (range,bearing) = (1.13005, 0.825236)
+Robot estimated posture: (X,Y,Theta) = -2.58629, 1.2596, 91.7834)
+
+[59.400000000] : Robot real posture: (X,Y,Theta) = -2.58696, 1.2812, 91.7834)
+
+[59.400000000] : Found 4 beacons.
+Beacon 5: (range,bearing) = (3.7634, -1.2945)
+Beacon 6: (range,bearing) = (1.97365, -0.986869)
+Beacon 7: (range,bearing) = (1.21139, 0.316815)
+Beacon 8: (range,bearing) = (1.1155, 0.839468)
+Robot estimated posture: (X,Y,Theta) = -2.58696, 1.2812, 91.7834)
+
+[59.500000000] : Robot real posture: (X,Y,Theta) = -2.58756, 1.3006, 91.7834)
+
+[59.500000000] : Found 4 beacons.
+Beacon 5: (range,bearing) = (3.75815, -1.29947)
+Beacon 6: (range,bearing) = (1.96301, -0.99512)
+Beacon 7: (range,bearing) = (1.19296, 0.321885)
+Beacon 8: (range,bearing) = (1.10263, 0.852573)
+Robot estimated posture: (X,Y,Theta) = -2.58756, 1.3006, 91.7834)
+
+[59.600000000] : Robot real posture: (X,Y,Theta) = -2.58811, 1.31815, 91.7834)
+
+[59.600000000] : Found 4 beacons.
+Beacon 5: (range,bearing) = (3.7493, -1.30809)
+Beacon 6: (range,bearing) = (1.94496, -1.00958)
+Beacon 7: (range,bearing) = (1.16121, 0.331018)
+Beacon 8: (range,bearing) = (1.08087, 0.875929)
+Robot estimated posture: (X,Y,Theta) = -2.58861, 1.33411, 91.7834)
+
+[59.700000000] : Robot real posture: (X,Y,Theta) = -2.58861, 1.33411, 91.7834)
+
+[59.700000000] : Found 4 beacons.
+Beacon 5: (range,bearing) = (3.74554, -1.31185)
+Beacon 6: (range,bearing) = (1.93723, -1.01596)
+Beacon 7: (range,bearing) = (1.14741, 0.335152)
+Beacon 8: (range,bearing) = (1.07158, 0.886391)
+Robot estimated posture: (X,Y,Theta) = -2.58906, 1.3487, 91.7834)
+
+[59.800000000] : Robot real posture: (X,Y,Theta) = -2.58906, 1.3487, 91.7834)
+
+[59.800000000] : Found 4 beacons.
+Beacon 5: (range,bearing) = (3.74213, -1.31531)
+Beacon 6: (range,bearing) = (1.93021, -1.02186)
+Beacon 7: (range,bearing) = (1.13477, 0.339036)
+Beacon 8: (range,bearing) = (1.06316, 0.896157)
+Robot estimated posture: (X,Y,Theta) = -2.58948, 1.36209, 91.7834)
+
+[59.900000000] : Robot real posture: (X,Y,Theta) = -2.58948, 1.36209, 91.7834)
+
+[59.900000000] : Found 4 beacons.
+Beacon 5: (range,bearing) = (3.73903, -1.31851)
+Beacon 6: (range,bearing) = (1.92379, -1.02734)
+Beacon 7: (range,bearing) = (1.12312, 0.342694)
+Beacon 8: (range,bearing) = (1.05549, 0.905297)
+Robot estimated posture: (X,Y,Theta) = -2.58986, 1.37444, 91.7834)
+
+[60.0] : Robot real posture: (X,Y,Theta) = -2.58986, 1.37444, 91.7834)
+
+[60.0] : Found 4 beacons.
+Beacon 5: (range,bearing) = (3.73619, -1.32147)
+Beacon 6: (range,bearing) = (1.91791, -1.03244)
+Beacon 7: (range,bearing) = (1.11237, 0.346147)
+Beacon 8: (range,bearing) = (1.04847, 0.913872)
+Robot estimated posture: (X,Y,Theta) = -2.59022, 1.38586, 91.7834)
+
+[60.100000000] : Robot real posture: (X,Y,Theta) = -2.59022, 1.38586, 91.7834)
+
+[60.100000000] : Found 4 beacons.
+Beacon 5: (range,bearing) = (3.73359, -1.32423)
+Beacon 6: (range,bearing) = (1.91249, -1.0372)
+Beacon 7: (range,bearing) = (1.10239, 0.349412)
+Beacon 8: (range,bearing) = (1.04203, 0.921934)
+Robot estimated posture: (X,Y,Theta) = -2.59055, 1.39647, 91.7834)
+
+Going for target 3
+[60.200000000] : Robot real posture: (X,Y,Theta) = -2.59055, 1.39647, 91.7834)
+
+[60.200000000] : Found 4 beacons.
+Beacon 5: (range,bearing) = (3.73101, -1.32698)
+Beacon 6: (range,bearing) = (1.90711, -1.04199)
+Beacon 7: (range,bearing) = (1.09243, 0.352737)
+Beacon 8: (range,bearing) = (1.03565, 0.930096)
+Robot estimated posture: (X,Y,Theta) = -2.59088, 1.40707, 91.7834)
+
+[60.300000000] : Robot real posture: (X,Y,Theta) = -2.59088, 1.40707, 91.7834)
+
+[60.300000000] : Found 4 beacons.
+Beacon 5: (range,bearing) = (3.72846, -1.21574)
+Beacon 6: (range,bearing) = (1.90178, -0.932805)
+Beacon 7: (range,bearing) = (1.08248, 0.470123)
+Beacon 8: (range,bearing) = (1.02934, 1.05236)
+Robot estimated posture: (X,Y,Theta) = -2.59121, 1.41768, 85.2517)
+
+[60.400000000] : Robot real posture: (X,Y,Theta) = -2.59121, 1.41768, 85.2517)
+
+[60.400000000] : Found 4 beacons.
+Beacon 5: (range,bearing) = (3.72479, -1.10442)
+Beacon 6: (range,bearing) = (1.89549, -0.823301)
+Beacon 7: (range,bearing) = (1.07303, 0.588601)
+Beacon 8: (range,bearing) = (1.02413, 1.17536)
+Robot estimated posture: (X,Y,Theta) = -2.59033, 1.42825, 78.72)
+
+[60.500000000] : Robot real posture: (X,Y,Theta) = -2.59033, 1.42825, 78.72)
+
+[60.500000000] : Found 4 beacons.
+Beacon 5: (range,bearing) = (3.72003, -0.992963)
+Beacon 6: (range,bearing) = (1.88829, -0.713422)
+Beacon 7: (range,bearing) = (1.06422, 0.708136)
+Beacon 8: (range,bearing) = (1.02009, 1.29895)
+Robot estimated posture: (X,Y,Theta) = -2.58826, 1.43865, 72.1883)
+
+[60.600000000] : Robot real posture: (X,Y,Theta) = -2.58826, 1.43865, 72.1883)
+
+[60.600000000] : Found 4 beacons.
+Beacon 5: (range,bearing) = (3.71425, -0.881355)
+Beacon 6: (range,bearing) = (1.88028, -0.603114)
+Beacon 7: (range,bearing) = (1.05619, 0.828669)
+Beacon 8: (range,bearing) = (1.01729, 1.423)
+Robot estimated posture: (X,Y,Theta) = -2.58501, 1.44875, 65.6566)
+
+[60.700000000] : Robot real posture: (X,Y,Theta) = -2.58501, 1.44875, 65.6566)
+
+[60.700000000] : Found 4 beacons.
+Beacon 5: (range,bearing) = (3.70751, -0.769563)
+Beacon 6: (range,bearing) = (1.87155, -0.492329)
+Beacon 7: (range,bearing) = (1.04905, 0.950123)
+Beacon 8: (range,bearing) = (1.01578, 1.54733)
+Robot estimated posture: (X,Y,Theta) = -2.58064, 1.45842, 59.1248)
+
+[60.800000000] : Robot real posture: (X,Y,Theta) = -2.58064, 1.45842, 59.1248)
+
+[60.800000000] : Found 3 beacons.
+Beacon 5: (range,bearing) = (3.69989, -0.657558)
+Beacon 6: (range,bearing) = (1.86221, -0.381022)
+Beacon 7: (range,bearing) = (1.04291, 1.0724)
+Singular case, unable to localize!!
+[60.900000000] : Robot real posture: (X,Y,Theta) = -2.57519, 1.46753, 52.5931)
+
+[60.900000000] : Found 3 beacons.
+Beacon 5: (range,bearing) = (3.6915, -0.545315)
+Beacon 6: (range,bearing) = (1.85237, -0.269152)
+Beacon 7: (range,bearing) = (1.03788, 1.19538)
+Singular case, unable to localize!!
+[61.0] : Robot real posture: (X,Y,Theta) = -2.56875, 1.47595, 46.0614)
+
+[61.0] : Found 3 beacons.
+Beacon 5: (range,bearing) = (3.68244, -0.432809)
+Beacon 6: (range,bearing) = (1.84214, -0.156684)
+Beacon 7: (range,bearing) = (1.03404, 1.31892)
+Singular case, unable to localize!!
+[61.100000000] : Robot real posture: (X,Y,Theta) = -2.56139, 1.48359, 39.5297)
+
+[61.100000000] : Found 3 beacons.
+Beacon 5: (range,bearing) = (3.67281, -0.320021)
+Beacon 6: (range,bearing) = (1.83166, -0.0435874)
+Beacon 7: (range,bearing) = (1.03145, 1.44288)
+Singular case, unable to localize!!
+[61.200000000] : Robot real posture: (X,Y,Theta) = -2.5532, 1.49034, 32.998)
+
+[61.200000000] : Found 3 beacons.
+Beacon 5: (range,bearing) = (3.66274, -0.206932)
+Beacon 6: (range,bearing) = (1.82106, 0.0701588)
+Beacon 7: (range,bearing) = (1.03015, 1.5671)
+Singular case, unable to localize!!
+[61.300000000] : Robot real posture: (X,Y,Theta) = -2.54431, 1.49612, 26.4662)
+
+[61.300000000] : Found 3 beacons.
+Beacon 5: (range,bearing) = (3.65236, -0.0935289)
+Beacon 6: (range,bearing) = (1.81048, 0.18457)
+Beacon 12: (range,bearing) = (4.21055, -1.54561)
+Robot estimated posture: (X,Y,Theta) = -2.53481, 1.50085, 19.9345)
+
+[61.400000000] : Robot real posture: (X,Y,Theta) = -2.53481, 1.50085, 19.9345)
+
+[61.400000000] : Found 3 beacons.
+Beacon 5: (range,bearing) = (3.64179, 0.0201991)
+Beacon 6: (range,bearing) = (1.80005, 0.299651)
+Beacon 12: (range,bearing) = (4.21029, -1.43413)
+Robot estimated posture: (X,Y,Theta) = -2.52484, 1.50447, 13.4028)
+
+[61.500000000] : Robot real posture: (X,Y,Theta) = -2.52484, 1.50447, 13.4028)
+
+[61.500000000] : Found 3 beacons.
+Beacon 5: (range,bearing) = (3.63119, 0.134258)
+Beacon 6: (range,bearing) = (1.78992, 0.415401)
+Beacon 12: (range,bearing) = (4.20886, -1.32262)
+Robot estimated posture: (X,Y,Theta) = -2.51452, 1.50693, 6.87109)
+
+[61.600000000] : Robot real posture: (X,Y,Theta) = -2.51452, 1.50693, 6.87109)
+
+[61.600000000] : Found 3 beacons.
+Beacon 5: (range,bearing) = (3.62067, 0.24865)
+Beacon 6: (range,bearing) = (1.78022, 0.531806)
+Beacon 12: (range,bearing) = (4.20627, -1.21107)
+Robot estimated posture: (X,Y,Theta) = -2.50398, 1.5082, 0.33937)
+
+[61.700000000] : Robot real posture: (X,Y,Theta) = -2.50398, 1.5082, 0.339368)
+
+[61.700000000] : Found 3 beacons.
+Beacon 5: (range,bearing) = (3.61039, 0.363373)
+Beacon 6: (range,bearing) = (1.77108, 0.648843)
+Beacon 12: (range,bearing) = (4.20255, -1.09943)
+Robot estimated posture: (X,Y,Theta) = -2.49337, 1.50826, -6.19235)
+
+[61.800000000] : Robot real posture: (X,Y,Theta) = -2.49337, 1.50826, -6.19235)
+
+[61.800000000] : Found 4 beacons.
+Beacon 5: (range,bearing) = (3.5637, 0.48236)
+Beacon 6: (range,bearing) = (1.73151, 0.780293)
+Beacon 11: (range,bearing) = (3.96212, -1.4896)
+Beacon 12: (range,bearing) = (4.18008, -0.996089)
+Robot estimated posture: (X,Y,Theta) = -2.44366, 1.50287, -12.7241)
+
+[61.900000000] : Robot real posture: (X,Y,Theta) = -2.44366, 1.50287, -12.7241)
+
+[61.900000000] : Found 5 beacons.
+Beacon 5: (range,bearing) = (3.51948, 0.582004)
+Beacon 6: (range,bearing) = (1.69633, 0.894084)
+Beacon 10: (range,bearing) = (3.6449, -1.54648)
+Beacon 11: (range,bearing) = (3.95838, -1.40914)
+Beacon 12: (range,bearing) = (4.15311, -0.91314)
+Robot estimated posture: (X,Y,Theta) = -2.39489, 1.49185, -18.0556)
+
+[62.0] : Robot real posture: (X,Y,Theta) = -2.39489, 1.49185, -18.0556)
+
+[62.0] : Found 5 beacons.
+Beacon 5: (range,bearing) = (3.47782, 0.650468)
+Beacon 6: (range,bearing) = (1.66548, 0.978053)
+Beacon 10: (range,bearing) = (3.64403, -1.49964)
+Beacon 11: (range,bearing) = (3.95064, -1.36107)
+Beacon 12: (range,bearing) = (4.12274, -0.862177)
+Robot estimated posture: (X,Y,Theta) = -2.34736, 1.47636, -21.5256)
+
+[62.100000000] : Robot real posture: (X,Y,Theta) = -2.34736, 1.47636, -21.5256)
+
+[62.100000000] : Found 5 beacons.
+Beacon 5: (range,bearing) = (3.43817, 0.693063)
+Beacon 6: (range,bearing) = (1.63807, 1.03716)
+Beacon 10: (range,bearing) = (3.64081, -1.47955)
+Beacon 11: (range,bearing) = (3.94053, -1.33969)
+Beacon 12: (range,bearing) = (4.09037, -0.837671)
+Robot estimated posture: (X,Y,Theta) = -2.30084, 1.45801, -23.4615)
+
+[62.200000000] : Robot real posture: (X,Y,Theta) = -2.30084, 1.45801, -23.4615)
+
+[62.200000000] : Found 5 beacons.
+Beacon 5: (range,bearing) = (3.39985, 0.718731)
+Beacon 6: (range,bearing) = (1.61321, 1.08012)
+Beacon 10: (range,bearing) = (3.6366, -1.47697)
+Beacon 11: (range,bearing) = (3.92938, -1.3358)
+Beacon 12: (range,bearing) = (4.05708, -0.830556)
+Robot estimated posture: (X,Y,Theta) = -2.25498, 1.4381, -24.3938)
+
+[62.300000000] : Robot real posture: (X,Y,Theta) = -2.25498, 1.4381, -24.3938)
+
+[62.300000000] : Found 5 beacons.
+Beacon 5: (range,bearing) = (3.36238, 0.73498)
+Beacon 6: (range,bearing) = (1.59026, 1.11431)
+Beacon 10: (range,bearing) = (3.63225, -1.48421)
+Beacon 11: (range,bearing) = (3.91804, -1.34176)
+Beacon 12: (range,bearing) = (4.02353, -0.833274)
+Robot estimated posture: (X,Y,Theta) = -2.20944, 1.41745, -24.7638)
+
+[62.400000000] : Robot real posture: (X,Y,Theta) = -2.20944, 1.41745, -24.7638)
+
+[62.400000000] : Found 4 beacons.
+Beacon 5: (range,bearing) = (3.32546, 0.746768)
+Beacon 6: (range,bearing) = (1.56887, 1.14463)
+Beacon 10: (range,bearing) = (3.62827, -1.49624)
+Beacon 11: (range,bearing) = (3.90699, -1.35251)
+Robot estimated posture: (X,Y,Theta) = -2.16404, 1.39651, -24.8615)
+
+[62.500000000] : Robot real posture: (X,Y,Theta) = -2.16404, 1.39651, -24.8615)
+
+[62.500000000] : Found 4 beacons.
+Beacon 5: (range,bearing) = (3.28894, 0.756898)
+Beacon 6: (range,bearing) = (1.54887, 1.17383)
+Beacon 10: (range,bearing) = (3.62489, -1.51019)
+Beacon 11: (range,bearing) = (3.89647, -1.36524)
+Robot estimated posture: (X,Y,Theta) = -2.11867, 1.37549, -24.8502)
+
+[62.600000000] : Robot real posture: (X,Y,Theta) = -2.11867, 1.37549, -24.8502)
+
+[62.600000000] : Found 4 beacons.
+Beacon 5: (range,bearing) = (3.25277, 0.766741)
+Beacon 6: (range,bearing) = (1.53023, 1.20326)
+Beacon 10: (range,bearing) = (3.62221, -1.52468)
+Beacon 11: (range,bearing) = (3.88657, -1.37855)
+Robot estimated posture: (X,Y,Theta) = -2.0733, 1.35448, -24.8094)
+
+[62.700000000] : Robot real posture: (X,Y,Theta) = -2.0733, 1.35448, -24.8094)
+
+[62.700000000] : Found 4 beacons.
+Beacon 5: (range,bearing) = (3.21695, 0.776856)
+Beacon 6: (range,bearing) = (1.51298, 1.23343)
+Beacon 10: (range,bearing) = (3.62025, -1.53915)
+Beacon 11: (range,bearing) = (3.87733, -1.39187)
+Robot estimated posture: (X,Y,Theta) = -2.02792, 1.3335, -24.7711)
+
+[62.800000000] : Robot real posture: (X,Y,Theta) = -2.02792, 1.3335, -24.7711)
+
+[62.800000000] : Found 4 beacons.
+Beacon 5: (range,bearing) = (3.21695, 0.776856)
+Beacon 6: (range,bearing) = (1.51298, 1.23343)
+Beacon 10: (range,bearing) = (3.62025, -1.53915)
+Beacon 11: (range,bearing) = (3.87733, -1.39187)
+Robot estimated posture: (X,Y,Theta) = -2.02792, 1.3335, -24.7711)
+
+[62.900000000] : Robot real posture: (X,Y,Theta) = -1.98252, 1.31255, -24.7442)
+
+[62.900000000] : Found 4 beacons.
+Beacon 5: (range,bearing) = (3.18149, 0.787404)
+Beacon 6: (range,bearing) = (1.49718, 1.26448)
+Beacon 10: (range,bearing) = (3.61901, -1.55343)
+Beacon 11: (range,bearing) = (3.86874, -1.40506)
+Robot estimated posture: (X,Y,Theta) = -1.98252, 1.31255, -24.7442)
+
+[63.0] : Robot real posture: (X,Y,Theta) = -1.93711, 1.29162, -24.7282)
+
+[63.0] : Found 4 beacons.
+Beacon 5: (range,bearing) = (3.1464, 0.798384)
+Beacon 6: (range,bearing) = (1.48287, 1.29636)
+Beacon 10: (range,bearing) = (3.61849, -1.56752)
+Beacon 11: (range,bearing) = (3.86081, -1.41811)
+Robot estimated posture: (X,Y,Theta) = -1.93711, 1.29162, -24.7282)
+
+[63.100000000] : Robot real posture: (X,Y,Theta) = -1.89169, 1.2707, -24.7199)
+
+[63.100000000] : Found 3 beacons.
+Beacon 5: (range,bearing) = (3.11171, 0.809748)
+Beacon 6: (range,bearing) = (1.4701, 1.32896)
+Beacon 11: (range,bearing) = (3.85352, -1.43108)
+Robot estimated posture: (X,Y,Theta) = -1.89169, 1.2707, -24.7198)
+
+[63.200000000] : Robot real posture: (X,Y,Theta) = -1.84627, 1.24979, -24.7162)
+
+[63.200000000] : Found 4 beacons.
+Beacon 4: (range,bearing) = (4.94641, 0.674549)
+Beacon 5: (range,bearing) = (3.04361, 0.833453)
+Beacon 6: (range,bearing) = (1.44941, 1.39591)
+Beacon 11: (range,bearing) = (3.84088, -1.45696)
+Robot estimated posture: (X,Y,Theta) = -1.80085, 1.22889, -24.7149)
+
+[63.300000000] : Robot real posture: (X,Y,Theta) = -1.80085, 1.22889, -24.7149)
+
+[63.300000000] : Found 4 beacons.
+Beacon 4: (range,bearing) = (4.90746, 0.680909)
+Beacon 5: (range,bearing) = (3.01022, 0.845745)
+Beacon 6: (range,bearing) = (1.44155, 1.43006)
+Beacon 11: (range,bearing) = (3.83552, -1.46991)
+Robot estimated posture: (X,Y,Theta) = -1.75543, 1.20798, -24.7146)
+
+[63.400000000] : Robot real posture: (X,Y,Theta) = -1.75543, 1.20798, -24.7146)
+
+[63.400000000] : Found 4 beacons.
+Beacon 4: (range,bearing) = (4.86871, 0.687377)
+Beacon 5: (range,bearing) = (2.97729, 0.858318)
+Beacon 6: (range,bearing) = (1.43539, 1.46456)
+Beacon 11: (range,bearing) = (3.83081, -1.48289)
+Robot estimated posture: (X,Y,Theta) = -1.71001, 1.18708, -24.7148)
+
+[63.500000000] : Robot real posture: (X,Y,Theta) = -1.71001, 1.18708, -24.7148)
+
+[63.500000000] : Found 4 beacons.
+Beacon 4: (range,bearing) = (4.83017, 0.693949)
+Beacon 5: (range,bearing) = (2.94485, 0.871171)
+Beacon 6: (range,bearing) = (1.43095, 1.49932)
+Beacon 11: (range,bearing) = (3.82674, -1.49591)
+Robot estimated posture: (X,Y,Theta) = -1.66459, 1.16617, -24.715)
+
+[63.600000000] : Robot real posture: (X,Y,Theta) = -1.66459, 1.16617, -24.715)
+
+[63.600000000] : Found 4 beacons.
+Beacon 4: (range,bearing) = (4.79184, 0.700626)
+Beacon 5: (range,bearing) = (2.91291, 0.884308)
+Beacon 6: (range,bearing) = (1.42825, 1.53425)
+Beacon 11: (range,bearing) = (3.82332, -1.50894)
+Robot estimated posture: (X,Y,Theta) = -1.61917, 1.14527, -24.7152)
+
+[63.700000000] : Robot real posture: (X,Y,Theta) = -1.61917, 1.14527, -24.7152)
+
+[63.700000000] : Found 5 beacons.
+Beacon 4: (range,bearing) = (4.75373, 0.707409)
+Beacon 5: (range,bearing) = (2.88147, 0.897732)
+Beacon 6: (range,bearing) = (1.4273, 1.56927)
+Beacon 11: (range,bearing) = (3.82056, -1.522)
+Beacon 13: (range,bearing) = (4.36562, -0.516001)
+Robot estimated posture: (X,Y,Theta) = -1.57375, 1.12436, -24.7154)
+
+[63.800000000] : Robot real posture: (X,Y,Theta) = -1.57375, 1.12436, -24.7154)
+
+[63.800000000] : Found 4 beacons.
+Beacon 4: (range,bearing) = (4.71583, 0.714301)
+Beacon 5: (range,bearing) = (2.85057, 0.911448)
+Beacon 11: (range,bearing) = (3.81845, -1.53508)
+Beacon 13: (range,bearing) = (4.3222, -0.521708)
+Robot estimated posture: (X,Y,Theta) = -1.52833, 1.10346, -24.7154)
+
+[63.900000000] : Robot real posture: (X,Y,Theta) = -1.52833, 1.10346, -24.7154)
+
+[63.900000000] : Found 4 beacons.
+Beacon 4: (range,bearing) = (4.67817, 0.721303)
+Beacon 5: (range,bearing) = (2.82022, 0.925463)
+Beacon 11: (range,bearing) = (3.81699, -1.54817)
+Beacon 13: (range,bearing) = (4.27892, -0.527531)
+Robot estimated posture: (X,Y,Theta) = -1.48291, 1.08255, -24.7155)
+
+[64.0] : Robot real posture: (X,Y,Theta) = -1.48291, 1.08255, -24.7155)
+
+[64.0] : Found 6 beacons.
+Beacon 2: (range,bearing) = (4.9917, 0.217048)
+Beacon 3: (range,bearing) = (4.96694, 0.621429)
+Beacon 4: (range,bearing) = (4.64074, 0.728418)
+Beacon 5: (range,bearing) = (2.79043, 0.939778)
+Beacon 11: (range,bearing) = (3.81619, -1.56127)
+Beacon 13: (range,bearing) = (4.2358, -0.533473)
+Robot estimated posture: (X,Y,Theta) = -1.43749, 1.06164, -24.7155)
+
+[64.100000000] : Robot real posture: (X,Y,Theta) = -1.43749, 1.06164, -24.7155)
+
+[64.100000000] : Found 5 beacons.
+Beacon 2: (range,bearing) = (4.94288, 0.219226)
+Beacon 3: (range,bearing) = (4.92637, 0.627338)
+Beacon 4: (range,bearing) = (4.60355, 0.735649)
+Beacon 5: (range,bearing) = (2.76123, 0.9544)
+Beacon 13: (range,bearing) = (4.19282, -0.539537)
+Robot estimated posture: (X,Y,Theta) = -1.39207, 1.04074, -24.7155)
+
+[64.200000000] : Robot real posture: (X,Y,Theta) = -1.39207, 1.04074, -24.7155)
+
+[64.200000000] : Found 4 beacons.
+Beacon 3: (range,bearing) = (4.88598, 0.633345)
+Beacon 4: (range,bearing) = (4.5666, 0.742996)
+Beacon 5: (range,bearing) = (2.73263, 0.96933)
+Beacon 13: (range,bearing) = (4.15, -0.545726)
+Robot estimated posture: (X,Y,Theta) = -1.34665, 1.01983, -24.7155)
+
+[64.300000000] : Robot real posture: (X,Y,Theta) = -1.34665, 1.01983, -24.7155)
+
+[64.300000000] : Found 4 beacons.
+Beacon 3: (range,bearing) = (4.84577, 0.639452)
+Beacon 4: (range,bearing) = (4.52991, 0.750463)
+Beacon 5: (range,bearing) = (2.70465, 0.984573)
+Beacon 13: (range,bearing) = (4.10735, -0.552045)
+Robot estimated posture: (X,Y,Theta) = -1.30124, 0.998927, -24.7155)
+
+[64.400000000] : Robot real posture: (X,Y,Theta) = -1.30124, 0.998927, -24.7155)
+
+[64.400000000] : Found 4 beacons.
+Beacon 3: (range,bearing) = (4.80574, 0.645661)
+Beacon 4: (range,bearing) = (4.49347, 0.758052)
+Beacon 5: (range,bearing) = (2.67731, 1.00013)
+Beacon 13: (range,bearing) = (4.06486, -0.558496)
+Robot estimated posture: (X,Y,Theta) = -1.25582, 0.978022, -24.7155)
+
+[64.500000000] : Robot real posture: (X,Y,Theta) = -1.25582, 0.978022, -24.7155)
+
+[64.500000000] : Found 4 beacons.
+Beacon 3: (range,bearing) = (4.7659, 0.651974)
+Beacon 4: (range,bearing) = (4.45729, 0.765764)
+Beacon 5: (range,bearing) = (2.65064, 1.01601)
+Beacon 13: (range,bearing) = (4.02254, -0.565083)
+Robot estimated posture: (X,Y,Theta) = -1.2104, 0.957116, -24.7155)
+
+[64.600000000] : Robot real posture: (X,Y,Theta) = -1.2104, 0.957116, -24.7155)
+
+[64.600000000] : Found 4 beacons.
+Beacon 3: (range,bearing) = (4.72625, 0.658393)
+Beacon 4: (range,bearing) = (4.42139, 0.773602)
+Beacon 5: (range,bearing) = (2.62464, 1.0322)
+Beacon 13: (range,bearing) = (3.98041, -0.571809)
+Robot estimated posture: (X,Y,Theta) = -1.16498, 0.93621, -24.7155)
+
+[64.700000000] : Robot real posture: (X,Y,Theta) = -1.16498, 0.93621, -24.7155)
+
+[64.700000000] : Found 4 beacons.
+Beacon 3: (range,bearing) = (4.6868, 0.66492)
+Beacon 4: (range,bearing) = (4.38576, 0.781568)
+Beacon 5: (range,bearing) = (2.59935, 1.04871)
+Beacon 13: (range,bearing) = (3.93845, -0.578679)
+Robot estimated posture: (X,Y,Theta) = -1.11956, 0.915305, -24.7155)
+
+[64.800000000] : Robot real posture: (X,Y,Theta) = -1.11956, 0.915305, -24.7155)
+
+[64.800000000] : Found 4 beacons.
+Beacon 3: (range,bearing) = (4.64756, 0.671558)
+Beacon 4: (range,bearing) = (4.35041, 0.789664)
+Beacon 5: (range,bearing) = (2.57478, 1.06555)
+Beacon 13: (range,bearing) = (3.89669, -0.585697)
+Robot estimated posture: (X,Y,Theta) = -1.07414, 0.894399, -24.7155)
+
+[64.900000000] : Robot real posture: (X,Y,Theta) = -1.07414, 0.894399, -24.7155)
+
+[64.900000000] : Found 5 beacons.
+Beacon 3: (range,bearing) = (4.60852, 0.678309)
+Beacon 4: (range,bearing) = (4.31535, 0.797892)
+Beacon 5: (range,bearing) = (2.55096, 1.0827)
+Beacon 12: (range,bearing) = (3.29362, -1.13071)
+Beacon 13: (range,bearing) = (3.85512, -0.592867)
+Robot estimated posture: (X,Y,Theta) = -1.02872, 0.873494, -24.7155)
+
+[65.0] : Robot real posture: (X,Y,Theta) = -1.02872, 0.873494, -24.7155)
+
+[65.0] : Found 5 beacons.
+Beacon 3: (range,bearing) = (4.56969, 0.685174)
+Beacon 4: (range,bearing) = (4.28059, 0.806254)
+Beacon 5: (range,bearing) = (2.52789, 1.10017)
+Beacon 12: (range,bearing) = (3.27263, -1.14453)
+Beacon 13: (range,bearing) = (3.81376, -0.600192)
+Robot estimated posture: (X,Y,Theta) = -0.983297, 0.852588, -24.7155)
+
+[65.100000000] : Robot real posture: (X,Y,Theta) = -0.983297, 0.852588, -24.7155)
+
+[65.100000000] : Found 5 beacons.
+Beacon 3: (range,bearing) = (4.53109, 0.692157)
+Beacon 4: (range,bearing) = (4.24613, 0.814752)
+Beacon 5: (range,bearing) = (2.50562, 1.11796)
+Beacon 12: (range,bearing) = (3.25228, -1.15853)
+Beacon 13: (range,bearing) = (3.7726, -0.607678)
+Robot estimated posture: (X,Y,Theta) = -0.937877, 0.831682, -24.7155)
+
+[65.200000000] : Robot real posture: (X,Y,Theta) = -0.937877, 0.831682, -24.7155)
+
+[65.200000000] : Found 5 beacons.
+Beacon 3: (range,bearing) = (4.49271, 0.69926)
+Beacon 4: (range,bearing) = (4.21199, 0.823389)
+Beacon 5: (range,bearing) = (2.48415, 1.13606)
+Beacon 12: (range,bearing) = (3.23257, -1.1727)
+Beacon 13: (range,bearing) = (3.73166, -0.615328)
+Robot estimated posture: (X,Y,Theta) = -0.892457, 0.810777, -24.7155)
+
+[65.300000000] : Robot real posture: (X,Y,Theta) = -0.892457, 0.810777, -24.7155)
+
+[65.300000000] : Found 5 beacons.
+Beacon 3: (range,bearing) = (4.45456, 0.706485)
+Beacon 4: (range,bearing) = (4.17816, 0.832166)
+Beacon 5: (range,bearing) = (2.46351, 1.15446)
+Beacon 12: (range,bearing) = (3.21351, -1.18705)
+Beacon 13: (range,bearing) = (3.69095, -0.623148)
+Robot estimated posture: (X,Y,Theta) = -0.847037, 0.789871, -24.7155)
+
+[65.400000000] : Robot real posture: (X,Y,Theta) = -0.847038, 0.789871, -24.7155)
+
+[65.400000000] : Found 6 beacons.
+Beacon 3: (range,bearing) = (4.41665, 0.713834)
+Beacon 4: (range,bearing) = (4.14466, 0.841086)
+Beacon 5: (range,bearing) = (2.44371, 1.17318)
+Beacon 12: (range,bearing) = (3.19513, -1.20156)
+Beacon 13: (range,bearing) = (3.65046, -0.631141)
+Beacon 14: (range,bearing) = (4.96204, -0.266615)
+Robot estimated posture: (X,Y,Theta) = -0.801618, 0.768965, -24.7155)
+
+[65.500000000] : Robot real posture: (X,Y,Theta) = -0.801618, 0.768965, -24.7155)
+
+[65.500000000] : Found 6 beacons.
+Beacon 3: (range,bearing) = (4.37898, 0.72131)
+Beacon 4: (range,bearing) = (4.1115, 0.850151)
+Beacon 5: (range,bearing) = (2.42479, 1.19219)
+Beacon 12: (range,bearing) = (3.17743, -1.21623)
+Beacon 13: (range,bearing) = (3.61021, -0.639313)
+Beacon 14: (range,bearing) = (4.91382, -0.269296)
+Robot estimated posture: (X,Y,Theta) = -0.756198, 0.74806, -24.7155)
+
+[65.600000000] : Robot real posture: (X,Y,Theta) = -0.756198, 0.74806, -24.7155)
+
+[65.600000000] : Found 6 beacons.
+Beacon 3: (range,bearing) = (4.34155, 0.728915)
+Beacon 4: (range,bearing) = (4.07868, 0.859362)
+Beacon 5: (range,bearing) = (2.40676, 1.2115)
+Beacon 12: (range,bearing) = (3.16042, -1.23107)
+Beacon 13: (range,bearing) = (3.57021, -0.647669)
+Beacon 14: (range,bearing) = (4.86564, -0.27203)
+Robot estimated posture: (X,Y,Theta) = -0.710778, 0.727154, -24.7155)
+
+[65.700000000] : Robot real posture: (X,Y,Theta) = -0.710778, 0.727154, -24.7155)
+
+[65.700000000] : Found 6 beacons.
+Beacon 3: (range,bearing) = (4.30439, 0.736652)
+Beacon 4: (range,bearing) = (4.04621, 0.868722)
+Beacon 5: (range,bearing) = (2.38964, 1.23108)
+Beacon 12: (range,bearing) = (3.14411, -1.24607)
+Beacon 13: (range,bearing) = (3.53047, -0.656214)
+Beacon 14: (range,bearing) = (4.8175, -0.274819)
+Robot estimated posture: (X,Y,Theta) = -0.665358, 0.706249, -24.7155)
+
+[65.800000000] : Robot real posture: (X,Y,Theta) = -0.665358, 0.706249, -24.7155)
+
+[65.800000000] : Found 6 beacons.
+Beacon 3: (range,bearing) = (4.26748, 0.744524)
+Beacon 4: (range,bearing) = (4.0141, 0.878232)
+Beacon 5: (range,bearing) = (2.37344, 1.25095)
+Beacon 12: (range,bearing) = (3.12851, -1.26121)
+Beacon 13: (range,bearing) = (3.49099, -0.664953)
+Beacon 14: (range,bearing) = (4.76939, -0.277664)
+Robot estimated posture: (X,Y,Theta) = -0.619939, 0.685343, -24.7155)
+
+[65.900000000] : Robot real posture: (X,Y,Theta) = -0.619939, 0.685343, -24.7155)
+
+[65.900000000] : Found 6 beacons.
+Beacon 3: (range,bearing) = (4.23085, 0.752532)
+Beacon 4: (range,bearing) = (3.98236, 0.887895)
+Beacon 5: (range,bearing) = (2.3582, 1.27108)
+Beacon 12: (range,bearing) = (3.11365, -1.27651)
+Beacon 13: (range,bearing) = (3.45178, -0.673891)
+Beacon 14: (range,bearing) = (4.72133, -0.280567)
+Robot estimated posture: (X,Y,Theta) = -0.574519, 0.664437, -24.7155)
+
+[66.0] : Robot real posture: (X,Y,Theta) = -0.574519, 0.664437, -24.7155)
+
+[66.0] : Found 6 beacons.
+Beacon 3: (range,bearing) = (4.19697, 0.760117)
+Beacon 4: (range,bearing) = (3.95313, 0.897035)
+Beacon 5: (range,bearing) = (2.34487, 1.29006)
+Beacon 12: (range,bearing) = (3.10046, -1.29089)
+Beacon 13: (range,bearing) = (3.41551, -0.6824)
+Beacon 14: (range,bearing) = (4.67659, -0.283324)
+Robot estimated posture: (X,Y,Theta) = -0.532211, 0.644964, -24.7155)
+
+[66.100000000] : Robot real posture: (X,Y,Theta) = -0.532211, 0.644964, -24.7155)
+
+[66.100000000] : Found 6 beacons.
+Beacon 3: (range,bearing) = (4.16807, 0.766729)
+Beacon 4: (range,bearing) = (3.9283, 0.904992)
+Beacon 5: (range,bearing) = (2.33411, 1.30652)
+Beacon 12: (range,bearing) = (3.08964, -1.30333)
+Beacon 13: (range,bearing) = (3.38456, -0.689853)
+Beacon 14: (range,bearing) = (4.6382, -0.285735)
+Robot estimated posture: (X,Y,Theta) = -0.495875, 0.628239, -24.7155)
+
+[66.200000000] : Robot real posture: (X,Y,Theta) = -0.495875, 0.628239, -24.7155)
+
+[66.200000000] : Found 6 beacons.
+Beacon 3: (range,bearing) = (4.14342, 0.772476)
+Beacon 4: (range,bearing) = (3.90719, 0.911901)
+Beacon 5: (range,bearing) = (2.32538, 1.32077)
+Beacon 12: (range,bearing) = (3.08075, -1.31407)
+Beacon 13: (range,bearing) = (3.35815, -0.696359)
+Beacon 14: (range,bearing) = (4.60528, -0.287836)
+Robot estimated posture: (X,Y,Theta) = -0.464694, 0.613888, -24.7155)
+
+[66.300000000] : Robot real posture: (X,Y,Theta) = -0.464694, 0.613888, -24.7155)
+
+[66.300000000] : Found 6 beacons.
+Beacon 3: (range,bearing) = (4.12213, 0.777522)
+Beacon 4: (range,bearing) = (3.88902, 0.91796)
+Beacon 5: (range,bearing) = (2.31818, 1.33323)
+Beacon 12: (range,bearing) = (3.07332, -1.32345)
+Beacon 13: (range,bearing) = (3.33535, -0.702089)
+Beacon 14: (range,bearing) = (4.57671, -0.289684)
+Robot estimated posture: (X,Y,Theta) = -0.437625, 0.601428, -24.7155)
+
+[66.400000000] : Robot real posture: (X,Y,Theta) = -0.437625, 0.601428, -24.7155)
+
+[66.400000000] : Found 6 beacons.
+Beacon 3: (range,bearing) = (4.10352, 0.781995)
+Beacon 4: (range,bearing) = (3.87318, 0.923327)
+Beacon 5: (range,bearing) = (2.31216, 1.34423)
+Beacon 12: (range,bearing) = (3.06702, -1.33173)
+Beacon 13: (range,bearing) = (3.31541, -0.707187)
+Beacon 14: (range,bearing) = (4.55164, -0.291327)
+Robot estimated posture: (X,Y,Theta) = -0.413853, 0.590487, -24.7155)
+
+[66.500000000] : Robot real posture: (X,Y,Theta) = -0.413854, 0.590487, -24.7155)
+
+[66.500000000] : Found 6 beacons.
+Beacon 3: (range,bearing) = (4.08709, 0.785997)
+Beacon 4: (range,bearing) = (3.85922, 0.928123)
+Beacon 5: (range,bearing) = (2.30706, 1.35403)
+Beacon 12: (range,bearing) = (3.06161, -1.33909)
+Beacon 13: (range,bearing) = (3.2978, -0.711759)
+Beacon 14: (range,bearing) = (4.52941, -0.292798)
+Robot estimated posture: (X,Y,Theta) = -0.392771, 0.580783, -24.7155)
+
+[66.600000000] : Robot real posture: (X,Y,Theta) = -0.392771, 0.580783, -24.7155)
+
+[66.600000000] : Found 6 beacons.
+Beacon 3: (range,bearing) = (4.07245, 0.789603)
+Beacon 4: (range,bearing) = (3.84682, 0.932443)
+Beacon 5: (range,bearing) = (2.30269, 1.36283)
+Beacon 12: (range,bearing) = (3.05691, -1.3457)
+Beacon 13: (range,bearing) = (3.28211, -0.71589)
+Beacon 14: (range,bearing) = (4.50955, -0.294127)
+Robot estimated posture: (X,Y,Theta) = -0.373916, 0.572105, -24.7155)
+
+[66.700000000] : Robot real posture: (X,Y,Theta) = -0.373916, 0.572105, -24.7155)
+
+[66.700000000] : Found 6 beacons.
+Beacon 3: (range,bearing) = (4.05931, 0.792873)
+Beacon 4: (range,bearing) = (3.83571, 0.936357)
+Beacon 5: (range,bearing) = (2.2989, 1.37079)
+Beacon 12: (range,bearing) = (3.05279, -1.35167)
+Beacon 13: (range,bearing) = (3.26803, -0.719644)
+Beacon 14: (range,bearing) = (4.49166, -0.295334)
+Robot estimated posture: (X,Y,Theta) = -0.356933, 0.564288, -24.7155)
+
+[66.800000000] : Robot real posture: (X,Y,Theta) = -0.356933, 0.564288, -24.7155)
+
+[66.800000000] : Found 6 beacons.
+Beacon 3: (range,bearing) = (4.04743, 0.795855)
+Beacon 4: (range,bearing) = (3.82569, 0.939924)
+Beacon 5: (range,bearing) = (2.29559, 1.37802)
+Beacon 12: (range,bearing) = (3.04915, -1.35709)
+Beacon 13: (range,bearing) = (3.25531, -0.723075)
+Beacon 14: (range,bearing) = (4.47545, -0.296435)
+Robot estimated posture: (X,Y,Theta) = -0.341542, 0.557204, -24.7155)
+
+[66.900000000] : Robot real posture: (X,Y,Theta) = -0.341542, 0.557204, -24.7155)
+
+[66.900000000] : Found 6 beacons.
+Beacon 3: (range,bearing) = (4.03665, 0.798588)
+Beacon 4: (range,bearing) = (3.8166, 0.94319)
+Beacon 5: (range,bearing) = (2.29268, 1.38463)
+Beacon 12: (range,bearing) = (3.04591, -1.36205)
+Beacon 13: (range,bearing) = (3.24375, -0.726224)
+Beacon 14: (range,bearing) = (4.46069, -0.297447)
+Robot estimated posture: (X,Y,Theta) = -0.327517, 0.550748, -24.7155)
+
+[67.0] : Robot real posture: (X,Y,Theta) = -0.327517, 0.550748, -24.7155)
+
+[67.0] : Found 6 beacons.
+Beacon 3: (range,bearing) = (4.0268, 0.801103)
+Beacon 4: (range,bearing) = (3.80832, 0.946195)
+Beacon 5: (range,bearing) = (2.29011, 1.3907)
+Beacon 12: (range,bearing) = (3.04301, -1.36659)
+Beacon 13: (range,bearing) = (3.23319, -0.729128)
+Beacon 14: (range,bearing) = (4.44717, -0.298378)
+Robot estimated posture: (X,Y,Theta) = -0.314676, 0.544838, -24.7155)
+
+[67.100000000] : Robot real posture: (X,Y,Theta) = -0.314676, 0.544838, -24.7155)
+
+[67.100000000] : Found 6 beacons.
+Beacon 3: (range,bearing) = (4.01776, 0.803426)
+Beacon 4: (range,bearing) = (3.80073, 0.948969)
+Beacon 5: (range,bearing) = (2.28782, 1.39629)
+Beacon 12: (range,bearing) = (3.0404, -1.37078)
+Beacon 13: (range,bearing) = (3.22351, -0.731814)
+Beacon 14: (range,bearing) = (4.43475, -0.29924)
+Robot estimated posture: (X,Y,Theta) = -0.302867, 0.539403, -24.7155)
+
+[67.200000000] : Robot real posture: (X,Y,Theta) = -0.302867, 0.539403, -24.7155)
+
+[67.200000000] : Found 6 beacons.
+Beacon 3: (range,bearing) = (4.00944, 0.805581)
+Beacon 4: (range,bearing) = (3.79376, 0.95154)
+Beacon 5: (range,bearing) = (2.28576, 1.40146)
+Beacon 12: (range,bearing) = (3.03804, -1.37465)
+Beacon 13: (range,bearing) = (3.21459, -0.734309)
+Beacon 14: (range,bearing) = (4.42328, -0.30004)
+Robot estimated posture: (X,Y,Theta) = -0.291967, 0.534385, -24.7155)
+
+[67.300000000] : Robot real posture: (X,Y,Theta) = -0.291967, 0.534385, -24.7155)
+
+[67.300000000] : Found 6 beacons.
+Beacon 3: (range,bearing) = (4.00175, 0.807584)
+Beacon 4: (range,bearing) = (3.78732, 0.953931)
+Beacon 5: (range,bearing) = (2.28392, 1.40626)
+Beacon 12: (range,bearing) = (3.0359, -1.37824)
+Beacon 13: (range,bearing) = (3.20635, -0.736632)
+Beacon 14: (range,bearing) = (4.41267, -0.300784)
+Robot estimated posture: (X,Y,Theta) = -0.281869, 0.529737, -24.7155)
+
+[67.400000000] : Robot real posture: (X,Y,Theta) = -0.281869, 0.529737, -24.7155)
+
+[67.400000000] : Found 6 beacons.
+Beacon 3: (range,bearing) = (3.99461, 0.809453)
+Beacon 4: (range,bearing) = (3.78135, 0.956159)
+Beacon 5: (range,bearing) = (2.28225, 1.41072)
+Beacon 12: (range,bearing) = (3.03394, -1.38158)
+Beacon 13: (range,bearing) = (3.1987, -0.738801)
+Beacon 14: (range,bearing) = (4.4028, -0.301479)
+Robot estimated posture: (X,Y,Theta) = -0.272485, 0.525418, -24.7155)
+
+Going for target 4
+[67.500000000] : Robot real posture: (X,Y,Theta) = -0.272485, 0.525418, -24.7155)
+
+[67.500000000] : Found 6 beacons.
+Beacon 3: (range,bearing) = (3.99461, 0.809453)
+Beacon 4: (range,bearing) = (3.78135, 0.956159)
+Beacon 5: (range,bearing) = (2.28225, 1.41072)
+Beacon 12: (range,bearing) = (3.03394, -1.38158)
+Beacon 13: (range,bearing) = (3.1987, -0.738801)
+Beacon 14: (range,bearing) = (4.4028, -0.301479)
+Robot estimated posture: (X,Y,Theta) = -0.272485, 0.525418, -24.7155)
+
+[67.600000000] : Robot real posture: (X,Y,Theta) = -0.263101, 0.521099, -24.7155)
+
+[67.600000000] : Found 6 beacons.
+Beacon 3: (range,bearing) = (3.98749, 0.811328)
+Beacon 4: (range,bearing) = (3.7754, 0.958394)
+Beacon 5: (range,bearing) = (2.28062, 1.41519)
+Beacon 12: (range,bearing) = (3.03201, -1.38493)
+Beacon 13: (range,bearing) = (3.19107, -0.740981)
+Beacon 14: (range,bearing) = (4.39294, -0.302178)
+Robot estimated posture: (X,Y,Theta) = -0.263101, 0.521099, -24.7155)
+
+[67.700000000] : Robot real posture: (X,Y,Theta) = -0.253717, 0.51678, -18.1838)
+
+[67.700000000] : Found 6 beacons.
+Beacon 3: (range,bearing) = (3.98039, 0.69921)
+Beacon 4: (range,bearing) = (3.76947, 0.846637)
+Beacon 5: (range,bearing) = (2.27905, 1.30567)
+Beacon 12: (range,bearing) = (3.03012, -1.50228)
+Beacon 13: (range,bearing) = (3.18346, -0.857172)
+Beacon 14: (range,bearing) = (4.38308, -0.416879)
+Robot estimated posture: (X,Y,Theta) = -0.253717, 0.51678, -18.1838)
+
+[67.800000000] : Robot real posture: (X,Y,Theta) = -0.243902, 0.513556, -11.652)
+
+[67.800000000] : Found 5 beacons.
+Beacon 3: (range,bearing) = (3.97249, 0.586884)
+Beacon 4: (range,bearing) = (3.76264, 0.734693)
+Beacon 5: (range,bearing) = (2.27636, 1.19605)
+Beacon 13: (range,bearing) = (3.17671, -0.97363)
+Beacon 14: (range,bearing) = (4.37363, -0.531835)
+Robot estimated posture: (X,Y,Theta) = -0.243902, 0.513556, -11.652)
+
+[67.900000000] : Robot real posture: (X,Y,Theta) = -0.233785, 0.51147, -5.12033)
+
+[67.900000000] : Found 5 beacons.
+Beacon 3: (range,bearing) = (3.96389, 0.474327)
+Beacon 4: (range,bearing) = (3.75498, 0.622538)
+Beacon 5: (range,bearing) = (2.2726, 1.08628)
+Beacon 13: (range,bearing) = (3.17091, -1.09032)
+Beacon 14: (range,bearing) = (4.36473, -0.647036)
+Robot estimated posture: (X,Y,Theta) = -0.233785, 0.51147, -5.12033)
+
+[68.0] : Robot real posture: (X,Y,Theta) = -0.223495, 0.510548, 1.41139)
+
+[68.0] : Found 5 beacons.
+Beacon 3: (range,bearing) = (3.9547, 0.36152)
+Beacon 4: (range,bearing) = (3.74659, 0.510145)
+Beacon 5: (range,bearing) = (2.26781, 0.976313)
+Beacon 13: (range,bearing) = (3.16615, -1.20722)
+Beacon 14: (range,bearing) = (4.35649, -0.762465)
+Robot estimated posture: (X,Y,Theta) = -0.223495, 0.510548, 1.41139)
+
+[68.100000000] : Robot real posture: (X,Y,Theta) = -0.173511, 0.511779, 7.94311)
+
+[68.100000000] : Found 5 beacons.
+Beacon 3: (range,bearing) = (3.90797, 0.252046)
+Beacon 4: (range,bearing) = (3.70304, 0.402739)
+Beacon 5: (range,bearing) = (2.24019, 0.880804)
+Beacon 13: (range,bearing) = (3.14871, -1.33606)
+Beacon 14: (range,bearing) = (4.32047, -0.884459)
+Robot estimated posture: (X,Y,Theta) = -0.173511, 0.511779, 7.94311)
+
+[68.200000000] : Robot real posture: (X,Y,Theta) = -0.12399, 0.518689, 14.373)
+
+[68.200000000] : Found 5 beacons.
+Beacon 3: (range,bearing) = (3.85957, 0.143054)
+Beacon 4: (range,bearing) = (3.65709, 0.295876)
+Beacon 5: (range,bearing) = (2.2087, 0.786042)
+Beacon 13: (range,bearing) = (3.13746, -1.46378)
+Beacon 14: (range,bearing) = (4.28896, -1.0057)
+Robot estimated posture: (X,Y,Theta) = -0.12399, 0.518689, 14.373)
+
+[68.300000000] : Robot real posture: (X,Y,Theta) = -0.0755553, 0.5311, 18.9474)
+
+[68.300000000] : Found 5 beacons.
+Beacon 3: (range,bearing) = (3.81009, 0.0650869)
+Beacon 4: (range,bearing) = (3.60929, 0.220076)
+Beacon 5: (range,bearing) = (2.17365, 0.722481)
+Beacon 13: (range,bearing) = (3.13252, -1.55949)
+Beacon 14: (range,bearing) = (4.2624, -1.09544)
+Robot estimated posture: (X,Y,Theta) = -0.0755553, 0.5311, 18.9474)
+
+[68.400000000] : Robot real posture: (X,Y,Theta) = -0.0282644, 0.547335, 21.669)
+
+[68.400000000] : Found 4 beacons.
+Beacon 3: (range,bearing) = (3.7602, 0.0184511)
+Beacon 4: (range,bearing) = (3.56051, 0.175641)
+Beacon 5: (range,bearing) = (2.1364, 0.690456)
+Beacon 14: (range,bearing) = (4.23975, -1.15343)
+Robot estimated posture: (X,Y,Theta) = -0.0282644, 0.547335, 21.669)
+
+[68.500000000] : Robot real posture: (X,Y,Theta) = 0.0182022, 0.565797, 23.0646)
+
+[68.500000000] : Found 4 beacons.
+Beacon 3: (range,bearing) = (3.71021, -0.00565935)
+Beacon 4: (range,bearing) = (3.51129, 0.15377)
+Beacon 5: (range,bearing) = (2.09809, 0.681276)
+Beacon 14: (range,bearing) = (4.21973, -1.18862)
+Robot estimated posture: (X,Y,Theta) = 0.0182022, 0.565797, 23.0646)
+
+[68.600000000] : Robot real posture: (X,Y,Theta) = 0.0642054, 0.585386, 23.6681)
+
+[68.600000000] : Found 3 beacons.
+Beacon 3: (range,bearing) = (3.66021, -0.0162695)
+Beacon 4: (range,bearing) = (3.46189, 0.14545)
+Beacon 5: (range,bearing) = (2.0595, 0.686033)
+Robot estimated posture: (X,Y,Theta) = 0.0642054, 0.585386, 23.6681)
+
+[68.700000000] : Robot real posture: (X,Y,Theta) = 0.11, 0.605458, 23.8636)
+
+[68.700000000] : Found 3 beacons.
+Beacon 3: (range,bearing) = (3.61021, -0.0199066)
+Beacon 4: (range,bearing) = (3.41243, 0.144162)
+Beacon 5: (range,bearing) = (2.02106, 0.698294)
+Robot estimated posture: (X,Y,Theta) = 0.11, 0.605458, 23.8636)
+
+[68.800000000] : Robot real posture: (X,Y,Theta) = 0.155725, 0.625686, 23.8816)
+
+[68.800000000] : Found 3 beacons.
+Beacon 3: (range,bearing) = (3.56022, -0.0204998)
+Beacon 4: (range,bearing) = (3.36295, 0.145984)
+Beacon 5: (range,bearing) = (1.98302, 0.714191)
+Robot estimated posture: (X,Y,Theta) = 0.155725, 0.625686, 23.8816)
+
+[68.900000000] : Robot real posture: (X,Y,Theta) = 0.201444, 0.645928, 23.8412)
+
+[68.900000000] : Found 3 beacons.
+Beacon 3: (range,bearing) = (3.51024, -0.0200875)
+Beacon 4: (range,bearing) = (3.31349, 0.148883)
+Beacon 5: (range,bearing) = (1.94551, 0.73173)
+Robot estimated posture: (X,Y,Theta) = 0.201444, 0.645928, 23.8412)
+
+[69.0] : Robot real posture: (X,Y,Theta) = 0.247178, 0.666138, 23.7947)
+
+[69.0] : Found 3 beacons.
+Beacon 3: (range,bearing) = (3.46025, -0.0195663)
+Beacon 4: (range,bearing) = (3.26406, 0.151967)
+Beacon 5: (range,bearing) = (1.9086, 0.750046)
+Robot estimated posture: (X,Y,Theta) = 0.247178, 0.666138, 23.7947)
+
+[69.100000000] : Robot real posture: (X,Y,Theta) = 0.292928, 0.686311, 23.7594)
+
+[69.100000000] : Found 4 beacons.
+Beacon 2: (range,bearing) = (3.22104, -0.629398)
+Beacon 3: (range,bearing) = (3.41026, -0.0192374)
+Beacon 4: (range,bearing) = (3.21464, 0.154937)
+Beacon 5: (range,bearing) = (1.87233, 0.768867)
+Robot estimated posture: (X,Y,Theta) = 0.292928, 0.686311, 23.7594)
+
