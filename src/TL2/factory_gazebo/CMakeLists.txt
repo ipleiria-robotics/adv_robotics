@@ -8,6 +8,7 @@ project(factory_gazebo)
 #  RelWithDebInfo : w/ debug symbols, w/ optimization
 #  MinSizeRel     : w/o debug symbols, w/ optimization, stripped binaries
 set(CMAKE_BUILD_TYPE Debug)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -34,5 +35,5 @@ catkin_package(
 #add_library(forklift_plugin src/forklift_plugin.cpp)
 #target_link_libraries(forklift_plugin ${catkin_LIBRARIES} ${gazebo_LIBRARIES} ${Boost_LIBRARIES})
 
-#add_library(tbox_plugin src/tbox_plugin.cpp)
-#target_link_libraries(tbox_plugin ${catkin_LIBRARIES} ${gazebo_LIBRARIES})
+add_library(tbox_plugin src/tbox_plugin.cpp)
+target_link_libraries(tbox_plugin ${catkin_LIBRARIES} ${gazebo_LIBRARIES})

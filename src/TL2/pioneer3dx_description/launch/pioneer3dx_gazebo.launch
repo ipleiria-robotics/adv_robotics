@@ -1,0 +1,27 @@
+<launch>
+  <arg name="namespace" default="p3dx"/>
+
+  <!-- Spawn robot in gazebo (we assume gazebo is already running) -->
+  <group ns="$(arg namespace)">
+    <!-- Add the robot -->
+    <node name="robot" pkg="gazebo_ros" type="spawn_model"
+          args="-file $(find pioneer3dx_description)/models/robot/model.sdf -sdf -model $(arg namespace)
+                -gazebo_namespace /gazebo
+                -x 0.0 -y -0.0 -z 0.0 -R 0.0 -P 0.0 -Y 0.0">
+    <!--  <remap from="/joint_states" to="/$(arg namespace)/joint_states" /> -->
+    </node>
+  </group>
+
+  <!-- Load joint controller configurations from YAML file to parameter server -->
+  <rosparam file="$(find pioneer3dx_description)/config/forklift_control.yaml" command="load"/>
+
+  <!-- load the controllers -->
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+    output="screen" ns="/p3dx" args="forklift_position_controller joint_state_controller"/>
+
+  <!-- start robot state publisher (for rviz and others) -->
+<!--  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
+    respawn="false" output="screen">
+    <param name="publish_frequency" type="double" value="50.0" />
+  </node> -->
+</launch>

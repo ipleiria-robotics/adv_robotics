@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(pioneer2dx_description)
+project(pioneer3dx_description)
 
 # Set the build type.  Options are:
 #  Coverage       : w/ debug symbols, w/o optimization, w/ code-coverage

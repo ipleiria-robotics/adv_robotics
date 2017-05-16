@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package>
-  <name>ta1_apps</name>
+  <name>tl2_apps</name>
   <version>1.0.0</version>
   <description>
     Control a Pioneer robot in a simulated factory environment.

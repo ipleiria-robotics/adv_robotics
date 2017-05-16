@@ -9,7 +9,7 @@
       <visual name="visual">
         <geometry>
           <mesh>
-            <uri>model://pioneer2dx_description/models/UTM_30LX/meshes/hokuyo.dae</uri>
+            <uri>model://pioneer3dx_description/models/UTM_30LX/meshes/hokuyo.dae</uri>
           </mesh>
         </geometry>
       </visual>

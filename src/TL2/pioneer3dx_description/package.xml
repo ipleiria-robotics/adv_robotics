@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package>
-  <name>pioneer2dx_description</name>
+  <name>pioneer3dx_description</name>
   <version>1.0.0</version>
-  <description>The pioneer2dx gazebo model with ROS plugin. Adapted from the pioneer2dx model from gazebo.</description>
+  <description>The pioneer3dx gazebo model with ROS plugin. Adapted from the pioneer2dx model from gazebo.</description>
   <maintainer email="hugo.costelha@ipleiria.pt">Hugo Costelha</maintainer>
   <license>GPLv3</license>
   <url type="website">https://github.com/ipleiria-robotics/adv_robotics</url>

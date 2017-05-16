@@ -1,0 +1,11 @@
+p3dx:
+  # Publish all joint states -----------------------------------
+  joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 50  
+  
+  # Position Controllers ---------------------------------------
+  forklift_position_controller:
+    type: effort_controllers/JointPositionController
+    joint: forklift_joint
+    pid: {p: 1200.0, i: 30.0, d: 40.0, i_clamp: 10.0}

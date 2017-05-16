@@ -5,7 +5,7 @@
   <arg name="gui" default="true" />
   <arg name="paused" default="true" />
   <arg name="use_sim_time" default="true" />
-  <arg name="namespace" default="robot"/>
+  <arg name="namespace" default="p3dx"/>
 
   <!-- Create the world. -->
   <include file="$(find factory_gazebo)/launch/factory_simulation.launch">
@@ -14,14 +14,9 @@
     <arg name="use_sim_time" value="$(arg use_sim_time)" />
   </include>
 
-  <!-- The following elements will all be created in the given namespace -->
-  <group ns="$(arg namespace)">
-    <!-- Add the robot -->
-    <node name="robot" pkg="gazebo_ros" type="spawn_model"
-          args="-file $(find pioneer2dx_description)/models/robot/model.sdf -sdf -model robot
-                -gazebo_namespace /gazebo
-                -x 0.0 -y -0.0 -z 0.0 -R 0.0 -P 0.0 -Y 0.0">
-    </node>
-  </group>
+  <!-- Add the robot -->
+  <include file="$(find pioneer3dx_description)/launch/pioneer3dx_gazebo.launch">
+    <arg name="namespace" value="$(arg namespace)"/>
+  </include>
 
 </launch>

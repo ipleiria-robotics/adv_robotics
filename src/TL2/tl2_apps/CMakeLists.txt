@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(ta1_apps)
+project(tl2_apps)
 
 # Set the build type.  Options are:
 #  Coverage       : w/ debug symbols, w/o optimization, w/ code-coverage
@@ -27,8 +27,8 @@ catkin_package(
     DEPENDS opencv cv_bridge image_transport
 )
 
-add_executable(ta1_teleop src/ta1_teleop.cpp)
-target_link_libraries(ta1_teleop ${catkin_LIBRARIES} ${OpenCV_LIBS})
+add_executable(tl2_teleop src/tl2_teleop.cpp)
+target_link_libraries(tl2_teleop ${catkin_LIBRARIES} ${OpenCV_LIBS})
 
 #add_executable(ta2_localization src/ta2_localization.cpp)
 #target_link_libraries(ta2_localization ${catkin_LIBRARIES} ${OpenCV_LIBS})

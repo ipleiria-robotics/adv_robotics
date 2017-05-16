@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <sdf version="1.5">
-  <model name="pioneer2dx">
+  <model name="pioneer3dx">
     <link name="chassis">
       <pose>0 0 0.16 0 0 0</pose>
       <inertial>
@@ -43,7 +43,7 @@
         <pose>0 0 0.04 0 0 0</pose>
         <geometry>
           <mesh>
-            <uri>model://pioneer2dx_description/models/robot/meshes/chassis.dae</uri>
+            <uri>model://pioneer3dx_description/models/robot/meshes/chassis.dae</uri>
           </mesh>
         </geometry>
       </visual>
@@ -178,8 +178,23 @@
       <torque>5</torque>
     </plugin>
  -->
+
+    <!-- Add forklift -->
     <include>
-       <uri>model://pioneer2dx_description/models/UTM_30LX</uri>
+       <uri>model://pioneer3dx_description/models/forklift</uri>
+       <name>forklift</name>
+       <pose>0.0 0.0 0.03 0 0 0</pose>
+       <static>false</static>
+    </include>
+    <joint name="chassis_forklift_joint" type="fixed" >
+      <pose frame="chassis">0.21 0.0 0.03 0 0 0</pose>
+      <child>forklift::base_link</child>
+      <parent>chassis</parent>
+    </joint>
+
+    <!-- Add laser -->
+    <include>
+       <uri>model://pioneer3dx_description/models/UTM_30LX</uri>
        <name>laser</name>
        <pose>0.0 0.0 0.30 0 0 0</pose>
        <static>false</static>
@@ -209,6 +224,15 @@
       <odometryTopic>odom</odometryTopic>
       <odometryFrame>odom</odometryFrame>
       <robotBaseFrame>chassis</robotBaseFrame>
+    </plugin>
+    <plugin name="ground_truth" filename="libgazebo_ros_p3d.so">
+      <updateRate>50.0</updateRate>
+      <bodyName>chassis</bodyName>
+      <topicName>/p3dx/base_pose_ground_truth</topicName>
+      <frameName>map</frameName>
+    </plugin>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>/p3dx</robotNamespace>
     </plugin>
   </model>
 </sdf>
