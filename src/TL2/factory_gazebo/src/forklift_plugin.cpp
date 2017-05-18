@@ -26,89 +26,25 @@
 */
 
 
-#include "tbox_plugin.hpp"
+#include "forklift_plugin.hpp"
 
-#define TBOX_DEBUG 1
+#define FORKLIFT_DEBUG 1
 
 namespace gazebo
 {
-#define RAD2DEG(x) x/3.1415927*180
-// Maximum error to consider in desired orientation
-#define MAX_ANG_ERROR 0.17 // [rad] (10º)
-
-  // Register this plugin with the simulator
-  GZ_REGISTER_MODEL_PLUGIN(TBoxModelPlugin)
-
   // Constructor
-  TBoxModelPlugin::TBoxModelPlugin():
-    part_state_(PART_UNPROCESSED), num_machines_(8),
-    num_out_warehouses_(5), first_iteration_(true)
+  ForkliftModelPlugin::ForkliftModelPlugin()
   {
-    // Build colors vector
-    colors_.resize(NUM_COLORS);
-    colors_[RED] = "Gazebo/RedGlow";
-    colors_[YELLOW] = "Gazebo/Yellow";
-    colors_[GREEN] = "Gazebo/Green";
-    colors_[BLUE] = "Gazebo/Blue";
-
-
-    // Build machines positions (area limits)
-    machines_position_.resize(num_machines_);
-    double xbase = -1.87,
-           xdelta = 0.35,
-           ybase = -0.50,
-           ydelta = 0.50;
-    double new_xbase = xbase;
-    uint machine_num = 0;
-    for(uint x=0; x < 2; x++) // For each X side
-    {
-      for(uint y=0; y < 2; y++) // For each Y side
-      {
-        machines_position_[machine_num].minX = new_xbase;
-        machines_position_[machine_num].minY = ybase;
-        machines_position_[machine_num].maxX = new_xbase+xdelta;
-        machines_position_[machine_num].maxY = ybase+ydelta;
-        machine_num++;
-        machines_position_[machine_num].minX = new_xbase;
-        machines_position_[machine_num].minY = ybase+ydelta;
-        machines_position_[machine_num].maxX = new_xbase+xdelta;
-        machines_position_[machine_num].maxY = ybase+2*ydelta;
-        machine_num++;
-        new_xbase += xdelta;
-      }
-      new_xbase = -xbase-2*xdelta;
-    }
-
-    // Build warehouses positions (area limits)
-    // Create warehouse working area
-    out_warehouses_position_.resize(num_out_warehouses_);
-    xbase = -3.30,
-    xdelta = 0.50,
-    ybase = 3.05,
-    ydelta = 0.35;
-    for(uint n=0; n < 5; n++)
-    {
-      out_warehouses_position_[n].minX = xbase;
-      out_warehouses_position_[n].minY = ybase;
-      out_warehouses_position_[n].maxX = xbase+xdelta;
-      out_warehouses_position_[n].maxY = ybase+ydelta;
-      xbase += xdelta;
-    }
-
-    // Assign a random process time to this box
-    process_duration_ = 20.0+(rand()*1.0/RAND_MAX)*30;
-    //process_duration_ = 3.0;
-
-    ROS_INFO_STREAM("TBox plugin created (with random processing time of " << process_duration_ << "seg.");
+    ROS_INFO_STREAM("Forlift plugin created .");
   }
 
   // Destructor
-  TBoxModelPlugin::~TBoxModelPlugin()
+  ForkliftModelPlugin::~ForkliftModelPlugin()
   {
   }
 
   // Load the controller
-  void TBoxModelPlugin::Load( physics::ModelPtr _parent, sdf::ElementPtr _sdf )
+  void ForkliftModelPlugin::Load( physics::ModelPtr _model, sdf::ElementPtr _sdf )
   {
     // Make sure the ROS node for Gazebo has already been initalized
     if (!ros::isInitialized())
@@ -118,53 +54,61 @@ namespace gazebo
       return;
     }
 
-    parent_ = _parent;
-    world_ = parent_->GetWorld();
+    model_ = _model;
 
-    if (!parent_) { gzthrow("TBox controller requires a Model as its parent"); }
-
-    // Find base link in the plugin parameters
-    std::string baseLinkName;
-    if (!_sdf->HasElement("baseLink"))
+    if (!model_)
     {
-      baseLinkName = "tbox_base_link";
-      ROS_WARN("TBox plugin missing <baseLink>, defaults to %s", baseLinkName.c_str());
+      gzthrow("Forlift controller requires a Model as its parent");
     } else
-      baseLinkName = _sdf->GetElement("baseLink")->Get<std::string>();
-
-    // Find LED link in the plugin parameters
-    std::string ledVisualName;
-    if (!_sdf->HasElement("ledVisual"))
     {
-      ledVisualName = "tbox_LED";
-      ROS_WARN("TBox plugin missing <ledLink>, defaults to %s", ledVisualName.c_str());
-    } else
-      ledVisualName = _sdf->GetElement("ledVisual")->Get<std::string>();
+      ROS_INFO_STREAM("Forlift plugin atached to." << model_->GetName());
+    }
 
-    // Get LED link visual name
-    physics::LinkPtr base_link = parent_->GetLink(baseLinkName);
-    if(!base_link)
-      ROS_ERROR("Could not get base link");
-    ledParentName_ = base_link->GetScopedName();
-    ledVisualName_ = ledParentName_ + "::" + ledVisualName;
+    double startPosition = 0;
+    // Check that the velocity element exists, then read the value
+    if (_sdf->HasElement("startPosition"))
+      startPosition = _sdf->Get<double>("startPosition");
 
-    // Start node and transport for canging color
-    node_ = transport::NodePtr(new transport::Node());
-    node_->Init(parent_->GetWorld()->GetName());
-    visPub_ = node_->Advertise<msgs::Visual>("~/visual", 10);
+    // Get the first joint (prismatic joint).
+    this->joint_ = _model->GetJoints()[0];
+
+    // Setup a P-controller, with a gain of 0.1.
+    this->pid_ = common::PID(0.1, 0, 0);
+
+    // Apply the P-controller to the joint.
+    this->model_->GetJointController()->SetPositionPID(this->joint_->GetScopedName(), this->pid_);
+
+    // Set the joint's target positions.
+    this->model_->GetJointController()->SetPositionTarget(this->joint_->GetScopedName(), startPosition);
 
     // listen to the update event (broadcast every simulation iteration)
-    this->updateConnection_ = event::Events::ConnectWorldUpdateBegin(boost::bind(&TBoxModelPlugin::UpdateChild, this));
+//    this->updateConnection_ = event::Events::ConnectWorldUpdateBegin(boost::bind(&ForkliftModelPlugin::UpdateChild, this));
 
-    ROS_INFO("TBox plugin loaded");
+    // Create the node
+    this->node_ = transport::NodePtr(new transport::Node());
+#if GAZEBO_MAJOR_VERSION < 8
+    this->node_->Init(this->model->GetWorld()->GetName());
+#else
+    this->node_->Init(this->model->GetWorld()->Name());
+#endif
+
+    // Create a topic name
+    std::string topicName = "~/" + this->model->GetName() + "/pos_cmd";
+
+    // Subscribe to the topic, and register a callback
+    this->sub_ = this->node_->Subscribe(topicName,
+       &ForkliftPlugin::OnMsg, this);
+
+    ROS_INFO("Forklift plugin loaded and controller started");
+    gzdbg << "Forklift plugin loaded and controller startedd";
   }
 
   // Update the controller
-  void TBoxModelPlugin::UpdateChild()
+/*  void ForkliftModelPlugin::UpdateChild()
   {
     math::Pose boxPose = parent_->GetWorldPose();
 
-#if TBOX_DEBUG
+#if FORKLIFT_DEBUG
     gzdbg << "----\n"
           << parent_->GetName() << " pos: "
           << boxPose.pos.x << " " << boxPose.pos.y << " " << boxPose.pos.z << " "
@@ -259,35 +203,21 @@ namespace gazebo
       part_color_ = desired_color;
     }
   }
+*/
 
-  bool TBoxModelPlugin::checkPartInMachine(math::Pose &object_pose)
+  void ForkliftModelPlugin::SetPosition(const double &position)
   {
-    for( uint i =0; i < num_machines_; i++ )
-    {
-      if( (object_pose.pos.x >= machines_position_[i].minX) &&
-          (object_pose.pos.x <= machines_position_[i].maxX) &&
-          (object_pose.pos.y >= machines_position_[i].minY) &&
-          (object_pose.pos.y <= machines_position_[i].maxY) &&
-          (fabs(object_pose.rot.GetPitch()) < MAX_ANG_ERROR) &&
-          (fabs(object_pose.rot.GetRoll()) < MAX_ANG_ERROR) )
-        return true;
-    }
-
-    return false;
+    // Set the joint's target velocity.
+    this->model_->GetJointController()->SetPositionTarget(
+        this->joint_->GetScopedName(), position);
   }
 
-  bool TBoxModelPlugin::checkPartInOutWarehouse(math::Pose &object_pose)
+  void OnMsg(ConstVector3dPtr &msg)
   {
-    for( uint i = 0; i < num_out_warehouses_; i++ )
-    {
-      if( (object_pose.pos.x >= out_warehouses_position_[i].minX) &&
-          (object_pose.pos.x <= out_warehouses_position_[i].maxX) &&
-          (object_pose.pos.y >= out_warehouses_position_[i].minY) &&
-          (object_pose.pos.y <= out_warehouses_position_[i].maxY) &&
-          (fabs(object_pose.rot.GetPitch()) < MAX_ANG_ERROR) &&
-          (fabs(object_pose.rot.GetRoll()) < MAX_ANG_ERROR) )
-        return true;
-    }
-    return false;
+    this->SetPosition(msg->x());
   }
+
+  // Register this plugin with the simulator
+  GZ_REGISTER_MODEL_PLUGIN(ForkliftModelPlugin)
+
 }

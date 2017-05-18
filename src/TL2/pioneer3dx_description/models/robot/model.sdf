@@ -231,8 +231,9 @@
       <topicName>/p3dx/base_pose_ground_truth</topicName>
       <frameName>map</frameName>
     </plugin>
-    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+<!--    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
       <robotNamespace>/p3dx</robotNamespace>
     </plugin>
+-->
   </model>
 </sdf>

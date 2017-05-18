@@ -251,5 +251,14 @@
         <use_parent_model_frame>1</use_parent_model_frame>
       </axis>
     </joint>
+    
+    <!-- Plugin controller -->
+<!--    <plugin name='forklift_controller' filename='libforklift_plugin.so'>
+      <alwaysOn>true</alwaysOn>
+      <update>100</update>
+      <updateRate>10.0</updateRate>
+      <startPosition>0.0</startPosition>
+    </plugin>
+-->
   </model>
 </sdf>

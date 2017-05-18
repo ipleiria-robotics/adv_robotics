@@ -59,10 +59,10 @@
 <!--        <plugin name="laser" filename="libRayPlugin.so" /> -->
         <always_on>1</always_on>
         <update_rate>30</update_rate>
-        <visualize>true</visualize>
+        <visualize>false</visualize>
         <plugin name="gazebo_ros_hokuyo_controller" filename="libgazebo_ros_laser.so">
           <topicName>robot/laser/scan</topicName>
-  	  <frameName>laser_link</frameName>
+  	      <frameName>laser_link</frameName>
         </plugin>
       </sensor>
     </link>
