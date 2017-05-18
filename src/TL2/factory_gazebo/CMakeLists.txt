@@ -34,8 +34,8 @@ catkin_package(
 #include_directories(${Boost_INCLUDE_DIRS})
 
 # Plugin to control the forklift from ROS
-add_library(forklift_plugin src/forklift_plugin.cpp)
-target_link_libraries(forklift_plugin ${catkin_LIBRARIES} ${gazebo_LIBRARIES})
+#add_library(forklift_plugin src/forklift_plugin.cpp)
+#target_link_libraries(forklift_plugin ${catkin_LIBRARIES} ${gazebo_LIBRARIES})
 
 # Plugin for the "boxes" to change according to their position and orientation
 add_library(tbox_plugin src/tbox_plugin.cpp)

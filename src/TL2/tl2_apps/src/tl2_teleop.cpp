@@ -105,7 +105,7 @@ void odomCallback(const nav_msgs::Odometry& msg)
   odom_updated = true;
 }
 
-/*
+
 void forkliftCallback(const control_msgs::JointControllerStatePtr& msg)
 {
   // If the forklift is moving, then it is neither down or up
@@ -137,8 +137,7 @@ void forkliftCallback(const control_msgs::JointControllerStatePtr& msg)
     }
   }
 }
-*/
-/*
+
 void cameraCallback(const sensor_msgs::ImageConstPtr& msg)
 {
   cv_bridge::CvImagePtr cv_ptr;
@@ -166,7 +165,7 @@ void cameraCallback(const sensor_msgs::ImageConstPtr& msg)
   if( cv::waitKey(5) == 27 )
     ros::shutdown(); // Shutdown if ESC key was pressed
 }
-*/
+
 /**
  * Main function
  * Controls the robot using the keyboard keys and outputs posture and velocity
@@ -193,7 +192,7 @@ int main(int argc, char** argv)
   double lin_vel=0, ang_vel=0;
   double l_scale, a_scale;
   // Velocity increase for each keystroke
-  double delta_lin_vel=0.1, delta_ang_vel = 5.0/180.0*M_PI;
+  double delta_lin_vel=0.1, delta_ang_vel = 5.0/180.0*3.14;
 
   // Init ROS
   ros::init(argc, argv, "robot_keyboard_teleop");
@@ -202,7 +201,7 @@ int main(int argc, char** argv)
   ros::NodeHandle nh; // Node handle
   ros::Publisher vel_pub; // Velocity commands publisher
   geometry_msgs::Twist vel_cmd; // Velocity commands
-  std::string robot_name = "/robot";
+  std::string robot_name = "/p3dx";
   std_msgs::Float64 forklift_pos_cmd; // Forklift position command
 
   // Output usage information
@@ -225,13 +224,13 @@ int main(int argc, char** argv)
   vel_pub = nh.advertise<geometry_msgs::Twist>(robot_name+"/cmd_vel", 1);
 
   // Setup subscriber for the forlift status
-//  ros::Subscriber sub_f = nh.subscribe(robot_name+"/forklift_position_controller/state", 1, forkliftCallback);
+  ros::Subscriber sub_f = nh.subscribe(robot_name+"/forklift_position_controller/state", 1, forkliftCallback);
 
   // Setup publishers for the forklift commands
-//  ros::Publisher forklift_pub = nh.advertise<std_msgs::Float64>(robot_name+"/forklift_position_controller/command", 1);
+  ros::Publisher forklift_pub = nh.advertise<std_msgs::Float64>(robot_name+"/forklift_position_controller/command", 1);
 
   // Setup camera subscriber
-//  ros::Subscriber sub_cam = nh.subscribe(robot_name+"/camera_front/image_raw", 1, cameraCallback);
+  ros::Subscriber sub_cam = nh.subscribe(robot_name+"/camera_front/image_raw", 1, cameraCallback);
 
   // Infinite loop
   ros::Rate cycle(10.0); // Rate when no key is being pressed
@@ -288,7 +287,7 @@ int main(int argc, char** argv)
         lin_vel = 0;
         ang_vel = 0;
         break;
-/*      case 'e':
+      case 'e':
         // Send forklit up
         forklift_pos_cmd.data = FORKLIFT_UP;
         forklift_pub.publish(forklift_pos_cmd);
@@ -298,7 +297,7 @@ int main(int argc, char** argv)
         forklift_pos_cmd.data = FORKLIFT_DOWN;
         forklift_pub.publish(forklift_pos_cmd);
         break;
-*/      case 's':
+      case 's':
         // Save next frame
         save_next_frame = true;
         break;
@@ -316,7 +315,7 @@ int main(int argc, char** argv)
     // Show desired velocity
     std::cout << "Robot desired velocity = "
               << lin_vel << " [m/s], "
-              << ang_vel*180.0/M_PI << " [º/s]" << std::endl;
+              << lin_vel*180.0/M_PI << " [º/s]" << std::endl;
 
     // Send velocity commands
     vel_cmd.angular.z = a_scale*ang_vel;

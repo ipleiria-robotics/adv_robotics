@@ -15,7 +15,7 @@
   </include>
 
   <!-- Add the robot -->
-  <include file="$(find pioneer3dx_description)/launch/pioneer3dx_gazebo.launch">
+  <include file="$(find pioneer3dx_description)/launch/pioneer3dx_gazebo_hokuyo_urg_camera.launch">
     <arg name="namespace" value="$(arg namespace)"/>
   </include>
 

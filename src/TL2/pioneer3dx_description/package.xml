@@ -2,22 +2,41 @@
 <package>
   <name>pioneer3dx_description</name>
   <version>1.0.0</version>
-  <description>The pioneer3dx gazebo model with ROS plugin. Adapted from the pioneer2dx model from gazebo.</description>
+  <description>
+    The pioneer3dx robot description package, based on the p2os package from http://ros.org/wiki/p2os-vanderbilt.
+  </description>
+  <license>BSD</license>
   <maintainer email="hugo.costelha@ipleiria.pt">Hugo Costelha</maintainer>
-  <license>GPLv3</license>
-  <url type="website">https://github.com/ipleiria-robotics/adv_robotics</url>
-  <author email="hugo.costelha@ipleiria.pt">Hugo Costelha</author>
+  <author email="hunter.allen@Vanderbilt.edu">Hunter Allen</author>
+  <author email="dfseifer@usc.edu">David Feil-Seifer</author>
+  <author>Brian Gerkey</author>
+  <author>Kasper Stoy</author>
+  <author>Richard Vaughan</author>
+  <author>Andrew Howard</author>
+  <author>Tucker Hermans</author>
+  <author>ActivMedia Robotics LLC</author>
+  <author>MobileRobots Inc.</author>
 
-  <buildtool_depend>catkin</buildtool_depend>
-  <run_depend>joint_state_publisher</run_depend>
-	<run_depend>robot_state_publisher</run_depend>
-	<run_depend>rviz</run_depend>
-	<run_depend>xacro</run_depend>
-  <run_depend>controller_manager</run_depend>
-  <export>
-    <!-- Allow gazebo to find models in our path -->
-    <gazebo_ros
-        gazebo_media_path="${prefix}/.."
-        gazebo_model_path="${prefix}/.." />
-  </export>
+  <!-- Url tags are optional, but mutiple are allowed, one per tag -->
+  <!-- Optional attribute type can be: website, bugtracker, or repository -->
+  <!-- Example: -->
+  <!-- <url type="website">http://wiki.ros.org/pioneer3dx_description</url> -->
+
+ <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>sensor_msgs</build_depend>
+  <build_depend>urdf</build_depend>
+  <build_depend>std_msgs</build_depend>
+  <build_depend>message_generation</build_depend>
+  <build_depend>geometry_msgs</build_depend>
+  <build_depend>robot_state_publisher</build_depend>
+  <build_depend>gazebo_ros</build_depend>
+  <run_depend>sensor_msgs</run_depend>
+  <run_depend>robot_state_publisher</run_depend>
+  <run_depend>geometry_msgs</run_depend>
+  <run_depend>urdf</run_depend>
+  <run_depend>message_runtime</run_depend>
+  <run_depend>std_msgs</run_depend>
+  <run_depend>gazebo_ros</run_depend>
+  <run_depend>ros_control</run_depend>
+  <run_depend>ros_controllers</run_depend>
 </package>
