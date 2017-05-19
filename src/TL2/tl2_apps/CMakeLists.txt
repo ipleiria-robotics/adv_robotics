@@ -30,8 +30,8 @@ catkin_package(
 add_executable(tl2_teleop src/tl2_teleop.cpp)
 target_link_libraries(tl2_teleop ${catkin_LIBRARIES} ${OpenCV_LIBS})
 
-#add_executable(ta2_localization src/ta2_localization.cpp)
-#target_link_libraries(ta2_localization ${catkin_LIBRARIES} ${OpenCV_LIBS})
+add_executable(tl2_localization src/tl2_localization.cpp)
+target_link_libraries(tl2_localization ${catkin_LIBRARIES} ${OpenCV_LIBS})
 
-#add_executable(ta2_navigation src/ta2_navigation.cpp)
-#target_link_libraries(ta2_navigation ${catkin_LIBRARIES} ${OpenCV_LIBS})
+add_executable(tl2_navigation src/tl2_navigation.cpp)
+target_link_libraries(tl2_navigation ${catkin_LIBRARIES} ${OpenCV_LIBS})
