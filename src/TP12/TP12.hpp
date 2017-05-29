@@ -27,8 +27,8 @@ ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef TP9_HPP
-#define TP9_HPP
+#ifndef TP12_HPP
+#define TP12_HPP
 
 // Headers to read and write from the terminal and/or file
 #include <fstream>
@@ -47,7 +47,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "utils.hpp"
 #include "ExtendedKalmanFilter.hpp"
 
-class TP9
+class TP12
 {
 public:
   /**
@@ -60,7 +60,7 @@ public:
    * max_ang_vel - maximum allowed angular velocity for the robot [m/s].
    * robotname - name associated with the robot.
    */
-   TP9(const double map_resolution, const double map_length,
+   TP12(const double map_resolution, const double map_length,
        const double map_border, const uint delta_save,
        const double max_lin_vel, const double max_ang_vel,
        std::string robotname);
@@ -68,7 +68,7 @@ public:
    /**
     * Destructor
     */
-    ~TP9();
+    ~TP12();
 
 private:
 
@@ -165,4 +165,4 @@ private:
 };
 
 
-#endif // TP9_HPP
+#endif // TP12_HPP

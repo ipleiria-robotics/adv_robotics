@@ -37,7 +37,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //#include <geometry_msgs/Twist.h> // Velocity messages
 
 // Coordinate transformations
-#include "TP9.hpp"
+#include "TP12.hpp"
 
 /**
  * Main function
@@ -47,13 +47,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 int main(int argc, char** argv)
 {
   // Init ROS
-  ros::init(argc, argv, "tp9");
+  ros::init(argc, argv, "tp12");
 
-  // Initiate TP9. Recall that the arguments are:
+  // Initiate TP12. Recall that the arguments are:
   // map_resolution, map_length, safety_border, delta_save,
   // max_lin_vel, max_ang_vel
-  // (check TP9.hpp for more details).
-  TP9 tp9(0.05, 20.0, 2.0, 100, 1.0, deg2rad(90.0), "/robot_0");
+  // (check TP12.hpp for more details).
+  TP12 tp12(0.05, 20.0, 2.0, 100, 1.0, deg2rad(90.0), "/robot_0");
 
   // Infinite loop (will call the callbacks whenever information is available,
   // until ros::shutdown() is called.

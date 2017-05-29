@@ -33,11 +33,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 // OpenCV header files
 #include <cv.hpp>
 
-#include "TP9.hpp"
+#include "TP12.hpp"
 #include "utils.hpp"
 #include "LocalFrameWorldFrameTransformations.hpp"
 
-TP9::TP9(const double map_resolution, const double map_length,
+TP12::TP12(const double map_resolution, const double map_length,
          const double map_border, const uint delta_save,
          const double max_lin_vel, const double max_ang_vel,
          std::string robotname):
@@ -146,10 +146,10 @@ TP9::TP9(const double map_resolution, const double map_length,
 
   /// Setup subscribers
   _sub_real_pose = _nh.subscribe(robotname + "/base_pose_ground_truth", 1,
-                                 &TP9::realPoseCallback, this);
-  _sub_odom = _nh.subscribe(robotname + "/odom", 1, &TP9::odomCallback, this);
-  _sub_laser = _nh.subscribe(robotname + "/base_scan", 1, &TP9::laserCallback, this);
-  _sub_markers = _nh.subscribe(robotname + "/markers", 1, &TP9::markersCallback, this);
+                                 &TP12::realPoseCallback, this);
+  _sub_odom = _nh.subscribe(robotname + "/odom", 1, &TP12::odomCallback, this);
+  _sub_laser = _nh.subscribe(robotname + "/base_scan", 1, &TP12::laserCallback, this);
+  _sub_markers = _nh.subscribe(robotname + "/markers", 1, &TP12::markersCallback, this);
 
   /// Setup publisher for linear and angular velocity
   _vel_pub = _nh.advertise<geometry_msgs::Twist>(robotname + "/cmd_vel", 1);
@@ -169,7 +169,7 @@ TP9::TP9(const double map_resolution, const double map_length,
 }
 
 
-TP9::~TP9()
+TP12::~TP12()
 {
   // If we are quitting, stop the robot
   _vel_cmd.angular.z = 0;
@@ -187,7 +187,7 @@ TP9::~TP9()
 }
 
 
-void TP9::realPoseCallback(const nav_msgs::Odometry& msg)
+void TP12::realPoseCallback(const nav_msgs::Odometry& msg)
 {
   // Store real, error-free pose values given by the simulator (for debugging
   // puposes only) --> DO NOT USE THIS FOR ANYTHING ELSE
@@ -198,7 +198,7 @@ void TP9::realPoseCallback(const nav_msgs::Odometry& msg)
 
 
 
-void TP9::odomCallback(const nav_msgs::Odometry& msg)
+void TP12::odomCallback(const nav_msgs::Odometry& msg)
 {
   geometry_msgs::Pose2D old_pose = _odo_robot_pose;
 
@@ -248,7 +248,7 @@ void TP9::odomCallback(const nav_msgs::Odometry& msg)
 }
 
 
-void TP9::markersCallback(const markers_msgs::Markers& msg)
+void TP12::markersCallback(const markers_msgs::Markers& msg)
 {
   // This callback only makes sense if we have more than one marker
   if( msg.num_markers < 1 )
@@ -297,7 +297,7 @@ void TP9::markersCallback(const markers_msgs::Markers& msg)
 }
 
 
-void TP9::laserCallback(const sensor_msgs::LaserScan& msg)
+void TP12::laserCallback(const sensor_msgs::LaserScan& msg)
 {
   double angle, max_angle;
   unsigned int i;
@@ -369,7 +369,7 @@ void TP9::laserCallback(const sensor_msgs::LaserScan& msg)
 }
 
 
-void TP9::outputDebugInfoToFile(std::string header)
+void TP12::outputDebugInfoToFile(std::string header)
 {
   /// Write data to the file
   if( header.length() > 0 )
@@ -390,7 +390,7 @@ void TP9::outputDebugInfoToFile(std::string header)
 }
 
 
-void TP9::showDebugInformation(std::string header, bool erase_landmarks)
+void TP12::showDebugInformation(std::string header, bool erase_landmarks)
 {
   /// Write data to the file
   outputDebugInfoToFile(header);
