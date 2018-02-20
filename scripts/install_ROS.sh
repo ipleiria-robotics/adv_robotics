@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo "Installing ROS Indigo on Ubuntu $(lsb_release -sc)"
+echo "Installing ROS Kinetic on Ubuntu $(lsb_release -sc)"
 ## This commands were taken from http://www.ros.org/wiki/hydro/Installation/Ubuntu
 ## This script must run using sudo
 
@@ -25,10 +25,10 @@ apt-get update
 # Perform full ROS installation
 # In systems with low memory, installing everything simultaneously can lead to 
 #problems. To prevent this, we should first install texlive, then proceed with ROS.
-apt-get -y install ros-indigo-desktop ros-indigo-stage-ros
+apt-get -y install ros-kinetic-desktop ros-kinetic-stage-ros
 # Install additional ros packages
-# ros-indigo-turtlebot-simulator
-apt-get -y install ros-indigo-hector-quadrotor ros-indigo-ros-control ros-indigo-effort-controllers ros-indigo-joint-state-controller ros-indigo-gazebo7-ros-control ros-indigo-gazebo7-ros-pkgs
-apt-get -y install ros-indigo-pcl-conversions ros-indigo-pcl-ros ros-indigo-laser-filters
+# ros-kinetic-turtlebot-simulator
+apt-get -y install ros-kinetic-hector-quadrotor ros-kinetic-ros-control ros-kinetic-effort-controllers ros-kinetic-joint-state-controller ros-kinetic-gazebo7-ros-control ros-kinetic-gazebo7-ros-pkgs
+apt-get -y install ros-kinetic-pcl-conversions ros-kinetic-pcl-ros ros-kinetic-laser-filters
 rosdep init
 

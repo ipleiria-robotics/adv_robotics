@@ -2,15 +2,15 @@
 
 # We need to update qtcreator, since the version included in Kubuntu has some problems
 echo "--> Downloading updated Qt"
-wget http://download.qt.io/archive/qt/5.6/5.6.2/qt-opensource-linux-x64-5.6.2.run
+wget http://download.qt.io/archive/qt/5.6/5.6.3/qt-opensource-linux-x64-5.6.3.run
 echo "--> Removing old QtCreator"
 sudo apt-get -y remove qtcreator qtcreator-doc qtcreator-plugin-remotelinux qtcreator-plugin-valgrind qtcreator-plugin-qnx qtcreator-plugin-cmake
 echo "--> Updating GDB"
 sudo apt-get -y install gdb
-chmod +x qt-opensource-linux-x64-5.6.2.run
+chmod +x qt-opensource-linux-x64-5.6.3.run
 echo "--> Updating qt. Accept all default options in the window"
-sudo ./qt-opensource-linux-x64-5.6.2.run
-sudo ln -s /opt/Qt5.6.2/Tools/QtCreator/bin/qtcreator /usr/local/bin/
+sudo ./qt-opensource-linux-x64-5.6.3.run
+sudo ln -s /opt/Qt5.6.3/Tools/QtCreator/bin/qtcreator /usr/local/bin/
 
 # Done
 echo
