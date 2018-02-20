@@ -1,9 +1,0 @@
-<launch>
-  <!-- Run the stage simulator -->
-  <node pkg="mystage_ros" type="stageros" name="stage" 
-        args="$(env HOME)/ros/worlds/stage/factory_laser_with_landmarks.world"
-        required="true"/>
-  
-  <!-- Run our application -->
-  <node pkg="tp04" type="tp04" name="tp04" required="true" cwd="node"/>
-</launch>
