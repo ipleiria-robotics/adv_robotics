@@ -46,6 +46,8 @@ source "/opt/ros/kinetic/setup.bash"
 catkin_make -C ~/ros
 
 # Qt
+echo "Downloading update QtCreator script"
+wget https://raw.githubusercontent.com/ipleiria-robotics/adv_robotics/master/scripts/update_qtcreator.sh
 sudo sh update_qtcreator.sh
 
 
