@@ -90,7 +90,7 @@ pioneer2dx_base_no_sonar
 
   # Use "gps" for error-free position in world coordinates, and "odom" for
   # odometry with uniform random distributed error
-  localization "odom"
+  localization "gps"
   localization_origin [ 0 0 0 0 ]
   odom_error [ 0.1 0.03 0 0.2 ] # [ X Y Z Theta ]
 )
