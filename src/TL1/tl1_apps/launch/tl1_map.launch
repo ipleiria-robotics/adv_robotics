@@ -1,0 +1,9 @@
+<launch>
+  <group ns="robot_0">
+    <!-- Run the stage simulator -->
+    <include file="$(find ta1_apps)/launch/tl1_simulator.launch"/>
+    
+    <!-- Run our application -->
+    <node pkg="tl1_apps" type="tl1_map" name="tl1_map" required="true" cwd="node" output="screen"/>
+  </group>
+</launch>
