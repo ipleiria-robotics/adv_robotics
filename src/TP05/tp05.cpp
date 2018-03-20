@@ -110,7 +110,6 @@ int main(int argc, char** argv)
   double ka = 1.0;
 
   // Read map
-  // The "0" is used to force grayscale loading
   std::string map_file_path(getenv("HOME"));
   map_file_path += "/ros/src/TP05/mapa.png";
   cv::Mat_<uchar> org_map = cv::imread(map_file_path, CV_LOAD_IMAGE_GRAYSCALE);
