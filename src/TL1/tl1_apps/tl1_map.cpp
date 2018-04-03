@@ -34,6 +34,26 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "utils.hpp"
 #include <unistd.h>
 
+// ROS API
+#include <ros/ros.h>
+#include <geometry_msgs/Pose2D.h> // Pose messages
+
+
+geometry_msgs::Pose2D pose;
+
+void poseCallback(const geometry_msgs::Pose2D& msg)
+{
+  // Store updated values
+  pose.x = msg.x;
+  pose.y = msg.y;
+  pose.theta = msg.theta;
+
+  std::cout << "Received pose: "
+            << pose.x << " m, "
+            << pose.y << " m, "
+            << pose.theta << " rad" << std::endl;
+}
+
 /**
  * Main function
  * Implemente mapping algorithm.
@@ -41,6 +61,28 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 int main(int argc, char** argv)
 {
   // Put your code here
-  sleep(5);
+
+  ///
+  /// Pose subscriber and messages
+  ///
+
+  // Init ROS
+  ros::init(argc, argv, "tl01-map");
+
+  // ROS variables/objects
+  ros::NodeHandle nh; // Node handle
+
+  // Pose subscriber
+  ros::Subscriber sub_pose = nh.subscribe("/robot_0/pose", 1, poseCallback);
+
+  ros::Rate cycle(10.0); // Rate when no key is being pressed
+  while(ros::ok())
+  {
+    // Get data from the robot and print it if available
+    ros::spinOnce();
+
+    // Proceed at desired framerate
+    cycle.sleep();
+  }
   return 1;
 }

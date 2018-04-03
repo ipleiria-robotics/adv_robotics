@@ -34,6 +34,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "utils.hpp"
 #include <unistd.h>
 
+// ROS API
+#include <ros/ros.h>
+#include <geometry_msgs/Pose2D.h> // Pose messages
+
 /**
  * Main function
  * Controls the robot using the keyboard keys and outputs posture and velocity
@@ -72,6 +76,32 @@ int main(int argc, char** argv)
   showMatValues(A, " - Matrix A:");
   showMatValues(b, " - Vector b:");
   showMatValues(r, " - Vector r:");
+
+  ///
+  /// Localization estimate publishing
+  ///
+
+  // Init ROS
+  ros::init(argc, argv, "tl01-localization");
+
+  // ROS variables/objects
+  ros::NodeHandle nh; // Node handle
+
+  // Localization publisher and messages
+  geometry_msgs::Pose2D pose;
+  ros::Publisher pose_pub;
+
+  // Setup pose publisher
+  pose_pub = nh.advertise<geometry_msgs::Pose2D>("/robot_0/pose", 1);
+
+  // Fill pose values (from the localization code)
+  pose.x = 1.0; // Change with your own values
+  pose.y = 2.0; // Change with your own values
+  pose.theta = 0.3; // Change with your own values
+
+  sleep(5);
+
+  pose_pub.publish(pose);
 
   sleep(5);
   return 1;
