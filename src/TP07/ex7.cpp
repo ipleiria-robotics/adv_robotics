@@ -25,7 +25,7 @@ int main( int, char** argv )
   /// Load source image and convert it to gray
   std::string img_file_path(getenv("HOME"));
   img_file_path += "/ros/src/TP07/pic1.png";
-  src_gray = cv::imread(img_file_path, CV_LOAD_IMAGE_GRAYSCALE);
+  src_gray = cv::imread(img_file_path, cv::IMREAD_GRAYSCALE);
 
   /// Create Window
   const char* source_window = "Source";

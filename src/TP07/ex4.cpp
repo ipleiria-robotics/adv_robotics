@@ -37,7 +37,7 @@ int main(int argc, char** argv)
   // Load image
   std::string img_file_path(getenv("HOME"));
   img_file_path += "/ros/src/TP07/pic1.png";
-  cv::Mat image = cv::imread(img_file_path, CV_LOAD_IMAGE_COLOR);
+  cv::Mat image = cv::imread(img_file_path, cv::IMREAD_COLOR);
 
   // Create image for convertion result with the same size of the original image
   // but only with one channel
