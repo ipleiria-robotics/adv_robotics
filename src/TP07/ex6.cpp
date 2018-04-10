@@ -45,8 +45,9 @@ void cornerHarris_demo(int, void * );
 int main( int argc, char** argv )
 {
   /// Load source image and convert
-  src = cv::imread( "squares.jpg", 1 );
-//  src = cv::imread( "building.jpg", 1 );
+  std::string img_file_path(getenv("HOME"));
+  img_file_path += "/ros/src/TP07/squares.jpg";
+  src = cv::imread(img_file_path, CV_LOAD_IMAGE_COLOR);
 
   /// Convert original image to greyscale
   cv::cvtColor( src, src_gray, CV_BGR2GRAY );

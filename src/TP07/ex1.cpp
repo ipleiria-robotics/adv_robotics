@@ -35,7 +35,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 int main(int argc, char** argv)
 {
   // Load the image
-  cv::Mat image = cv::imread("baboon.jpg", CV_LOAD_IMAGE_GRAYSCALE);
+  std::string img_file_path(getenv("HOME"));
+  img_file_path += "/ros/src/TP07/baboon.jpg";
+  cv::Mat image = cv::imread(img_file_path, CV_LOAD_IMAGE_GRAYSCALE);
 
   // Create window for the camera image
   cv::namedWindow("Exemplo 1", 0);

@@ -23,7 +23,9 @@ void thresh_callback(int, void* );
 int main( int, char** argv )
 {
   /// Load source image and convert it to gray
-  src_gray = cv::imread( "pic1.png", cv::IMREAD_GRAYSCALE );
+  std::string img_file_path(getenv("HOME"));
+  img_file_path += "/ros/src/TP07/pic1.png";
+  src_gray = cv::imread(img_file_path, CV_LOAD_IMAGE_GRAYSCALE);
 
   /// Create Window
   const char* source_window = "Source";
