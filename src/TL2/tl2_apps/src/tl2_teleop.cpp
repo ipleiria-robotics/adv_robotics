@@ -232,7 +232,7 @@ int main(int argc, char** argv)
   ros::Publisher forklift_pub = nh.advertise<std_msgs::Float64>(robot_name+"/forklift_position_controller/command", 1);
 
   // Setup camera subscriber
-//  ros::Subscriber sub_cam = nh.subscribe(robot_name+"/camera_front/image_raw", 1, cameraCallback);
+  ros::Subscriber sub_cam = nh.subscribe(robot_name+"/camera_front/image_raw", 1, cameraCallback);
 
   // Infinite loop
   ros::Rate cycle(10.0); // Rate when no key is being pressed
