@@ -1,0 +1,2 @@
+The contents on this folder and inner folders are currently not being used.
+They are left here, because that might be used in the future.

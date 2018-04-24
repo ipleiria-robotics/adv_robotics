@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<robot name="pioneer3dx"
+    xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
+    xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
+    xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
+    xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <!-- PIONEER 3DX BASE -->
+    <xacro:include filename="$(find pioneer3dx_description)/urdf/pioneer3dx/pioneer3dx.xacro" />
+    <pioneer3dx />
+
+    <!-- HOKUYO LASER ATTACHMENT -->
+    <xacro:include filename="$(find pioneer3dx_description)/urdf/sensors/gz_hokuyo_urg.xacro" />
+    <xacro:gz_hokuyo_urg parent="base_link" topic="p3dx/base_scan/scan">
+        <origin xyz="0.0 0.0 0.295" rpy="0 0 0" />
+    </xacro:gz_hokuyo_urg>
+
+</robot>

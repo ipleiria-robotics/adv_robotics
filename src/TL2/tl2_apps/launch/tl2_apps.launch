@@ -1,0 +1,7 @@
+<launch>
+  <!-- Run our application -->
+  <!-- Localization Node -->
+  <node pkg="tl2_apps" type="tl2_localization" name="localization_node" required="true" cwd="node" output="screen"/>
+  <!-- Navigation Node -->
+  <node pkg="tl2_apps" type="tl2_navigation" name="navigation_node" required="true" cwd="node" output="screen"/>
+</launch>

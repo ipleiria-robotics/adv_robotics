@@ -1,0 +1,171 @@
+<?xml version="1.0" ?>
+<sdf version='1.6'>
+  <model name='tbox'>
+    <static>0</static>
+    <link name='tbox_base_link'>
+      <pose>0 0 0 0 0 0</pose>
+      <inertial>
+        <pose>0.000598 0 0.121026 0 -0 0</pose>
+        <mass>0.585</mass>
+        <inertia>
+          <ixx>0.00733788</ixx>
+          <ixy>0</ixy>
+          <ixz>-2.0641e-05</ixz>
+          <iyy>0.00649818</iyy>
+          <iyz>-1.35525e-20</iyz>
+          <izz>0.00687229</izz>
+        </inertia>
+      </inertial>
+
+      <!-- Box main body -->
+      <collision name='tbox_base_collision'>
+        <pose>0 0 0.135 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.14 0.26 0.15</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name='tbox_base_link_visual'>
+        <pose>0 0 0.135 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.14 0.26 0.15</size>
+          </box>
+        </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/FlatBlack</name>
+          </script>
+        </material>
+      </visual>
+      
+      <!-- Foot 1 -->
+      <collision name='tbox_foot1_collision'>
+        <pose>-0.06 0.12 0.03 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.02 0.02 0.06</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name='tbox_foot1_visual'>
+        <pose>-0.06 0.12 0.03 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.02 0.02 0.06</size>
+          </box>
+        </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/Grey</name>
+          </script>
+        </material>
+      </visual>
+
+      <!-- Foot 2 -->
+      <collision name='tbox_foot2_collision'>
+        <pose>0.06 0.12 0.03 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.02 0.02 0.06</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name='tbox_foot2_visual'>
+        <pose>0.06 0.12 0.03 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.02 0.02 0.06</size>
+          </box>
+        </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/Grey</name>
+          </script>
+        </material>
+      </visual>
+
+      <!-- Foot 3 -->
+      <collision name='tbox_foot3_collision'>
+        <pose>-0.06 -0.12 0.03 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.02 0.02 0.06</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name='tbox_foot3_visual'>
+        <pose>-0.06 -0.12 0.03 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.02 0.02 0.06</size>
+          </box>
+        </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/Grey</name>
+          </script>
+        </material>
+      </visual>
+
+      <!-- Foot 4 -->
+      <collision name='tbox_foot4_collision'>
+        <pose>0.06 -0.12 0.03 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.02 0.02 0.06</size>
+          </box>
+        </geometry>
+      </collision>
+      <visual name='tbox_foot4_visual'>
+        <pose>0.06 -0.12 0.03 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.02 0.02 0.06</size>
+          </box>
+        </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/Grey</name>
+          </script>
+        </material>
+      </visual>
+
+      <!-- LED -->
+      <collision name='tbox_LED_collision'>
+        <pose>0.07 0 0.18 0 0 0</pose>
+        <geometry>
+          <sphere>
+            <radius>0.01</radius>
+          </sphere>
+        </geometry>
+      </collision>
+      <visual name='tbox_LED_visual'>
+        <pose>0.07 0 0.18 0 -0 0</pose>
+        <geometry>
+          <sphere>
+            <radius>0.01</radius>
+          </sphere>
+        </geometry>
+      </visual>
+
+      <gravity>1</gravity>
+      <velocity_decay/>
+    </link>
+
+    <!-- Plugin controller -->
+    <plugin name='tbox_tbox_controller' filename='libtbox_plugin.so'>
+      <alwaysOn>true</alwaysOn>
+      <update>100</update>
+      <updateRate>10.0</updateRate>
+      <ledVisual>tbox_LED_visual</ledVisual>
+      <baseLink>tbox_base_link</baseLink>
+    </plugin>
+  </model>
+</sdf>
