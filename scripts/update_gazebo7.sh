@@ -19,7 +19,7 @@ sudo sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `ls
 wget http://packages.osrfoundation.org/gazebo.key -O - | sudo apt-key add -
 sudo apt-get update
 # Update gazebo packages
-sudo apt-get dist-upgrade
+sudo apt-get -y dist-upgrade
 
 # Make from scratch the home build
 cd ~/ros
