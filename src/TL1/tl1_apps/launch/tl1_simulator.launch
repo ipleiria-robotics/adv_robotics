@@ -1,8 +1,0 @@
-<launch>
-  <group ns="robot">
-    <!-- Run the stage simulator -->
-    <node pkg="mystage_ros" type="stageros" name="stage" 
-          args="$(env HOME)/ros/worlds/stage/tl1.world"
-          required="true"/>
-  </group>
-</launch>
