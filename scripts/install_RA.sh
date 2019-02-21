@@ -41,22 +41,22 @@ echo "Installing ROS (you might need to type the root password)..."
 sudo sh install_ROS.sh
 rosdep update
 
-# Set the user environment to use ROS
-echo "Setting ROS environment variables..." 
-#if [ ! -f ~/.bashrc ]
-#then
-#  echo ". /opt/ros/kinetic/setup.bash" >> ~/.bashrc
-#fi
-echo "" >> ~/.bashrc
-echo "# ROS Environment variables" >> ~/.bashrc
-echo ". /opt/ros/melodic/setup.bash" >> ~/.bashrc
-echo ". $HOME/ros/devel/setup.bash" >> ~/.bashrc
-echo "ROS_PYTHON_VERSION:=3"
-
-git clone https://github.com/ipleiria-robotics/adv_robotics ~/ros
+# Set up variables and Clone our gir repository, if not already cloned
+if [ ! -d "$HOME/ros" ]; then
+  echo "Setting ROS environment variables..." 
+  echo "" >> ~/.bashrc
+  echo "# ROS Environment variables" >> ~/.bashrc
+  echo ". /opt/ros/melodic/setup.bash" >> ~/.bashrc
+  echo ". $HOME/ros/devel/setup.bash" >> ~/.bashrc
+  echo "ROS_PYTHON_VERSION:=3"
+  git clone https://github.com/ipleiria-robotics/adv_robotics ~/ros
+else
+  echo "$HOME/ros already exists, proceeding..." 
+fi
 source "/opt/ros/melodic/setup.bash"
 
 catkin_make -C ~/ros
+source "$HOME/ros/devel/setup.bash"
 
 # Qt
 #echo "Downloading update QtCreator script"
