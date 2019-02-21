@@ -128,10 +128,10 @@ if __name__ == '__main__':
 
   try:
     # Setup subscriber
-    sub_odom = rospy.Subscriber('odom', Odometry, odomCallback, queue_size=1)
+    sub_odom = rospy.Subscriber('/robot/odom', Odometry, odomCallback, queue_size=1)
 
     # Setup publisher
-    vel_pub = rospy.Publisher('cmd_vel', Twist, queue_size=1)
+    vel_pub = rospy.Publisher('/robot/cmd_vel', Twist, queue_size=1)
 
     # Init ROS
     rospy.init_node('robot_keyboard_teleop', anonymous=True)
