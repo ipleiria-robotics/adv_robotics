@@ -29,18 +29,18 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 Revision $Id$
 '''
 
-# ROS API
+# Library packages needed
 import os
 import tty
 import termios
 import sys
 import fcntl
+from math import pi, atan2
+
+# ROS API
 import rospy
 from geometry_msgs.msg import Pose2D, Twist
 from nav_msgs.msg import Odometry
-
-from math import pi, atan2
-
 
 # The robot will not move with speeds faster than these, so we better limit out
 # values
@@ -115,6 +115,16 @@ if __name__ == '__main__':
     vel_cmd = Twist()
 
     try:
+        # Output usage information
+        print('Reading from keyboard\n' +
+              'Use i, j, k, l and space to move front, left, back, right and' +
+              ' stop, respectively.\nPress q to quit.\n' +
+              '---------------------------\n')
+
+        # Get parameters
+        a_scale = rospy.get_param("~scale_angular", 1.0)
+        l_scale = rospy.get_param("~scale_linear", 1.0)
+
         # Setup subscriber
         sub_odom = rospy.Subscriber('/robot/odom', Odometry, odomCallback,
                                     queue_size=1)
@@ -125,22 +135,11 @@ if __name__ == '__main__':
         # Init ROS
         rospy.init_node('robot_keyboard_teleop', anonymous=True)
 
-        # Get parameters
-        a_scale = rospy.get_param("~scale_angular", 1.0)
-        l_scale = rospy.get_param("~scale_linear", 1.0)
-
-        # Output usage information
-        print('Reading from keyboard\n' +
-              'Use i, j, k, l and space to move front, left, back, right and' +
-              ' stop, respectively.\nPress q to quit.\n' +
-              '---------------------------\n')
-
         # Terminal
         tty.setraw(sys.stdin.fileno())
 
         # Infinite loop
         rate = rospy.Rate(10)  # 10 Hz, Rate when no key is being pressed
-
         while not rospy.is_shutdown():
             # If there are not new values, sleep
             if odom_updated is False:
