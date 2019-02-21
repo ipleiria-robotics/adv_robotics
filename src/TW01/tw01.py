@@ -37,15 +37,9 @@ import fcntl
 import rospy
 from geometry_msgs.msg import Pose2D, Twist
 from nav_msgs.msg import Odometry
-#from tf.transformations import euler_from_quaternion
 
 from math import pi, atan2
 
-# include <ros/ros.h>
-# include <geometry_msgs/Twist.h> // Velocity messages
-# include <geometry_msgs/Pose2D.h> // Velocity messages
-# include <nav_msgs/Odometry.h> // Odometry messages
-# include <tf/tf.h> // Geometry transformations
 
 # The robot will not move with speeds faster than these, so we better limit out
 # values
@@ -59,16 +53,8 @@ true_ang_vel = 0.0
 odom_updated = False
 
 #
-# Checks if there a key was pressed, and returns a positive number if true.
+# Clip a given value to the interval [min, max]
 #
-# int checkForKey()
-# {
-#   struct timeval tv = { 0L, 0L };
-#   fd_set fds;
-#   FD_SET(0, &fds);
-#   return select(STDIN_FILENO+1, &fds, NULL, NULL, &tv);
-# }
-
 def clipValue(value: float, min: float, max: float) -> float:
   if value > max:
     return max
@@ -77,6 +63,9 @@ def clipValue(value: float, min: float, max: float) -> float:
   else:
    return value
 
+#
+#  Obtain the yaw rotation (rotation around z) from a quaternion
+#
 def quaternionToYaw(q):
     '''Returns the yaw in radians of a quaternion.
     Reimplements part of euler_from_quaternion from the tf package because tf doesn't play well in Python 3.
@@ -85,6 +74,9 @@ def quaternionToYaw(q):
     t1 = 1.0 - 2.0 * (q.y**2 + q.z**2)
     return atan2(t0, t1)
 
+#
+# Function to call whe new odometry information is available
+#
 def odomCallback(data):
   global true_pose, true_ang_vel, true_lin_vel, odom_updated
   # Store updated values
@@ -218,7 +210,7 @@ if __name__ == '__main__':
         print('\033[2K', end="")
 
   except rospy.ROSInterruptException:
-      pass
+    pass
 
   finally:
     # If we are quitting, stop the robot
@@ -226,3 +218,4 @@ if __name__ == '__main__':
     vel_cmd.linear.x = 0
     vel_pub.publish(vel_cmd)
     termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+    
