@@ -235,18 +235,22 @@ StageNode::mapName(const char *name, size_t robotID, size_t deviceID, Stg::Model
 void
 StageNode::ghfunc(Stg::Model* mod, StageNode* node)
 {
-    if (dynamic_cast<Stg::ModelRanger *>(mod))
-        node->lasermodels.push_back(dynamic_cast<Stg::ModelRanger *>(mod));
-    if (dynamic_cast<Stg::ModelPosition *>(mod)) {
-      Stg::ModelPosition * p = dynamic_cast<Stg::ModelPosition *>(mod);
-      // remember initial poses
-      node->positionmodels.push_back(p);
-      node->initial_poses.push_back(p->GetGlobalPose());
-    }
-    if (dynamic_cast<Stg::ModelCamera *>(mod))
-        node->cameramodels.push_back(dynamic_cast<Stg::ModelCamera *>(mod));
-    if (dynamic_cast<Stg::ModelFiducial*>(mod))
-        node->fiducialmodels.push_back(dynamic_cast<Stg::ModelFiducial *>(mod));;
+  //printf( "inspecting %s, parent\n", mod->Token() );
+
+  if (dynamic_cast<Stg::ModelRanger *>(mod)) {
+    node->lasermodels.push_back(dynamic_cast<Stg::ModelRanger *>(mod));
+  }
+  if (dynamic_cast<Stg::ModelPosition *>(mod)) {
+    Stg::ModelPosition * p = dynamic_cast<Stg::ModelPosition *>(mod);
+    // remember initial poses
+    node->positionmodels.push_back(p);
+    node->initial_poses.push_back(p->GetGlobalPose());
+  }
+  if (dynamic_cast<Stg::ModelCamera *>(mod)) {
+    node->cameramodels.push_back(dynamic_cast<Stg::ModelCamera *>(mod));
+  }
+  if (dynamic_cast<Stg::ModelFiducial*>(mod))
+    node->fiducialmodels.push_back(dynamic_cast<Stg::ModelFiducial *>(mod));;
 }
 
 
@@ -289,7 +293,6 @@ StageNode::StageNode(int argc, char** argv, bool gui, const char* fname, bool us
     if(!localn.getParam("is_depth_canonical", isDepthCanonical))
         isDepthCanonical = true;
 
-
     // We'll check the existence of the world file, because libstage doesn't
     // expose its failure to open it.  Could go further with checks (e.g., is
     // it readable by this user).
@@ -308,16 +311,12 @@ StageNode::StageNode(int argc, char** argv, bool gui, const char* fname, bool us
     else
         this->world = new Stg::World();
 
-    // Apparently an Update is needed before the Load to avoid crashes on
-    // startup on some systems.
-    // As of Stage 4.1.1, this update call causes a hang on start.
-    //this->UpdateWorld();
     this->world->Load(fname);
-
-    // We add our callback here, after the Update, so avoid our callback
-    // being invoked before we're ready.
+    
+    // todo: reverse the order of these next lines? try it .
     this->world->AddUpdateCallback((Stg::world_callback_t)s_update, this);
 
+    // inspect every model to locate the things we care about
     this->world->ForEachDescendant((Stg::model_callback_t)ghfunc, this);
 }
 
@@ -338,7 +337,7 @@ StageNode::SubscribeModels()
         StageRobot* new_robot = new StageRobot;
         new_robot->positionmodel = this->positionmodels[r];
         new_robot->positionmodel->Subscribe();
-
+        ROS_INFO( "Subscribed to Stage position model \"%s\"", this->positionmodels[r]->Token() ); 
 
         for (size_t s = 0; s < this->lasermodels.size(); s++)
         {
@@ -346,6 +345,7 @@ StageNode::SubscribeModels()
             {
                 new_robot->lasermodels.push_back(this->lasermodels[s]);
                 this->lasermodels[s]->Subscribe();
+                ROS_INFO( "subscribed to Stage ranger \"%s\"", this->lasermodels[s]->Token() );
             }
         }
 
@@ -355,6 +355,7 @@ StageNode::SubscribeModels()
             {
                 new_robot->cameramodels.push_back(this->cameramodels[s]);
                 this->cameramodels[s]->Subscribe();
+                ROS_INFO( "subscribed to Stage camera model \"%s\"", this->cameramodels[s]->Token() ); 
             }
         }
 
@@ -364,10 +365,16 @@ StageNode::SubscribeModels()
             {
                 new_robot->fiducialmodels.push_back(this->fiducialmodels[s]);
                 this->fiducialmodels[s]->Subscribe();
+                ROS_INFO( "subscribed to Fidutial model \"%s\"", this->fiducialmodels[s]->Token() ); 
             }
         }
 
-        ROS_INFO("Found %lu laser devices and %lu cameras in robot %lu", new_robot->lasermodels.size(), new_robot->cameramodels.size(), r);
+	// TODO - print the topic names nicely as well
+        ROS_INFO("Robot %s provided %lu rangers and %lu cameras",
+		 new_robot->positionmodel->Token(),
+		 new_robot->lasermodels.size(),
+		 new_robot->cameramodels.size() );
+
 
         new_robot->odom_pub = n_.advertise<nav_msgs::Odometry>(mapName(ODOM, r, static_cast<Stg::Model*>(new_robot->positionmodel)), 10);
         new_robot->ground_truth_pub = n_.advertise<nav_msgs::Odometry>(mapName(BASE_POSE_GROUND_TRUTH, r, static_cast<Stg::Model*>(new_robot->positionmodel)), 10);
@@ -432,6 +439,12 @@ StageNode::UpdateWorld()
 void
 StageNode::WorldCallback()
 {
+    if( ! ros::ok() ) {
+      ROS_INFO( "ros::ok() is false. Quitting." );
+      this->world->QuitAll();
+      return;
+    }
+
     boost::mutex::scoped_lock lock(msg_lock);
 
     this->sim_time.fromSec(world->SimTimeNow() / 1e6);
@@ -484,7 +497,7 @@ StageNode::WorldCallback()
                 for(unsigned int i = 0; i < sensor.ranges.size(); i++)
                 {
                     msg.ranges[i] = sensor.ranges[i];
-                    msg.intensities[i] = (uint8_t)sensor.intensities[i];
+                    msg.intensities[i] = sensor.intensities[i];
                 }
 
                 if (robotmodel->lasermodels.size() > 1)
@@ -790,7 +803,7 @@ StageNode::WorldCallback()
 
 int 
 main(int argc, char** argv)
-{ 
+{
     if( argc < 2 )
     {
         puts(USAGE);
@@ -816,22 +829,10 @@ main(int argc, char** argv)
 
     boost::thread t = boost::thread(boost::bind(&ros::spin));
 
-    // New in Stage 4.1.1: must Start() the world.
     sn.world->Start();
 
-    // TODO: get rid of this fixed-duration sleep, using some Stage builtin
-    // PauseUntilNextUpdate() functionality.
-    ros::WallRate r(10.0);
-    while(ros::ok() && !sn.world->TestQuit())
-    {
-        if(gui)
-            Fl::wait(r.expectedCycleTime().toSec());
-        else
-        {
-            sn.UpdateWorld();
-            r.sleep();
-        }
-    }
+    Stg::World::Run();
+
     t.join();
 
     exit(0);

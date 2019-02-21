@@ -161,10 +161,7 @@ if __name__ == '__main__':
       key_pressed = False
       odom_updated = False
 
-      # Get data from the robot and print it if available
-      #rospy.spin()
-      # show pose estimated from odometry
-      # print(std::setiosflags(std::ios::fixed) << std::setprecision(3)
+      # Get data from the robot and print it
       print(f'Robot estimated pose = {true_pose.x:.2f} [m], {true_pose.y:.2f} [m], {true_pose.theta*180.0/pi:.2f} [º]\r')
 
       # Show estimated velocity
