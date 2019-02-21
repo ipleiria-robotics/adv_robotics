@@ -48,13 +48,14 @@ if [ ! -d "$HOME/ros" ]; then
   echo "# ROS Environment variables" >> ~/.bashrc
   echo ". /opt/ros/melodic/setup.bash" >> ~/.bashrc
   echo ". $HOME/ros/devel/setup.bash" >> ~/.bashrc
-  echo "ROS_PYTHON_VERSION:=3"
+  echo "ROS_PYTHON_VERSION=3" >> ~/.bashrc
   git clone https://github.com/ipleiria-robotics/adv_robotics ~/ros
 else
   echo "$HOME/ros already exists, proceeding..." 
 fi
 source "/opt/ros/melodic/setup.bash"
 
+ROS_PYTHON_VERSION=3
 catkin_make -C ~/ros
 source "$HOME/ros/devel/setup.bash"
 
