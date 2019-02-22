@@ -47,11 +47,11 @@ rosdep update
 if [ ! -d "$HOME/ros" ]; then
   echo "Setting ROS environment variables..." 
   echo "" >> $HOME/.bashrc
-  echo "# ROS Environment variables" >> ~/.bashrc
-  echo ". /opt/ros/melodic/setup.bash" >> ~/.bashrc
-  echo ". $HOME/ros/devel/setup.bash" >> ~/.bashrc
-  echo "ROS_PYTHON_VERSION=3" >> ~/.bashrc
-  git clone https://github.com/ipleiria-robotics/adv_robotics ~/ros
+  echo "# ROS Environment variables" >> $HOME/.bashrc
+  echo ". /opt/ros/melodic/setup.bash" >> $HOME/.bashrc
+  echo ". $HOME/ros/devel/setup.bash" >> $HOME/.bashrc
+  echo "ROS_PYTHON_VERSION=3" >> $HOME/.bashrc
+  git clone https://github.com/ipleiria-robotics/adv_robotics $HOME/ros
 else
   echo "$HOME/ros already exists, proceeding..." 
 fi
