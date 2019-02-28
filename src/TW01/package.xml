@@ -10,10 +10,8 @@
   <buildtool_depend>catkin</buildtool_depend>
       
   <!-- Package Dependencies -->
-  <!-- <build_depend>roscpp</build_depend> -->
   <build_depend>rospy</build_depend>
   <build_export_depend>rospy</build_export_depend>
-  <!-- <run_depend>roscpp</run_depend> -->
   <exec_depend>rospy</exec_depend>
 </package>
 

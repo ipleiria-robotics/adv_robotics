@@ -30,17 +30,16 @@ Revision $Id$
 '''
 
 # Library packages needed
-import os
-import tty
-import termios
-import sys
-import fcntl
-from math import pi, atan2
+from math import pi, atan2, radians, degrees
 
 # ROS API
 import rospy
 from geometry_msgs.msg import Pose2D, Twist
 from nav_msgs.msg import Odometry
+from sensor_msgs.msg import LaserScan 
+
+# Our functions
+import utils
 
 # The robot will not move with speeds faster than these, so we better limit out
 # values
@@ -48,44 +47,48 @@ MAX_LIN_VEL = 0.5  # [m/s]
 MAX_ANG_VEL = 1.14  # 90º/s (in rad/s)
 
 # Global variables
-true_pose = Pose2D()
-true_lin_vel = 0.0
-true_ang_vel = 0.0
-odom_updated = False
+true_pose = Pose2D() # Store real (error-free) robot pose
+true_lin_vel = 0.0 # Store real (error-free) linear velocity
+true_ang_vel = 0.0 # Store real (error-free) angular velocity
+odom_updated = False # True if we got an odometry update
+laser_updated = False # True if we got a laser update
+closest_front_obstacle = 0.0 # Distance to closest front obstacle (m)
+closest_left_obstacle = 0.0 # Distance to closest left obstacle (m)
+closest_right_obstacle = 0.0 # Distance to closest right obstacle (m)
 
 
-def clipValue(value: float, min: float, max: float) -> float:
-    '''Clip a given value to the interval [min, max]'''
-    if value > max:
-        return max
-    elif value < min:
-        return min
-    else:
-        return value
+def odomCallback(data: Odometry):
+    ''' Function to call whe new odometry information is available '''
 
-
-def quaternionToYaw(q):
-    '''Returns the yaw in radians of a quaternion.
-    Reimplements part of euler_from_quaternion from the tf package because tf
-    doesn't play well in Python 3.
-    '''
-    t0 = 2.0 * (q.w * q.z + q.x * q.y)
-    t1 = 1.0 - 2.0 * (q.y**2 + q.z**2)
-    return atan2(t0, t1)
-
-
-def odomCallback(data):
-    '''Function to call whe new odometry information is available'''
     global true_pose, true_ang_vel, true_lin_vel, odom_updated
+
     # Store updated values
     true_pose.x = data.pose.pose.position.x
     true_pose.y = data.pose.pose.position.y
-    true_pose.theta = quaternionToYaw(data.pose.pose.orientation)
+    true_pose.theta = utils.quaternionToYaw(data.pose.pose.orientation)
 
     true_lin_vel = data.twist.twist.linear.x
     true_ang_vel = data.twist.twist.angular.z
 
     odom_updated = True
+
+
+def laserCallback(msg: LaserScan):
+  ''' Update distance to closest obstacles '''
+
+  global laser_updated
+
+  ###########################################################################
+  # STAR YOUR CODE HERE
+  # closest_right_obstacle = ...
+  # closest_left_obstacle = ...
+  # closest_left_obstacle = ...
+
+
+  # END YOUR CODE HERE
+  ###########################################################################
+
+  laser_updated = True
 
 
 '''
@@ -94,12 +97,7 @@ Controls the robot using the keyboard keys and outputs posture and velocity
 related information.
 '''
 if __name__ == '__main__':
-    # Terminal settings
-    fd = sys.stdin.fileno()
-    fl = fcntl.fcntl(fd, fcntl.F_GETFL)
-    fcntl.fcntl(fd, fcntl.F_SETFL, fl | os.O_NONBLOCK)
-    fd = sys.stdin.fileno()
-    old_settings = termios.tcgetattr(fd)
+
 
     #
     # Create robot related objects
@@ -107,103 +105,69 @@ if __name__ == '__main__':
     # Linear and angular velocities for the robot (initially stopped)
     lin_vel = 0.0
     ang_vel = 0.0
-    l_scale = 0.0
-    a_scale = 0.0
-    # Velocity increase for each keystroke
-    delta_lin_vel = 0.1
-    delta_ang_vel = 5.0/180.0*3.14
     vel_cmd = Twist()
+
 
     try:
         # Output usage information
-        print('Reading from keyboard\n' +
-              'Use i, j, k, l and space to move front, left, back, right and' +
-              ' stop, respectively.\nPress q to quit.\n' +
+        print('Random navigation with obstacle avoidance.\n' +
               '---------------------------\n')
 
-        # Get parameters
-        a_scale = rospy.get_param("~scale_angular", 1.0)
-        l_scale = rospy.get_param("~scale_linear", 1.0)
-
-        # Setup subscriber
-        sub_odom = rospy.Subscriber('/robot/odom', Odometry, odomCallback,
+        # Setup subscribers
+        # Odometry
+        sub_odom = rospy.Subscriber('/robot_0/odom', Odometry, odomCallback,
                                     queue_size=1)
+        sub_laser = rospy.Subscriber('/robot_0/base_scan', LaserScan, laserCallback,
+                                     queue_size=1)
 
         # Setup publisher
-        vel_pub = rospy.Publisher('/robot/cmd_vel', Twist, queue_size=1)
+        vel_pub = rospy.Publisher('/robot_0/cmd_vel', Twist, queue_size=1)
 
         # Init ROS
-        rospy.init_node('robot_keyboard_teleop', anonymous=True)
-
-        # Terminal
-        tty.setraw(sys.stdin.fileno())
+        rospy.init_node('tw02', anonymous=True)
 
         # Infinite loop
         rate = rospy.Rate(10)  # 10 Hz, Rate when no key is being pressed
         while not rospy.is_shutdown():
             # If there are not new values, sleep
-            if odom_updated is False:
-                rate.sleep()
+            if laser_updated is False:
                 continue
+            laser_updated = False
 
-            key_pressed = False
-            odom_updated = False
-
-            # Get data from the robot and print it
+            # Show pose estimated from odometry
             print(f'Robot estimated pose = {true_pose.x:.2f} [m], ' +
                   f'{true_pose.y:.2f} [m], ' +
-                  f'{true_pose.theta*180.0/pi:.2f} [º]\r')
+                  f'{degrees(true_pose.theta):.2f} [º]\r')
 
             # Show estimated velocity
             print(f'Robot estimated velocity = {true_lin_vel:.2f} [m/s], '
-                  f'{true_ang_vel*180.0/pi:.2f} [º/s]\r')
+                  f'{degrees(true_ang_vel):.2f} [º/s]\r')
 
-            # Get char
-            nChar = sys.stdin.read(1)
+            ################################################################
+            # START YOUR CODE HERE
+            # Change lin_vel and ang_vel so as to avoid obstacles
+            # lin_vel = ...
+            # ang_vel = ...
 
-            if not nChar:
-                # Decelerate automatically if no key was pressed
-                lin_vel *= 0.9
-                ang_vel *= 0.9
-            elif nChar == 'q':
-                break
-            elif nChar == 'i':
-                # Increase linear velocity
-                lin_vel += delta_lin_vel
-                key_pressed = True
-            elif nChar == 'k':
-                # Decrease linear velocity
-                lin_vel -= delta_lin_vel
-                key_pressed = True
-            elif nChar == 'j':
-                # Increase angular velocity
-                ang_vel += delta_ang_vel
-                key_pressed = True
-            elif nChar == 'l':
-                # Decrease angular velocity
-                ang_vel -= delta_ang_vel
-                key_pressed = True
-            elif nChar == ' ':
-                # Stop robot
-                lin_vel = 0
-                ang_vel = 0
 
-            # Limit maximum velocities
-            lin_vel = clipValue(lin_vel, -MAX_LIN_VEL, MAX_LIN_VEL)
-            ang_vel = clipValue(ang_vel, -MAX_ANG_VEL, MAX_ANG_VEL)
+            # END YOUR CODE HERE
+            ################################################################
+
+            # Limit maximum velocities (should not be needed)
+            #lin_vel = utils.clipValue(lin_vel, -MAX_LIN_VEL, MAX_LIN_VEL)
+            #ang_vel = utils.clipValue(ang_vel, -MAX_ANG_VEL, MAX_ANG_VEL)
 
             # Show desired velocity
             print(f'Robot desired velocity = {lin_vel:.2f} [m/s], ' +
-                  f'{ang_vel*180.0/pi:.2f} [º/s]\r', flush=True)
+                  f'{degrees(ang_vel):.2f} [º/s]\r', flush=True)
 
             # Send velocity commands
-            vel_cmd.angular.z = a_scale*ang_vel
-            vel_cmd.linear.x = l_scale*lin_vel
+            vel_cmd.angular.z = ang_vel
+            vel_cmd.linear.x = lin_vel
             vel_pub.publish(vel_cmd)
 
-            # Limit the amount of messages when no key is pressed
-            if key_pressed is False:
-                rate.sleep()
+            # Sleep, if needed, to maintain the dseired frequency
+            rate.sleep()
 
             # Move cursor back up n lines (and erase them)
             for n in range(0, 3):
@@ -218,4 +182,4 @@ if __name__ == '__main__':
         vel_cmd.angular.z = 0
         vel_cmd.linear.x = 0
         vel_pub.publish(vel_cmd)
-        termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+
