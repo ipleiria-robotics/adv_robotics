@@ -1,0 +1,19 @@
+<package format="2">
+  <name>tw03</name>
+  <maintainer email="hugo.costelha@ipleiria.com">Hugo Costelha</maintainer>
+  <description>
+     tw03 - Trilateration-based localization
+  </description>
+  <version>3.0.0</version>
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+      
+  <!-- Package Dependencies -->
+  <build_depend>rospy</build_depend>
+  <build_depend>markers_msgs</build_depend>
+  <build_export_depend>rospy</build_export_depend>
+  <exec_depend>rospy</exec_depend>
+</package>
+
+

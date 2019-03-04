@@ -1,0 +1,8 @@
+<launch>
+  <group ns="robot_0">
+    <!-- Run the stage simulator -->
+    <node pkg="mystage_ros" type="stageros" name="stage" 
+          args="$(find mystage_ros)/world/AR/factory_laser_with_landmarks.world"
+          required="true"/>
+  </group>
+</launch>
