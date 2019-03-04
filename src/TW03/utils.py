@@ -30,7 +30,9 @@ Revision $Id$
 '''
 
 # Library packages needed
+from __future__ import print_function
 from math import pi, atan2, radians, degrees
+import sys
 
 def clipValue(value: float, min: float, max: float) -> float:
     '''Clip a given value to the interval [min, max]'''
