@@ -36,12 +36,11 @@ from math import pi, atan2, radians, degrees
 import rospy
 from geometry_msgs.msg import Pose2D, Twist
 from nav_msgs.msg import Odometry
-from sensor_msgs.msg import LaserScan
 
 # Our functions
 from utils import clipValue, quaternionToYaw
-from LocalFrameWorldFrameTransformations import Point2D, local2World, world2Local
-from markers_msgs.msg import Markers 
+from LocalFrameWorldFrameTransformations import Point2D, world2Local
+from markers_msgs.msg import Markers
 
 # The robot will not move with speeds faster than these, so we better limit out
 # values
@@ -49,19 +48,20 @@ MAX_LIN_VEL = 0.5  # [m/s]
 MAX_ANG_VEL = 1.14  # 90º/s (in rad/s)
 
 # Limits of the world where the robot is working
-X_MAX_POS = 3.32 # [m]
-Y_MAX_POS = 2.28 # [m]
+X_MAX_POS = 3.32  # [m]
+Y_MAX_POS = 2.28  # [m]
 
 # Global variables
-robot_odometry_pose = Pose2D() # Store real (error-free) robot pose
-robot_estimated_pose = Pose2D() # Store real (error-free) robot pose
-true_lin_vel = 0.0 # Store real (error-free) linear velocity
-true_ang_vel = 0.0 # Store real (error-free) angular velocity
-odom_updated = False # True if we got an odometry update
-localization_from_markers_updated = False # True if we markers information
+robot_odometry_pose = Pose2D()  # Store real (error-free) robot pose
+robot_estimated_pose = Pose2D()  # Store real (error-free) robot pose
+true_lin_vel = 0.0  # Store real (error-free) linear velocity
+true_ang_vel = 0.0  # Store real (error-free) angular velocity
+odom_updated = False  # True if we got an odometry update
+localization_from_markers_updated = False  # True if we markers information
 '''Choose which pose to use, from odometry or estimated from the markers.
    Setting this variable to true means it will use odometry.'''
 use_odometry = True
+
 
 def odomCallback(data: Odometry):
     ''' Function to call whe new odometry information is available '''
@@ -77,9 +77,9 @@ def odomCallback(data: Odometry):
     true_ang_vel = data.twist.twist.angular.z
 
     # Show pose estimated from odometry
-    print(f'Robot odometry pose (X, Y, Theta)= {robot_odometry_pose.x:.2f} [m], ' +
-            f'{robot_odometry_pose.y:.2f} [m], ' +
-            f'{degrees(robot_odometry_pose.theta):.2f} [º]\r')
+    print(f'Robot odometry pose (X, Y, Theta)= {robot_odometry_pose.x:.2f} [m]'
+          + f', {robot_odometry_pose.y:.2f} [m], '
+          + f'{degrees(robot_odometry_pose.theta):.2f} [º]\r')
 
     odom_updated = True
 
@@ -91,9 +91,9 @@ def markersCallback(msg: Markers):
 
     # Store the world positions of the landmarks
     beacons_wpos = [Point2D(-X_MAX_POS, -Y_MAX_POS),  # 1
-                    Point2D(-X_MAX_POS,  Y_MAX_POS),  # 2
-                    Point2D( X_MAX_POS,  Y_MAX_POS),  # 3
-                    Point2D( X_MAX_POS, -Y_MAX_POS)]  # 4
+                    Point2D(-X_MAX_POS, Y_MAX_POS),  # 2
+                    Point2D(X_MAX_POS, Y_MAX_POS),  # 3
+                    Point2D(X_MAX_POS, -Y_MAX_POS)]  # 4
 
     # If we have less then 3 beacons, return an error
     if(msg.num_markers < 3):
@@ -134,14 +134,14 @@ def markersCallback(msg: Markers):
     # Compute the robot position
     # robot_localized_pos->x = (A - C) / (D - B);
     # robot_localized_pos->y = A + B * robot_localized_pos->x;
-    robot_estimated_pose.x = 0.5*                    \
-        ((y3-y2)*(d1s-d2s-x1*x1+x2*x2-y1*y1+y2*y2)-  \
-         (y2-y1)*(d2s-d3s-x2*x2+x3*x3-y2*y2+y3*y3))/ \
-            ((y2-y1)*(x2-x3)-(y3-y2)*(x1-x2))
-    robot_estimated_pose.y = 0.5*                    \
-        ((x2-x3)*(d1s-d2s-x1*x1+x2*x2-y1*y1+y2*y2)-  \
-         (x1-x2)*(d2s-d3s-x2*x2+x3*x3-y2*y2+y3*y3))/ \
-            ((y2-y1)*(x2-x3)-(y3-y2)*(x1-x2))
+    robot_estimated_pose.x = 0.5 * \
+        ((y3-y2)*(d1s-d2s-x1*x1+x2*x2-y1*y1+y2*y2) -
+         (y2-y1)*(d2s-d3s-x2*x2+x3*x3-y2*y2+y3*y3)) / \
+        ((y2-y1)*(x2-x3)-(y3-y2)*(x1-x2))
+    robot_estimated_pose.y = 0.5 * \
+        ((x2-x3)*(d1s-d2s-x1*x1+x2*x2-y1*y1+y2*y2) -
+         (x1-x2)*(d2s-d3s-x2*x2+x3*x3-y2*y2+y3*y3)) / \
+        ((y2-y1)*(x2-x3)-(y3-y2)*(x1-x2))
 
     # Estimate the angle
     alpha0 = atan2(y1-robot_estimated_pose.y, x1-robot_estimated_pose.x)
@@ -186,11 +186,11 @@ if __name__ == '__main__':
 
     # Array of points to be followed:
     targets = [Point2D(-2.6, -1.7),  # 1
-               Point2D(-2.6,  1.7),  # 2
-               Point2D( 0.0,  0.4),  # 3
-               Point2D( 2.6,  1.7),  # 4
-               Point2D( 2.6, -1.7),  # 5
-               Point2D( 0.0, -0.4)]  # 6
+               Point2D(-2.6, 1.7),  # 2
+               Point2D(0.0, 0.4),  # 3
+               Point2D(2.6, 1.7),  # 4
+               Point2D(2.6, -1.7),  # 5
+               Point2D(0.0, -0.4)]  # 6
     num_targets = len(targets)
 
     try:
@@ -200,10 +200,10 @@ if __name__ == '__main__':
 
         # Setup subscribers
         # Odometry
-        sub_odom = rospy.Subscriber(robot_name + '/odom', Odometry, odomCallback,
-                                    queue_size=1)
-        sub_laser = rospy.Subscriber(robot_name + '/markers', Markers, markersCallback,
-                                     queue_size=1)
+        sub_odom = rospy.Subscriber(robot_name + '/odom', Odometry,
+                                    odomCallback, queue_size=1)
+        sub_laser = rospy.Subscriber(robot_name + '/markers', Markers,
+                                     markersCallback, queue_size=1)
 
         # Setup publisher
         vel_pub = rospy.Publisher(robot_name + '/cmd_vel', Twist, queue_size=1)
@@ -216,12 +216,12 @@ if __name__ == '__main__':
 
         # Wait until we have at least one localization update
         while((not rospy.is_shutdown()) and
-              (((use_odometry and odom_updated) or
-               ((use_odometry == False) and localization_from_markers_updated))
-                == False )):
+              (not ((use_odometry and odom_updated) or
+                    ((not use_odometry) and
+                     localization_from_markers_updated)))):
             rate.sleep()
 
-        if( use_odometry ):
+        if(use_odometry):
             odom_updated = False
             robot_pose = robot_odometry_pose
         else:
@@ -235,7 +235,7 @@ if __name__ == '__main__':
         for i in range(num_targets):
             new_sq_distance = pow(robot_pose.x-targets[i].x, 2) + \
                               pow(robot_pose.y-targets[i].y, 2)
-            if( new_sq_distance < lowest_sq_distance):
+            if(new_sq_distance < lowest_sq_distance):
                 lowest_sq_distance = new_sq_distance
                 curr_target = i
 
@@ -244,38 +244,38 @@ if __name__ == '__main__':
 
             # Only change navigation controls if markers were detected or the
             # odometry updated
-            if((use_odometry and (odom_updated == False)) or
-               ((use_odometry == False) and
-                (localization_from_markers_updated == False))):
+            if((use_odometry and (not odom_updated)) or ((not use_odometry) and
+               (not localization_from_markers_updated))):
                 vel_pub.publish(vel_cmd)
                 continue
 
             if(use_odometry):
                 odom_updated = False
-                robot_pose = robot_odometry_pose #  Use posture from odometry
+                robot_pose = robot_odometry_pose  # Use posture from odometry
             else:
                 localization_from_markers_updated = False
-                robot_pose = robot_estimated_pose # Use pose from localization
+                robot_pose = robot_estimated_pose  # Use pose from localization
 
             # Compute the squared distance to the target
-            distance = pow(robot_pose.x-targets[curr_target].x,2) + \
-                       pow(robot_pose.y-targets[curr_target].y,2)
+            distance = pow(robot_pose.x-targets[curr_target].x, 2) + \
+                pow(robot_pose.y-targets[curr_target].y, 2)
             # If the distance is small enough, proceed to the next target
             if(distance < min_distance):
-                curr_target = (curr_target + 1)%num_targets
+                curr_target = (curr_target + 1) % num_targets
                 print(f'Going for target {curr_target+1}', flush=True)
                 continue
 
-            # The angular velocity will be proportional to the angle of the 
+            # The angular velocity will be proportional to the angle of the
             # target as seen by the robot.
-            target_local_pos = world2Local( robot_pose, targets[curr_target])
-            angle_to_target = atan2(target_local_pos.y,target_local_pos.x)
+            target_local_pos = world2Local(robot_pose, targets[curr_target])
+            angle_to_target = atan2(target_local_pos.y, target_local_pos.x)
             ang_vel = Kp_ang_vel * angle_to_target
 
-            #  We will not update the linear velocity if the robot is not facing the
-            # target enough. If it is, then the linear velocity will be proportional
-            # to the distance, increased with the target velocity. We actually use
-            # the squared distance just for performance reasons.
+            #  We will not update the linear velocity if the robot is not
+            # facing the target enough. If it is, then the linear velocity
+            # will be proportional to the distance, increased with the target
+            # velocity. We actually use the squared distance just for
+            # performance reasons.
             if(abs(angle_to_target) < max_angle_to_target):
                 lin_vel = Kp_lin_vel * distance + velocity_at_target
 
@@ -299,4 +299,3 @@ if __name__ == '__main__':
         vel_cmd.angular.z = 0
         vel_cmd.linear.x = 0
         vel_pub.publish(vel_cmd)
-
