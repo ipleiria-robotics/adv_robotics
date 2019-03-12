@@ -45,8 +45,8 @@ from nav_msgs.msg import Odometry
 
 # Our functions
 from utils import clipValue, quaternionToYaw, createLineIterator
-from LocalFrameWorldFrameTransformations import Point2D, local2World
-from sensor_msgs.msg import LaserScan
+from sensor_msgs.msg import LaserScan, PointCloud2
+from sensor_msgs import point_cloud2
 
 # The robot will not move with speeds faster than these, so we better limit out
 # values
@@ -101,54 +101,8 @@ def odomCallback(data: Odometry):
 def laserCallback(msg: LaserScan):
     ''' Process laser data '''
 
-    global iteration, occ_map, laser_updated, closest_right_obstacle
+    global laser_updated, closest_right_obstacle
     global closest_front_obstacle, closest_left_obstacle
-
-    # Store robot position in map grid coordinates
-    robot_map_coord = np.array(
-        [round((MAP_WIDTH/2+robot_pose.x)/MAP_RESOLUTION),  # Col
-         round((MAP_HEIGHT/2-robot_pose.y)/MAP_RESOLUTION)],  # Row
-        dtype=int)
-
-    angle = msg.angle_min
-    i = 0
-
-    # Go through all the LRF measurements
-    while(angle <= msg.angle_max):
-        if(msg.ranges[i] > msg.range_min):
-            '''
-            Update map with each sensor reading.
-
-            Important variables (already defined and available):
-              - (robot_pose.x, robot_pose.y, robot_pose.theta) ==> Robot pose
-             in the world frame;
-              - msg.ranges[i] ==> LRF i reading (distance from the LRF to the
-             beacon detected by the beacon at the i-th angle);
-
-            INSERT YOUR CODE BELOW THIS POINT ----v
-            '''
-            # Create obstacle position in sensor coordinates from msg.ranges[i]
-
-            # Transform obstacle position to robot coordinates using
-            # local2world
-
-            # Get obtained value in world coordinates using again local2world
-
-            # Get obtained value in the map grid (columm and row) - must be
-            # uint8.
-
-            # Update map using the line iterator for free space
-
-            # Update map using the line iterator for occupied space, if
-            # applicable
-
-            '''
-            ^---- INSERT YOUR CODE ABOVE THIS POINT
-            '''
-
-        # Proceed to next laser measure
-        angle += msg.angle_increment
-        i += 1
 
     ###########################################################################
     # Update distance to closest obstacles for simple obstacle avoidance
@@ -179,6 +133,40 @@ def laserCallback(msg: LaserScan):
     ###########################################################################
 
     laser_updated = True
+
+
+def pointCloudCallback(msg: PointCloud2):
+    ''' Process point cloud data (generated from the laser) '''
+
+    # Store robot position in map grid coordinates
+    robot_map_coord = np.array(
+        [round((MAP_WIDTH/2+robot_pose.x)/MAP_RESOLUTION),  # Col
+         round((MAP_HEIGHT/2-robot_pose.y)/MAP_RESOLUTION)],  # Row
+        dtype=int)
+
+    for p in point_cloud2.read_points(msg, field_names=("x", "y", "z"),
+                                      skip_nans=True):
+
+        # Get obtained value in the map grid (columm and row) - must be uint8.
+        obstacle_map = np.array(
+            [round((MAP_WIDTH/2+p[0])/MAP_RESOLUTION),  # Col / x
+             round((MAP_HEIGHT/2-p[1])/MAP_RESOLUTION)],  # Row / y
+            dtype=np.int)
+
+        # Update map using the line iterator for free space
+        it = createLineIterator(robot_map_coord,  # Start point
+                                obstacle_map,  # End point
+                                occ_map)
+        for pt in it[:-1]:
+            occ_map.itemset((pt[1], pt[0]), clipValue(pt[2]+CELL_DELTA_UP,
+                                                      MIN_CELL_VALUE,
+                                                      MAX_CELL_VALUE))
+
+        # Update map using the line iterator for occupied space, if
+        # applicable
+        occ_map.itemset((pt[1], pt[0]), clipValue(pt[2]-CELL_DELTA_DOWN,
+                                                  MIN_CELL_VALUE,
+                                                  MAX_CELL_VALUE))
 
 
 def on_key(event):
@@ -223,14 +211,18 @@ if __name__ == '__main__':
         # Odometry
         sub_odom = rospy.Subscriber(robot_name + '/odom', Odometry,
                                     odomCallback, queue_size=1)
+        # Laser
         sub_laser = rospy.Subscriber(robot_name + '/base_scan', LaserScan,
                                      laserCallback, queue_size=1)
+        # PointCloud
+        sub_pcl = rospy.Subscriber(robot_name + '/cloud_filtered', PointCloud2,
+                                   pointCloudCallback, queue_size=1)
 
         # Setup publisher
         vel_pub = rospy.Publisher(robot_name + '/cmd_vel', Twist, queue_size=1)
 
         # Init ROS
-        rospy.init_node('tw04', anonymous=True)
+        rospy.init_node('tw04_pcl', anonymous=True)
 
         # Loop rate
         rate = rospy.Rate(10)  # 10 Hz
@@ -312,6 +304,7 @@ if __name__ == '__main__':
 
     except rospy.ROSInterruptException:
         rospy.signal_shutdown('Quitting on error...')
+        pass
 
     finally:
         # If we are quitting, stop the robot
