@@ -22,7 +22,7 @@ sudo apt -y install code
 # Other needed software
 sudo apt -y upgrade
 sudo apt -y install screen mesa-utils nano firefox vlc browser-plugin-vlc xterm
-sudo apt -y install python3-pip python3-catkin-pkg-modules python3-empy python3-rospkg-modules python3-flake8 python3-pep8
+sudo apt -y install python3-pip python3-catkin-pkg-modules python3-empy python3-rospkg-modules python3-flake8 python3-pep8 python3-numpy python3-opencv python3-matplotlib
 sudo apt -y install gimp unrar git gdb open-vm-tools open-vm-tools-desktop
 #sudo apt kde-workspace-randr kwrite texlive-latex-base vlc-plugin-pulse 
 #sudo apt -y remove kate
