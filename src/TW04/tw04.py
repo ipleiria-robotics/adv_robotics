@@ -61,12 +61,12 @@ MIN_CELL_VALUE = 0
 MAX_CELL_VALUE = 255
 CELL_DELTA_UP = 1  # Change value per increment update
 CELL_DELTA_DOWN = 5  # Change value per decrement update
-DELTA_PRINT = 5  # Print debug information ony once every DELTA_PRINT seconds
+DELTA_DEBUG = 5  # Show debug information ony once every DELTA_PRINT seconds
 DELTA_SAVE = 5  # Save the map to a file every DELTA_PRINT*DELTA_SAVE seconds
 
 # Map fo the environment (to be fully created/updated)
 occ_map = np.full((ceil(MAP_HEIGHT/MAP_RESOLUTION),
-                   ceil(MAP_WIDTH/MAP_RESOLUTION),), 127, np.uint8)
+                   ceil(MAP_WIDTH/MAP_RESOLUTION)), 127, np.uint8)
 
 # Control iterations between map file updates
 iteration = 0
@@ -279,7 +279,7 @@ if __name__ == '__main__':
             # Only show this debug information every once in a while, in order
             # to avoid consuming to much time showing information
             curr_time = time.time()
-            if(curr_time - prev_time >= DELTA_PRINT):
+            if(curr_time - prev_time >= DELTA_DEBUG):
                 prev_time = curr_time
 
                 # Show map

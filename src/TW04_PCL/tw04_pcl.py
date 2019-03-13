@@ -61,7 +61,7 @@ MIN_CELL_VALUE = 0
 MAX_CELL_VALUE = 255
 CELL_DELTA_UP = 1  # Change value per increment update
 CELL_DELTA_DOWN = 5  # Change value per decrement update
-DELTA_PRINT = 5  # Print debug information ony once every DELTA_PRINT seconds
+DELTA_DEBUG = 5  # Show debug information ony once every DELTA_PRINT seconds
 DELTA_SAVE = 5  # Save the map to a file every DELTA_PRINT*DELTA_SAVE seconds
 
 # Map fo the environment (to be fully created/updated)
@@ -164,9 +164,10 @@ def pointCloudCallback(msg: PointCloud2):
 
         # Update map using the line iterator for occupied space, if
         # applicable
-        occ_map.itemset((pt[1], pt[0]), clipValue(pt[2]-CELL_DELTA_DOWN,
-                                                  MIN_CELL_VALUE,
-                                                  MAX_CELL_VALUE))
+        occ_map.itemset((it[-1][1], it[-1][0]),
+                        clipValue(it[-1][2]-CELL_DELTA_DOWN,
+                                  MIN_CELL_VALUE,
+                                  MAX_CELL_VALUE))
 
 
 def on_key(event):
@@ -271,7 +272,7 @@ if __name__ == '__main__':
             # Only show this debug information every once in a while, in order
             # to avoid consuming to much time showing information
             curr_time = time.time()
-            if(curr_time - prev_time >= DELTA_PRINT):
+            if(curr_time - prev_time >= DELTA_DEBUG):
                 prev_time = curr_time
 
                 # Show map
