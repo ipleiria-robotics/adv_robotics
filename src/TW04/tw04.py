@@ -106,8 +106,8 @@ def laserCallback(msg: LaserScan):
 
     # Store robot position in map grid coordinates
     robot_map_coord = np.array(
-        [round((MAP_WIDTH/2+robot_pose.x)/MAP_RESOLUTION),  # Col
-         round((MAP_HEIGHT/2-robot_pose.y)/MAP_RESOLUTION)],  # Row
+        [0,  # Col --> CHANGE ME
+         0],  # Row --> CHANGE ME
         dtype=int)
 
     angle = msg.angle_min
