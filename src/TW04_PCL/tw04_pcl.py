@@ -37,6 +37,7 @@ from matplotlib import pyplot as plt
 from math import radians, degrees, ceil
 import time
 import random
+import sys
 
 # ROS API
 import rospy
@@ -312,3 +313,5 @@ if __name__ == '__main__':
         vel_cmd.angular.z = 0
         vel_cmd.linear.x = 0
         vel_pub.publish(vel_cmd)
+        print('Quitting...')
+        sys.exit(0)
