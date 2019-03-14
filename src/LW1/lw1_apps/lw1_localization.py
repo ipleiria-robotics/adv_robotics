@@ -72,7 +72,7 @@ if __name__ == '__main__':
     # Compute r = inv(A'*A)*A'*b, where inv(X) = X^(-1) and @ is used for
     # matrix multiplication (using '*' would result in element-wise
     # multiplication, which is not what we want)
-    # r = np.linalg.inv(np.transpose(A) @ A) @np.transpose(A) @ b
+    # r = np.linalg.inv(np.T(A) @ A) @ np.T(A) @ b
     r = np.linalg.pinv(A) @ b
 
     # Debug code
