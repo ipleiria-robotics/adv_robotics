@@ -306,7 +306,6 @@ if __name__ == '__main__':
 
     except rospy.ROSInterruptException:
         rospy.signal_shutdown('Quitting on error...')
-        pass
 
     finally:
         # If we are quitting, stop the robot
