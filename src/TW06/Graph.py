@@ -33,7 +33,7 @@ Revision $Id$
 import numpy as np
 from matplotlib import pyplot as plt
 from enum import Enum
-from typing import Callable, List
+from typing import Callable, Deque
 from collections import deque
 
 # Our libraries
@@ -69,7 +69,7 @@ class Node:
     ''' Graph-based map node'''
     def __init__(self, graph: 'Graph', parent: 'Node', cost: float,
                  h: Callable[[MapPoint, MapPoint], float],
-                 map_position: MapPoint, action: List[int]):
+                 map_position: MapPoint, action: Action):
         # Store received values
         # World state associated with this node (y,columm of the map)
         self.map_position_ = map_position
@@ -112,7 +112,7 @@ class Node:
         # Add all actions as unborn children
         self.unborn_children_.extend(self.actions_)
 
-    def expand(self) -> List['Node']:
+    def expand(self) -> Deque['Node']:
         '''Create all this node children'''
         # Store all added nodes to be returned by the end of this function
         addedNodes = deque()
@@ -216,6 +216,7 @@ class Graph:
             del self.nodes_list_[node_label]
 
     def getNode(self, node_label: str) -> Node:
+        '''Get a node with the given label from the graph'''
         if(node_label in self.nodes_list_):
             return self.nodes_list_[node_label]
         else:
@@ -278,21 +279,3 @@ class Graph:
 
         # Save image
         plt.imsave('Map_solution.png', map_color)
-
-
-'''
-void Graph::showMapValues()
-{
-  // For through each (i,j) position of the matrix and output its value.
-  // By using (int)matrix->at<uchar>(j, i) we have access to the i column and
-  //j row of the matrix, as integer.
-  std::cout << " ----> Image values \n\n";
-  for( int j=0; j < map_.size().height; j++)
-  {
-    for( int i=0; i < map_.size().width; i++)
-      std::cout << std::setw(3) << (int)map_.at<uchar>(j, i) << " ";
-    std::cout << "\n";
-  }
-  std::cout << std::endl;
-}
-'''

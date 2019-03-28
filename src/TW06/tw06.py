@@ -110,13 +110,15 @@ def doSearch(graph: Graph, root: Node, goal_position: MapPoint,
             # Add the nodes such that the ones with lowest total cost are in
             # the beggining.
             for new_node in newNodes:
-                # Look for the node with higher heuristic than this one, and
+                # Look for the node with higher total cost than this one, and
                 # insert the new node before that node.
                 # This could be done in a more efficient way!
                 i = 0
-                for i in range(len(nodesToExplore)):
+                while i < len(nodesToExplore):
                     if(nodesToExplore[i].total_cost_ > new_node.total_cost_):
                         break
+                    else:
+                        i += 1
                 nodesToExplore.insert(i, new_node)
 
         # Show map as text for debugging purposes
