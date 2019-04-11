@@ -31,6 +31,7 @@ Revision $Id$
 
 # Matrices and OpenCV related functions
 import numpy as np
+import matplotlib as mpl
 from matplotlib import pyplot as plt
 
 # Library packages needed
@@ -39,6 +40,7 @@ import time
 import sys
 import os
 import random
+from threading import Lock
 
 # ROS API
 import rospy
@@ -82,10 +84,11 @@ SIGMA2 = radians(0.2)  # Theta standard deviation error [rad]
 # General global variables
 outfile = open('Output.txt', 'w')  # Save robot poses to this file
 odo_robot_pose = Pose2D()
+old_odo_robot_pose = Pose2D()
 odo_lin_vel = 0.0  # Store current linear velocity
 odo_ang_vel = 0.0  # Store current angular velocity
-odom_updated = False  # True if we got an odometry update
-odom_first_update = True  # True if the odometry was never updated
+odom_got_first_update = False  # True if the odometry was updated at least once
+odo_lock = Lock()
 # Real robot pose from the simulator (for debugging purposes only)
 real_pose = Pose2D()
 
@@ -99,13 +102,11 @@ particles_y = np.empty([NUM_PARTICLES, 1])
 particles_theta = np.empty([NUM_PARTICLES, 1])
 # Particles weight
 particles_weight = np.full([NUM_PARTICLES, 1], 1.0/NUM_PARTICLES)
-last_step1_time = 0.0  # Last time we performed the Particle Filter step 1
 # The old particles vectors will be needed in the resampling algorithm
 old_particles_x = np.empty([NUM_PARTICLES, 1])
 old_particles_y = np.empty([NUM_PARTICLES, 1])
 old_particles_theta = np.empty([NUM_PARTICLES, 1])
 max_weight = 1.0  # Weight of the best particle (to be computed)
-iteration = 0  # Controlo the number of iterations for debugging purposes
 
 # Map global variables
 org_map = np.zeros([ceil(MAP_LENGTH/MAP_RESOLUTION),
@@ -152,7 +153,7 @@ def on_key(event):
         rospy.signal_shutdown('Quitting...')  # Ask ROS to shutdown
 
 
-def showDebugInformation():
+def showDebugInformation(timestamp: float):
     '''
     Debug information function
 
@@ -160,28 +161,35 @@ def showDebugInformation():
     resampling step, since the particles weight will be changed, and some
     particles will be lost in the process.
     '''
-    global outfile, last_step1_time, odo_robot_pose, real_pose, pose_estimate
-    global dbg_map, tmp_map, NUM_PARTICLES, MAP_RESOLUTION, plt
+    global outfile, odo_robot_pose, real_pose, pose_estimate
+    global dbg_map, tmp_map, NUM_PARTICLES, MAP_RESOLUTION, plt, odo_lock
     global particles_x, particles_y, particles_theta, particles_weight
 
+    # This variable is shared/changed in different threads
+    odo_lock.acquire()
+    tmp_robot_pose = odo_robot_pose
+    odo_lock.release()
+
     # Write data to the file
-    outfile.write(f'{last_step1_time:.2f}: {odo_robot_pose.x:.2f} ' +
-                  f'{odo_robot_pose.y:.2f} {odo_robot_pose.theta:.2f} ' +
+    outfile.write(f'{timestamp:.2f}: {tmp_robot_pose.x:.2f} ' +
+                  f'{tmp_robot_pose.y:.2f} {tmp_robot_pose.theta:.2f} ' +
                   f'{real_pose.x:.2f} {real_pose.y:.2f} ' +
                   f'{real_pose.theta:.2f} {pose_estimate.x:.2f} ' +
                   f'{pose_estimate.y:.2f} {pose_estimate.theta:.2f}')
 
-    # Draw poses in image
-    dbg_map[:] = 255  # Erase previous debug information, set all values to 255
+    # Uncomment this if you want to erase previous debug information - it sets
+    # all values to 255
+    # dbg_map[:] = 255
 
-    # Real poses (in green)
+    ''' Draw poses in image '''
+    # Real pose (in green)
     drawPoses(dbg_map, real_pose.x, real_pose.y, real_pose.theta,
               MAP_RESOLUTION, (0, 255, 0))
-    # Poses estimated by odometry (in magenta)
+    # Pose estimated by odometry (in magenta)
     drawPoses(dbg_map,
               odo_robot_pose.x, odo_robot_pose.y, odo_robot_pose.theta,
               MAP_RESOLUTION, (255, 0, 255))
-    # Poses estimated by particle filter (in blue)
+    # Pose estimated by particle filter (in blue)
     drawPoses(dbg_map, pose_estimate.x, pose_estimate.y, pose_estimate.theta,
               MAP_RESOLUTION, (255, 0, 0))
 
@@ -195,7 +203,7 @@ def showDebugInformation():
                   particles_y.item(j),
                   particles_theta.item(j),
                   MAP_RESOLUTION,
-                  (255, round(255*(1.0-particles_weight.item(j)/max_weight)), 0))
+                  (0, round(255*(1.0-particles_weight.item(j)/max_weight)), 255))
 
     # Redraw estimate by particle filter (in blue), to stay on top
     drawPoses(dbg_map,
@@ -275,45 +283,28 @@ def odomCallback(msg: Odometry):
     '''
     Called when we get odometry messages
     '''
-    global odo_robot_pose, odo_lin_vel, odo_ang_vel, odom_updated
-    global odom_first_update, last_step1_time
+    global odo_robot_pose, odo_lin_vel, odo_ang_vel
+    global odom_got_first_update, last_step1_time, odo_lock, old_odo_robot_pose
 
-    old_pose = odo_robot_pose
-
-    # Store updated pose values
+    # Store updated pose values (this variable is shared/changed in different
+    # threads)
+    odo_lock.acquire()
     odo_robot_pose.x = msg.pose.pose.position.x
     odo_robot_pose.y = msg.pose.pose.position.y
     odo_robot_pose.theta = quaternionToYaw(msg.pose.pose.orientation)
-    # Store velocity computed from odometry
-    odo_lin_vel = msg.twist.twist.linear.x
-    odo_ang_vel = msg.twist.twist.angular.z
-    # Store timestamp and update flag
-    odom_updated = True
-
-    # Only perform the particle filter update step if we have alread received
-    # an odometry message in the past.
-    if not odom_first_update:
-        # Perform Step 1 of the particle filter
-        # --> Update particles with robot movement:
-        # We need to obtain the robot movement in the robot coordinates
-        local_pose = ft.world2LocalP(old_pose, odo_robot_pose)
-        ParticleFilterStep1(local_pose.x, local_pose.theta)
-    else:
-        odom_first_update = False  # First update is done
-
-    last_step1_time = msg.header.stamp.to_sec()
-
-    # Show updated particles
-    #showDebugInformation()
+    if not odom_got_first_update:
+        old_odo_robot_pose = odo_robot_pose
+        odom_got_first_update = True  # First update is done
+    odo_lock.release()
 
 
 def markersCallback(msg: Markers):
     '''
     Called whenever we have markers detected
     '''
-    global odom_first_update, last_step1_time, odo_lin_vel, odo_ang_vel
+    global odom_got_first_update, last_step1_time
     global NUM_PARTICLES, DISTANCE_ERROR_GAIN, odo_robot_pose, pose_estimate
-    global max_weight, iteration, prev_time
+    global max_weight, prev_time, old_odo_robot_pose, odo_lock
     global old_particles_x, old_particles_y, old_particles_theta
     global particles_x, particles_y, particles_theta, particles_weight
 
@@ -322,22 +313,17 @@ def markersCallback(msg: Markers):
         return
 
     # Before using the markers information, we need to update the estimated
-    # pose considering the amount of time that elapsed since the last update
-    # from odometry.
-    # We will use the linear and angular velocity of the robot for that.
+    # pose considering howmuch the robot moved since last time, estimated from
+    # odometry information.
 
     ''' Step 1 - Update particles given the robot motion: '''
-    if not odom_first_update:
-        dt = msg.header.stamp.to_sec() - last_step1_time
-        distance = odo_lin_vel*dt  # Distance travelled
-        dtheta = odo_ang_vel*dt  # Rotation performed
-        ParticleFilterStep1(distance, dtheta)
-        last_step1_time = msg.header.stamp.to_sec()
-
-        # Store updated odometry pose
-        odo_robot_pose.x += distance*cos(odo_robot_pose.theta)
-        odo_robot_pose.y += distance*sin(odo_robot_pose.theta)
-        odo_robot_pose.theta += dtheta
+    if odom_got_first_update:
+        # Get estimated motion from odometry
+        odo_lock.acquire()  # Prevent simultaneous acess to the variable
+        local_pose = ft.world2LocalP(old_odo_robot_pose, odo_robot_pose)
+        old_odo_robot_pose = odo_robot_pose
+        odo_lock.release()
+        ParticleFilterStep1(local_pose.x, local_pose.theta)
 
     ''' Step 2 - Update the particle weights given the sensor model and map
      knowledge '''
@@ -366,9 +352,6 @@ def markersCallback(msg: Markers):
                 particle = Pose2D(particles_x.item(j),
                                   particles_y.item(j),
                                   particles_theta.item(j))
-#                particle = Pose2D(particles_x[j],
-#                                   particles_y[j],
-#                                   particles_theta[j])
 
                 marker_lpos = ft.Point2D(msg.range[n]*cos(msg.bearing[n]),
                                          msg.range[n]*sin(msg.bearing[n]))
@@ -400,7 +383,7 @@ def markersCallback(msg: Markers):
                 max_weight = particles_weight.item(j)
 
     # Show debug information
-    showDebugInformation()
+    showDebugInformation(msg.header.stamp.to_sec())
 
     ''' Step 3 - Resample '''
     if STEP_RESAMPLE:
@@ -438,11 +421,9 @@ def markersCallback(msg: Markers):
 
     # Save map from time to time
     curr_time = time.time()
-    iteration += 1
     if curr_time - prev_time >= DELTA_DEBUG:
         prev_time = curr_time
         plt.imsave('mapa.png', dbg_map)
-        iteration = 0
 
 
 def laserCallback(msg: LaserScan):
@@ -530,10 +511,8 @@ if __name__ == '__main__':
     org_map = cave_map.copy()
 
     # 
-    #matplotlib.use('GTK3Cairo')
-    #plt.pause(0.01)
     plt.switch_backend('GTK3Cairo')
-    #plt.switch_backend('QT5Agg')
+    mpl.rcParams['image.origin'] = 'lower'
 
     # Create window for the map
     fig = plt.figure("Debug")
@@ -603,7 +582,7 @@ if __name__ == '__main__':
     rate = rospy.Rate(10)  # 10 Hz
 
     # Wait until we get one odometry message
-    while(not odom_updated):
+    while(not odom_got_first_update):
         rate.sleep()
 
     # Stop the robot (if not stopped already)
