@@ -40,7 +40,7 @@ import time
 import sys
 import os
 import random
-from threading import Lock
+from threading import Lock, Condition
 
 # ROS API
 import rospy
@@ -56,7 +56,7 @@ from markers_msgs.msg import Markers
 # Specify if the particle filter steps should run
 STEP_PREDICTION = True
 STEP_UPDATE = True
-STEP_RESAMPLE = True
+STEP_RESAMPLE = False
 
 # Debug related variables
 DELTA_DEBUG = 1  # Show debug information ony once every DELTA_PRINT seconds
@@ -87,8 +87,10 @@ odo_robot_pose = Pose2D()
 old_odo_robot_pose = Pose2D()
 odo_lin_vel = 0.0  # Store current linear velocity
 odo_ang_vel = 0.0  # Store current angular velocity
-odom_got_first_update = False  # True if the odometry was updated at least once
+odom_updated = False  # True if the odometry was updated at least once
 odo_lock = Lock()
+imshow_lock = Lock()
+imshow_cond = Condition(imshow_lock)
 # Real robot pose from the simulator (for debugging purposes only)
 real_pose = Pose2D()
 
@@ -211,10 +213,13 @@ def showDebugInformation(timestamp: float):
               MAP_RESOLUTION, (255, 0, 0))
 
     # Show map with poses
+    imshow_lock.acquire()
     plt.figure("Debug")
     plt.cla()
     plt.imshow(tmp_map)
-    plt.pause(0.01)
+    #plt.pause(0.01)
+    imshow_cond.notify() #
+    imshow_lock.release()  # Trigger figure update in main thread
 
 
 def ParticleFilterStep1(distance: float, dtheta: float):
@@ -240,14 +245,14 @@ def ParticleFilterStep1(distance: float, dtheta: float):
 
         # This could be vectorized to improved speed and avoid the for loop!
         for n in range(0, NUM_PARTICLES):
-            rnd_distance = random.gauss(distance, SIGMA1)
-            rnd_dtheta = random.gauss(dtheta, SIGMA2)
+            rnd_distance = distance*random.gauss(1.0, SIGMA1)
+            rnd_dtheta = dtheta*random.gauss(1.0, SIGMA2)
             delta_X = rnd_distance*cos(particles_theta[n])
             delta_Y = rnd_distance*sin(particles_theta[n])
 
             particles_x[n] += delta_X
             particles_y[n] += delta_Y
-            particles_theta[n] = rnd_dtheta
+            particles_theta[n] += rnd_dtheta
 
             #  Check if any of particles is outside the map our in an occupied
             # cell. If so, move that particle to the previous position (the
@@ -284,7 +289,7 @@ def odomCallback(msg: Odometry):
     Called when we get odometry messages
     '''
     global odo_robot_pose, odo_lin_vel, odo_ang_vel
-    global odom_got_first_update, last_step1_time, odo_lock, old_odo_robot_pose
+    global odom_updated, last_step1_time, odo_lock, old_odo_robot_pose
 
     # Store updated pose values (this variable is shared/changed in different
     # threads)
@@ -292,9 +297,12 @@ def odomCallback(msg: Odometry):
     odo_robot_pose.x = msg.pose.pose.position.x
     odo_robot_pose.y = msg.pose.pose.position.y
     odo_robot_pose.theta = quaternionToYaw(msg.pose.pose.orientation)
-    if not odom_got_first_update:
-        old_odo_robot_pose = odo_robot_pose
-        odom_got_first_update = True  # First update is done
+    if not odom_updated:
+        # Store "old value"
+        old_odo_robot_pose = Pose2D(odo_robot_pose.x,
+                                    odo_robot_pose.y,
+                                    odo_robot_pose.theta)
+        odom_updated = True  # First update is done
     odo_lock.release()
 
 
@@ -302,7 +310,7 @@ def markersCallback(msg: Markers):
     '''
     Called whenever we have markers detected
     '''
-    global odom_got_first_update, last_step1_time
+    global odom_updated, last_step1_time
     global NUM_PARTICLES, DISTANCE_ERROR_GAIN, odo_robot_pose, pose_estimate
     global max_weight, prev_time, old_odo_robot_pose, odo_lock
     global old_particles_x, old_particles_y, old_particles_theta
@@ -317,11 +325,13 @@ def markersCallback(msg: Markers):
     # odometry information.
 
     ''' Step 1 - Update particles given the robot motion: '''
-    if odom_got_first_update:
+    if odom_updated:
         # Get estimated motion from odometry
         odo_lock.acquire()  # Prevent simultaneous acess to the variable
         local_pose = ft.world2LocalP(old_odo_robot_pose, odo_robot_pose)
-        old_odo_robot_pose = odo_robot_pose
+        old_odo_robot_pose = Pose2D(odo_robot_pose.x,
+                                    odo_robot_pose.y,
+                                    odo_robot_pose.theta)
         odo_lock.release()
         ParticleFilterStep1(local_pose.x, local_pose.theta)
 
@@ -497,7 +507,7 @@ if __name__ == '__main__':
     # a border around it, so as to allow estimates outside of the original
     # map.
     map_file_path = os.environ['HOME']
-    map_file_path += '/ros/src/mystage_ros/world/AR/cave_walls_only.png'
+    map_file_path += '/ros/src/mystage_ros/world/AR/cave.png'
     cave_map = (plt.imread(map_file_path)*255).astype(np.uint8)
 
     # Read original map and resize it to our resolution (in color)
@@ -511,13 +521,17 @@ if __name__ == '__main__':
     org_map = cave_map.copy()
 
     # 
-    plt.switch_backend('GTK3Cairo')
-    mpl.rcParams['image.origin'] = 'lower'
+    #plt.switch_backend('GTK3Cairo')
+    #mpl.rcParams['image.origin'] = 'lower'
+    mpl.rcParams['xtick.top'] = False
+    mpl.rcParams['xtick.bottom'] = False
+    mpl.rcParams['ytick.left'] = False
+    mpl.rcParams['ytick.right'] = False
 
     # Create window for the map
     fig = plt.figure("Debug")
     plt.imshow(dbg_map)
-    plt.pause(0.01)
+    plt.pause(0.5)
     fig.canvas.mpl_connect('key_press_event', on_key)
 
     '''
@@ -559,7 +573,7 @@ if __name__ == '__main__':
     robot_name = '/robot_0'
 
     # Init ROS
-    rospy.init_node('tw08', anonymous=True)
+    rospy.init_node('tw07', anonymous=True)
 
     # Setup subscribers
     # Odometry
@@ -582,7 +596,7 @@ if __name__ == '__main__':
     rate = rospy.Rate(10)  # 10 Hz
 
     # Wait until we get one odometry message
-    while(not odom_got_first_update):
+    while(not odom_updated):
         rate.sleep()
 
     # Stop the robot (if not stopped already)
@@ -591,11 +605,13 @@ if __name__ == '__main__':
     vel_pub.publish(vel_cmd)
 
     # "Loop" until shutdown
-    #while not rospy.is_shutdown():
-    #    plt.pause(0.01)
+    imshow_lock.acquire()
+    while not rospy.is_shutdown():
+        imshow_cond.wait()  # Until until event triggered
+        plt.pause(0.08)
 
     #plt.show()
-    rospy.spin()
+    #rospy.spin()
 
     # Stop the robot
     vel_cmd.angular.z = 0
