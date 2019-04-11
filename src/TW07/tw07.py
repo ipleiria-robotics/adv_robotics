@@ -84,11 +84,11 @@ SIGMA2 = radians(0.2)  # Theta standard deviation error [rad]
 # General global variables
 outfile = open('Output.txt', 'w')  # Save robot poses to this file
 odo_robot_pose = Pose2D()
-old_odo_robot_pose = Pose2D()
 odo_lin_vel = 0.0  # Store current linear velocity
 odo_ang_vel = 0.0  # Store current angular velocity
 odom_updated = False  # True if the odometry was updated at least once
-odo_lock = Lock()
+markers_msg = None  # Store latest markers message
+markers_lock = Lock()
 imshow_lock = Lock()
 imshow_cond = Condition(imshow_lock)
 # Real robot pose from the simulator (for debugging purposes only)
@@ -164,17 +164,12 @@ def showDebugInformation(timestamp: float):
     particles will be lost in the process.
     '''
     global outfile, odo_robot_pose, real_pose, pose_estimate
-    global dbg_map, tmp_map, NUM_PARTICLES, MAP_RESOLUTION, plt, odo_lock
+    global dbg_map, tmp_map, NUM_PARTICLES, MAP_RESOLUTION, plt
     global particles_x, particles_y, particles_theta, particles_weight
 
-    # This variable is shared/changed in different threads
-    odo_lock.acquire()
-    tmp_robot_pose = odo_robot_pose
-    odo_lock.release()
-
     # Write data to the file
-    outfile.write(f'{timestamp:.2f}: {tmp_robot_pose.x:.2f} ' +
-                  f'{tmp_robot_pose.y:.2f} {tmp_robot_pose.theta:.2f} ' +
+    outfile.write(f'{timestamp:.2f}: {odo_robot_pose.x:.2f} ' +
+                  f'{odo_robot_pose.y:.2f} {odo_robot_pose.theta:.2f} ' +
                   f'{real_pose.x:.2f} {real_pose.y:.2f} ' +
                   f'{real_pose.theta:.2f} {pose_estimate.x:.2f} ' +
                   f'{pose_estimate.y:.2f} {pose_estimate.theta:.2f}')
@@ -289,52 +284,29 @@ def odomCallback(msg: Odometry):
     Called when we get odometry messages
     '''
     global odo_robot_pose, odo_lin_vel, odo_ang_vel
-    global odom_updated, last_step1_time, odo_lock, old_odo_robot_pose
-
-    # Store updated pose values (this variable is shared/changed in different
-    # threads)
-    odo_lock.acquire()
-    odo_robot_pose.x = msg.pose.pose.position.x
-    odo_robot_pose.y = msg.pose.pose.position.y
-    odo_robot_pose.theta = quaternionToYaw(msg.pose.pose.orientation)
-    if not odom_updated:
-        # Store "old value"
-        old_odo_robot_pose = Pose2D(odo_robot_pose.x,
-                                    odo_robot_pose.y,
-                                    odo_robot_pose.theta)
-        odom_updated = True  # First update is done
-    odo_lock.release()
-
-
-def markersCallback(msg: Markers):
-    '''
-    Called whenever we have markers detected
-    '''
     global odom_updated, last_step1_time
     global NUM_PARTICLES, DISTANCE_ERROR_GAIN, odo_robot_pose, pose_estimate
-    global max_weight, prev_time, old_odo_robot_pose, odo_lock
+    global max_weight, prev_time, markers_lock, markers_msg
     global old_particles_x, old_particles_y, old_particles_theta
     global particles_x, particles_y, particles_theta, particles_weight
-
-    # This callback only makes sense if we have more than one marker
-    if msg.num_markers < 1:
-        return
-
-    # Before using the markers information, we need to update the estimated
-    # pose considering howmuch the robot moved since last time, estimated from
-    # odometry information.
-
+    
+    # Store updated pose values (this variable is shared/changed in different
+    # threads)
+    
     ''' Step 1 - Update particles given the robot motion: '''
+    new_odo_robot_pose = Pose2D(msg.pose.pose.position.x,
+                                msg.pose.pose.position.y,
+                                quaternionToYaw(msg.pose.pose.orientation))
     if odom_updated:
         # Get estimated motion from odometry
-        odo_lock.acquire()  # Prevent simultaneous acess to the variable
-        local_pose = ft.world2LocalP(old_odo_robot_pose, odo_robot_pose)
-        old_odo_robot_pose = Pose2D(odo_robot_pose.x,
-                                    odo_robot_pose.y,
-                                    odo_robot_pose.theta)
-        odo_lock.release()
+        local_pose = ft.world2LocalP(odo_robot_pose, new_odo_robot_pose)
         ParticleFilterStep1(local_pose.x, local_pose.theta)
+    odo_robot_pose = new_odo_robot_pose
+    odom_updated = True
 
+    #
+    # Steps 2 (weights) and 3 (resampling) only run if we got a markers message
+    #
     ''' Step 2 - Update the particle weights given the sensor model and map
      knowledge '''
     if STEP_UPDATE:
@@ -350,53 +322,62 @@ def markersCallback(msg: Markers):
         x/y world coordinates of the detected marker respectively. The GAIN are
         constant gains wich can be tuned to value smaller detection errors.
         '''
+        markers_lock.acquire()  # Wait for lock
+        if markers_msg is not None:
+            run_steps23 = True
+            # Reset normalization factor
+            norm_factor = 0
+            for j in range(0, NUM_PARTICLES):
+                # Compute the weight for each particle
+                # For each obtained beacon value
+                particles_weight[j] = 0
+                for n in range(0, markers_msg.num_markers):
+                    # Obtain beacon position in world coordinates
+                    particle = Pose2D(particles_x.item(j),
+                                      particles_y.item(j),
+                                      particles_theta.item(j))
 
-        # Reset normalization factor
-        norm_factor = 0
-        for j in range(0, NUM_PARTICLES):
-            # Compute the weight for each particle
-            # For each obtained beacon value
-            particles_weight[j] = 0
-            for n in range(0, msg.num_markers):
-                # Obtain beacon position in world coordinates
-                particle = Pose2D(particles_x.item(j),
-                                  particles_y.item(j),
-                                  particles_theta.item(j))
+                    marker_lpos = ft.Point2D(markers_msg.range[n] *
+                                             cos(markers_msg.bearing[n]),
+                                             markers_msg.range[n] *
+                                             sin(markers_msg.bearing[n]))
+                    marker_wpos = ft.local2Worldp(particle, marker_lpos)
 
-                marker_lpos = ft.Point2D(msg.range[n]*cos(msg.bearing[n]),
-                                         msg.range[n]*sin(msg.bearing[n]))
-                marker_wpos = ft.local2Worldp(particle, marker_lpos)
+                    particles_weight[j] += \
+                        1.0/(1+sqrt((markers_wpos[markers_msg.id[n]-1].x -
+                                     marker_wpos.x)**2 +
+                                    (markers_wpos[markers_msg.id[n]-1].y -
+                                     marker_wpos.y)**2) * DISTANCE_ERROR_GAIN)
 
-                particles_weight[j] += \
-                    1.0/(1+sqrt((markers_wpos[msg.id[n]-1].x -
-                                 marker_wpos.x)**2 +
-                                (markers_wpos[msg.id[n]-1].y -
-                                 marker_wpos.y)**2) * DISTANCE_ERROR_GAIN)
-
-            # Perform the mean. We summed all elements above and now divide by
-            # the number of elements summed.
-            particles_weight[j] /= msg.num_markers
-            # Update the normalization factor
-            norm_factor += particles_weight[j]
+                # Perform the mean. We summed all elements above and now divide
+                # by the number of elements summed.
+                particles_weight[j] /= markers_msg.num_markers
+                # Update the normalization factor
+                norm_factor += particles_weight[j]
+        else:
+            markers_msg = None
+            run_steps23 = False
+        markers_lock.release()  # Release lock
 
         # Normalize the weight
-        max_weight = 0.0
-        for j in range(0, NUM_PARTICLES):
-            particles_weight[j] /= norm_factor
-            # Store the particle with the best weight has our posture estimate
-            if particles_weight[j] > max_weight:
-                pose_estimate.x = particles_x.item(j)
-                pose_estimate.y = particles_y.item(j)
-                pose_estimate.theta = particles_theta.item(j)
-                # This max_factor is just used for debug, so that we have more
-                # different colors between particles.
-                max_weight = particles_weight.item(j)
+        if run_steps23:
+            max_weight = 0.0
+            for j in range(0, NUM_PARTICLES):
+                particles_weight[j] /= norm_factor
+                # Store the particle with the best weight as our pose estimate
+                if particles_weight[j] > max_weight:
+                    pose_estimate.x = particles_x.item(j)
+                    pose_estimate.y = particles_y.item(j)
+                    pose_estimate.theta = particles_theta.item(j)
+                    # This max_factor is just used for debug, so that we have
+                    # more different colors between particles.
+                    max_weight = particles_weight.item(j)
 
     # Show debug information
     showDebugInformation(msg.header.stamp.to_sec())
 
     ''' Step 3 - Resample '''
-    if STEP_RESAMPLE:
+    if STEP_RESAMPLE and run_steps23:
         '''
         The resampling step is the exact implementation of the algorithm
         described in the theoretical classes, i.e., the "Importance resampling
@@ -434,6 +415,23 @@ def markersCallback(msg: Markers):
     if curr_time - prev_time >= DELTA_DEBUG:
         prev_time = curr_time
         plt.imsave('mapa.png', dbg_map)
+
+
+def markersCallback(msg: Markers):
+    '''
+    Called whenever we have markers detected
+    '''
+    global markers_msg, markers_lock
+
+    # This callback only makes sense if we have more than one marker
+    if msg.num_markers < 1:
+        return
+
+    # Just store the markers data, they will be processed in the odometry
+    # callback, which runs always for sure
+    markers_lock.acquire()
+    markers_msg = msg
+    markers_lock.release()
 
 
 def laserCallback(msg: LaserScan):
@@ -608,7 +606,7 @@ if __name__ == '__main__':
     imshow_lock.acquire()
     while not rospy.is_shutdown():
         imshow_cond.wait()  # Until until event triggered
-        plt.pause(0.08)
+        plt.pause(0.01)
 
     #plt.show()
     #rospy.spin()
