@@ -33,6 +33,7 @@ Revision $Id$
 import numpy as np
 import matplotlib as mpl
 from matplotlib import pyplot as plt
+import cv2
 
 # Library packages needed
 from math import radians, ceil, sin, cos, sqrt, pi
@@ -54,9 +55,9 @@ import LocalFrameWorldFrameTransformations as ft
 from markers_msgs.msg import Markers
 
 # Specify if the particle filter steps should run
-STEP_PREDICTION = True
-STEP_UPDATE = True
-STEP_RESAMPLE = True
+STEP_PREDICTION = False
+STEP_UPDATE = False
+STEP_RESAMPLE = False
 
 # Debug related variables
 DELTA_DEBUG = 1  # Show debug information ony once every DELTA_PRINT seconds
@@ -69,14 +70,11 @@ MAX_ANG_VEL = 1.57  # 90º/s (in rad/s)
 # Map related constants
 MAP_RESOLUTION = 0.032  # [m/px]
 MAP_LENGTH = 16.0  # Width and height of the map [m]
-SAFETY_BORDER = 0.4  # Border around the map [m]
-DELTA_SAVE = 5  # Time interval between each save of the map
+DELTA_SAVE = 20  # Time [secs] interval between each save of the map
 
 # Particle filter constants
 NUM_PARTICLES = 200  # Number of particles used in the particle filter
-LANDMARK_RANGE = 8.0  # Maximum distance to detectable landmarks [m]
-LANDMARK_FOV = 180.0  # Landmarks are detectable if in front of robot [º]
-DISTANCE_ERROR_GAIN = 0.5  # Gain factor for the weights give the distance
+DISTANCE_ERROR_GAIN = 0.5  # Gain factor for the weights given the distance
 ANGLE_ERROR_GAIN = 5.0  # Gain factor when computing the weights from the angle
 SIGMA1 = 0.2  # Distance standard deviation error [m]
 SIGMA2 = radians(0.3)  # Theta standard deviation error [rad]
@@ -198,7 +196,8 @@ def showDebugInformation(timestamp: float):
                   particles_y.item(j),
                   particles_theta.item(j),
                   MAP_RESOLUTION,
-                  (255, round(255*(1.0-particles_weight.item(j)/max_weight)), 0))
+                  (255, round(255*(1.0-particles_weight.item(j)/max_weight)),
+                   0))
 
     # Redraw estimate by particle filter (in light blue), to stay on top
     drawPoses(tmp_map,
@@ -214,10 +213,12 @@ def showDebugInformation(timestamp: float):
     real_patch = mpl.patches.Patch(color='lime', label='Real pose')
     odo_patch = mpl.patches.Patch(color='magenta', label='Odometry pose')
     ekf_patch = mpl.patches.Patch(color='blue', label='EKF pose')
-    plt.legend(loc='upper left', handles=[real_patch, odo_patch, ekf_patch])
-    #plt.pause(0.01)
-    imshow_cond.notify() #
-    imshow_lock.release()  # Trigger figure update in main thread
+    bestp_patch = mpl.patches.Patch(color='cyan', label='Last best particle')
+    plt.legend(loc='upper left', handles=[real_patch, odo_patch,
+                                          ekf_patch, bestp_patch])
+    # Trigger figure update in main thread
+    imshow_cond.notify()
+    imshow_lock.release()
 
 
 def realPoseCallback(msg: Odometry):
@@ -241,10 +242,10 @@ def odomCallback(msg: Odometry):
     global org_map, max_weight, prev_time, markers_lock, markers_msg
     global old_particles_x, old_particles_y, old_particles_theta
     global particles_x, particles_y, particles_theta, particles_weight
-    
+
     # Store updated pose values (this variable is shared/changed in different
     # threads)
-    
+
     ''' Step 1 - Update particles given the robot motion: '''
     new_odo_robot_pose = Pose2D(msg.pose.pose.position.x,
                                 msg.pose.pose.position.y,
@@ -270,8 +271,8 @@ def odomCallback(msg: Odometry):
 
         # This could be vectorized to improved speed and avoid the for loop!
         for n in range(0, NUM_PARTICLES):
-            rnd_distance = distance*random.gauss(1.0, SIGMA1)
-            rnd_dtheta = dtheta*random.gauss(1.0, SIGMA2)
+            rnd_distance = random.gauss(distance, distance*SIGMA1)
+            rnd_dtheta = random.gauss(dtheta, dtheta*SIGMA2)
             delta_X = rnd_distance*cos(particles_theta[n])
             delta_Y = rnd_distance*sin(particles_theta[n])
 
@@ -351,8 +352,8 @@ def odomCallback(msg: Odometry):
                 particles_weight[j] /= markers_msg.num_markers
                 # Update the normalization factor
                 norm_factor += particles_weight[j]
-        else:
             markers_msg = None
+        else:
             run_steps23 = False
         markers_lock.release()  # Release lock
 
@@ -468,9 +469,9 @@ def laserCallback(msg: LaserScan):
                 rotate_left = not rotate_left
 
             if rotate_left:
-                ang_vel = radians(30.0)  # Rotate left
+                ang_vel = radians(15.0)  # Rotate left
             else:
-                ang_vel = radians(-30.0)  # Rotate right
+                ang_vel = radians(-15.0)  # Rotate right
 
             rotating = True
 
@@ -506,20 +507,12 @@ if __name__ == '__main__':
     cave_map = (plt.imread(map_file_path)*255).astype(np.uint8)
 
     # Read original map and resize it to our resolution (in color)
-    dbg_map = cave_map.copy()
+    dbg_map = cv2.resize(cave_map, (dbg_map.shape[0], dbg_map.shape[1]))
 
     # Read original map and resize it to our resolution
     # We need the original map, black and white, so that it is faster to find
     # occupied cells
-    org_map = cave_map[:, :, 0]
-
-    # 
-    #plt.switch_backend('GTK3Cairo')
-    #mpl.rcParams['image.origin'] = 'lower'
-    mpl.rcParams['xtick.top'] = False
-    mpl.rcParams['xtick.bottom'] = False
-    mpl.rcParams['ytick.left'] = False
-    mpl.rcParams['ytick.right'] = False
+    org_map = (dbg_map[:, :, 0]).copy()
 
     # Create window for the map
     fig = plt.figure("Debug")
@@ -531,11 +524,11 @@ if __name__ == '__main__':
     Particle filter related variables with their initial values
     '''
     # Initialize particles with uniform random distribution across all space
-    particles_x = np.random.uniform(-MAP_LENGTH/2.0+SAFETY_BORDER,
-                                    MAP_LENGTH/2.0-SAFETY_BORDER,
+    particles_x = np.random.uniform(-MAP_LENGTH/2.0,
+                                    MAP_LENGTH/2.0,
                                     particles_x.shape)  # X
-    particles_y = np.random.uniform(-MAP_LENGTH/2.0+SAFETY_BORDER,
-                                    MAP_LENGTH/2.0-SAFETY_BORDER,
+    particles_y = np.random.uniform(-MAP_LENGTH/2.0,
+                                    MAP_LENGTH/2.0,
                                     particles_y.shape)  # Y
     particles_theta = np.random.uniform(-pi, pi,
                                         particles_theta.shape)  # Theta
@@ -543,18 +536,18 @@ if __name__ == '__main__':
     # Re-add particles that are outside of the map or inside an obstacle, until
     # it is in a free space inside the map.
     for n in range(0, NUM_PARTICLES):
-        while((particles_x[n] > MAP_LENGTH/2.0) or
-              (particles_x[n] < -MAP_LENGTH/2.0) or
-              (particles_y[n] > MAP_LENGTH/2.0) or
-              (particles_y[n] < -MAP_LENGTH/2.0) or
+        while((particles_x[n] >= MAP_LENGTH/2.0) or
+              (particles_x[n] <= -MAP_LENGTH/2.0) or
+              (particles_y[n] >= MAP_LENGTH/2.0) or
+              (particles_y[n] <= -MAP_LENGTH/2.0) or
               (org_map[int(np.rint(org_map.shape[0]/2.0
                                    - particles_y[n]/MAP_RESOLUTION)),
                        int(np.rint(org_map.shape[1]/2.0
                                    + particles_x[n]/MAP_RESOLUTION))] < 127)):
-            particles_x[n] = random.uniform(-MAP_LENGTH/2.0+SAFETY_BORDER,
-                                            MAP_LENGTH/2.0-SAFETY_BORDER)
-            particles_y[n] = random.uniform(-MAP_LENGTH/2.0+SAFETY_BORDER,
-                                            MAP_LENGTH/2.0-SAFETY_BORDER)
+            particles_x[n] = random.uniform(-MAP_LENGTH/2.0,
+                                            MAP_LENGTH/2.0)
+            particles_y[n] = random.uniform(-MAP_LENGTH/2.0,
+                                            MAP_LENGTH/2.0)
 
     '''
     Random navigation with obstacle avoidance and particle filter-based
@@ -601,10 +594,7 @@ if __name__ == '__main__':
     imshow_lock.acquire()
     while not rospy.is_shutdown():
         imshow_cond.wait()  # Until until event triggered
-        plt.pause(0.01)
-
-    #plt.show()
-    #rospy.spin()
+        plt.pause(0.05)  # Update window
 
     # Stop the robot
     vel_cmd.angular.z = 0
