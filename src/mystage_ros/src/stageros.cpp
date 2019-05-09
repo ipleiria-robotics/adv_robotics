@@ -770,7 +770,7 @@ StageNode::WorldCallback()
           Stg::ModelFiducial * fidutialmodel = robotmodel->fiducialmodels[s];
           std::vector<Stg::ModelFiducial::Fiducial> detectedMarkers = fidutialmodel->GetFiducials();
 
-          if (robotmodel->fiducial_pubs[s].getNumSubscribers() > 0 && detectedMarkers.size() > 0 )
+          if (robotmodel->fiducial_pubs[s].getNumSubscribers() > 0 ) //&& detectedMarkers.size() >= 0 )
           {
             markers_msgs::Markers msg;
             if (robotmodel->fiducialmodels.size() > 1)
