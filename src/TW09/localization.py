@@ -39,7 +39,6 @@ from ExtendedKalmanFilter import ExtendedKalmanFilter
 
 # ROS API
 import rospy
-import message_filters
 from geometry_msgs.msg import Pose2D, PoseWithCovarianceStamped, Quaternion
 from nav_msgs.msg import Odometry
 from sensor_msgs.msg import LaserScan
@@ -57,7 +56,7 @@ import sys
 
 # Debug control constants
 FULL_ICP_DEBUG = False  # Show information on every ICP step
-BASIC_ICP_DEBUG = True  # Show only the most relevant information from ICP
+BASIC_DEBUG = True  # Show only the most relevant debug information
 
 # General global variables
 PREDICTION_STEP_ENABLED = True  # If true, enable the prediction step
@@ -88,19 +87,23 @@ dbg_map = np.full([ceil((MAP_LENGTH+MAP_BORDER)/MAP_RESOLUTION),
                   255,
                   np.uint8)
 # Debug
-if BASIC_ICP_DEBUG:
+if BASIC_DEBUG:
     # ICP image for debugging purposes
     dbg_icp = np.full([ceil((MAP_LENGTH+MAP_BORDER)/MAP_RESOLUTION),
                        ceil((MAP_LENGTH+MAP_BORDER)/MAP_RESOLUTION),
                       3],
                       255,
                       np.uint8)
+#    # Create window for the ICP debug image
+#    fig = plt.figure("Debug ICP")
+#    plt_icp = plt.gca()
+#    plt_icp.cla()
 
 # ICP related constants and variables
 icpfile = open('ICP.txt', 'w')  # Save ICP debug information to this file
 MAX_ICP_ITERATIONS = 10  # Maximum number of ICP iterations
 MIN_ICP_DELTA_ERROR = 0.01  # Minimum error difference to terminate ICP [m]
-MIN_ICP_DELTATIME = 0.1  # Minimum time between consecutive IPC runs
+MIN_ICP_DELTATIME = 1.0  # Minimum time between consecutive IPC runs
 last_icp_call_time = 0  # Timestamp of the last ICP run
 kdtree = None  # Will hold the KD-Tree built from the environment map
 
@@ -212,15 +215,14 @@ def createAndPublishPose(timestamp):
     pose_pub.publish(pose_msg)
 
 
-def odomLaserCallback(odom_msg: Odometry, laser_msg: LaserScan):
+def odomCallback(odom_msg: Odometry):
     '''
     This callback is called whenever we habe an odometry and a markers message.
     Teh received messages are received here simultaneously and correspond to
     the same time stamp
     '''
-    global odom_updated_once, odom_robot_pose, ekf, markers_wpos, cloud_map
-    global PREDICTION_STEP_ENABLED, BASIC_ICP_DEBUG, dbg_icp, FULL_ICP_DEBUG
-    global kdtree, last_icp_call_time
+    global odom_updated_once, odom_robot_pose, ekf, PREDICTION_STEP_ENABLED
+    global BASIC_DEBUG
 
     ''' Step 1 - Prediction step using odometry values
 
@@ -249,6 +251,23 @@ def odomLaserCallback(odom_msg: Odometry, laser_msg: LaserScan):
     # Store current odometry as a reference for the next iteration
     odom_robot_pose = new_odo_robot_pose
 
+    # Publish computed pose value
+    createAndPublishPose(odom_msg.header.stamp)
+
+    # Show debug information
+    if BASIC_DEBUG:
+        showDebugInformation(odom_msg.header.stamp.to_sec())
+
+
+def laserCallback(laser_msg: LaserScan):
+    '''
+    This callback is called whenever we habe an odometry and a markers message.
+    Teh received messages are received here simultaneously and correspond to
+    the same time stamp
+    '''
+    global ekf, cloud_map, BASIC_DEBUG, dbg_icp, FULL_ICP_DEBUG
+    global kdtree, last_icp_call_time
+
     ''' Step 2 - Perform the update step based on the ICP algorithm
 
         The ICP algorithm will return an estimate for the current robot pose.
@@ -259,13 +278,13 @@ def odomLaserCallback(odom_msg: Odometry, laser_msg: LaserScan):
 
     # Do the ICP algorithm only if enough time has elapsed.
     # We consider the data time as our time reference.
-    current_time = odom_msg.header.stamp.to_sec()
+    current_time = laser_msg.header.stamp.to_sec()
     if current_time - last_icp_call_time < MIN_ICP_DELTATIME:
         return  # To soon, do nothing (return)
     last_icp_call_time = current_time
 
     # Debug
-    if BASIC_ICP_DEBUG:
+    if BASIC_DEBUG:
         # Clear debug image
         dbg_icp.fill(255)
 
@@ -278,12 +297,10 @@ def odomLaserCallback(odom_msg: Odometry, laser_msg: LaserScan):
                             cloud_map[i, 1]/MAP_RESOLUTION))
 
             cv2.circle(dbg_icp, (col, row), 1, (0, 0, 0), -1)
-        # Create window for the ICP debug image
-        fig = plt.figure("Debug ICP")
-        fig.canvas.mpl_connect('key_press_event', on_key)
-        plt.cla()
-        # plt.imshow(dbg_icp)
-        # plt.pause(0.05)
+        # Clear window for the ICP debug image
+        #plt_icp.cla()
+        # cv2.imshow('Debug ICP', dbg_icp)
+        # cv2.waitKey(5)
 
     # Build sensed point cloud
     # This could be vectorized for increased speet. It is kept as it us for
@@ -358,7 +375,7 @@ def odomLaserCallback(odom_msg: Odometry, laser_msg: LaserScan):
         sensed_cloud[:, 1] = sensed_cloud[:, 1] + translation[1, 0]
 
         # Debug
-        if BASIC_ICP_DEBUG:
+        if BASIC_DEBUG:
             # Show sensed cloud
             for i in range(sensed_cloud.shape[0]):
                 # Get point in map grid coordinates
@@ -369,8 +386,8 @@ def odomLaserCallback(odom_msg: Odometry, laser_msg: LaserScan):
 
                 cv2.circle(dbg_icp, (col, row), 1, (255, 0, 0), -1)
             # Show ICP
-            # plt.imshow(dbg_icp)
-            # plt.pause(0.05)
+            # cv2.imshow('Debug ICP', dbg_icp)
+            # cv2.waitKey(5)
 
         # Compute correspondence using the KDTree nearest neighbour
         dists, indexes = kdtree.query(sensed_cloud)
@@ -381,7 +398,7 @@ def odomLaserCallback(odom_msg: Odometry, laser_msg: LaserScan):
             correspondences[i, 0] = cloud_map[indexes[i], 0]
             correspondences[i, 1] = cloud_map[indexes[i], 1]
             # Debug
-            if BASIC_ICP_DEBUG:
+            if BASIC_DEBUG:
                 # Debug correspondences
                 pt1 = (int(round(dbg_icp.shape[1]/2 +
                                  correspondences[i, 0]/MAP_RESOLUTION)),
@@ -407,7 +424,7 @@ def odomLaserCallback(odom_msg: Odometry, laser_msg: LaserScan):
                   f'Data centroid: ' +
                   f'{mean_correspondences[0, 0]} ' +
                   f'{mean_correspondences[0, 1]}')
-        if BASIC_ICP_DEBUG:
+        if BASIC_DEBUG:
             # Debug centers
             drawCross(dbg_icp, mean_sensed_cloud[0, 0],
                       mean_sensed_cloud[0, 1], MAP_RESOLUTION, (255, 0, 0))
@@ -454,10 +471,12 @@ def odomLaserCallback(odom_msg: Odometry, laser_msg: LaserScan):
                   f'Total rotation angle [degrees]: ' +
                   f'{degrees(atan2(rotation[1, 0], rotation[0, 0]))}')
         # Debug
-        if BASIC_ICP_DEBUG:
+        if BASIC_DEBUG:
             # Show ICP
-            plt.imshow(dbg_icp)
-            plt.pause(0.05)  # Update window
+            cv2.imshow('Debug ICP', dbg_icp)
+            cv2.waitKey(5)
+            # plt.imshow(dbg_icp)
+            # plt.pause(0.05)  # Update window
 
         # Compute RMS error (before last computed transformation)
         sqr_dists = dists**2  # Compute the square of the distances
@@ -480,7 +499,7 @@ def odomLaserCallback(odom_msg: Odometry, laser_msg: LaserScan):
         last_error = curr_error
 
     # Debug
-    if BASIC_ICP_DEBUG:
+    if BASIC_DEBUG:
         print(
             'Final ICP pose (x, y, theta): ' +
             f'{totalTranslation[0, 0]:.2f} {totalTranslation[1, 0]:.2f} ' +
@@ -492,18 +511,13 @@ def odomLaserCallback(odom_msg: Odometry, laser_msg: LaserScan):
     W = np.array([[last_error, 0.0, 0.0],
                   [0.0, last_error, 0.0],
                   [0.0, 0.0, last_error]])
-
     z = np.array([[totalTranslation[0, 0]],  # x
                   [totalTranslation[1, 0]],  # y
                   [atan2(totalRotation[1, 0], totalRotation[0, 0])]])  # Theta
     ekf.updateStep(z, W)
 
     # Publish computed pose value
-    createAndPublishPose(odom_msg.header.stamp)
-
-    # Show debug information
-    if BASIC_ICP_DEBUG:
-        showDebugInformation(last_icp_call_time)
+    createAndPublishPose(laser_msg.header.stamp)
 
 
 if __name__ == '__main__':
@@ -513,6 +527,11 @@ if __name__ == '__main__':
     '''
     print('EKF-based localization with ICP ' +
           '\n---------------------------')
+
+    # Associate key
+    #fig = plt.figure("Debug ICP")
+    #fig.canvas.mpl_connect('key_press_event', on_key)
+    cv2.namedWindow('Debug ICP', cv2.WINDOW_NORMAL | cv2.WINDOW_KEEPRATIO)
 
     outfile.write('Estimated and real pose of the robot\n\n' +
                   '[T]: Odometry [X Y Theta] Real [X Y Theta] ' +
@@ -588,13 +607,11 @@ if __name__ == '__main__':
 
     # Setup subscribers
     # Odometry
-    sub_odom = message_filters.Subscriber(robot_name + '/odom', Odometry)
-    # Detected markers
-    sub_laser = message_filters.Subscriber(robot_name + "/base_scan",
-                                           LaserScan)
-    # Odometry and markers messages are received simultaneously, synchronized
-    ts = message_filters.TimeSynchronizer([sub_odom, sub_laser], 5)
-    ts.registerCallback(odomLaserCallback)
+    sub_odom = rospy.Subscriber(robot_name + '/odom', Odometry, odomCallback,
+                                queue_size=1)
+    # Laser data
+    sub_laser = rospy.Subscriber(robot_name + "/base_scan", LaserScan,
+                                 laserCallback, queue_size=1)
 
     # Real, error-free robot pose (for debug purposes only)
     sub_real_pose = rospy.Subscriber(robot_name+'/base_pose_ground_truth',
