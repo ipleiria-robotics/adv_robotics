@@ -100,7 +100,7 @@ if BASIC_ICP_DEBUG:
 icpfile = open('ICP.txt', 'w')  # Save ICP debug information to this file
 MAX_ICP_ITERATIONS = 10  # Maximum number of ICP iterations
 MIN_ICP_DELTA_ERROR = 0.01  # Minimum error difference to terminate ICP [m]
-MIN_ICP_DELTATIME = 0.2  # Minimum time between consecutive IPC runs
+MIN_ICP_DELTATIME = 0.1  # Minimum time between consecutive IPC runs
 last_icp_call_time = 0  # Timestamp of the last ICP run
 kdtree = None  # Will hold the KD-Tree built from the environment map
 
@@ -481,13 +481,14 @@ def odomLaserCallback(odom_msg: Odometry, laser_msg: LaserScan):
 
     # Debug
     if BASIC_ICP_DEBUG:
-        print('Final ICP pose (x, y, theta): ' +
-              f'{totalTranslation[0, 0]:.2f} {totalTranslation[1, 0]:.2f} ' +
-              f'{degrees(atan2(totalRotation[1, 0], totalRotation[0, 0]))}')
+        print(
+            'Final ICP pose (x, y, theta): ' +
+            f'{totalTranslation[0, 0]:.2f} {totalTranslation[1, 0]:.2f} ' +
+            f'{degrees(atan2(totalRotation[1, 0], totalRotation[0, 0])):.2f}')
         icpfile.write('----------------------------')
 
     ''' Run the actual step 2 of the EKF, given the result of the above ICP run
-        For the error, we will consider the result above also. '''
+        For the error, we will also consider the result above. '''
     W = np.array([[last_error, 0.0, 0.0],
                   [0.0, last_error, 0.0],
                   [0.0, 0.0, last_error]])
@@ -501,16 +502,17 @@ def odomLaserCallback(odom_msg: Odometry, laser_msg: LaserScan):
     createAndPublishPose(odom_msg.header.stamp)
 
     # Show debug information
-    showDebugInformation(last_icp_call_time)
+    if BASIC_ICP_DEBUG:
+        showDebugInformation(last_icp_call_time)
 
 
 if __name__ == '__main__':
     '''
     Main function
-    Random navigation with obstacle avoidance and EKF-based localization
+    EKF-based localization with ICP
     '''
-    print('Random navigation with obstacle avoidance and EKF-based ' +
-          'localization\n---------------------------')
+    print('EKF-based localization with ICP ' +
+          '\n---------------------------')
 
     outfile.write('Estimated and real pose of the robot\n\n' +
                   '[T]: Odometry [X Y Theta] Real [X Y Theta] ' +

@@ -83,7 +83,7 @@ def robotPoseCallback(msg: PoseWithCovarianceStamped):
 if __name__ == '__main__':
     '''
     Main function
-    Random navigation with obstacle avoidance and EKF-based localization
+    Fixed waypoints-based navigation without obstacle avoidance
     '''
     print('Fixed waypoints-based navigation without obstacle avoidance \n' +
           '---------------------------')
@@ -142,8 +142,8 @@ if __name__ == '__main__':
     # locations, and selecting the one with the lowest distance.
     lowest_sq_distance = inf  # inf stands for infinite (very large) value
     for i in range(num_targets):
-        new_sq_distance = robot_pose.x-targets_wpos[i].x**2 + \
-                          robot_pose.y-targets_wpos[i].y**2
+        new_sq_distance = (robot_pose.x-targets_wpos[i].x)**2 + \
+                          (robot_pose.y-targets_wpos[i].y)**2
         if new_sq_distance < lowest_sq_distance:
             lowest_sq_distance = new_sq_distance
             curr_target = i
@@ -169,8 +169,9 @@ if __name__ == '__main__':
         # If the distance is small enough, proceed to the next target
         if distance < min_distance:
             curr_target = (curr_target + 1) % num_targets
-            if DEBUG_NAVIGATION_NODE:
-                print(f'Going for target {curr_target+1}')
+            print(f'Going for target {curr_target+1}: (' +
+                  f'{targets_wpos[curr_target].x} ' +
+                  f'{targets_wpos[curr_target].y})')
             continue
 
         # The angular velocity will be proportional to the angle of the target
