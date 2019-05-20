@@ -440,7 +440,6 @@ def laserCallback(laser_msg: LaserScan):
             W = W + (sensed_cloud[i, :] - mean_sensed_cloud).T @ \
                 (correspondences[i, :] - mean_correspondences)
         U, S, Vt = np.linalg.svd(W)
-#        Vt = Vt.T
         # Debug
         if FULL_ICP_DEBUG:
             print(f'W matrix:\n{W}\n' +
