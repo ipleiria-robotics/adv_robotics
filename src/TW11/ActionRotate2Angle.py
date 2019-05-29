@@ -35,41 +35,35 @@ Application of a State Machine for high-level robotic tasks control.
 # ROS related modules
 import rospy
 import smach
-from geometry_msgs.msg import Pose2D, Twist, PoseWithCovarianceStamped
-
-# Other libraries
-from math import radians, atan2, sqrt
+from geometry_msgs.msg import Twist, PoseWithCovarianceStamped
 
 # Our modules
 import myglobals
 from utils import quaternion2yaw, clipValue
-import LocalFrameWorldFrameTransformations as ft
 
 
-class Move2Pos(smach.State):
-    ''' Define state Move2Pos '''
+class Rotate2Angle(smach.State):
+    ''' Define state Rotate2Angle '''
     def __init__(self, ignore_discharged: bool = False):
         self.ignore_discharged = ignore_discharged
         if ignore_discharged:
             smach.State.__init__(self,
                                  outcomes=['succeeded', 'aborted'],
                                  input_keys=['target_pose'],
-                                 output_keys=['target_pose'])
+                                 output_keys=['change_target'])
         else:
             smach.State.__init__(
                 self,
                 outcomes=['succeeded', 'discharged', 'aborted'],
                 input_keys=['target_pose'],
-                output_keys=['target_pose'])
+                output_keys=['change_target'])
         ''' Initialize members for navigation control '''
         # Robot navigation/motion related constants and variables
-        self.MAX_LIN_VEL = 1.0  # Maximum linear speed [m/s]
         self.MAX_ANG_VEL = 1.57  # Maximu angular speed (90°/s) [rad/s]
 
         # Navigation variables
-        self.Kp_lin_vel = 1.0  # Proportional gain for the linear vel. control
         self.Kp_ang_vel = 3.0  # Propostional gain for the angular vel. control
-        self.min_distance = 0.1  # Minimum accepted distance to target
+        self.min_angle = 0.1  # Minimum accepted distance to target
         self.goal_reached = False
 
         ''' ROS related code '''
@@ -80,14 +74,10 @@ class Move2Pos(smach.State):
                                        Twist, queue_size=1)
 
     def execute(self, userdata):
-        rospy.loginfo('Executing state Move2...')
+        rospy.loginfo('Executing state Rotate2...')
 
-        # Store specified values
-        self.target_pose = userdata.target_pose
-        self.target_pos = ft.Point2D(self.target_pose.x,
-                                     self.target_pose.y)
-        self.max_angle_to_target = radians(30.0)
-        self.velocity_at_target = 0.0
+        # Store desired angle
+        self.target_angle = userdata.target_pose.theta
         self.goal_reached = False
 
         # Setup subscriber for pose
@@ -100,7 +90,7 @@ class Move2Pos(smach.State):
         rate = rospy.Rate(myglobals.execution_rate)
         while not rospy.is_shutdown():
             # Consume power
-            myglobals.power_status -= 2
+            myglobals.power_status -= 1
 
             # Check the power level
             if (not self.ignore_discharged) and \
@@ -109,7 +99,7 @@ class Move2Pos(smach.State):
                 return 'discharged'
             elif self.goal_reached:
                 self.sub_pose.unregister()  # Stop pose callback
-                userdata.target_pose = self.target_pose
+                userdata.change_target = True
                 return 'succeeded'
             rate.sleep()
 
@@ -119,35 +109,17 @@ class Move2Pos(smach.State):
         '''
         Receive current robot pose and change its velocity accordingly
         '''
-        self.robot_pose = Pose2D(msg.pose.pose.position.x,
-                                 msg.pose.pose.position.y,
-                                 quaternion2yaw(msg.pose.pose.orientation))
+        self.robot_angle = quaternion2yaw(msg.pose.pose.orientation)
 
-        # The angular velocity will be proportional to the angle of the target
-        # as seen by the robot.
-        target_local_pos = ft.world2Localp(self.robot_pose, self.target_pos)
-        angle_to_target = atan2(target_local_pos.y, target_local_pos.x)
-        ang_vel = self.Kp_ang_vel * angle_to_target
-
-        #  We will not update the linear velocity if the robot is not facing
-        # the target enough. If it is, then the linear velocity will be
-        # proportional to the distance, increased with the target velocity. We
-        # actually use the squared distance just for performance reasons.
-        distance = sqrt((self.robot_pose.x-self.target_pos.x)**2 +
-                        (self.robot_pose.y-self.target_pos.y)**2)
-        if abs(angle_to_target) < self.max_angle_to_target:
-            lin_vel = self.Kp_lin_vel * distance + self.velocity_at_target
-        else:
-            lin_vel = 0.0
-
-        # Limit maximum velocities
-        lin_vel = clipValue(lin_vel, -self.MAX_LIN_VEL, self.MAX_LIN_VEL)
+        # Use a P controller based on the desired and current angles
+        error = (self.target_angle - self.robot_angle)
+        ang_vel = self.Kp_ang_vel * error
         ang_vel = clipValue(ang_vel, -self.MAX_ANG_VEL, self.MAX_ANG_VEL)
 
         # Send velocity commands
         self.vel_cmd.angular.z = ang_vel
-        self.vel_cmd.linear.x = lin_vel
+        self.vel_cmd.linear.x = 0.0
         self.vel_pub.publish(self.vel_cmd)
 
-        if distance < self.min_distance:
+        if abs(error) < self.min_angle:
             self.goal_reached = True

@@ -38,12 +38,16 @@ import smach
 import smach_ros
 
 # Our modules
-import myglobals
+import LocalFrameWorldFrameTransformations as ft
 
 # Our actions
+from ActionSelectNextPose import SelectNextPose
 from ActionMove2Pos import Move2Pos
 from ActionRecharge import Recharge
-from ActionRotate180 import Rotate180
+from ActionRotate2Angle import Rotate2Angle
+
+# Other modules
+from math import pi
 
 # main
 if __name__ == '__main__':
@@ -52,27 +56,70 @@ if __name__ == '__main__':
     # Create the SMACH state machine
     sm = smach.StateMachine(
         outcomes=['succeeded', 'aborted'])
-    # Force first Move2Pos to go to a new target
-    sm.userdata.change_target = True
 
-    # Open the sub container
+    # Open the state machine container
     with sm:
-        # Add states to the sub container
-        smach.StateMachine.add('Move2Pos', Move2Pos(),
-                               transitions={'succeeded': 'Rotate180',
-                                            'discharged': 'RechargeM',
+        ''' Create a new state machine for moving to given poses '''
+        sm_move2pose = smach.StateMachine(outcomes=['succeeded', 'discharged',
+                                                    'aborted'],
+                                          input_keys=['change_target'],
+                                          output_keys=['change_target'])
+        with sm_move2pose:
+            ''' Add states to sm_move2pose '''
+            # Targets pose to be followed.
+            # Each line represents a target pose in world coordinates, for
+            # [X, Y, Theta], with X and Y in [m] and Theta in [rad].
+            # Targets positions to be followed (in world coordinates [m])
+            targets_wpose = [ft.Pose2D(-2.5, -1.5, 0.0),  # 1
+                             ft.Pose2D(2.5, -1.5, pi)]  # 2
+            smach.StateMachine.add('SelectNextPose',
+                                   SelectNextPose(targets_wpose),
+                                   transitions={'succeeded': 'Move2Pos',
+                                                'aborted': 'aborted'})
+            smach.StateMachine.add('Move2Pos', Move2Pos(),
+                                   transitions={'succeeded': 'Rotate2Angle',
+                                                'discharged': 'discharged',
+                                                'aborted': 'aborted'})
+            smach.StateMachine.add('Rotate2Angle', Rotate2Angle(),
+                                   transitions={'succeeded': 'succeeded',
+                                                'discharged': 'discharged',
+                                                'aborted': 'aborted'})
+
+        ''' Create a new state machine for recharging '''
+        sm_recharge = smach.StateMachine(outcomes=['succeeded', 'aborted'],
+                                         output_keys=['change_target'])
+        # Recharge target pose.
+        recharge_targets_wpose = [ft.Pose2D(0.0, -2.0, -pi/2)]
+        with sm_recharge:
+            # Add states to sm_recharge
+            smach.StateMachine.add(
+                'SelectRechargePose', SelectNextPose(recharge_targets_wpose),
+                transitions={'succeeded': 'Move2RechargePos',
+                             'aborted': 'aborted'})
+            smach.StateMachine.add(
+                'Move2RechargePos', Move2Pos(True),
+                transitions={'succeeded': 'Rotate2RechargeAngle',
+                             'aborted': 'aborted'})
+            smach.StateMachine.add('Rotate2RechargeAngle', Rotate2Angle(True),
+                                   transitions={'succeeded': 'Recharge',
+                                                'aborted': 'aborted'})
+            smach.StateMachine.add('Recharge', Recharge(),
+                                   transitions={'succeeded': 'succeeded',
+                                                'aborted': 'aborted'})
+
+        # Add states to sm, using the state machines created above.
+        # We are using hierarchical state machines to make things more clean.
+        smach.StateMachine.add('MOVE2POSE', sm_move2pose,
+                               transitions={'discharged': 'RECHARGE',
+                                            'succeeded': 'MOVE2POSE',
                                             'aborted': 'aborted'})
-        smach.StateMachine.add('Rotate180', Rotate180(),
-                               transitions={'succeeded': 'MoveForward',
-                                            'discharged': 'RechargeR',
+        smach.StateMachine.add('RECHARGE', sm_recharge,
+                               transitions={'succeeded': 'MOVE2POSE',
                                             'aborted': 'aborted'})
-        smach.StateMachine.add('RechargeM', Recharge(),
-                               transitions={'succeeded': 'MoveForward',
-                                            'aborted': 'aborted'})
-        smach.StateMachine.add('RechargeR', Recharge(),
-                               transitions={'succeeded': 'Rotate180',
-                                            'aborted': 'aborted'})
-        
+
+    # Force first Move2Pos to go to target 0
+    sm.userdata.change_target = False
+
     # Create and start the introspection server
     sis = smach_ros.IntrospectionServer('my_smach_introspection_server',
                                         sm, '/SM_ROOT')
