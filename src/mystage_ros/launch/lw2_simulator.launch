@@ -4,7 +4,7 @@
     <node pkg="mystage_ros" type="stageros" name="stage" 
           args="$(find mystage_ros)/world/AR/lw2.world"
           required="true"/>
-   <!-- <node pkg="lw2_sim" type="sim_control" name="sim_control"
-          required="true"/> -->
+    <node pkg="lw2_sim" type="sim_control" name="sim_control"
+          required="true"/>
   </group>
 </launch>
