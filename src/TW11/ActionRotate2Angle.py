@@ -96,6 +96,7 @@ class Rotate2Angle(smach.State):
             if (not self.ignore_discharged) and \
                (myglobals.power_status < myglobals.MIN_POWER_LEVEL):
                 self.sub_pose.unregister()  # Stop pose callback
+                userdata.change_target = False
                 return 'discharged'
             elif self.goal_reached:
                 self.sub_pose.unregister()  # Stop pose callback
@@ -103,6 +104,7 @@ class Rotate2Angle(smach.State):
                 return 'succeeded'
             rate.sleep()
 
+        self.sub_pose.unregister()  # Stop pose callback
         return 'aborted'
 
     def robotPoseCallback(self, msg: PoseWithCovarianceStamped):

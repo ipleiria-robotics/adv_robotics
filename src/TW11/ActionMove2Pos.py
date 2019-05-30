@@ -113,6 +113,7 @@ class Move2Pos(smach.State):
                 return 'succeeded'
             rate.sleep()
 
+        self.sub_pose.unregister()  # Stop pose callback
         return 'aborted'
 
     def robotPoseCallback(self, msg: PoseWithCovarianceStamped):

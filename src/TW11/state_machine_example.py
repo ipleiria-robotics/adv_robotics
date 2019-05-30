@@ -49,23 +49,25 @@ from ActionRotate2Angle import Rotate2Angle
 # Other modules
 from math import pi
 
-# main
 if __name__ == '__main__':
+    '''
+    Main function, which creates and starts the state machine, blocking until
+    the application ends.
+    '''
     rospy.init_node('smach_example_state_machine')
 
     # Create the SMACH state machine
-    sm = smach.StateMachine(
-        outcomes=['succeeded', 'aborted'])
+    sm = smach.StateMachine(outcomes=['succeeded', 'aborted'])
 
     # Open the state machine container
     with sm:
         ''' Create a new state machine for moving to given poses '''
-        sm_move2pose = smach.StateMachine(outcomes=['succeeded', 'discharged',
-                                                    'aborted'],
-                                          input_keys=['change_target'],
-                                          output_keys=['change_target'])
-        with sm_move2pose:
-            ''' Add states to sm_move2pose '''
+        sm_move2nextpose = smach.StateMachine(
+            outcomes=['succeeded', 'discharged', 'aborted'],
+            input_keys=['change_target'],
+            output_keys=['change_target'])
+        with sm_move2nextpose:
+            ''' Add states to sm_move2nextpose '''
             # Targets pose to be followed.
             # Each line represents a target pose in world coordinates, for
             # [X, Y, Theta], with X and Y in [m] and Theta in [rad].
@@ -74,8 +76,7 @@ if __name__ == '__main__':
                              ft.Pose2D(2.5, -1.5, pi)]  # 2
             smach.StateMachine.add('SelectNextPose',
                                    SelectNextPose(targets_wpose),
-                                   transitions={'succeeded': 'Move2Pos',
-                                                'aborted': 'aborted'})
+                                   transitions={'succeeded': 'Move2Pos'})
             smach.StateMachine.add('Move2Pos', Move2Pos(),
                                    transitions={'succeeded': 'Rotate2Angle',
                                                 'discharged': 'discharged',
@@ -94,8 +95,7 @@ if __name__ == '__main__':
             # Add states to sm_recharge
             smach.StateMachine.add(
                 'SelectRechargePose', SelectNextPose(recharge_targets_wpose),
-                transitions={'succeeded': 'Move2RechargePos',
-                             'aborted': 'aborted'})
+                transitions={'succeeded': 'Move2RechargePos'})
             smach.StateMachine.add(
                 'Move2RechargePos', Move2Pos(True),
                 transitions={'succeeded': 'Rotate2RechargeAngle',
@@ -109,15 +109,15 @@ if __name__ == '__main__':
 
         # Add states to sm, using the state machines created above.
         # We are using hierarchical state machines to make things more clean.
-        smach.StateMachine.add('MOVE2POSE', sm_move2pose,
+        smach.StateMachine.add('MOVE2NEXTPOSE', sm_move2nextpose,
                                transitions={'discharged': 'RECHARGE',
-                                            'succeeded': 'MOVE2POSE',
+                                            'succeeded': 'MOVE2NEXTPOSE',
                                             'aborted': 'aborted'})
         smach.StateMachine.add('RECHARGE', sm_recharge,
-                               transitions={'succeeded': 'MOVE2POSE',
+                               transitions={'succeeded': 'MOVE2NEXTPOSE',
                                             'aborted': 'aborted'})
 
-    # Force first Move2Pos to go to target 0
+    # Force first Move2NextPose to go to target 0
     sm.userdata.change_target = False
 
     # Create and start the introspection server
@@ -128,6 +128,5 @@ if __name__ == '__main__':
     # Execute SMACH plan
     outcome = sm.execute()
 
-    # Wait for ctrl-c to stop the application
-    rospy.spin()
+    # Stop the application
     sis.stop()

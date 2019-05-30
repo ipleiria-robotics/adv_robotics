@@ -41,7 +41,7 @@ class SelectNextPose(smach.State):
     ''' Define state MoveForward '''
     def __init__(self, targets_wposes):
         smach.State.__init__(self,
-                             outcomes=['succeeded', 'aborted'],
+                             outcomes=['succeeded'],
                              input_keys=['change_target'],
                              output_keys=['target_pose'])
         self.targe_wposes = targets_wposes
