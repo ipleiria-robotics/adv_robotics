@@ -268,4 +268,7 @@ if __name__ == '__main__':
             print('\033[1A', end="")
             print('\033[2K', end="")
 
-
+    vel_cmd.angular.z = 0
+    vel_cmd.linear.x = 0
+    vel_pub.publish(vel_cmd)
+    termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)

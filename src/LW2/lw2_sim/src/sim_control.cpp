@@ -46,7 +46,7 @@ taking into account the robot position.
 static control_msgs::JointControllerState forklift_status;
 static double forklift_desired_pos = 0.0; // Received forklift position command
 #define FORKLIFT_SPEED 0.03  // [m/s]
-#define FORKLIFT_MARGIN 0.1  // %
+#define FORKLIFT_MARGIN 0.005  // [%]m]
 // Forklift information
 #define FORKLIFT_DOWN 0.0   // Down position
 #define FORKLIFT_UP   0.07  // Up position
@@ -54,8 +54,9 @@ static bool forklift_up = false,
             forklift_down = false;
 
 // Maximum error to consider in desired orientation
+#define MAX_X_OFFSET 0.35 // [m]
 #define MAX_DIST_ERROR 0.05 // [m]
-#define MAX_ANG_ERROR 0.17 // [rad] (10º)
+#define MAX_ANG_ERROR 0.07 // [rad] (4º)
 // Maxumum speed to grab/drop the parts
 #define MAX_LIN_SPEED 0.01 // [m/s]
 #define MAX_ANG_SPEED 0.017 // [rad/s] (1º/s)
@@ -63,13 +64,13 @@ static bool forklift_up = false,
 // Store the positions of the parts approach pose
 #define NUM_PARTS 5 // Number of available parts/input/outputs
 #define NUM_PMAN 8 // Number of processing machines
-#define DA 0.4 // Distance to part in [m]
+#define DA 0 // Distance to part in [m]
 static pose_2d input_parts[NUM_PARTS] =
-    {{2.60, -2.50+DA, -M_PI_2}, // 1
-     {2.23, -2.50+DA, -M_PI_2}, // 2
-     {1.86, -2.50+DA, -M_PI_2}, // 3
-     {1.49, -2.50+DA, -M_PI_2}, // 4
-     {1.12, -2.50+DA, -M_PI_2}};// 5
+    {{2.60, -2.48+DA, -M_PI_2}, // 1
+     {2.23, -2.48+DA, -M_PI_2}, // 2
+     {1.86, -2.48+DA, -M_PI_2}, // 3
+     {1.49, -2.48+DA, -M_PI_2}, // 4
+     {1.12, -2.48+DA, -M_PI_2}};// 5
 static pose_2d process_parts[NUM_PMAN] =
     {{1.10-DA, 0.18, 0.0}, // R1 1
      {1.46+DA, 0.18, M_PI}, // R2 2
@@ -99,8 +100,6 @@ enum part_state_t {
   PART_PROCESSED_PICKED_UP, // Processed part was picked up
   PART_PROCESSED_DELIVERED_DROPING // Part is being droped for delivery
 };
-
-
 
 // Parts status
 static ros::Publisher parts_status_pub;
@@ -132,7 +131,7 @@ void forkliftCallback(const std_msgs::Float64& msg)
 /**
   * Get current part approach pose
   */
-void getPartApproachPose(const uint part_num, pose_2d& part_approach_pose)
+/*void getPartApproachPose(const uint part_num, pose_2d& part_approach_pose)
 {
     // Get this part (expected) location. Not relevant for some situations
     if(parts_location[part_num] <= NUM_PARTS-1)
@@ -148,7 +147,6 @@ void getPartApproachPose(const uint part_num, pose_2d& part_approach_pose)
         part_approach_pose.x = process_parts[part_num-(NUM_PARTS+1)].x;
         part_approach_pose.y = process_parts[part_num-(NUM_PARTS+1)].y;
         part_approach_pose.theta = process_parts[part_num-(NUM_PARTS+1)].theta;
-
     } else if((parts_location[part_num] >= NUM_PARTS+NUM_PMAN+1) &&
               (parts_location[part_num] <= 2*NUM_PARTS+NUM_PMAN))
     {
@@ -158,7 +156,35 @@ void getPartApproachPose(const uint part_num, pose_2d& part_approach_pose)
         part_approach_pose.theta = output_parts[part_num-(NUM_PARTS+NUM_PMAN+1)].theta;
     } else
         ROS_ERROR("Part is in unexpected location!");
-}
+}*/
+
+
+/**
+  * Get current part position
+  */
+/*void getPartPos(const uint part_num, point_2d& part_pos)
+{
+    // Get this part (expected) location. Not relevant for some situations
+    if(parts_location[part_num] <= NUM_PARTS-1)
+    {
+        // Part is in a input wharehouse
+        part_pos.x = input_parts[part_num].x;
+        part_pos.y = input_parts[part_num].y;
+    } else if((parts_location[part_num] >= NUM_PARTS+1) &&
+              (parts_location[part_num] <= NUM_PARTS+NUM_PMAN))
+    {
+        // Part is in a processing machine
+        part_pos.x = process_parts[part_num-(NUM_PARTS+1)].x;
+        part_pos.y = process_parts[part_num-(NUM_PARTS+1)].y;
+    } else if((parts_location[part_num] >= NUM_PARTS+NUM_PMAN+1) &&
+              (parts_location[part_num] <= 2*NUM_PARTS+NUM_PMAN))
+    {
+        // Part is in an output wharehouse
+        part_pos.x = output_parts[part_num-(NUM_PARTS+NUM_PMAN+1)].x;
+        part_pos.y = output_parts[part_num-(NUM_PARTS+NUM_PMAN+1)].y;
+    } else
+        ROS_ERROR("Part is in unexpected location!");
+}*/
 
 /**
   * Receive and store current robot real pose
@@ -166,7 +192,7 @@ void getPartApproachPose(const uint part_num, pose_2d& part_approach_pose)
 void realPoseCallback(const nav_msgs::Odometry& msg)
 {
     // Store real, error-free pose values given by the simulator
-    pose_2d part_approach_pose;
+    point_2d part_pos, part_local_pos;
     geometry_msgs::Pose2D robot_pose, robot_speed;
     robot_pose.x = msg.pose.pose.position.x;
     robot_pose.y = msg.pose.pose.position.y;
@@ -195,19 +221,19 @@ void realPoseCallback(const nav_msgs::Odometry& msg)
                 // We cannot start picking up a part if we are moving
                 if(excess_speed)
                     continue;
-                getPartApproachPose(part_num, part_approach_pose);
-                // Get the distance error
-                dist = sqrt(pow(robot_pose.x-part_approach_pose.x, 2)+
-                            pow(robot_pose.y-part_approach_pose.y, 2));
+                // Get this part position
+                part_pos.x = input_parts[part_num].x;
+                part_pos.y = input_parts[part_num].y;
+                world2Local(robot_pose, part_pos, &part_local_pos);
                 // Get the angle error
-                dangle = normalize(part_approach_pose.theta-robot_pose.theta);
+                dangle = atan2(part_local_pos.y, part_local_pos.x);
                 // Check if the robot is enough near the approach pose and the forklift is down
-                if((abs(dist) < MAX_DIST_ERROR) && (abs(dangle) < MAX_ANG_ERROR) &&
-                   forklift_down)
+                if((part_local_pos.x > 0.0) && (part_local_pos.x < MAX_X_OFFSET) &&
+                   (dangle < MAX_ANG_ERROR) && forklift_down)
                 {
                     // The robot is well placed to pick the part
                     parts_state[part_num] = PART_UNPROCESSED_PICKING;
-                    std::cout << "Part " << part_num << " is being picked up from input station..." << std::endl;
+                    std::cout << "Part " << part_num+1 << " is being picked up from input station..." << std::endl;
                 }
                 break;
 
@@ -216,19 +242,19 @@ void realPoseCallback(const nav_msgs::Odometry& msg)
                 // We cannot start picking up a part if we are moving
                 if(excess_speed)
                     continue;
-                getPartApproachPose(part_num, part_approach_pose);
                 // Get the distance error
-                dist = sqrt(pow(robot_pose.x-part_approach_pose.x, 2)+
-                            pow(robot_pose.y-part_approach_pose.y, 2));
+                part_pos.x = input_parts[part_num].x;
+                part_pos.y = input_parts[part_num].y;
+                world2Local(robot_pose, part_pos, &part_local_pos);
                 // Get the angle error
-                dangle = normalize(part_approach_pose.theta-robot_pose.theta);
+                dangle = atan2(part_local_pos.y, part_local_pos.x);
                 // Check if the robot is enough near the approach pose and the forklift is up
-                if((abs(dist) < MAX_DIST_ERROR) && (abs(dangle) < MAX_ANG_ERROR) &&
-                   forklift_up)
+                if((part_local_pos.x > 0.0) && (part_local_pos.x < MAX_X_OFFSET) &&
+                   (dangle < MAX_ANG_ERROR) && forklift_up)
                 {
                     // The robot picked the part and now can tansport it
                     parts_state[part_num] = PART_UNPROCESSED_PICKED_UP;
-                    std::cout << "Part " << part_num << " was picked up from input station..." << std::endl;
+                    std::cout << "Part " << part_num+1 << " was picked up from input station..." << std::endl;
                 }
                 break;
 
@@ -238,20 +264,22 @@ void realPoseCallback(const nav_msgs::Odometry& msg)
                 if(excess_speed)
                     continue;
                 // Check if the robot is able to drop the part in a processing machine
-                for(uint pb_num=NUM_PARTS+1; pb_num < NUM_PARTS+NUM_PMAN; pb_num++)
+                for(uint pb_num=0; pb_num < NUM_PMAN; pb_num++)
                 {
-                    dist = sqrt(pow(robot_pose.x-process_parts[pb_num].x, 2)+
-                                pow(robot_pose.y-process_parts[pb_num].y, 2));
-                    if(dist < MAX_DIST_ERROR )
+                    // Get this part position
+                    part_pos.x = process_parts[pb_num].x;
+                    part_pos.y = process_parts[pb_num].y;
+                    world2Local(robot_pose, part_pos, &part_local_pos);
+                    if((part_local_pos.x > 0.0) && (part_local_pos.x < MAX_X_OFFSET))
                     {
                         // Check the angle and the forklift position
-                        dangle = normalize(process_parts[pb_num].theta-robot_pose.theta);
+                        dangle = atan2(part_local_pos.y, part_local_pos.x);
                         if((abs(dangle) < MAX_ANG_ERROR) && (forklift_up == false))
                         {
                             // The robot is ready to start placing the part
                             parts_state[part_num] = PART_IN_PROCESS_DROPING;
                             parts_location[part_num] = pb_num;
-                            std::cout << "Part " << part_num << " is being placed for processing..." << std::endl;
+                            std::cout << "Part " << part_num+1 << " is being placed for processing..." << std::endl;
                             break; // No need to check for others
                         }
                     }
@@ -265,11 +293,14 @@ void realPoseCallback(const nav_msgs::Odometry& msg)
                     continue;
                 // If the robot position is still fine and the forklift is down
                 //the part is droped into the processing machine
-                dist = sqrt(pow(robot_pose.x-process_parts[parts_location[part_num]].x, 2)+
-                            pow(robot_pose.y-process_parts[parts_location[part_num]].y, 2));
-                if(dist < MAX_DIST_ERROR )
+                // Get this part position
+                part_pos.x = process_parts[parts_location[part_num]].x;
+                part_pos.y = process_parts[parts_location[part_num]].y;
+                world2Local(robot_pose, part_pos, &part_local_pos);
+
+                if((part_local_pos.x > 0.0) && (part_local_pos.x < MAX_X_OFFSET))
                 {
-                    dangle = normalize(process_parts[parts_location[part_num]].theta-robot_pose.theta);
+                    dangle = atan2(part_local_pos.y, part_local_pos.x);
                     if((abs(dangle) < MAX_ANG_ERROR) && forklift_down)
                     {
                         // The robot has placed the part, it is now processing
@@ -277,7 +308,7 @@ void realPoseCallback(const nav_msgs::Odometry& msg)
                         part_ext_status_changed = true;
                         parts_status_msg.data[part_num] = PART_IN_PROCESS;
                         parts_timestamps[part_num] = msg.header.stamp+ros::Duration(20.0+(rand()*1.0/RAND_MAX)*30);
-                        std::cout << "Part " << part_num << " is being processed..." << std::endl;
+                        std::cout << "Part " << part_num+1 << " is being processed..." << std::endl;
                         break; // No need to check for others
                     }
                 }
@@ -291,7 +322,7 @@ void realPoseCallback(const nav_msgs::Odometry& msg)
                     parts_state[part_num] = PART_PROCESSED;
                     part_ext_status_changed = true;
                     parts_status_msg.data[part_num] = PART_PROCESSED;
-                    std::cout << "Part " << part_num << " has finished processing..." << std::endl;
+                    std::cout << "Part " << part_num+1 << " has finished processing..." << std::endl;
                 }
                 break;
 
@@ -302,15 +333,17 @@ void realPoseCallback(const nav_msgs::Odometry& msg)
                   continue;
                 // If the robot position is fine and the forklift is down
                 //the part is being picked up in processing machine
-                dist = sqrt(pow(robot_pose.x-process_parts[parts_location[part_num]].x, 2)+
-                        pow(robot_pose.y-process_parts[parts_location[part_num]].y, 2));
-                if(dist < MAX_DIST_ERROR )
+                // Get this part position
+                part_pos.x = process_parts[parts_location[part_num]].x;
+                part_pos.y = process_parts[parts_location[part_num]].y;
+                world2Local(robot_pose, part_pos, &part_local_pos);
+                if((part_local_pos.x > 0.0) && (part_local_pos.x < MAX_X_OFFSET))
                 {
-                    dangle = normalize(process_parts[parts_location[part_num]].theta-robot_pose.theta);
+                    dangle = atan2(part_local_pos.y, part_local_pos.x);
                     if((abs(dangle) < MAX_ANG_ERROR) && forklift_down)
                     {
                         parts_state[part_num] = PART_PROCESSED_PICKING;
-                        std::cout << "Part " << part_num << " is being picked up from processing..." << std::endl;
+                        std::cout << "Part " << part_num+1 << " is being picked up from processing..." << std::endl;
                     }
                 }
                 break;
@@ -322,15 +355,17 @@ void realPoseCallback(const nav_msgs::Odometry& msg)
                     continue;
                 // If the robot position is fine and the forklift is up
                 //the part is picked up from the processing machine
-                dist = sqrt(pow(robot_pose.x-process_parts[parts_location[part_num]].x, 2)+
-                            pow(robot_pose.y-process_parts[parts_location[part_num]].y, 2));
-                if(dist < MAX_DIST_ERROR )
+                // Get this part position
+                part_pos.x = process_parts[parts_location[part_num]].x;
+                part_pos.y = process_parts[parts_location[part_num]].y;
+                world2Local(robot_pose, part_pos, &part_local_pos);
+                if((part_local_pos.x > 0.0) && (part_local_pos.x < MAX_X_OFFSET))
                 {
-                    dangle = normalize(process_parts[parts_location[part_num]].theta-robot_pose.theta);
+                    dangle = atan2(part_local_pos.y, part_local_pos.x);
                     if((abs(dangle) < MAX_ANG_ERROR) && forklift_up)
                     {
                         parts_state[part_num] = PART_PROCESSED_PICKED_UP;
-                        std::cout << "Part " << part_num << " was picked up from processing..." << std::endl;
+                        std::cout << "Part " << part_num+1 << " was picked up from processing..." << std::endl;
                     }
                 }
                 break;
@@ -341,20 +376,23 @@ void realPoseCallback(const nav_msgs::Odometry& msg)
                 if(excess_speed)
                     continue;
                 // Check if the robot is able to drop the part in a processing machine
-                for(uint pb_num=NUM_PARTS+NUM_PMAN+1; pb_num < 2*NUM_PARTS+NUM_PMAN; pb_num++)
+                for(uint pb_num=0; pb_num < NUM_PARTS; pb_num++)
                 {
-                    dist = sqrt(pow(robot_pose.x-process_parts[pb_num].x, 2)+
-                                pow(robot_pose.y-process_parts[pb_num].y, 2));
-                    if(dist < MAX_DIST_ERROR )
+
+                    // Get this part position
+                    part_pos.x = output_parts[pb_num].x;
+                    part_pos.y = output_parts[pb_num].y;
+                    world2Local(robot_pose, part_pos, &part_local_pos);
+                    if((part_local_pos.x > 0.0) && (part_local_pos.x < MAX_X_OFFSET))
                     {
                         // Check the angle and the forklift position
-                        dangle = normalize(process_parts[pb_num].theta-robot_pose.theta);
+                        dangle = atan2(part_local_pos.y, part_local_pos.x);
                         if((abs(dangle) < MAX_ANG_ERROR) && forklift_down)
                         {
                             // The robot is ready to start placing the part
                             parts_state[part_num] = PART_PROCESSED_DELIVERED_DROPING;
                             parts_location[part_num] = pb_num;
-                            std::cout << "Part " << part_num << " is being delivered..." << std::endl;
+                            std::cout << "Part " << part_num+1 << " is being delivered..." << std::endl;
                             break; // No need to check for others
                         }
                     }
@@ -368,18 +406,20 @@ void realPoseCallback(const nav_msgs::Odometry& msg)
                     continue;
                 // If the robot position is still fine and the forklift is down
                 //the part is delivered
-                dist = sqrt(pow(robot_pose.x-process_parts[parts_location[part_num]].x, 2)+
-                            pow(robot_pose.y-process_parts[parts_location[part_num]].y, 2));
-                if(dist < MAX_DIST_ERROR )
+                // Get this part position
+                part_pos.x = output_parts[parts_location[part_num]].x;
+                part_pos.y = output_parts[parts_location[part_num]].y;
+                world2Local(robot_pose, part_pos, &part_local_pos);
+                if((part_local_pos.x > 0.0) && (part_local_pos.x < MAX_X_OFFSET))
                 {
-                    dangle = normalize(process_parts[parts_location[part_num]].theta-robot_pose.theta);
+                    dangle = atan2(part_local_pos.y, part_local_pos.x);
                     if((abs(dangle) < MAX_ANG_ERROR) && forklift_down)
                     {
                         // The robot has placed the part, it now delivered
                         parts_state[part_num] = PART_DELIVERED;
                         part_ext_status_changed = true;
                         parts_status_msg.data[part_num] = PART_DELIVERED;
-                        std::cout << "Part " << part_num << " has beed delivered..." << std::endl;
+                        std::cout << "Part " << part_num+1 << " has been delivered..." << std::endl;
                         break; // No need to check for others
                     }
                 }
@@ -412,6 +452,7 @@ int main(int argc, char** argv)
     std::string robot_name = "/robot_0/";
     // Forklift related
     forklift_status.process_value = 0.0;
+    forklift_down = true;
     // Parts related
     parts_status_msg.data.clear();
     for(uint i=0; i < NUM_PARTS; i++)
@@ -427,7 +468,7 @@ int main(int argc, char** argv)
     ros::Publisher forklift_pub = nh.advertise<control_msgs::JointControllerState>(robot_name + "forklift_position_controller/state", 1, true);
     forklift_pub.publish(forklift_status); // Publish initial status
     // Publisher for the parts status
-    parts_status_pub = nh.advertise<std_msgs::UInt8MultiArray>("/parts_status", 1, true);
+    parts_status_pub = nh.advertise<std_msgs::UInt8MultiArray>("/parts_sensor", 1, true);
     parts_status_pub.publish(parts_status_msg);
 
     // Infinite loop

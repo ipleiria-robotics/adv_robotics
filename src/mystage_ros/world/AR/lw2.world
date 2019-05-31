@@ -119,7 +119,7 @@ part(
   name "in_part_1"
   color "red"
   bitmap "circle.png"
-  pose [2.60 -2.50 0 0]
+  pose [2.60 -2.48 0 0]
   fiducial_return 1
 )
 
@@ -127,7 +127,7 @@ part(
   name "in_part_2"
   color "red"
   bitmap "circle.png"
-  pose [2.23 -2.50 0 0]
+  pose [2.23 -2.48 0 0]
   fiducial_return 1
 )
 
@@ -135,7 +135,7 @@ part(
   name "in_part_3"
   color "red"
   bitmap "circle.png"
-  pose [1.86 -2.50 0 0]
+  pose [1.86 -2.48 0 0]
   fiducial_return 1
 )
 
@@ -143,7 +143,7 @@ part(
   name "in_part_4"
   color "red"
   bitmap "circle.png"
-  pose [1.49 -2.50 0 0]
+  pose [1.49 -2.48 0 0]
   fiducial_return 1
 )
 
@@ -151,7 +151,7 @@ part(
   name "in_part_5"
   color "red"
   bitmap "circle.png"
-  pose [1.12 -2.50 0 0]
+  pose [1.12 -2.48 0 0]
   fiducial_return 1
 )
 
