@@ -36,6 +36,7 @@ import termios
 import sys
 import fcntl
 from math import pi, atan2
+from threading import Lock
 
 # ROS API
 import rospy
@@ -43,6 +44,9 @@ from geometry_msgs.msg import Pose2D, Twist
 from nav_msgs.msg import Odometry
 from control_msgs.msg import JointControllerState
 from std_msgs.msg import Float64, UInt8MultiArray
+
+# Our ROS-related modules
+from markers_msgs.msg import Markers
 
 # The robot will not move with speeds faster than these, so we better limit out
 # values
@@ -130,6 +134,14 @@ def partsSensorCallback(msg):
     parts_status = [x for x in msg.data]
 
 
+def markersCallback(msg: Markers):
+    ''' Process received markers data from parts/locations'''
+    # Display found parts information
+    print(f'Found {msg.num_markers} parts/locations.')
+    for i in range(msg.num_markers):
+        print(f'Part/Location {msg.id[i]:.2f} : (range, bearing) = (' +
+              f'{msg.range[i]:.2f}, {msg.bearing[i]:.2f})')
+    
 '''
 Main function
 Controls the robot using the keyboard keys and outputs posture and velocity
@@ -188,9 +200,12 @@ if __name__ == '__main__':
         Float64, queue_size=1)
 
     # Setup subscriber for the parts sensor
-    sub_parts = rospy.Subscriber('/parts_sensor', UInt8MultiArray,
-                                 partsSensorCallback, queue_size=1)   
+    sub_parts_status = rospy.Subscriber('/parts_sensor', UInt8MultiArray,
+                                        partsSensorCallback, queue_size=1)   
 
+    # Setup subscriber for parts detection (simulated with markers)
+    sub_parts_loc = rospy.Subscriber(robot_name + '/markers', Markers,
+                                     markersCallback, queue_size=1)
 
     # Init ROS
     rospy.init_node('robot_keyboard_teleop', anonymous=True)
