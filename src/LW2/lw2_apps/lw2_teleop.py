@@ -31,18 +31,24 @@ Revision $Id$
 
 # Library packages needed
 import os
-import tty
-import termios
-import sys
+import tty  # Terminal
+import atexit  # Terminal
+import termios  # Terminal
+from select import select  # Terminal
 import fcntl
+import sys
 from math import pi, atan2
+from threading import Lock
 
 # ROS API
 import rospy
 from geometry_msgs.msg import Pose2D, Twist
 from nav_msgs.msg import Odometry
 from control_msgs.msg import JointControllerState
-from std_msgs.msg import Float64
+from std_msgs.msg import Float64, UInt8MultiArray
+
+# Our ROS-related modules
+from markers_msgs.msg import Markers
 
 # The robot will not move with speeds faster than these, so we better limit out
 # values
@@ -61,6 +67,14 @@ forklift_up = False
 forklift_down = False
 FORKLIFT_DOWN = 0.0  # Down position
 FORKLIFT_UP = 0.07  # Up position
+
+# Parts information
+parts_status = []
+
+# Terminal related
+fd = sys.stdin.fileno()
+old_settings = termios.tcgetattr(fd)
+
 
 def clipValue(value: float, min: float, max: float) -> float:
     '''Clip a given value to the interval [min, max]'''
@@ -84,7 +98,6 @@ def quaternionToYaw(q):
 
 def odomCallback(data):
     '''Function to call whe new odometry information is available'''
-    global true_pose, true_ang_vel, true_lin_vel, odom_updated
     # Store updated values
     true_pose.x = data.pose.pose.position.x
     true_pose.y = data.pose.pose.position.y
@@ -93,7 +106,12 @@ def odomCallback(data):
     true_lin_vel = data.twist.twist.linear.x
     true_ang_vel = data.twist.twist.angular.z
 
-    odom_updated = True
+    # Print odometry data
+    # print(f'Robot estimated pose = {true_pose.x:.2f} [m], ' +
+    #       f'{true_pose.y:.2f} [m], ' +
+    #       f'{true_pose.theta*180.0/pi:.2f} [°]')
+    # print(f'Robot estimated velocity = {true_lin_vel:.2f} [m/s], '
+    #       f'{true_ang_vel*180.0/pi:.2f} [°/s]')
 
 
 def forkliftCallback(msg):
@@ -101,6 +119,10 @@ def forkliftCallback(msg):
     global forklift_position, forklift_up, forklift_down
     global FORKLIFT_DOWN, FORKLIFT_UP
     forklift_position = msg.process_value
+
+    # Show forklift position
+    print(f'Forklift position = {forklift_position:.3f} [m]')
+
     # If the forklift is moving, then it is neither down or up
     if abs(msg.error) > 0.02:
         forklift_up = False
@@ -121,6 +143,31 @@ def forkliftCallback(msg):
                 print('Forklift is up')
 
 
+def partsSensorCallback(msg):
+    ''' Process the parts sensor data '''
+    global parts_status
+    parts_status = [x for x in msg.data]
+
+    # Show parts status
+    print('Parts status: ' + parts_status.__str__())
+
+
+def markersCallback(msg: Markers):
+    ''' Process received markers data from parts/locations'''
+    # Display found parts information
+    if msg.num_markers > 0:
+        print(f'Found {msg.num_markers} parts/locations.')
+        for i in range(msg.num_markers):
+            print(f'Part/Location seen at : (range, bearing) = (' +
+                f'{msg.range[i]:.2f}, {msg.bearing[i]:.2f})')
+
+
+def setNormalTerm():
+    ''' Set the terminal back to its original settings '''
+    global old_settings
+    termios.tcsetattr(fd, termios.TCSAFLUSH, old_settings)
+
+
 '''
 Main function
 Controls the robot using the keyboard keys and outputs posture and velocity
@@ -128,11 +175,10 @@ related information.
 '''
 if __name__ == '__main__':
     # Terminal settings
-    fd = sys.stdin.fileno()
-    fl = fcntl.fcntl(fd, fcntl.F_GETFL)
-    fcntl.fcntl(fd, fcntl.F_SETFL, fl | os.O_NONBLOCK)
-    fd = sys.stdin.fileno()
-    old_settings = termios.tcgetattr(fd)
+    new_settings = termios.tcgetattr(fd)
+    new_settings[3] = (new_settings[3] & ~termios.ICANON & ~termios.ECHO)
+    termios.tcsetattr(fd, termios.TCSAFLUSH, new_settings)
+    atexit.register(setNormalTerm)
 
     #
     # Create robot related objects
@@ -151,11 +197,11 @@ if __name__ == '__main__':
 
     # Output usage information
     print('Reading from keyboard\n' +
-            'Use i, j, k, l and space to move front, left, back, right and' +
-            ' stop, respectively.\n' +
-            'Use e, d to move the forklift up and down\n' +
-            'Press q to quit.\n' +
-            '---------------------------\n')
+          'Use i, j, k, l and space to move front, left, back, right and' +
+          ' stop, respectively.\n' +
+          'Use e, d to move the forklift up and down\n' +
+          'Press q to quit.\n' +
+          '---------------------------\n')
 
     # Get parameters
     a_scale = rospy.get_param("~scale_angular", 1.0)
@@ -178,81 +224,72 @@ if __name__ == '__main__':
         robot_name + '/forklift_position_controller/command',
         Float64, queue_size=1)
 
+    # Setup subscriber for the parts sensor
+    sub_parts_status = rospy.Subscriber('/parts_sensor', UInt8MultiArray,
+                                        partsSensorCallback, queue_size=1)
+
+    # Setup subscriber for parts detection (simulated with markers)
+    sub_parts_loc = rospy.Subscriber(robot_name + '/markers', Markers,
+                                     markersCallback, queue_size=1)
+
     # Init ROS
     rospy.init_node('robot_keyboard_teleop', anonymous=True)
 
     # Terminal
-    tty.setraw(sys.stdin.fileno())
+    #tty.setraw(sys.stdin.fileno())
 
     # Infinite loop
     rate = rospy.Rate(10)  # 10 Hz, Rate when no key is being pressed
     while not rospy.is_shutdown():
-        # If there are not new values, sleep
-        if odom_updated is False:
-            rate.sleep()
-            continue
+        # Check if a key was pressed
+        dr, dw, de = select([sys.stdin], [], [], 0)
+        key_pressed = (dr != [])
 
-        key_pressed = False
-        odom_updated = False
-
-        # Get data from the robot and print it
-        print(f'Robot estimated pose = {true_pose.x:.2f} [m], ' +
-                f'{true_pose.y:.2f} [m], ' +
-                f'{true_pose.theta*180.0/pi:.2f} [º]\r')
-
-        # Show estimated velocity
-        print(f'Robot estimated velocity = {true_lin_vel:.2f} [m/s], '
-                f'{true_ang_vel*180.0/pi:.2f} [º/s]\r')
-
-        # Get char
-        nChar = sys.stdin.read(1)
-
-        if not nChar:
+        if not key_pressed:
             # Decelerate automatically if no key was pressed
             lin_vel *= 0.9
             ang_vel *= 0.9
-        elif nChar == 'q':
-            break
-        elif nChar == 'i':
-            # Increase linear velocity
-            lin_vel += delta_lin_vel
-            key_pressed = True
-        elif nChar == 'k':
-            # Decrease linear velocity
-            lin_vel -= delta_lin_vel
-            key_pressed = True
-        elif nChar == 'j':
-            # Increase angular velocity
-            ang_vel += delta_ang_vel
-            key_pressed = True
-        elif nChar == 'l':
-            # Decrease angular velocity
-            ang_vel -= delta_ang_vel
-            key_pressed = True
-        elif nChar == ' ':
-            # Stop robot
-            lin_vel = 0
-            ang_vel = 0
-        elif nChar == 'e':
-            # Send forklit up
-            forklift_pos_cmd.data = FORKLIFT_UP
-            forklift_pub.publish(forklift_pos_cmd)
-        elif nChar == 'd':
-            # Send forklit up
-            forklift_pos_cmd.data = FORKLIFT_DOWN
-            forklift_pub.publish(forklift_pos_cmd)
-
+        else:
+            # Get char
+            nChar = sys.stdin.read(1)
+            if nChar == 'q':
+                break
+            elif nChar == 'i':
+                # Increase linear velocity
+                lin_vel += delta_lin_vel
+                key_pressed = True
+            elif nChar == 'k':
+                # Decrease linear velocity
+                lin_vel -= delta_lin_vel
+                key_pressed = True
+            elif nChar == 'j':
+                # Increase angular velocity
+                ang_vel += delta_ang_vel
+                key_pressed = True
+            elif nChar == 'l':
+                # Decrease angular velocity
+                ang_vel -= delta_ang_vel
+                key_pressed = True
+            elif nChar == ' ':
+                # Stop robot
+                lin_vel = 0
+                ang_vel = 0
+            elif nChar == 'e':
+                # Send forklit up
+                forklift_pos_cmd.data = FORKLIFT_UP
+                forklift_pub.publish(forklift_pos_cmd)
+            elif nChar == 'd':
+                # Send forklit up
+                forklift_pos_cmd.data = FORKLIFT_DOWN
+                forklift_pub.publish(forklift_pos_cmd)
 
         # Limit maximum velocities
         lin_vel = clipValue(lin_vel, -MAX_LIN_VEL, MAX_LIN_VEL)
         ang_vel = clipValue(ang_vel, -MAX_ANG_VEL, MAX_ANG_VEL)
 
         # Show desired velocity
-        print(f'Robot desired velocity = {lin_vel:.2f} [m/s], ' +
-                f'{ang_vel*180.0/pi:.2f} [º/s]\r')
-
-        # Show forklift position
-        print(f'Forklift position = {forklift_position:.2f} [m]', flush=True)
+        # print(f'Robot desired velocity = {lin_vel:.2f} [m/s], ' +
+        #       f'{ang_vel*180.0/pi:.2f} [°/s]\n')
 
         # Send velocity commands
         vel_cmd.angular.z = a_scale*ang_vel
@@ -263,12 +300,7 @@ if __name__ == '__main__':
         if key_pressed is False:
             rate.sleep()
 
-        # Move cursor back up n lines (and erase them)
-        for n in range(0, 4):
-            print('\033[1A', end="")
-            print('\033[2K', end="")
-
     vel_cmd.angular.z = 0
     vel_cmd.linear.x = 0
     vel_pub.publish(vel_cmd)
-    termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+    setNormalTerm()
