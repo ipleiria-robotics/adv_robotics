@@ -129,64 +129,6 @@ void forkliftCallback(const std_msgs::Float64& msg)
 
 
 /**
-  * Get current part approach pose
-  */
-/*void getPartApproachPose(const uint part_num, pose_2d& part_approach_pose)
-{
-    // Get this part (expected) location. Not relevant for some situations
-    if(parts_location[part_num] <= NUM_PARTS-1)
-    {
-        // Part is in a input wharehouse
-        part_approach_pose.x = input_parts[part_num].x;
-        part_approach_pose.y = input_parts[part_num].y;
-        part_approach_pose.theta = input_parts[part_num].theta;
-    } else if((parts_location[part_num] >= NUM_PARTS+1) &&
-              (parts_location[part_num] <= NUM_PARTS+NUM_PMAN))
-    {
-        // Part is in a processing machine
-        part_approach_pose.x = process_parts[part_num-(NUM_PARTS+1)].x;
-        part_approach_pose.y = process_parts[part_num-(NUM_PARTS+1)].y;
-        part_approach_pose.theta = process_parts[part_num-(NUM_PARTS+1)].theta;
-    } else if((parts_location[part_num] >= NUM_PARTS+NUM_PMAN+1) &&
-              (parts_location[part_num] <= 2*NUM_PARTS+NUM_PMAN))
-    {
-        // Part is in an output wharehouse
-        part_approach_pose.x = output_parts[part_num-(NUM_PARTS+NUM_PMAN+1)].x;
-        part_approach_pose.y = output_parts[part_num-(NUM_PARTS+NUM_PMAN+1)].y;
-        part_approach_pose.theta = output_parts[part_num-(NUM_PARTS+NUM_PMAN+1)].theta;
-    } else
-        ROS_ERROR("Part is in unexpected location!");
-}*/
-
-
-/**
-  * Get current part position
-  */
-/*void getPartPos(const uint part_num, point_2d& part_pos)
-{
-    // Get this part (expected) location. Not relevant for some situations
-    if(parts_location[part_num] <= NUM_PARTS-1)
-    {
-        // Part is in a input wharehouse
-        part_pos.x = input_parts[part_num].x;
-        part_pos.y = input_parts[part_num].y;
-    } else if((parts_location[part_num] >= NUM_PARTS+1) &&
-              (parts_location[part_num] <= NUM_PARTS+NUM_PMAN))
-    {
-        // Part is in a processing machine
-        part_pos.x = process_parts[part_num-(NUM_PARTS+1)].x;
-        part_pos.y = process_parts[part_num-(NUM_PARTS+1)].y;
-    } else if((parts_location[part_num] >= NUM_PARTS+NUM_PMAN+1) &&
-              (parts_location[part_num] <= 2*NUM_PARTS+NUM_PMAN))
-    {
-        // Part is in an output wharehouse
-        part_pos.x = output_parts[part_num-(NUM_PARTS+NUM_PMAN+1)].x;
-        part_pos.y = output_parts[part_num-(NUM_PARTS+NUM_PMAN+1)].y;
-    } else
-        ROS_ERROR("Part is in unexpected location!");
-}*/
-
-/**
   * Receive and store current robot real pose
   */
 void realPoseCallback(const nav_msgs::Odometry& msg)
@@ -213,7 +155,7 @@ void realPoseCallback(const nav_msgs::Odometry& msg)
     bool part_ext_status_changed = false;
     for(uint part_num=0; part_num < NUM_PARTS; part_num++)
     {
-        double dist, dangle;
+        double dangle;
         switch(parts_state[part_num])
         {
             // Part is still unprocessed

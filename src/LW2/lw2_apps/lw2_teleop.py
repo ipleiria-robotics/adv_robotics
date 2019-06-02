@@ -30,20 +30,15 @@ Revision $Id$
 '''
 
 # Library packages needed
-import os
-import tty  # Terminal
 import atexit  # Terminal
 import termios  # Terminal
 from select import select  # Terminal
-import fcntl
 import sys
-from math import pi, atan2
-from threading import Lock
+from math import atan2
 
 # ROS API
 import rospy
-from geometry_msgs.msg import Pose2D, Twist
-from nav_msgs.msg import Odometry
+from geometry_msgs.msg import Twist
 from control_msgs.msg import JointControllerState
 from std_msgs.msg import Float64, UInt8MultiArray
 
@@ -54,12 +49,6 @@ from markers_msgs.msg import Markers
 # values
 MAX_LIN_VEL = 0.5  # [m/s]
 MAX_ANG_VEL = 1.14  # 90º/s (in rad/s)
-
-# Global variables
-true_pose = Pose2D()
-true_lin_vel = 0.0
-true_ang_vel = 0.0
-odom_updated = False
 
 # Forklift information
 forklift_position = -1.0
@@ -94,24 +83,6 @@ def quaternionToYaw(q):
     t0 = 2.0 * (q.w * q.z + q.x * q.y)
     t1 = 1.0 - 2.0 * (q.y**2 + q.z**2)
     return atan2(t0, t1)
-
-
-def odomCallback(data):
-    '''Function to call whe new odometry information is available'''
-    # Store updated values
-    true_pose.x = data.pose.pose.position.x
-    true_pose.y = data.pose.pose.position.y
-    true_pose.theta = quaternionToYaw(data.pose.pose.orientation)
-
-    true_lin_vel = data.twist.twist.linear.x
-    true_ang_vel = data.twist.twist.angular.z
-
-    # Print odometry data
-    # print(f'Robot estimated pose = {true_pose.x:.2f} [m], ' +
-    #       f'{true_pose.y:.2f} [m], ' +
-    #       f'{true_pose.theta*180.0/pi:.2f} [°]')
-    # print(f'Robot estimated velocity = {true_lin_vel:.2f} [m/s], '
-    #       f'{true_ang_vel*180.0/pi:.2f} [°/s]')
 
 
 def forkliftCallback(msg):
@@ -159,7 +130,7 @@ def markersCallback(msg: Markers):
         print(f'Found {msg.num_markers} parts/locations.')
         for i in range(msg.num_markers):
             print(f'Part/Location seen at : (range, bearing) = (' +
-                f'{msg.range[i]:.2f}, {msg.bearing[i]:.2f})')
+                  f'{msg.range[i]:.2f}, {msg.bearing[i]:.2f})')
 
 
 def setNormalTerm():
@@ -203,14 +174,6 @@ if __name__ == '__main__':
           'Press q to quit.\n' +
           '---------------------------\n')
 
-    # Get parameters
-    a_scale = rospy.get_param("~scale_angular", 1.0)
-    l_scale = rospy.get_param("~scale_linear", 1.0)
-
-    # Setup subscriber for odometry
-    sub_odom = rospy.Subscriber(robot_name + '/odom', Odometry,
-                                odomCallback, queue_size=1)
-
     # Setup publisher for speed control
     vel_pub = rospy.Publisher(robot_name + '/cmd_vel', Twist, queue_size=1)
 
@@ -234,9 +197,6 @@ if __name__ == '__main__':
 
     # Init ROS
     rospy.init_node('robot_keyboard_teleop', anonymous=True)
-
-    # Terminal
-    #tty.setraw(sys.stdin.fileno())
 
     # Infinite loop
     rate = rospy.Rate(10)  # 10 Hz, Rate when no key is being pressed
