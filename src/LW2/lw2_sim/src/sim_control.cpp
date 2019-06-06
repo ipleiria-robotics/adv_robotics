@@ -171,7 +171,7 @@ void realPoseCallback(const nav_msgs::Odometry& msg)
                 dangle = atan2(part_local_pos.y, part_local_pos.x);
                 // Check if the robot is enough near the approach pose and the forklift is down
                 if((part_local_pos.x > 0.0) && (part_local_pos.x < MAX_X_OFFSET) &&
-                   (dangle < MAX_ANG_ERROR) && forklift_down)
+                   (abs(dangle) < MAX_ANG_ERROR) && forklift_down)
                 {
                     // The robot is well placed to pick the part
                     parts_state[part_num] = PART_UNPROCESSED_PICKING;
@@ -192,7 +192,7 @@ void realPoseCallback(const nav_msgs::Odometry& msg)
                 dangle = atan2(part_local_pos.y, part_local_pos.x);
                 // Check if the robot is enough near the approach pose and the forklift is up
                 if((part_local_pos.x > 0.0) && (part_local_pos.x < MAX_X_OFFSET) &&
-                   (dangle < MAX_ANG_ERROR) && forklift_up)
+                   (abs(dangle) < MAX_ANG_ERROR) && forklift_up)
                 {
                     // The robot picked the part and now can tansport it
                     parts_state[part_num] = PART_UNPROCESSED_PICKED_UP;

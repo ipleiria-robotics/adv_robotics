@@ -5,6 +5,6 @@
           args="$(find mystage_ros)/world/AR/lw2.world"
           required="true"/>
     <node pkg="lw2_sim" type="sim_control" name="sim_control"
-          required="true"/>
+          required="true" output="screen"/>
   </group>
 </launch>
