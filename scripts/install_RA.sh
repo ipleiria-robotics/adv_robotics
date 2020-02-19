@@ -45,12 +45,14 @@ rosdep update
 
 # Set up variables and Clone our gir repository, if not already cloned
 if [ ! -d "$HOME/ros" ]; then
-  echo "Setting ROS environment variables..." 
-  echo "" >> $HOME/.bashrc
-  echo "# ROS Environment variables" >> $HOME/.bashrc
-  echo ". /opt/ros/melodic/setup.bash" >> $HOME/.bashrc
-  echo ". $HOME/ros/devel/setup.bash" >> $HOME/.bashrc
-  echo "ROS_PYTHON_VERSION=3" >> $HOME/.bashrc
+  if ! grep -q ROS "$HOME/.bashrc"; then
+    echo "Setting ROS environment variables..." 
+    echo "" >> $HOME/.bashrc
+    echo "# ROS Environment variables" >> $HOME/.bashrc
+    echo ". /opt/ros/melodic/setup.bash" >> $HOME/.bashrc
+    echo ". $HOME/ros/devel/setup.bash" >> $HOME/.bashrc
+    echo "ROS_PYTHON_VERSION=3" >> $HOME/.bashrc
+  fi
   git clone https://github.com/ipleiria-robotics/adv_robotics $HOME/ros
 else
   echo "$HOME/ros already exists, proceeding..." 
