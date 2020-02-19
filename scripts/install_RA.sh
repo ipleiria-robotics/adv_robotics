@@ -57,7 +57,7 @@ else
 fi
 source "/opt/ros/melodic/setup.bash"
 
-ROS_PYTHON_VERSION=3
+export ROS_PYTHON_VERSION=3
 catkin_make -C $HOME/ros
 source "$HOME/ros/devel/setup.bash"
 
