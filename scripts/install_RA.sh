@@ -69,6 +69,6 @@ source "$HOME/ros/devel/setup.bash"
 
 # Some updates might need a restart, so lets do it just to be safe
 echo
-echo "Done! You can now proceed with the Advanced Robotics classes..."
+echo "Done! Restart your PC and proceed with the Advanced Robotics classes..."
 
 
