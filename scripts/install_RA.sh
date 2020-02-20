@@ -9,9 +9,11 @@ echo "--> Installing software needed for the Advanced Robotics class"
 echo "--> This installation will download ~1GB of software and install ~3Gb, and should take a while"
 echo "--> Type the root password if asked, sit back, and relax..."
 
+sudo apt update
+sudo apt -y upgrade
+
 # IDE (see https://code.visualstudio.com/docs/setup/linux)
 # https://go.microsoft.com/fwlink/?LinkID=760868
-#sudo apt update
 #sudo apt -y install curl
 #curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
 #sudo install -o root -g root -m 644 microsoft.gpg /etc/apt/trusted.gpg.d/
@@ -23,7 +25,6 @@ snap install --classic code
 
 
 # Other needed software
-sudo apt -y upgrade
 sudo apt -y install screen mesa-utils nano firefox vlc browser-plugin-vlc xterm virtualenvcd ..	
 sudo apt -y install python3-pip python3-catkin-pkg-modules python3-empy python3-rospkg-modules python3-flake8 python3-pep8 python3-numpy python3-opencv python3-matplotlib python3-scipy
 sudo apt -y install gimp unrar git gdb open-vm-tools open-vm-tools-desktop python3-virtualenv cc
