@@ -21,9 +21,9 @@ sudo apt -y install code
 
 # Other needed software
 sudo apt -y upgrade
-sudo apt -y install screen mesa-utils nano firefox vlc browser-plugin-vlc xterm
+sudo apt -y install screen mesa-utils nano firefox vlc browser-plugin-vlc xterm virtualenvcd ..	
 sudo apt -y install python3-pip python3-catkin-pkg-modules python3-empy python3-rospkg-modules python3-flake8 python3-pep8 python3-numpy python3-opencv python3-matplotlib python3-scipy
-sudo apt -y install gimp unrar git gdb open-vm-tools open-vm-tools-desktop
+sudo apt -y install gimp unrar git gdb open-vm-tools open-vm-tools-desktop python3-virtualenv cc
 #sudo apt kde-workspace-randr kwrite texlive-latex-base vlc-plugin-pulse 
 #sudo apt -y remove kate
 # libfltk1.1-dev
@@ -51,7 +51,7 @@ if [ ! -d "$HOME/ros" ]; then
     echo "# ROS Environment variables" >> $HOME/.bashrc
     echo ". /opt/ros/melodic/setup.bash" >> $HOME/.bashrc
     echo ". $HOME/ros/devel/setup.bash" >> $HOME/.bashrc
-    echo "ROS_PYTHON_VERSION=3" >> $HOME/.bashrc
+#    echo "ROS_PYTHON_VERSION=3" >> $HOME/.bashrc
   fi
   git clone https://github.com/ipleiria-robotics/adv_robotics $HOME/ros
 else
@@ -59,8 +59,11 @@ else
 fi
 source "/opt/ros/melodic/setup.bash"
 
-export ROS_PYTHON_VERSION=3
-catkin_make -C $HOME/ros
+#export ROS_PYTHON_VERSION=3
+source ~/ros/py3venv/bin/activate
+pip install rospkg empy flake8
+catkin_make -DPYTHON_EXECUTABLE:FILEPATH=~/ros/py3venv/bin/python -C $HOME/ros
+
 source "$HOME/ros/devel/setup.bash"
 
 # Qt
