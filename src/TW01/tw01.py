@@ -112,10 +112,12 @@ def main(stdscr):
     vel_cmd = Twist()
 
     # Output usage information
-    print('Reading from keyboard\n' +
-            'Use i, j, k, l and space to move front, left, back, right and' +
-            ' stop, respectively.\nPress q to quit.\n' +
-            '---------------------------\n')
+    stdscr.addstr(
+        0, 0,
+        'Reading from keyboard\n' +
+        'Use UP, LEFT, DOWN, RIGHT and space to move front, left, back,' +
+        ' right and stop, respectively.\nPress q to quit.\n' +
+        '---------------------------')
 
     # Get parameters
     a_scale = rospy.get_param("~scale_angular", 1.0)
@@ -144,13 +146,13 @@ def main(stdscr):
         # We are using the curses addstr function in order to write in a
         # specific screen position, otherwise we could use "print"
         stdscr.addstr(
-            0, 0,
+            4, 0,
             f'Robot estimated pose = {true_pose.x:.2f} [m], ' +
             f'{true_pose.y:.2f} [m], ' +
             f'{true_pose.theta*180.0/pi:.2f} [º]')
 
         stdscr.addstr(
-            1, 0,
+            5, 0,
             f'Robot estimated velocity = {true_lin_vel:.2f} [m/s], '    
             f'{true_ang_vel*180.0/pi:.2f} [º/s]')
 
@@ -185,7 +187,7 @@ def main(stdscr):
 
         # Show desired velocity
         stdscr.addstr(
-            2, 0,
+            6, 0,
             f'Robot desired velocity = {lin_vel:.2f} [m/s], ' +
             f'{ang_vel*180.0/pi:.2f} [º/s]')
         stdscr.refresh()  # Update screen
