@@ -10,14 +10,17 @@ echo "--> This installation will download ~1GB of software and install ~3Gb, and
 echo "--> Type the root password if asked, sit back, and relax..."
 
 # IDE (see https://code.visualstudio.com/docs/setup/linux)
-sudo apt update
-sudo apt -y install curl
-curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
-sudo install -o root -g root -m 644 microsoft.gpg /etc/apt/trusted.gpg.d/
-sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list'
-sudo apt update
-sudo apt -y install apt-transport-https
-sudo apt -y install code
+# https://go.microsoft.com/fwlink/?LinkID=760868
+#sudo apt update
+#sudo apt -y install curl
+#curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
+#sudo install -o root -g root -m 644 microsoft.gpg /etc/apt/trusted.gpg.d/
+#sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list'
+#sudo apt update
+#sudo apt -y install apt-transport-https
+#sudo apt -y install code
+snap install --classic code
+
 
 # Other needed software
 sudo apt -y upgrade
