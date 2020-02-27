@@ -32,6 +32,7 @@ Revision $Id$
 # Library packages needed
 from math import pi, atan2, radians, degrees
 import curses
+import sys
 
 # ROS API
 import rospy
@@ -77,12 +78,13 @@ def odomCallback(data: Odometry):
 def laserCallback(msg: LaserScan):
     ''' Update distance to closest obstacles '''
 
-    global laser_updated
+    global laser_updated, closest_right_obstacle, closest_front_obstacle,\
+        closest_left_obstacle
 
     ###########################################################################
     # STAR YOUR CODE HERE
     # closest_right_obstacle = ...
-    # closest_left_obstacle = ...
+    # closest_front_obstacle = ...
     # closest_left_obstacle = ...
 
     # END YOUR CODE HERE
@@ -118,6 +120,7 @@ def main(stdscr):
     # Output usage information
     stdscr.addstr(0, 0,
                   'Random navigation with obstacle avoidance.\n' +
+                  'Press "q" to quit.\n' +
                   '---------------------------\n')
 
     # Setup subscribers
@@ -135,6 +138,10 @@ def main(stdscr):
     # Infinite loop
     rate = rospy.Rate(10)  # 10 Hz, Rate when no key is being pressed
     while not rospy.is_shutdown():
+        # If the 'q' key is pressed, end the application
+        if stdscr.getch() == ord('q'):
+            break
+
         # If there are not new values, sleep
         if laser_updated is False:
             continue
@@ -142,14 +149,14 @@ def main(stdscr):
 
         # Show pose estimated from odometry
         stdscr.addstr(
-            2, 0,
+            3, 0,
             f'Robot estimated pose = {true_pose.x:.2f} [m], ' +
             f'{true_pose.y:.2f} [m], ' +
             f'{degrees(true_pose.theta):.2f} [º]\r')
 
         # Show estimated velocity
         stdscr.addstr(
-            3, 0,
+            4, 0,
             f'Robot estimated velocity = {true_lin_vel:.2f} [m/s], '
             f'{degrees(true_ang_vel):.2f} [º/s]\r')
 
@@ -168,7 +175,7 @@ def main(stdscr):
 
         # Show desired velocity
         stdscr.addstr(
-            4, 0,
+            5, 0,
             f'Robot desired velocity = {lin_vel:.2f} [m/s], ' +
             f'{degrees(ang_vel):.2f} [º/s]\r')
         stdscr.refresh()  # Update screen
@@ -181,6 +188,11 @@ def main(stdscr):
         # Sleep, if needed, to maintain the dseired frequency
         rate.sleep()
 
+    # Ask the robot to stop before quitting
+    vel_cmd.angular.z = 0
+    vel_cmd.linear.x = 0
+    vel_pub.publish(vel_cmd)
+
 
 '''
 This is what is actually called when we run this python script. It then calls
@@ -189,3 +201,5 @@ control the terminal
 '''
 if __name__ == '__main__':
     curses.wrapper(main)
+    print('Quitting...')
+    sys.exit(0)
