@@ -136,14 +136,15 @@ def main(stdscr):
     rospy.init_node('tw02', anonymous=True)
 
     # Infinite loop
-    rate = rospy.Rate(10)  # 10 Hz, Rate when no key is being pressed
+    rate = rospy.Rate(10)  # 10 Hz, Main loop rate
     while not rospy.is_shutdown():
         # If the 'q' key is pressed, end the application
         if stdscr.getch() == ord('q'):
             break
 
-        # If there are not new values, sleep
+        # If there are no new values, "sleep"
         if laser_updated is False:
+            rate.sleep()
             continue
         laser_updated = False
 
@@ -185,7 +186,7 @@ def main(stdscr):
         vel_cmd.linear.x = lin_vel
         vel_pub.publish(vel_cmd)
 
-        # Sleep, if needed, to maintain the dseired frequency
+        # Sleep, if needed, to maintain the desired frequency
         rate.sleep()
 
     # Ask the robot to stop before quitting
