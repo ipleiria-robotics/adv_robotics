@@ -126,6 +126,7 @@ def main(stdscr):
     # Setup subscribers
     # Odometry
     rospy.Subscriber('/robot_0/odom', Odometry, odomCallback, queue_size=1)
+    # Laser scan
     rospy.Subscriber('/robot_0/base_scan', LaserScan, laserCallback,
                      queue_size=1)
 
