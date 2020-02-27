@@ -134,7 +134,7 @@ def main(stdscr):
     vel_pub = rospy.Publisher('/robot_0/cmd_vel', Twist, queue_size=1)
 
     # Init ROS
-    rospy.init_node('tw02', anonymous=True)
+    rospy.init_node('tw02')
 
     # Infinite loop
     rate = rospy.Rate(10)  # 10 Hz, Main loop rate
