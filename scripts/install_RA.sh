@@ -25,7 +25,7 @@ snap install --classic code
 
 
 # Other needed software
-sudo apt -y install screen mesa-utils nano firefox vlc browser-plugin-vlc xterm virtualenv	
+sudo apt -y install screen mesa-utils nano firefox vlc browser-plugin-vlc xterm virtualenv	libgirepository1.0-dev
 sudo apt -y install python3-pip python3-catkin-pkg-modules python3-empy python3-rospkg-modules python3-flake8 python3-pep8 python3-numpy python3-opencv python3-matplotlib python3-scipy
 sudo apt -y install gimp unrar git gdb open-vm-tools open-vm-tools-desktop python3-virtualenv cc
 #sudo apt kde-workspace-randr kwrite texlive-latex-base vlc-plugin-pulse 
@@ -69,7 +69,7 @@ if [ ! -d "$HOME/ros/py3env" ]; then
   virtualenv ~/ros/py3env --python=python3
 fi
 source ~/ros/py3env/bin/activate
-pip install rospkg empy flake8 numpy matplotlib opencv-python
+pip install rospkg empy flake8 numpy matplotlib opencv-python PyGObject
 catkin_make -DPYTHON_EXECUTABLE:FILEPATH=~/ros/py3env/bin/python -C $HOME/ros
 
 source "$HOME/ros/devel/setup.bash"
