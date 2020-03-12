@@ -64,10 +64,13 @@ fi
 source "/opt/ros/melodic/setup.bash"
 
 #export ROS_PYTHON_VERSION=3
-virtualenv ~/ros/py3venv --python=python3
-source ~/ros/py3venv/bin/activate
+# Create the Python virtual environment if it  does not exist yet
+if [ ! -d "$HOME/ros/py3env" ]; then
+  virtualenv ~/ros/py3env --python=python3
+fi
+source ~/ros/py3env/bin/activate
 pip install rospkg empy flake8 numpy matplotlib opencv-python
-catkin_make -DPYTHON_EXECUTABLE:FILEPATH=~/ros/py3venv/bin/python -C $HOME/ros
+catkin_make -DPYTHON_EXECUTABLE:FILEPATH=~/ros/py3env/bin/python -C $HOME/ros
 
 source "$HOME/ros/devel/setup.bash"
 
