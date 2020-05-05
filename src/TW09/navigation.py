@@ -62,8 +62,7 @@ MAX_ANG_VEL = 1.57  # Maximu angular speed (90°/s) [rad/s]
 
 def robotPoseCallback(msg: PoseWithCovarianceStamped):
     '''
-     Store real, error-free pose values given by the simulator (for debugging
-    puposes only) --> DO NOT USE THIS FOR ANYTHING ELSE
+     Store robot pose localization computed by the localization application.
     '''
     global robot_pose, robot_pose_updated, robot_pose_lock
 

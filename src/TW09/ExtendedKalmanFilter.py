@@ -1,34 +1,35 @@
 #!/usr/bin/env python3
-'''
-Copyright (c) 2019, Hugo Costelha
-All rights reserved.
 
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
+# Copyright (c) 2020, Hugo Costelha
+# All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions are met:
+#
+# * Redistributions of source code must retain the above copyright notice,
+#     this list of conditions and the following disclaimer.
+# * Redistributions in binary form must reproduce the above copyright notice,
+#     this list of conditions and the following disclaimer in the documentation
+#     and/or other materials provided with the distribution.
+# * Neither the name of the Player Project nor the names of its contributors
+#     may be used to endorse or promote products derived from this software
+#     without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+# AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+# ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+# LIABLE 4 ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+# CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+# SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+# INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+# CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+# ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+# POSSIBILITY OF SUCH DAMAGE.
+#
+# Revision $Id$
 
-* Redistributions of source code must retain the above copyright notice,
-    this list of conditions and the following disclaimer.
-* Redistributions in binary form must reproduce the above copyright notice,
-    this list of conditions and the following disclaimer in the documentation
-    and/or other materials provided with the distribution.
-* Neither the name of the Player Project nor the names of its contributors
-    may be used to endorse or promote products derived from this software
-    without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE 4
-ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
-ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-Revision $Id$
-
-@package docstring
+'''@package docstring
 Implementation of an Extended Kalman Filter.
 '''
 
@@ -49,7 +50,7 @@ class ExtendedKalmanFilter:
         # floating type
         self.state = np.zeros((3, 1))  # EKF state
         # EKF process covariance (confidence associated with current state)
-        # Consider medium confidence in the initial state
+        # Consider some uncertainty in the initial state
         # (Σ in the course theoretic material)
         self.P = np.array([[0.5, 0.0, 0.0],
                            [0.0, 0.5, 0.0],
@@ -90,8 +91,26 @@ class ExtendedKalmanFilter:
         sin_thetar = sin(self.state[2, 0])
         cos_thetar = cos(self.state[2, 0])
 
-        ''' Step 1 - Prediction:
-        --> State covariance
+        ''' Step 1 - Prediction: '''
+
+        ''' --> State
+            x(k+1|k) = f(x(k|k),u(k),k) <=>
+                <=> | xr(k+1|k) | = | xr(k) + Δx(k) |
+                    | yr(k+1|k) | = | yr(k) + Δy(k) |
+                    | θr(k+1|k) | = | θr(k) + Δθ(k) |
+            but where the motions are extracted directly from the odometry:
+                Δx = Δxr*cos(θr(k))-Δyr*sin(θr(k))
+                Δy = Δxr*sin(θr(k))+Δyr*cos(θr(k))
+        '''
+        dx = delta_xr * cos_thetar - delta_yr * sin_thetar
+        dy = delta_xr * sin_thetar + delta_yr * cos_thetar
+        dtheta = delta_thetar
+
+        self.state[0, 0] += dx
+        self.state[1, 0] += dy
+        self.state[2, 0] = normalize(self.state[2, 0] + dtheta)
+
+        ''' --> State covariance
 
             P(k+1|k) = Fx(k)P(k|k)Fx(k)' + Fv(k)V(k)Fv(k)'
 
@@ -105,15 +124,10 @@ class ExtendedKalmanFilter:
 
                 V(k) constant (initialized at the beggining)
 
-            and
+            with (as above)
                 Δx = Δxr*cos(θr(k))-Δyr*sin(θr(k))
                 Δy = Δxr*sin(θr(k))+Δyr*cos(θr(k))
         '''
-
-        dx = delta_xr * cos_thetar - delta_yr * sin_thetar
-        dy = delta_xr * sin_thetar + delta_yr * cos_thetar
-        dtheta = delta_thetar
-
         # Note that the constant members of Fx(k) were already set previously,
         # so we will just update the 1st and 2nd positions of the last column.
         self.Fx[0, 2] = -dy
@@ -129,18 +143,6 @@ class ExtendedKalmanFilter:
         # Fv.T is the transpose of Fv
         # '@' means multiplication when using numpy
         self.P = self.Fx @ self.P @ self.Fx.T + self.Fv @ self.V @ self.Fv.T
-
-        ''' --> State
-            x(k+1|k) = f(x(k|k),u(k),k) <=>
-                <=> | xr(k+1|k) | = | xr(k) + Δx(k) |
-                    | yr(k+1|k) | = | yr(k) + Δy(k) |
-                    | θr(k+1|k) | = | θr(k) + Δθ(k) |
-            but where the movements are extracted directly from the odometry
-        (see above).
-        '''
-        self.state[0, 0] += dx
-        self.state[1, 0] += dy
-        self.state[2, 0] = normalize(self.state[2, 0] + dtheta)
 
     '''
     Update step.
