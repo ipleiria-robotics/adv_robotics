@@ -1,0 +1,8 @@
+cmake_minimum_required(VERSION 2.4.6)
+project(tw09)
+
+# Find and get all the information about the rospy package
+find_package(catkin REQUIRED COMPONENTS rospy markers_msgs)
+
+# Declare the project as a catkin package
+catkin_package()
