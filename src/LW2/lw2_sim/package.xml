@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>lw2_sim</name>
+  <version>1.0.0</version>
+  <description>
+    Control/Simulate the factory environment.
+  </description>
+  <license>GPL-3</license>
+  <maintainer email="hugo.costelha@ipleiria.pt">Hugo Costelha</maintainer>
+  <author email="hugo.costelha@ipleiria.pt">Hugo Costelha</author>
+
+  <url type="website">https://github.com/ipleiria-robotics/adv_robotics</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>sensor_msgs</build_depend>
+  <build_depend>std_msgs</build_depend>
+  <build_depend>message_generation</build_depend>
+  <build_depend>geometry_msgs</build_depend>
+  <build_depend>roscpp</build_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>message_runtime</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>roscpp</exec_depend>
+</package>
