@@ -220,7 +220,7 @@ def main(stdscr):
                                         lw2_sim.srv.StartCharging)
 
     # Init ROS
-    rospy.init_node('robot_keyboard_teleop')
+    rospy.init_node('lw2_teleop')
 
     # Infinite loop
     rate = rospy.Rate(10)  # 10 Hz, Rate when no key is being pressed
