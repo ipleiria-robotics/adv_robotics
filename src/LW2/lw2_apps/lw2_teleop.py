@@ -177,13 +177,14 @@ def main(stdscr):
     robot_name = '/robot_0'
 
     # Output usage information
-    stdscr.addstr('Reading from keyboard\n\r' +
-          'Use UP, LEFT, DOWN, RIGHT and space to move front, left, back, ' +
-          'right and stop, respectively.\n\r' +
-          'Use e and d to move the forklift up and down, respectively\n\r' +
-          'Use + and - to move start and stop the charging, respectively\n\r' +
-          'Press q to quit.\n\r' +
-          '---------------------------\n\r')
+    stdscr.addstr(
+        'Reading from keyboard\n\r' +
+        'Use UP, LEFT, DOWN, RIGHT and space to move front, left, back, ' +
+        'right and stop, respectively.\n\r' +
+        'Use e and d to move the forklift up and down, respectively\n\r' +
+        'Use + and - to move start and stop the charging, respectively\n\r' +
+        'Press q to quit.\n\r' +
+        '---------------------------\n\r')
     stdscr.addstr('\nPRESS ANY KEY TO START...\n\r')
     while True:
         nChar = stdscr.getch()
@@ -277,7 +278,7 @@ def main(stdscr):
             if resp.charging is False:
                 print('Robot has stopped charging.\r')
             else:
-                print('Unable to stop charging.\r')   
+                print('Unable to stop charging.\r')
 
         # Limit maximum velocities
         lin_vel = clipValue(lin_vel, -MAX_LIN_VEL, MAX_LIN_VEL)
