@@ -1,0 +1,4 @@
+Estimated and real pose of the robot
+
+[T]: Odometry [X Y Theta] Real [X Y Theta] EKF [X Y Theta]
+

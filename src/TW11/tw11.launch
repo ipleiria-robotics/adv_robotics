@@ -1,0 +1,12 @@
+<launch>
+  <group ns="robot_0">
+    <!-- Run the stage simulator -->
+    <node pkg="mystage_ros" type="stageros" name="stage" 
+          args="$(find mystage_ros)/world/AR/factory_laser_with_landmarks.world"
+          required="true"/>
+    <node pkg="tw11" type="battery_manager" name="battery_manager"
+        required="true" output="screen"/>
+    <node pkg="tw11" type="localization.py" name="localization"
+        required="true" output="screen"/>
+  </group>
+</launch>

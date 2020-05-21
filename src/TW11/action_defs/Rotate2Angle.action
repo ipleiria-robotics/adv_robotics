@@ -1,0 +1,8 @@
+# Goal: which angle to reach
+float32 target_orientation
+---
+# Result: final orientation
+float32 final_orientation
+---
+# Feedback: current orientation
+float32 base_orientation

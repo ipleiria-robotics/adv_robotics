@@ -1,0 +1,24 @@
+<package format="2">
+  <name>tw11</name>
+  <maintainer email="hugo.costelha@ipleiria.com">Hugo Costelha</maintainer>
+  <description>
+     tw11 - TBD
+  </description>
+  <version>3.0.0</version>
+  <license>BSD</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+      
+  <!-- Package Dependencies -->
+  <build_depend>rospy</build_depend>
+  <build_depend>markers_msgs</build_depend>
+  <build_export_depend>rospy</build_export_depend>
+  <build_depend>message_generation</build_depend>
+  <exec_depend>message_runtime</exec_depend>
+  <exec_depend>rospy</exec_depend>
+  <depend>roscpp</depend>
+  <depend>actionlib</depend>
+  <depend>actionlib_msgs</depend>
+</package>
+
+

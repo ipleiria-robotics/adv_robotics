@@ -2,9 +2,9 @@
 # Authors: Hugo Costelha
 # 13/03/2013
 
-include "pioneer.inc" # File with Pioneer models
-include "map.inc" # File with map definition
-include "sick.inc" # File for the sick laser
+include "pioneer.inc"
+include "map.inc"
+include "sick.inc"
 
 # Simulation setup
 resolution 0.02 # Resolution of the underlying ray-trace model
@@ -13,10 +13,10 @@ threads 1 # Set this to the number of CPUs for increased simulation speed
 # configure the GUI window
 window
 (
-  size [ 400.000 350.000 ] # in pixels
-  scale 50.0   # pixels per meter
-  center [ 0  0 ]
-  rotate [ 0  0 ]
+  size [ 400 352 ] # in pixels
+  scale 50.000   # pixels per meter
+  center [ 0.020  0.020 ]
+  rotate [ 0.000  0.000 ]
 
   show_data 1              # 1=on 0=off
 )
@@ -25,15 +25,15 @@ window
 floorplan
 ( 
   name "factory"
-  size [7.20 5.75 0.800]
-  pose [0 -0.05 0 0]
+  size [7.200 5.750 0.800]
+  pose [0.000 -0.050 0.000 0.000]
   bitmap "factory.png"
   color "tan3"
 )
 
 # Lines on the floor
 model (
-  size [7.20 5.75 0.001] # Same as above, except for height
+  size [7.200 5.750 0.001] # Same as above, except for height
   gui_move 0 # Do now allow it to be moved
   gripper_return 0 # Do not allow a gripper to grab the environment
   fiducial_return 0 # Not detectable as marker
@@ -41,7 +41,7 @@ model (
   ranger_return 0 # Not detectable by range sensors
   laser_return 0 # Not detectable by lasers
 
-  pose [0 -0.05 0 0]
+  pose [0.000 -0.050 0.000 0.000]
   color "black"
   bitmap "factory_lines.png"
 )
@@ -68,10 +68,10 @@ pioneer2dx_base_no_sonar
   name "robot0"
   # Initial pose
 #  pose [ -2 3 0 0 ] # Initial posture
-  pose [ 0 0 0 0 ] # Initial posture
+  pose [ 0.0 0.0 0.000 0.0 ] # Initial posture
 
   # pioneer3dx's sonars, will be ranger:0 and the laser will be ranger:1
-  sicklaser( pose [ 0 0 0 0 ] ) 
+  sicklaser( pose [ 0.000 0.000 0.000 0.000 ] ) 
 
   # Simulate landmark detection
   fiducial
@@ -83,7 +83,7 @@ pioneer2dx_base_no_sonar
     fov 360
 
     # mode properties
-    size [0 0 0]
+    size [0.000 0.000 0.000]
   )
 
   # Uncomment if you want the robot to wander alone without your code
@@ -108,7 +108,7 @@ marker(
   name "marker1"
   color "cyan"
   bitmap "triangle.png"
-  pose [-3.32 -2.28 0 0]
+  pose [-3.320 -2.280 0.000 0.000]
   fiducial_return 1
 )
 
@@ -116,7 +116,7 @@ marker(
   name "marker2"
   color "yellow"
   bitmap "triangle.png"
-  pose [-3.32 2.28 0 -90]
+  pose [-3.320 2.280 0.000 -90.000]
   fiducial_return 2
 )
 
@@ -124,7 +124,7 @@ marker(
   name "marker3"
   color "blue"
   bitmap "triangle.png"
-  pose [3.32 2.28 0 180]
+  pose [3.320 2.280 0.000 180.000]
   fiducial_return 3
 )
 
@@ -132,6 +132,6 @@ marker(
   name "marker4"
   color "magenta"
   bitmap "triangle.png"
-  pose [3.32 -2.28 0 90]
+  pose [3.320 -2.280 0.000 90.000]
   fiducial_return 4
 )
