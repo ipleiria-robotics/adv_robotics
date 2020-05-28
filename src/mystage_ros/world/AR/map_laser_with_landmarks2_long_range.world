@@ -1,0 +1,142 @@
+# A test map with detectable landmarks
+# Authors: Hugo Costelha, based on Richard Vaughan example
+# More info: http://playerstage.sourceforge.net/doc/stage-cvs/group__world.html
+
+include "pioneer.inc" # File with Pioneer models
+include "map.inc" # File with map definition
+include "sick_long_range.inc" # File for the sick laser
+
+# Speed of the simulation
+interval_sim 100 # milliseconds per update step
+
+# Set the resolution of the underlying raytrace model in meters
+resolution 0.02
+
+# Configure the GUI window
+# More info: http://playerstage.sourceforge.net/doc/stage-cvs/group__world.html
+window
+(
+  size [ 400.000 400.000 ] # in pixels
+  scale 20   # pixels per meter
+  center [ 0  0 ]
+  rotate [ 0  0 ]
+
+  show_data 1
+)
+
+# Load an environment bitmap
+floorplan
+( 
+  name "cave"
+  size [16.000 16.000 0.800]
+  pose [0 0 0 0]
+  bitmap "cave_walls_only.png"
+)
+
+# Load the Pioneer P3-DX robot
+#pioneer3dx
+pioneer2dx_base_no_sonar
+(
+  # Can refer to the robot by this name
+  name "robot0"
+  pose [ 0 0 0 0 ] # Initial pose
+
+  # pioneer3dx's sonars, will be ranger:0 and the laser will be ranger:1
+  sicklaser( pose [ 0 0 0 0 ] ) 
+
+#  # Default speeds
+#  max_speed [1.0 0 1.57]
+#  accel [0.3 0 1.74]        # m(x), m(y), radians(theta)
+#  decel [0.3 0 1.74]
+
+  # Simulate landmark detection
+  fiducial
+  (
+    # fiducialfinder properties
+    range_min 0.0
+    range_max 8.0
+    range_max_id 8.0
+    fov 180
+
+    # model properties
+    size [0 0 0]
+  )
+
+  # Use "gps" for error-free position and "odom" for odometry with uniform distributed error
+  localization "odom"
+  localization_origin [ 0 0 0 0 ] # Uncomment with GPS for true position
+  odom_error [ 0.1 0.03 0.0 0.2 ] # [ X Y Z Theta ]
+)
+
+# Marker definition
+define marker position (
+  size [0.200 0.200 0.800]
+#  noise 0.10
+  gui_outline 1
+  gui_move 0
+)
+
+
+marker(
+  name "marker1"
+  color "cyan"
+  bitmap "beacon.png"
+  pose [-8.0 4.0 0 0]
+  fiducial_return 1
+)
+
+marker(
+  name "marker2"
+  color "red"
+  bitmap "beacon.png"
+  pose [-8.0 -4.0 0 0]
+  fiducial_return 2
+)
+
+marker(
+  name "marker3"
+  color "magenta"
+  bitmap "beacon.png"
+  pose [-3.0 -8.0 0 0]
+  fiducial_return 3
+)
+
+marker(
+  name "marker4"
+  color "yellow"
+  bitmap "beacon.png"
+  pose [3.0 -8.0 0 0]
+  fiducial_return 4
+)
+
+marker(
+  name "marker5"
+  color "green"
+  bitmap "beacon.png"
+  pose [8.0 -4.0 0 0]
+  fiducial_return 5
+)
+
+marker(
+  name "marker6"
+  color "blue"
+  bitmap "beacon.png"
+  pose [8.0 4.0 0 0]
+  fiducial_return 6
+)
+
+marker(
+  name "marker7"
+  color "brown"
+  bitmap "beacon.png"
+  pose [3.0 8.0 0 0]
+  fiducial_return 7
+)
+
+marker(
+  name "marker8"
+  color "orange"
+  bitmap "beacon.png"
+  pose [-3.0 8.0 0 0]
+  fiducial_return 8
+)
