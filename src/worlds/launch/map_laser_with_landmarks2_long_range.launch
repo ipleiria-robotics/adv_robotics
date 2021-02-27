@@ -1,8 +1,9 @@
 <launch>
-  <group ns="robot_0">
+  <group>
+    <push-ros-namespace namespace="robot_0"/>
     <!-- Run the stage simulator -->
-    <node pkg="mystage_ros" type="stageros" name="stage" 
-          args="$(find mystage_ros)/world/AR/map_laser_with_landmarks2_long_range.world"
+    <node pkg="mystage_ros" exec="stageros" name="stage" 
+          args="$(find-pkg-share worlds)/stage-worlds/map_laser_with_landmarks2_long_range.world"
           required="true"/>
   </group>
 </launch>

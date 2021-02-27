@@ -24,7 +24,6 @@ apt update
 # In systems with low memory, installing everything simultaneously can lead to 
 #problems. To prevent this, we should first install texlive, then proceed with ROS.
 sudo apt install ros-foxy-desktop
-##apt -y install ros-foxy-desktop ros-melodic-stage-ros
 # Install additional ros packages
 ##apt -y install ros-melodic-hector-sensors-description ros-melodic-hector-models ros-melodic-ros-control ros-melodic-effort-controllers ros-melodic-joint-state-controller ros-melodic-gazebo-ros-control ros-melodic-gazebo-ros-pkgs
 ##apt -y install ros-melodic-pcl-conversions ros-melodic-pcl-ros ros-melodic-laser-filters
