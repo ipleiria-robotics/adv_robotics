@@ -1,17 +1,17 @@
-adv-robotics
+Advanced Robotics
 ============
 
 Repository for the Advanced Robotics class, taught at the School of Tecnhology and Management, Polytechnic Institute of Leiria, Portugal.
 
-Content currently being updated for the 2nd semester of 2018/2019 with ROS Melodic and Ubuntu 18.04. For previous years, check the corresponding tags.
+Content currently being updated for the 2nd semester of 2020/2021 with ROS2 Foxy Fitzroy and Ubuntu 20.04. For previous years, check the corresponding tags.
 
 Created and maintained by Hugo Costelha <hugo.costelha@ipleiria.pt>
 
 Folder Contents
 ===============
 
- - scripts: folder with installation scripts. Download scripts install_RA.sh and run "bash install_RA.sh";
- - src: folder with the files used in the laboratory tutorials;
+ - scripts: folder with installation scripts. Download scripts install_RA.sh and install_ROS.sh and run "bash install_RA.sh";
+ - src: folder with the files used in the laboratory tutorial works;
  
 Getting the tutorials
 =====================

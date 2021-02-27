@@ -12,25 +12,20 @@ echo "--> Type the root password if asked, sit back, and relax..."
 sudo apt update
 sudo apt -y upgrade
 
-# IDE (see https://code.visualstudio.com/docs/setup/linux)
-# https://go.microsoft.com/fwlink/?LinkID=760868
-#sudo apt -y install curl
-#curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
-#sudo install -o root -g root -m 644 microsoft.gpg /etc/apt/trusted.gpg.d/
-#sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list'
-#sudo apt update
-#sudo apt -y install apt-transport-https
-#sudo apt -y install code
+# Visual Studio Code IDE (see https://code.visualstudio.com/docs/setup/linux)
 snap install --classic code
 
-
 # Other needed software
-sudo apt -y install screen mesa-utils nano firefox vlc browser-plugin-vlc xterm virtualenv	libgirepository1.0-dev
-sudo apt -y install python3-pip python3-catkin-pkg-modules python3-empy python3-rospkg-modules python3-flake8 python3-pep8 python3-numpy python3-opencv python3-matplotlib python3-scipy
-sudo apt -y install gimp unrar git gdb open-vm-tools open-vm-tools-desktop python3-virtualenv cc
+sudo apt -y install python3-pip python3-empy python3-flake8 python3-pep8 python3-numpy python3-opencv python3-matplotlib python3-scipy python3-argcomplete
+sudo apt -y install python3-colcon-common-extensions python3-catkin-pkg-modules python3-rospkg-modules python3-rosdep
+sudo apt -y install git gimp unrar vlc firefox screen kdiff3
+#sudo apt -y install  mesa-utils libgirepository1.0-dev
+#sudo apt -y install    gdb open-vm-tools open-vm-tools-desktop python3-virtualenv cc
 #sudo apt kde-workspace-randr kwrite texlive-latex-base vlc-plugin-pulse 
 #sudo apt -y remove kate
-# libfltk1.1-dev
+
+# Stage related
+sudo apt -y install libfltk1.3-dev
 
 # Gazebo installation
 #sudo sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list'
@@ -45,7 +40,6 @@ echo "Downloading the install ROS script"
 wget https://raw.githubusercontent.com/ipleiria-robotics/adv_robotics/master/scripts/install_ROS.sh
 echo "Installing ROS (you might need to type the root password)..."
 sudo sh install_ROS.sh
-rosdep update
 
 # Set up variables and Clone our gir repository, if not already cloned
 if [ ! -d "$HOME/ros" ]; then
@@ -53,26 +47,19 @@ if [ ! -d "$HOME/ros" ]; then
     echo "Setting ROS environment variables..." 
     echo "" >> $HOME/.bashrc
     echo "# ROS Environment variables" >> $HOME/.bashrc
-    echo ". /opt/ros/melodic/setup.bash" >> $HOME/.bashrc
-    echo ". $HOME/ros/devel/setup.bash" >> $HOME/.bashrc
-#    echo "ROS_PYTHON_VERSION=3" >> $HOME/.bashrc
+    #echo ". /opt/ros/foxy/setup.bash" >> $HOME/.bashrc
+    echo ". $HOME/ros/install/setup.bash" >> $HOME/.bashrc
   fi
-  git clone https://github.com/ipleiria-robotics/adv_robotics $HOME/ros
+  git clone --recurse-submodules https://github.com/ipleiria-robotics/adv_robotics $HOME/ros
 else
   echo "$HOME/ros already exists, proceeding..." 
 fi
-source "/opt/ros/melodic/setup.bash"
 
-#export ROS_PYTHON_VERSION=3
-# Create the Python virtual environment if it  does not exist yet
-if [ ! -d "$HOME/ros/py3env" ]; then
-  virtualenv ~/ros/py3env --python=python3
-fi
-source ~/ros/py3env/bin/activate
-pip install rospkg empy flake8 numpy matplotlib opencv-python PyGObject
-catkin_make -DPYTHON_EXECUTABLE:FILEPATH=~/ros/py3env/bin/python -C $HOME/ros
-
-source "$HOME/ros/devel/setup.bash"
+# Build our workspace
+source "/opt/ros/foxy/setup.bash"
+cd $HOME/ros
+colcon build --symlink-install
+source "$HOME/ros/install/setup.bash"
 
 # Qt
 #echo "Downloading update QtCreator script"
@@ -82,6 +69,6 @@ source "$HOME/ros/devel/setup.bash"
 
 # Some updates might need a restart, so lets do it just to be safe
 echo
-echo "Done! Restart your PC and proceed with the Advanced Robotics classes..."
+echo "If no errors appeared above, you are done! Restart your PC and proceed with the Advanced Robotics classes..."
 
 

@@ -1,7 +1,0 @@
-<launch>
-  <!-- Run our applications -->
-  <!-- Localization Node -->
-  <node pkg="lw2_apps" type="lw2_localization.py" name="localization_node" required="true" cwd="node" output="screen"/>
-  <!-- Navigation Node -->
-  <node pkg="lw2_apps" type="lw2_task_executor.py" name="task_executor_node" required="true" cwd="node" output="screen"/>
-</launch>

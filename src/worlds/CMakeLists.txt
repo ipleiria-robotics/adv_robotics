@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(markers_msgs)
+project(worlds)
 
 # Default to C99
 if(NOT CMAKE_C_STANDARD)
@@ -17,15 +17,9 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
-find_package(builtin_interfaces REQUIRED)
-find_package(std_msgs REQUIRED)
-
-# Message generation
-find_package(rosidl_default_generators REQUIRED)
-rosidl_generate_interfaces(${PROJECT_NAME}
-  "msg/Markers.msg"
-  DEPENDENCIES builtin_interfaces std_msgs
- )
+# uncomment the following section in order to fill in
+# further dependencies manually.
+# find_package(<dependency> REQUIRED)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
@@ -37,5 +31,18 @@ if(BUILD_TESTING)
   #set(ament_cmake_cpplint_FOUND TRUE)
   ament_lint_auto_find_test_dependencies()
 endif()
+
+# Install launch files.
+install(DIRECTORY
+  launch
+  DESTINATION share/${PROJECT_NAME}/
+)
+
+# Install world files.
+install(DIRECTORY
+  stage-worlds
+  DESTINATION share/${PROJECT_NAME}/
+)
+
 
 ament_package()

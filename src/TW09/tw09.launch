@@ -1,7 +1,0 @@
-<launch>
-  <!-- Run our applications -->
-  <!-- Localization Node -->
-  <node pkg="tw09" type="localization.py" name="localization_node" required="true" cwd="node" output="screen"/>
-  <!-- Navigation Node -->
-  <node pkg="tw09" type="navigation.py" name="navigation_node" required="true" cwd="node" output="screen"/>
-</launch>
