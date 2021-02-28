@@ -3,4 +3,4 @@
 	url = https://github.com/ipleiria-robotics/stage_ros.git
 [submodule "src/Stage"]
 	path = src/Stage
-	url = git@github.com:rtv/Stage.git
+	url = https://github.com/rtv/Stage.git
