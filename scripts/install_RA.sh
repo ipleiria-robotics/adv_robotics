@@ -17,7 +17,6 @@ snap install --classic code
 
 # Other needed software
 sudo apt -y install python3-pip python3-empy python3-flake8 python3-pep8 python3-numpy python3-opencv python3-matplotlib python3-scipy python3-argcomplete
-sudo apt -y install python3-colcon-common-extensions python3-catkin-pkg-modules python3-rospkg-modules python3-rosdep
 sudo apt -y install git gimp unrar vlc firefox screen kdiff3 curl
 #sudo apt -y install  mesa-utils libgirepository1.0-dev
 #sudo apt -y install    gdb open-vm-tools open-vm-tools-desktop python3-virtualenv cc
@@ -40,6 +39,8 @@ echo "Downloading the install ROS script"
 wget https://raw.githubusercontent.com/ipleiria-robotics/adv_robotics/master/scripts/install_ROS.sh
 echo "Installing ROS (you might need to type the root password)..."
 sudo sh install_ROS.sh
+# Relevant ROS-related packages
+sudo apt -y install python3-colcon-common-extensions python3-catkin-pkg-modules python3-rospkg-modules python3-rosdep
 
 # Set up variables and Clone our gir repository, if not already cloned
 if [ ! -d "$HOME/ros" ]; then
