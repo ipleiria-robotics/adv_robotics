@@ -1,7 +1,7 @@
 Advanced Robotics
 ============
 
-Repository for the Advanced Robotics class, taught at the School of Tecnhology and Management, Polytechnic Institute of Leiria, Portugal.
+Repository for the Advanced Robotics class, taught at the School of Tecnhology and Management, Polytechnic of Leiria, Portugal.
 
 Content currently being updated for the 2nd semester of 2020/2021 with ROS2 Foxy Fitzroy and Ubuntu 20.04. For previous years, check the corresponding tags.
 
