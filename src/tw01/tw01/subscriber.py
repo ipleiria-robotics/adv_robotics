@@ -38,7 +38,7 @@ from math import pi, atan2
 import sys
 
 
-def print_there(x, y, text):
+def printxy(x, y, text):
     '''Print in a specified screen position'''
     sys.stdout.write('\x1b[%d;%df%s' % (x, y, text))
 
@@ -59,13 +59,13 @@ def odomCallback(msg):
     # Clear the screen. Check these and other key sequences in:
     #   http://ascii-table.com/ansi-escape-sequences.php
     sys.stdout.write('\x1b[2J')
-    print_there(
+    printxy(
         1, 0,
         f'Robot estimated pose = {msg.pose.pose.position.x:.2f} [m], ' +
         f'{msg.pose.pose.position.y:.2f} [m], ' +
         f'{quaternionToYaw(msg.pose.pose.orientation)*180.0/pi:.2f} [°]')
 
-    print_there(
+    printxy(
         2, 0,
         f'Robot estimated velocity = {msg.twist.twist.linear.x:.2f} [m/s], '
         f'{msg.twist.twist.angular.z*180.0/pi:.2f} [°/s]')
@@ -79,7 +79,7 @@ def main(args=None):
     # Initiate python node
     rclpy.init(args=args)
     # Output some information to the screen top left
-    print_there(
+    printxy(
         0, 0,
         'Running tw01 - print robot pose and velocity...')
 
