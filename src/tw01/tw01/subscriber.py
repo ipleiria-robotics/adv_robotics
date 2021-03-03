@@ -45,8 +45,6 @@ def printxy(x, y, text):
 
 def quaternionToYaw(q):
     '''Returns the yaw in radians of a quaternion.
-    Reimplements part of euler_from_quaternion from the tf package because tf
-    doesn't play well in Python 3.
     '''
     t0 = 2.0 * (q.w * q.z + q.x * q.y)
     t1 = 1.0 - 2.0 * (q.y**2 + q.z**2)
