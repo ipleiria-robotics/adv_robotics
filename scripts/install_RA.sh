@@ -16,10 +16,16 @@ sudo apt -y upgrade
 snap install --classic code
 
 # Other needed software
+<<<<<<< HEAD
 sudo apt -y install python3-pip python3-empy python3-flake8 python3-pep8 python3-numpy python3-opencv python3-matplotlib python3-scipy python3-argcomplete
 sudo apt -y install git gimp unrar vlc firefox screen kdiff3 curl synaptic
 #sudo apt -y install  mesa-utils libgirepository1.0-dev
 #sudo apt -y install    gdb open-vm-tools open-vm-tools-desktop python3-virtualenv cc
+=======
+sudo apt -y install screen mesa-utils nano firefox vlc browser-plugin-vlc xterm python3-ros-dep
+sudo apt -y install python3-flake8 python3-pep8 python3-numpy python3-opencv python3-matplotlib python3-scipy
+sudo apt -y install gimp unrar git
+>>>>>>> 9bbb30263b13a580d2426fb96a8979a3f368ba27
 #sudo apt kde-workspace-randr kwrite texlive-latex-base vlc-plugin-pulse 
 #sudo apt -y remove kate
 
@@ -48,13 +54,26 @@ if [ ! -d "$HOME/ros" ]; then
     echo "Setting ROS environment variables..." 
     echo "" >> $HOME/.bashrc
     echo "# ROS Environment variables" >> $HOME/.bashrc
+<<<<<<< HEAD
     #echo ". /opt/ros/foxy/setup.bash" >> $HOME/.bashrc
     echo ". $HOME/ros/install/setup.bash" >> $HOME/.bashrc
+=======
+    echo ". /opt/ros/noetic/setup.bash" >> $HOME/.bashrc
+    echo ". $HOME/ros/devel/setup.bash" >> $HOME/.bashrc
+#    echo "ROS_PYTHON_VERSION=3" >> $HOME/.bashrc
+>>>>>>> 9bbb30263b13a580d2426fb96a8979a3f368ba27
   fi
   git clone --recurse-submodules https://github.com/ipleiria-robotics/adv_robotics $HOME/ros
 else
   echo "$HOME/ros already exists, proceeding..." 
 fi
+<<<<<<< HEAD
+=======
+source "/opt/ros/melodic/setup.bash"
+
+#pip install rospkg empy flake8 numpy matplotlib opencv-python PyGObject
+catkin_make -C $HOME/ros
+>>>>>>> 9bbb30263b13a580d2426fb96a8979a3f368ba27
 
 # Build our workspace
 source "/opt/ros/foxy/setup.bash"
