@@ -206,8 +206,6 @@ class BasicMapping(Node):
                 in the world frame;
                 - msg.ranges[i] ==> LRF i reading (distance from the LRF to the
                 beacon detected by the beacon at the i-th angle);
-
-                INSERT YOUR CODE BELOW THIS POINT ----v
                 '''
                 # Create obstacle position in sensor coordinates from i-th
                 # laser measurement
@@ -223,8 +221,8 @@ class BasicMapping(Node):
                 pt_in_map = np.array(
                     [round((self.map_width_meters/2. +
                             pt_in_world[0])/self.map_resolution),  # Col-x
-                        round((self.map_height_meters/2. +
-                               pt_in_world[1])/self.map_resolution)],  # Row-y
+                     round((self.map_height_meters/2. +
+                            pt_in_world[1])/self.map_resolution)],  # Row-y
                     dtype=np.int)
 
                 with self.lock:
@@ -247,10 +245,6 @@ class BasicMapping(Node):
                             + self.cell_delta_occ,
                             self.min_cell_value,
                             self.max_cell_value)
-
-                '''
-                ^---- INSERT YOUR CODE ABOVE THIS POINT
-                '''
 
             # Proceed to next laser measure
             angle += msg_laser.angle_increment
