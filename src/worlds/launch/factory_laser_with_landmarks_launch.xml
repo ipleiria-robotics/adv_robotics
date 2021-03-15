@@ -1,6 +1,6 @@
 <launch>
   <group>
-    <push-ros-namespace namespace="robot_0"/>
+    <!--  <push-ros-namespace namespace="robot_0"/> -->
     <!-- Run the stage simulator -->
     <node pkg="stage_ros" exec="stageros" name="stage" 
           args="$(find-pkg-share worlds)/stage-worlds/factory_laser_with_landmarks.world"
