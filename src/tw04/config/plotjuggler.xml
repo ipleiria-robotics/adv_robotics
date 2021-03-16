@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<root version="2.3.8">
+ <tabbed_widget parent="main_window" name="Main Window">
+  <Tab tab_name="tab1" containers="1">
+   <Container>
+    <DockSplitter count="1" sizes="1" orientation="-">
+     <DockArea name="...">
+      <plot style="Lines" mode="TimeSeries">
+       <range left="18350.700000" right="18410.700000" top="2.161214" bottom="-0.052713"/>
+       <limitY/>
+       <curve color="#1f77b4" name="odom_error"/>
+       <curve color="#d62728" name="pose_error"/>
+      </plot>
+     </DockArea>
+    </DockSplitter>
+   </Container>
+  </Tab>
+  <currentTabIndex index="0"/>
+ </tabbed_widget>
+ <use_relative_time_offset enabled="1"/>
+ <!-- - - - - - - - - - - - - - - -->
+ <!-- - - - - - - - - - - - - - - -->
+ <Plugins>
+  <plugin ID="DataLoad CSV">
+   <default time_axis=""/>
+  </plugin>
+  <plugin ID="DataLoad ROS2 bags">
+   <use_header_stamp value="false"/>
+   <discard_large_arrays value="true"/>
+   <max_array_size value="100"/>
+  </plugin>
+  <plugin ID="DataLoad ULog"/>
+  <plugin ID="MQTT Subscriber"/>
+  <plugin ID="ROS2 Topic Subscriber">
+   <use_header_stamp value="true"/>
+   <discard_large_arrays value="true"/>
+   <max_array_size value="true"/>
+   <selected_topics>
+    <topic name="/robot_0/base_pose_ground_truth"/>
+    <topic name="/robot_0/odom"/>
+    <topic name="/robot_0/pose"/>
+   </selected_topics>
+  </plugin>
+  <plugin ID="UDP Server"/>
+  <plugin ID="WebSocket Server"/>
+  <plugin ID="ZMQ Subscriber"/>
+  <plugin ID="ROS2 Topic Re-Publisher" status="idle"/>
+ </Plugins>
+ <!-- - - - - - - - - - - - - - - -->
+ <previouslyLoaded_Datafiles/>
+ <previouslyLoaded_Streamer name="ROS2 Topic Subscriber"/>
+ <!-- - - - - - - - - - - - - - - -->
+ <customMathEquations>
+  <snippet name="odom_error">
+   <global></global>
+   <function>return math.sqrt((v2-value)^2+(v3-v1)^2)</function>
+   <linkedSource>/robot_0/base_pose_ground_truth/pose/position/x</linkedSource>
+   <additionalSources>
+    <v1>/robot_0/base_pose_ground_truth/pose/position/y</v1>
+    <v2>/robot_0/odom/pose/position/x</v2>
+    <v3>/robot_0/odom/pose/position/y</v3>
+   </additionalSources>
+  </snippet>
+  <snippet name="pose_error">
+   <global></global>
+   <function>return math.sqrt((v2-value)^2+(v3-v1)^2)</function>
+   <linkedSource>/robot_0/base_pose_ground_truth/pose/position/x</linkedSource>
+   <additionalSources>
+    <v1>/robot_0/base_pose_ground_truth/pose/position/y</v1>
+    <v2>/robot_0/pose/position/x</v2>
+    <v3>/robot_0/pose/position/y</v3>
+   </additionalSources>
+  </snippet>
+ </customMathEquations>
+ <snippets/>
+ <!-- - - - - - - - - - - - - - - -->
+</root>
+
