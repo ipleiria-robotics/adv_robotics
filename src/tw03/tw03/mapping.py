@@ -36,7 +36,6 @@ from math import ceil, cos, sin
 import threading
 from skimage.draw import line_aa
 import cv2
-import PyKDL
 from ruamel.yaml import YAML
 
 # ROS API
@@ -44,11 +43,13 @@ import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import Pose2D, Pose, Point, Quaternion
 from nav_msgs.msg import Odometry, OccupancyGrid, MapMetaData
+from sensor_msgs.msg import LaserScan
 import message_filters
 from std_srvs.srv import Trigger
 
-# Our functions
-from sensor_msgs.msg import LaserScan
+# Our utility functions (using the ones from tw02)
+import tw02.utils as utils
+from tw03.LocalFrameWorldFrameTransformations import Point2D, local2World
 
 
 class BasicMapping(Node):
@@ -182,17 +183,11 @@ class BasicMapping(Node):
              round((self.map_height_meters/2. +
                     msg_odom.pose.pose.position.y)/self.map_resolution)],
             dtype=np.int)  # [Col-x, Row-y]
-        # Laser frame
-        laser_frame = PyKDL.Frame(
-            PyKDL.Rotation.Quaternion(
-                x=msg_odom.pose.pose.orientation.x,
-                y=msg_odom.pose.pose.orientation.y,
-                z=msg_odom.pose.pose.orientation.z,
-                w=msg_odom.pose.pose.orientation.w),
-            PyKDL.Vector(
-                x=msg_odom.pose.pose.position.x,
-                y=msg_odom.pose.pose.position.y,
-                z=msg_odom.pose.pose.position.z))
+        # Laser frame is centered with the robot pose
+        laser_frame = Pose2D(x=msg_odom.pose.pose.position.x,
+                             y=msg_odom.pose.pose.position.y,
+                             theta=utils.quaternionToYaw(
+                                msg_odom.pose.pose.orientation))
 
         # Go through all the LRF measurements
         angle = msg_laser.angle_min
@@ -209,20 +204,19 @@ class BasicMapping(Node):
                 '''
                 # Create obstacle position in sensor coordinates from i-th
                 # laser measurement
-                pt_in_laser = PyKDL.Vector(msg_laser.ranges[i]*cos(angle),
-                                           msg_laser.ranges[i]*sin(angle),
-                                           0.)
+                pt_in_laser = Point2D(x=msg_laser.ranges[i]*cos(angle),
+                                      y=msg_laser.ranges[i]*sin(angle))
                 # Transform obstacle position to world frame using the laser
                 # frame
-                pt_in_world = laser_frame * pt_in_laser
+                pt_in_world = local2World(laser_frame, pt_in_laser)
 
                 # Convert pt_in_world from world coordinates to map coordinates
                 # (must be int)
                 pt_in_map = np.array(
                     [round((self.map_width_meters/2. +
-                            pt_in_world[0])/self.map_resolution),  # Col-x
+                            pt_in_world.x)/self.map_resolution),  # Col-x
                      round((self.map_height_meters/2. +
-                            pt_in_world[1])/self.map_resolution)],  # Row-y
+                            pt_in_world.y)/self.map_resolution)],  # Row-y
                     dtype=np.int)
 
                 with self.lock:
