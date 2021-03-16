@@ -121,7 +121,7 @@ class BasicMapping(Node):
 
         # Setup publisher
         self.occ_grid_pub = \
-            self.create_publisher(OccupancyGrid, '/robot_0/map', 1)
+            self.create_publisher(OccupancyGrid, '/map', 1)
 
         # Run periodic callback (to publish the map)
         self.pubtimer = self.create_timer(5.0, self.timer_cb)
@@ -135,7 +135,7 @@ class BasicMapping(Node):
             curr_time = self.get_clock().now().to_msg()
             occ_grid = OccupancyGrid()
             occ_grid.header.stamp = curr_time
-            occ_grid.header.frame_id = f'{self.robot_name}/odom'
+            occ_grid.header.frame_id = f'odom'
             occ_grid.info = \
                 MapMetaData(
                     map_load_time=curr_time,
