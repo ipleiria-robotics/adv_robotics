@@ -29,15 +29,12 @@
 
 
 # Library packages needed
-from math import pi, atan2, radians, degrees, sqrt
-from threading import Lock
+from math import pi, atan2, radians
 
 # ROS API
 import rclpy
 from rclpy.node import Node
 from geometry_msgs.msg import Pose2D
-from nav_msgs.msg import Odometry
-import message_filters
 
 # ROS TF-related
 from geometry_msgs.msg import PoseStamped, Point
@@ -74,15 +71,6 @@ class Trilateration(Node):
              Point2D(self.X_MAX_POS, self.Y_MAX_POS),  # 3
              Point2D(self.X_MAX_POS, -self.Y_MAX_POS)]  # 4
 
-        # Localization related variables. Initially have None value, until
-        # we compute the robot localization our get the pose ground truth.
-        # Note that the ground truth is just here for debugging reasons, and
-        # should not be used in a real situation.
-        self.robot_ground_truth_pose = None  # Error-free pose for debugging
-        self.robot_estimated_pose = Pose2D()  # Our estimated robot pose
-        # Lock to access pose-related variables
-        self.pose_lock = Lock()
-
         # Robot name(space)
         self.robot_name = 'robot_0'
 
@@ -92,145 +80,89 @@ class Trilateration(Node):
         # Initialize the node itself
         super().__init__('tw04_localization')
 
-        # Setup subscribers
-        # Pose ground truth (for debugging purposes only)
-        self.create_subscription(Odometry,
-                                 f'/{self.robot_name}/base_pose_ground_truth',
-                                 self.pose_ground_truth_callback,
-                                 1)
-        # Markers
+        # Setup markers subscriber
         self.create_subscription(Markers, f'/{self.robot_name}/markers',
                                  self.markers_callback, 1)
 
-        # Setup publisher
+        # Setup velocity commands publisher
         self.pose_pub = self.create_publisher(PoseStamped,
                                               f'/{self.robot_name}/pose', 1)
-
-    def pose_ground_truth_callback(self, data: Odometry):
-        ''' Function to call whe new pose ground truth  information is
-        available. This is used only for debugging, and cannot be used in real
-        world applications '''
-
-        # Store received values
-        with self.pose_lock:
-            self.robot_ground_truth_pose = Pose2D(
-                x=data.pose.pose.position.x,
-                y=data.pose.pose.position.y,
-                theta=utils.quaternionToYaw(data.pose.pose.orientation))
 
     def markers_callback(self, msg: Markers):
         ''' Process received markers data '''
 
         self.get_logger().info(
-            'Got beacons message at ' +
-            f'{msg.header.stamp.sec}.{msg.header.stamp.nanosec}')
+            f'Got {msg.num_markers} beacons at time ' +
+            f'{msg.header.stamp.sec}.{msg.header.stamp.nanosec} sec')
 
         # If we have less then 3 beacons, return an error
-        if(msg.num_markers < 2):
+        if(msg.num_markers < 3):
             self.get_logger().warn('Unable to localize !!!')
             return
 
         # Display found beacons information
-        self.get_logger().info(f'Found {msg.num_markers} beacons.')
         for i in range(msg.num_markers):
             self.get_logger().info(
-                f'Beacon {msg.id[i]:.2f} : (range, bearing) = (' +
-                f'{msg.range[i]:.2f}, {msg.bearing[i]:.2f})')
+                f'Beacon {msg.id[i]:d} : (range, bearing) = (' +
+                f'{msg.range[i]:.2f} m, {msg.bearing[i]:.2f} °)')
+        print('---')
 
         # Compute the robot localization based on the three beacons found
         b1w = self.beacons_wpos[msg.id[0]-1]  # Beacon 1 world position
         b2w = self.beacons_wpos[msg.id[1]-1]  # Beacon 2 world position
+        b3w = self.beacons_wpos[msg.id[2]-1]  # Beacon 3 world position
 
         # Fill variables
         d1s = msg.range[0]*msg.range[0]
         d2s = msg.range[1]*msg.range[1]
+        d3s = msg.range[2]*msg.range[2]
         x1 = b1w.x
         y1 = b1w.y
         x2 = b2w.x
         y2 = b2w.y
+        x3 = b3w.x
+        y3 = b3w.y
 
-        if(y2 != y1):
-            # Compute A and B
-            A = (d1s-d2s-x1*x1+x2*x2-y1*y1+y2*y2)/(2*(y2-y1))
-            B = (x1-x2)/(y2-y1)
-            # Compute a, b and c
-            a = 1+B*B
-            b = -2*x1 + 2*A*B - 2*B*y1
-            c = A*A + x1*x1 + y1*y1 - 2*A*y1 - d1s
-            h1_x = (-b+sqrt(b*b-4*a*c))/(2*a)
-            h2_x = (-b-sqrt(b*b-4*a*c))/(2*a)
-            h1_y = A + B * h1_x
-            h2_y = A + B * h2_x
-        else:
-            # Compute E and F
-            E = (d1s-d2s-x1*x1+x2*x2-y1*y1+y2*y2)/(2*(x2-x1))
-            F = (y1-y2)/(x2-x1)
-            # Compute a, b and c
-            a = 1+F*F
-            b = -2*y1 + 2*E*F - 2*F*x1
-            c = E*E + x1*x1 + y1*y1 - 2*E*x1 - d1s
-            h1_y = (-b+sqrt(b*b-4*a*c))/(2*a)
-            h2_y = (-b-sqrt(b*b-4*a*c))/(2*a)
-            h1_x = E + F * h1_y
-            h2_x = E + F * h2_y
+        # Compute the robot position
+        # From the theoretical classes:
+        #   A = (d1s-d2s-x1*x1+x2*x2-y1*y1+y2*y2)/(2*(y2-y1))
+        #   B = (x1-x2)/(y2-y1)
+        #   C = (d2s-d3s-x2*x2+x3*x3-y2*y2+y3*y3)/(2*(y3-y2))
+        #   D = (x2-x3)/(y3-y2)
+        # with
+        #   robot_localized_pos->x = (A - C) / (D - B);
+        #   robot_localized_pos->y = A + B * robot_localized_pos->x;
+        # The following code implements the above expressions:
+        robot_estimated_pose = Pose2D()
+        robot_estimated_pose.x = 0.5 * \
+            ((y3-y2)*(d1s-d2s-x1*x1+x2*x2-y1*y1+y2*y2) -
+             (y2-y1)*(d2s-d3s-x2*x2+x3*x3-y2*y2+y3*y3)) / \
+            ((y2-y1)*(x2-x3)-(y3-y2)*(x1-x2))
+        robot_estimated_pose.y = 0.5 * \
+            ((x2-x3)*(d1s-d2s-x1*x1+x2*x2-y1*y1+y2*y2) -
+             (x1-x2)*(d2s-d3s-x2*x2+x3*x3-y2*y2+y3*y3)) / \
+            ((y2-y1)*(x2-x3)-(y3-y2)*(x1-x2))
 
-        with self.pose_lock:
-            # Check which of the hypothesis is the best.
-            if((h1_x > -self.X_MAX_POS) and (h1_x < self.X_MAX_POS) and
-               (h1_y > -self.Y_MAX_POS) and (h1_y < self.Y_MAX_POS)):
-                self.robot_estimated_pose.x = h1_x
-                self.robot_estimated_pose.y = h1_y
-            else:
-                self.robot_estimated_pose.x = h2_x
-                self.robot_estimated_pose.y = h2_y
+        # Compute the robot orientation
+        alpha0 = atan2(y1 - robot_estimated_pose.y,
+                       x1 - robot_estimated_pose.x)
+        robot_estimated_pose.theta = alpha0 - msg.bearing[0]
+        # Limit the angle between -PI and PI
+        if robot_estimated_pose.theta > pi:
+            robot_estimated_pose.theta -= 2*pi
+        elif robot_estimated_pose.theta < -pi:
+            robot_estimated_pose.theta += 2*pi
 
-            # Estimate the angle
-            alpha0 = atan2(y1 - self.robot_estimated_pose.y,
-                           x1 - self.robot_estimated_pose.x)
-            self.robot_estimated_pose.theta = alpha0 - msg.bearing[0]
-            # Limit the angle between -PI and PI
-            if self.robot_estimated_pose.theta > pi:
-                self.robot_estimated_pose.theta -= 2*pi
-            elif self.robot_estimated_pose.theta < -pi:
-                self.robot_estimated_pose.theta += 2*pi
-
-            # Publish the pose message
-            pose_to_publish = PoseStamped()
-            pose_to_publish.header.frame_id = self.base_frame_id
-            pose_to_publish.header.stamp = msg.header.stamp
-            pose_to_publish.pose.position = \
-                Point(x=self.robot_estimated_pose.x,
-                      y=self.robot_estimated_pose.y,
-                      z=0.)
-            pose_to_publish.pose.orientation = \
-                utils.rpyToQuaternion(0., 0., self.robot_estimated_pose.theta)
-            self.pose_pub.publish(pose_to_publish)
-
-            # Print the estimated pose
-            self.get_logger().info(
-                'Robot estimated pose: (X [m], Y [m], Theta [°] = (' +
-                f'{self.robot_estimated_pose.x:0.2f}, ' +
-                f'{self.robot_estimated_pose.y:0.2f}, ' +
-                f'{degrees(self.robot_estimated_pose.theta):0.2f})')
-
-            # Print the estimated error given the last ground truth pose
-            if self.robot_ground_truth_pose is not None:
-                # This is just for debuggin purposes and would not be used in
-                # the real application
-                angle_error = self.robot_estimated_pose.theta - \
-                    self.robot_ground_truth_pose.theta
-                # Limit the angle error between -PI and PI
-                if angle_error > pi:
-                    angle_error -= 2*pi
-                elif angle_error < -pi:
-                    angle_error += 2*pi
-                self.get_logger().info(
-                    f'Robot pose error (X [m], Y [m], Theta [°])= (' +
-                    f'''{self.robot_estimated_pose.x -
-                         self.robot_ground_truth_pose.x:.2f}, ''' +
-                    f'''{self.robot_estimated_pose.y -
-                         self.robot_ground_truth_pose.y:.2f}, ''' +
-                    f'{angle_error:.2f})\n---')
+        # Publish the pose message. It needs to be PoseStamped, a 3D pose with
+        # a timestamp. We will create one from the robot_estimated_pose.
+        pose_to_publish = PoseStamped()
+        pose_to_publish.header.frame_id = self.base_frame_id
+        pose_to_publish.header.stamp = msg.header.stamp
+        pose_to_publish.pose.position = \
+            Point(x=robot_estimated_pose.x, y=robot_estimated_pose.y, z=0.)
+        pose_to_publish.pose.orientation = \
+            utils.rpyToQuaternion(0., 0., robot_estimated_pose.theta)
+        self.pose_pub.publish(pose_to_publish)
 
 
 def main(args=None):
