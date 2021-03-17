@@ -78,24 +78,10 @@ class BasicMapping(Node):
                            -height_px/2.*self.map_resolution,  # y
                            0.]  # z
 
-        # All map points are initialized with 127 (unkown)
+        # All map points are initialized with 64 (unknown)
         # TODO: The size could be computed and updated in real-time
         self.occ_map = np.full((height_px, width_px),
                                self.unkown_cell_value, np.int8)
-
-        # Control iterations between map file updates
-        self.iteration = 0
-
-        # Internal variables
-        self.robot_pose = Pose2D()
-        self.robot_lin_vel = 0.0  # Store current linear velocity
-        self.robot_ang_vel = 0.0  # Store current angular velocity
-        self.closest_front_obstacle = 0.0
-        self.closest_left_obstacle = 0.0
-        self.closest_right_obstacle = 0.0
-        self.odom_updated = False  # True if we got an odometry update
-        self.laser_updated = False  # True if we got a laser data update
-        self.end_program = False  # End infinite loop when True
 
         # Create robot related objects
         #
@@ -104,10 +90,10 @@ class BasicMapping(Node):
         # Initialize the node itself
         super().__init__('tw03_mapping')
 
-        # TF related initializations
+        # Prevent simultaneous read/write to the class variables
         self.lock = threading.Lock()
 
-        # Setup subscribers using a TimeSynchronizer filter
+        # Setup subscribers using a ApproximateTimeSynchronizer filter
         # Odometry
         self.sub_odom = message_filters.Subscriber(self, Odometry,
                                                    f'{self.robot_name}/odom')
@@ -195,12 +181,6 @@ class BasicMapping(Node):
             if(msg_laser.ranges[i] > msg_laser.range_min):
                 '''
                 Update map with each sensor reading.
-
-                Important variables (already defined and available):
-                - (robot_pose.x, robot_pose.y, robot_pose.theta) ==> Robot pose
-                in the world frame;
-                - msg.ranges[i] ==> LRF i reading (distance from the LRF to the
-                beacon detected by the beacon at the i-th angle);
                 '''
                 # Create obstacle position in sensor coordinates from i-th
                 # laser measurement
@@ -221,15 +201,15 @@ class BasicMapping(Node):
 
                 with self.lock:
                     # Update map for free space considering a line from the
-                    # laser up the detected laser point. The first and last
-                    # point are not included.
+                    # laser up the detected laser point. The last point is
+                    # not included.
                     # In numpy we need to access the matrices as [row, col]
                     rr, cc, val = line_aa(laser_map_coord[1],
                                           laser_map_coord[0],
                                           pt_in_map[1], pt_in_map[0])
-                    self.occ_map[rr[1:-1], cc[1:-1]] = \
-                        np.clip(self.occ_map[rr[1:-1], cc[1:-1]]
-                                + val[1:-1] * self.cell_delta_free,
+                    self.occ_map[rr[0:-1], cc[0:-1]] = \
+                        np.clip(self.occ_map[rr[0:-1], cc[0:-1]]
+                                + val[0:-1] * self.cell_delta_free,
                                 self.min_cell_value, self.max_cell_value)
 
                     # Update map for occupied space (last point), if applicable
