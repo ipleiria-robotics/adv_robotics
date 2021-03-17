@@ -83,12 +83,12 @@ class BasicNavigation(Node):
 
         # Setup subscriber for the laser scan
         self.create_subscription(LaserScan, '/robot_0/base_scan',
-                                 self.laserCallback, 1)
+                                 self.laser_cb, 1)
 
         # Setup publisher
         self.vel_pub = self.create_publisher(Twist, '/robot_0/cmd_vel', 1)
 
-    def laserCallback(self, msg: LaserScan):
+    def laser_cb(self, msg: LaserScan):
         ''' Update distance to closest obstacles and controll the robot
         bsed on those detected obstacles '''
 
