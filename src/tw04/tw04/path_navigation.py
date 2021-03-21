@@ -34,7 +34,7 @@ import numpy as np
 # ROS API
 import rclpy
 from rclpy.node import Node
-from nav_msgs.msg import Odometry
+from nav_msgs.msg import Odometry, Path
 from geometry_msgs.msg import Twist, PoseStamped, Pose2D
 from rcl_interfaces.msg import ParameterDescriptor
 from rcl_interfaces.msg import ParameterType
@@ -70,18 +70,9 @@ class BasicPathNavigation(Node):
         self.curr_target = 0  # Current target location index
         self.Kp_lin_vel = 1.0  # Proportional gain for the linear vel. control
         self.Kp_ang_vel = 3.0  # Propostional gain for the angular vel. control
-        self.min_distance = 0.1  # Minimum acceptance distance to target
+        self.min_distance = 0.08  # Minimum acceptance distance to target
         self.max_angle_to_target = radians(30.0)
         self.first_run = True  # True if the callback was never called
-
-        # Array of points to be followed:
-        self.targets = [Point2D(-2.6, -1.7),  # 1
-                        Point2D(-2.6, 1.7),  # 2
-                        Point2D(0.0, 0.4),  # 3
-                        Point2D(2.6, 1.7),  # 4
-                        Point2D(2.6, -1.7),  # 5
-                        Point2D(0.0, -0.4)]  # 6
-        self.num_targets = len(self.targets)
 
         # Initialize the node itself
         super().__init__('tw04_path_navigation')
@@ -99,7 +90,7 @@ class BasicPathNavigation(Node):
         self.declare_parameter('ref_ang_vel', radians(30),
                                ref_ang_vel_param_desc)
 
-        # Setup odometry or pose susbcriber
+        # Setup odometry or pose susbcriber, according to USE_ODOM
         if USE_ODOM:  # Use odometry
             self.create_subscription(Odometry, f'/{self.robot_name}/odom',
                                      self.pose_cb, 1)
@@ -111,7 +102,53 @@ class BasicPathNavigation(Node):
         self.vel_pub = self.create_publisher(Twist,
                                              f'/{self.robot_name}/cmd_vel', 1)
 
+        # Setup publisher for the (coarse) navigation path
+        self.path_pub = self.create_publisher(Path,
+                                              f'/{self.robot_name}/path', 1)
+
+        # Array of points to be followed. These will be converted to
+        # PoseStamped 
+        targets = [Point2D(-2.6, -1.7),  # 0
+                   Point2D(-2.6, 1.7),  # 1
+                   Point2D(0.0, 0.4),  # 2
+                   Point2D(2.6, 1.7),  # 3
+                   Point2D(2.6, -1.7),  # 4
+                   Point2D(0.0, -0.5)]  # 5
+        self.num_targets = len(targets)
+        
+        # Store and publish the (fixed) path
+        self.global_path = Path()
+        self.global_path.header.stamp = self.get_clock().now().to_msg()
+        self.global_path.header.frame_id = 'map'  # TODO: make this a parameter
+        for i in range(self.num_targets+1):  # +1 to return to the 1st target
+            # For the path we need to have a PoseStamped, which means we need
+            # to include the orientation. We will use as orientation the angle
+            # 0, since it later on we will only use the position to navigate.
+            pose = PoseStamped()
+            # We are not using the time for now, so just use the same for all
+            pose.header.stamp = self.global_path.header.stamp
+            # The reference frame is the same global frame for all points
+            pose.header.frame_id = self.global_path.header.frame_id
+            # Get the position from the targets list
+            pose.pose.position.x = targets[i % self.num_targets].x
+            pose.pose.position.y = targets[i % self.num_targets].y
+            pose.pose.position.z = 0.0
+            # Orientation will not be used, use "0"
+            pose.pose.orientation.x = 0.0
+            pose.pose.orientation.y = 0.0
+            pose.pose.orientation.z = 0.0
+            pose.pose.orientation.w = 1.0
+            # Add to the path
+            self.global_path.poses.append(pose)
+
+        # Publish the path
+        self.path_pub.publish(self.global_path)
+
     def pose_cb(self, msg):
+        '''
+            Navigation callback, executes on odometry or pose message received
+        '''
+
         if USE_ODOM:  # Get robot pose from the odometry message
             robot_pose = Pose2D(
                 x=msg.pose.pose.position.x,
@@ -131,27 +168,34 @@ class BasicPathNavigation(Node):
             self.first_run = False
             lowest_sq_distance = inf
             for i in range(self.num_targets):
-                new_sq_distance = (robot_pose.x-self.targets[i].x)**2 + \
-                                  (robot_pose.y-self.targets[i].y)**2
+                new_sq_distance = (robot_pose.x-self.global_path.poses[i].pose.position.x)**2 + \
+                                  (robot_pose.y-self.global_path.poses[i].pose.position.y)**2
                 if(new_sq_distance < lowest_sq_distance):
                     lowest_sq_distance = new_sq_distance
-                    self.curr_target = i
+                    self.curr_target_idx = i
+            self.curr_target = \
+                Point2D(self.global_path.poses[self.curr_target_idx].pose.position.x,
+                        self.global_path.poses[self.curr_target_idx].pose.position.y)
 
         # Compute the squared distance to the target
-        distance = (robot_pose.x-self.targets[self.curr_target].x)**2 + \
-                   (robot_pose.y-self.targets[self.curr_target].y)**2
+        distance = (robot_pose.x-self.curr_target.x)**2 + \
+                   (robot_pose.y-self.curr_target.y)**2
         # If the distance is small enough, proceed to the next target
         if(distance < self.min_distance):
-            self.curr_target = (self.curr_target + 1) % self.num_targets
-            self.get_logger().info(f'Going for target {self.curr_target+1}')
+            self.curr_target_idx = \
+                (self.curr_target_idx + 1) % self.num_targets
+            self.get_logger().info(f'Going for target {self.curr_target_idx}')
+            # Update target and recompute distance
+            self.curr_target = \
+                Point2D(self.global_path.poses[self.curr_target_idx].pose.position.x,
+                        self.global_path.poses[self.curr_target_idx].pose.position.y)
             # Recompute distance to the new target
-            distance = (robot_pose.x-self.targets[self.curr_target].x)**2 + \
-                       (robot_pose.y-self.targets[self.curr_target].y)**2
+            distance = (robot_pose.x-self.curr_target.x)**2 + \
+                       (robot_pose.y-self.curr_target.y)**2
 
         # The angular velocity will be proportional to the angle of the target
         # as seen by the robot.
-        target_local_pos = world2Local(robot_pose,
-                                       self.targets[self.curr_target])
+        target_local_pos = world2Local(robot_pose, self.curr_target)
         angle_to_target = atan2(target_local_pos.y, target_local_pos.x)
         ang_vel = self.Kp_ang_vel * angle_to_target
 

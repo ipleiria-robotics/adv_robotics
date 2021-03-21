@@ -1,6 +1,6 @@
 # Factory World (setup similar to the one used in the Portuguese Robotics Open)
 # Authors: Hugo Costelha
-# 13/03/2013
+# 20/03/2021
 
 include "pioneer.inc"
 include "map.inc"
