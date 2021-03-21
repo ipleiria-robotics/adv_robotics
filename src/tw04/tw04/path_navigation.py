@@ -107,7 +107,7 @@ class BasicPathNavigation(Node):
                                               f'/{self.robot_name}/path', 1)
 
         # Array of points to be followed. These will be converted to
-        # PoseStamped 
+        # PoseStamped below.
         targets = [Point2D(-2.6, -1.7),  # 0
                    Point2D(-2.6, 1.7),  # 1
                    Point2D(0.0, 0.4),  # 2
@@ -115,7 +115,7 @@ class BasicPathNavigation(Node):
                    Point2D(2.6, -1.7),  # 4
                    Point2D(0.0, -0.5)]  # 5
         self.num_targets = len(targets)
-        
+
         # Store and publish the (fixed) path
         self.global_path = Path()
         self.global_path.header.stamp = self.get_clock().now().to_msg()
@@ -168,14 +168,17 @@ class BasicPathNavigation(Node):
             self.first_run = False
             lowest_sq_distance = inf
             for i in range(self.num_targets):
-                new_sq_distance = (robot_pose.x-self.global_path.poses[i].pose.position.x)**2 + \
-                                  (robot_pose.y-self.global_path.poses[i].pose.position.y)**2
+                new_sq_distance = \
+                    (robot_pose.x -
+                     self.global_path.poses[i].pose.position.x)**2 + \
+                    (robot_pose.y -
+                     self.global_path.poses[i].pose.position.y)**2
                 if(new_sq_distance < lowest_sq_distance):
                     lowest_sq_distance = new_sq_distance
                     self.curr_target_idx = i
-            self.curr_target = \
-                Point2D(self.global_path.poses[self.curr_target_idx].pose.position.x,
-                        self.global_path.poses[self.curr_target_idx].pose.position.y)
+            self.curr_target = Point2D(
+                self.global_path.poses[self.curr_target_idx].pose.position.x,
+                self.global_path.poses[self.curr_target_idx].pose.position.y)
 
         # Compute the squared distance to the target
         distance = (robot_pose.x-self.curr_target.x)**2 + \
@@ -186,9 +189,9 @@ class BasicPathNavigation(Node):
                 (self.curr_target_idx + 1) % self.num_targets
             self.get_logger().info(f'Going for target {self.curr_target_idx}')
             # Update target and recompute distance
-            self.curr_target = \
-                Point2D(self.global_path.poses[self.curr_target_idx].pose.position.x,
-                        self.global_path.poses[self.curr_target_idx].pose.position.y)
+            self.curr_target = Point2D(
+                self.global_path.poses[self.curr_target_idx].pose.position.x,
+                self.global_path.poses[self.curr_target_idx].pose.position.y)
             # Recompute distance to the new target
             distance = (robot_pose.x-self.curr_target.x)**2 + \
                        (robot_pose.y-self.curr_target.y)**2
