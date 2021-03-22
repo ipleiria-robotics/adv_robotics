@@ -49,7 +49,7 @@ MAX_LIN_VEL = 1.0  # [m/s]
 MAX_ANG_VEL = radians(90)  # [rad/s]
 
 # Wether to use odometry or the localization pose
-USE_ODOM = False
+USE_ODOM = True
 
 
 class BasicPathNavigation(Node):
@@ -66,16 +66,13 @@ class BasicPathNavigation(Node):
         self.robot_name = 'robot_0'
 
         # Internal navigation variables
-        self.velocity_at_target = 0  # Desired velocity at next target
         self.curr_target = 0  # Current target location index
-        self.Kp_lin_vel = 1.0  # Proportional gain for the linear vel. control
-        self.Kp_ang_vel = 3.0  # Propostional gain for the angular vel. control
         self.min_distance = 0.08  # Minimum acceptance distance to target
         self.max_angle_to_target = radians(30.0)
         self.first_run = True  # True if the callback was never called
 
         # Initialize the node itself
-        super().__init__('tw04_path_navigation')
+        super().__init__('path_navigation')
 
         # Parameters
         # Maximum linear velocity
@@ -89,6 +86,22 @@ class BasicPathNavigation(Node):
                                 description='reference angular velocity!')
         self.declare_parameter('ref_ang_vel', radians(30),
                                ref_ang_vel_param_desc)
+        # Minimum linear velocity throughout the navigation
+        base_line_vel_param_desc = ParameterDescriptor(
+            type=ParameterType.PARAMETER_DOUBLE,
+            description='Linear velocity at the target!')
+        self.declare_parameter('base_line_vel', 0.0,
+                               base_line_vel_param_desc)
+        # Linear velocity proportional controller gain
+        kp_lin_vel_param_desc = ParameterDescriptor(
+            type=ParameterType.PARAMETER_DOUBLE,
+            description='Linear velocity proportional controller gain!')
+        self.declare_parameter('kp_lin_vel', 1.0,  kp_lin_vel_param_desc)
+        # Angular velocity proportional controller gain
+        kp_ang_vel_param_desc = ParameterDescriptor(
+            type=ParameterType.PARAMETER_DOUBLE,
+            description='Angular velocity proportional controller gain!')
+        self.declare_parameter('kp_ang_vel', 3.0,  kp_ang_vel_param_desc)
 
         # Setup odometry or pose susbcriber, according to USE_ODOM
         if USE_ODOM:  # Use odometry
@@ -200,15 +213,21 @@ class BasicPathNavigation(Node):
         # as seen by the robot.
         target_local_pos = world2Local(robot_pose, self.curr_target)
         angle_to_target = atan2(target_local_pos.y, target_local_pos.x)
-        ang_vel = self.Kp_ang_vel * angle_to_target
+        kp_ang_vel = self.get_parameter(
+            'kp_ang_vel').get_parameter_value().double_value
+        ang_vel = kp_ang_vel * angle_to_target
 
         # The linear velocity will be proportional to the distance, increased
         # with the target velocity. We actually use the squared distance just
         # for performance reasons.
+        base_line_vel = self.get_parameter(
+            'base_line_vel').get_parameter_value().double_value
         if(abs(angle_to_target) < self.max_angle_to_target):
-            lin_vel = self.Kp_lin_vel * distance + self.velocity_at_target
+            kp_lin_vel = self.get_parameter(
+                'kp_lin_vel').get_parameter_value().double_value
+            lin_vel = kp_lin_vel * distance + base_line_vel
         else:
-            lin_vel = 0.
+            lin_vel = base_line_vel
 
         # Limit maximum velocities
         lin_vel = np.clip(lin_vel, -MAX_LIN_VEL, MAX_LIN_VEL)
