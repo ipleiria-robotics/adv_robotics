@@ -87,11 +87,11 @@ class BasicPathNavigation(Node):
         self.declare_parameter('ref_ang_vel', radians(30),
                                ref_ang_vel_param_desc)
         # Minimum linear velocity throughout the navigation
-        base_line_vel_param_desc = ParameterDescriptor(
+        base_lin_vel_param_desc = ParameterDescriptor(
             type=ParameterType.PARAMETER_DOUBLE,
             description='Linear velocity at the target!')
-        self.declare_parameter('base_line_vel', 0.0,
-                               base_line_vel_param_desc)
+        self.declare_parameter('base_lin_vel', 0.0,
+                               base_lin_vel_param_desc)
         # Linear velocity proportional controller gain
         kp_lin_vel_param_desc = ParameterDescriptor(
             type=ParameterType.PARAMETER_DOUBLE,
@@ -220,14 +220,14 @@ class BasicPathNavigation(Node):
         # The linear velocity will be proportional to the distance, increased
         # with the target velocity. We actually use the squared distance just
         # for performance reasons.
-        base_line_vel = self.get_parameter(
-            'base_line_vel').get_parameter_value().double_value
+        base_lin_vel = self.get_parameter(
+            'base_lin_vel').get_parameter_value().double_value
         if(abs(angle_to_target) < self.max_angle_to_target):
             kp_lin_vel = self.get_parameter(
                 'kp_lin_vel').get_parameter_value().double_value
-            lin_vel = kp_lin_vel * distance + base_line_vel
+            lin_vel = kp_lin_vel * distance + base_lin_vel
         else:
-            lin_vel = base_line_vel
+            lin_vel = base_lin_vel
 
         # Limit maximum velocities
         lin_vel = np.clip(lin_vel, -MAX_LIN_VEL, MAX_LIN_VEL)
