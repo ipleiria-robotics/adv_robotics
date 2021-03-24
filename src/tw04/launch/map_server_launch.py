@@ -28,6 +28,7 @@
 # POSSIBILITY OF SUCH DAMAGE
 
 from launch import LaunchDescription
+# from launch_ros.descriptions import ParameterFile
 import launch_ros.actions
 from ament_index_python.packages import get_package_share_directory
 import os
@@ -41,8 +42,11 @@ def generate_launch_description():
     map_config = os.path.join(
         get_package_share_directory('tw04'),
         'config',
-        'map_server_params.yaml'
+        'map.yaml'
     )
+    # TODO: Use the ParameterFile when available, and the
+    # map_server_params.yaml file
+    # parameters = [ParameterFile(map_config, allow_substs=True)]
 
     # Nodes launching commands
     start_map_server_cmd = launch_ros.actions.Node(
@@ -50,7 +54,9 @@ def generate_launch_description():
             executable='map_server',
             output='screen',
             emulate_tty=True,  # https://github.com/ros2/launch/issues/188
-            parameters=[map_config])
+            parameters=[{'yaml_filename': map_config},
+                        {'frame_id': 'map'}])
+            #parameters=[map_config])
 
     start_lifecycle_manager_cmd = launch_ros.actions.Node(
             package='nav2_lifecycle_manager',
