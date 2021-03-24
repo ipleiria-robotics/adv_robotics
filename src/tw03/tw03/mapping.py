@@ -34,7 +34,7 @@ import numpy as np
 # Library packages needed
 from math import ceil, cos, sin
 import threading
-from skimage.draw import line_aa
+from skimage.draw import line
 import cv2
 from ruamel.yaml import YAML
 
@@ -204,12 +204,12 @@ class BasicMapping(Node):
                     # laser up the detected laser point. The last point is
                     # not included.
                     # In numpy we need to access the matrices as [row, col]
-                    rr, cc, val = line_aa(laser_map_coord[1],
-                                          laser_map_coord[0],
-                                          pt_in_map[1], pt_in_map[0])
+                    rr, cc = line(laser_map_coord[1],
+                                  laser_map_coord[0],
+                                  pt_in_map[1], pt_in_map[0])
                     self.occ_map[rr[0:-1], cc[0:-1]] = \
                         np.clip(self.occ_map[rr[0:-1], cc[0:-1]]
-                                + val[0:-1] * self.cell_delta_free,
+                                + self.cell_delta_free,
                                 self.min_cell_value, self.max_cell_value)
 
                     # Update map for occupied space (last point), if applicable
