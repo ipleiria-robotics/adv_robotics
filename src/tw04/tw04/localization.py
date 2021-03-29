@@ -104,8 +104,7 @@ class Trilateration(Node):
         for i in range(msg.num_markers):
             self.get_logger().info(
                 f'Beacon {msg.id[i]:d} : (range, bearing) = (' +
-                f'{msg.range[i]:.2f} m, {msg.bearing[i]:.2f} °)')
-        print('---')
+                f'{msg.range[i]:.2f} m, {msg.bearing[i]:.2f} °)\n---')
 
         # Compute the robot localization based on the three beacons found
         b1w = self.beacons_wpos[msg.id[0]-1]  # Beacon 1 world position
