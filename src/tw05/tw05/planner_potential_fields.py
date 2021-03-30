@@ -254,7 +254,6 @@ class PlannerPotentialFields(Node):
         '''
         Compute atractive potential map
         '''
-
         # Get the robot goal position in the cell coordinates
         curr_target_px = utils.meter2cell(
             Point2D(x=msg_goal_pose.pose.position.x,
