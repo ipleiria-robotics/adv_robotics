@@ -268,9 +268,7 @@ class PlannerPotentialFields(Node):
                 ###############################################################
                 # Compute here the atractive potential to add
                 ###############################################################
-                atractive_pot[yr, xr] = self.ka * \
-                    ((xr-curr_target_px.x)**2 + (yr-curr_target_px.y)**2) * \
-                    (self.new_map_resolution**2)
+                # atractive_pot[yr, xr] = ...
                 ###############################################################
 
                 if(atractive_pot[yr, xr] > max_atr_value):

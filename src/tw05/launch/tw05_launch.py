@@ -81,7 +81,7 @@ def generate_launch_description():
     start_planner_cmd = launch_ros.actions.Node(
             package='tw05',
             executable='potential_fields_planner',
-            name='tw05_potential_fields_planned',
+            name='tw05_potential_fields_planner',
             output='screen',
             emulate_tty=True,
             parameters=[{'use_sim_time': use_sim_time}],
