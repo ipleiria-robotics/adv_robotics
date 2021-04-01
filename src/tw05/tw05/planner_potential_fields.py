@@ -316,8 +316,8 @@ class PlannerPotentialFields(Node):
                 size_y=dbg_res_pot.shape[0],
                 origin=self.map_origin
             )
-            # Get the data from the resulting potential, scaled to 253
-            costmap_data = np.asarray(resulting_pot/max_res_val*253.,
+            # Get the data from the resulting potential, scaled to 254
+            costmap_data = np.asarray(resulting_pot/max_res_val*254.,
                                       dtype=np.uint8)
             # Set all obstacles to 254
             costmap_data[self.resized_map == 100] = 254
