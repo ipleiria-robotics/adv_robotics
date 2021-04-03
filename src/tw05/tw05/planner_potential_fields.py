@@ -375,7 +375,7 @@ class PlannerPotentialFields(Node):
             # Store position
             pose.pose.position.x = curr_target_meters.x
             pose.pose.position.y = curr_target_meters.y
-            pose.pose.position.z = curr_target_meters.theta
+            pose.pose.position.z = 0.0
             # Store orientation
             pose.pose.orientation = utils.rpyToQuaternion(
                 0., 0., curr_target_meters.theta)
