@@ -53,13 +53,16 @@ def generate_launch_description():
     ld.add_action(included_map_server_launch)
 
     # RViz node
-    start_localization_cmd = launch_ros.actions.Node(
+    rviz_config = os.path.join(get_package_share_directory('tw06'),
+                               'config', 'config.rviz')
+    start_rviz_cmd = launch_ros.actions.Node(
             package='rviz2',
             executable='rviz2',
             output='screen',
             emulate_tty=True,
-            parameters=[{'use_sim_time': use_sim_time}])
-    ld.add_action(start_localization_cmd)
+            parameters=[{'use_sim_time': use_sim_time}],
+            arguments=['-d', rviz_config])
+    ld.add_action(start_rviz_cmd)
 
     # Localization node (from TW04)
     start_localization_cmd = launch_ros.actions.Node(

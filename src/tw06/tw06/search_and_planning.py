@@ -316,14 +316,14 @@ class SearchAndPlanning(Node):
                 ###############################################################
                 # Put code here to update nodesToExplore (Depth-first search)
                 ###############################################################
-                # REPLACE ME
+                pass # REPLACE ME
 
                 ###############################################################
             elif(search_type == SearchMethods.BREADTH_FIRST):
                 ###############################################################
                 # Put code here to update nodesToExplore (Breadth-first search)
                 ###############################################################
-                # REPLACE ME
+                pass # REPLACE ME
 
                 ###############################################################
             elif(search_type == SearchMethods.A_STAR):
