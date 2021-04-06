@@ -41,7 +41,7 @@ import cv2
 from nav_msgs.msg import OccupancyGrid
 from cv_bridge import CvBridge
 
-MAP_FREE_THRESHOLD = 50
+MAP_FREE_THRESHOLD = 40
 
 
 class MapPoint:
@@ -102,13 +102,13 @@ class Node:
          - We use MapPoint type to store the row/column displacement
         '''
         self.actions_ = deque()
-        # Down - stay in the same column (x), move one row (y) down
+        # Up - stay in the same column (x), move one row (y) down
         self.actions_.append(Action(0, 1))
         # Right
         self.actions_.append(Action(1, 0))
         # Left
         self.actions_.append(Action(-1, 0))
-        # Up
+        # Down
         self.actions_.append(Action(0, -1))
 
         # Add all actions as unborn children
@@ -178,15 +178,15 @@ class Graph:
         '''Stores the map and initializes internal variables'''
         self.nodes_list_ = dict()
 
-        # Image - ROS msg conversion
-        self.cvbridge = CvBridge()
-
         # Store our own copy of the map (it contains occupancy grid-like
         # values)
         self.map_ = occgrid_map
 
         # If debug mode is on, create auxialiary debug image
         if debug_mode:
+            # Image - ROS msg conversion
+            self.cvbridge_ = CvBridge()
+
             self.debug_mode = True
             # Initialize the debug imageto 128 (unknown)
             dbg_img = np.full(occgrid_map.shape, 128, dtype=np.uint8)
@@ -244,7 +244,7 @@ class Graph:
             print('Debug mode was not activated during initialization')
         else:
             # Publish graph image converted to a ROS message.
-            img_to_publish = self.cvbridge.cv2_to_imgmsg(
+            img_to_publish = self.cvbridge_.cv2_to_imgmsg(
                 np.flipud(self.dbg_img), encoding='bgr8')
             img_to_publish.header.stamp = stamp
             img_to_publish.header.frame_id = frame_id
@@ -260,7 +260,7 @@ class Graph:
             logger.info(f' --> {node.label}')
             if self.debug_mode:
                 self.dbg_img[node.y, node.x] = [0, 255, 0]
-                img_to_publish = self.cvbridge.cv2_to_imgmsg(
+                img_to_publish = self.cvbridge_.cv2_to_imgmsg(
                     np.flipud(self.dbg_img), encoding='bgr8')
                 img_to_publish.header.stamp = stamp
                 img_to_publish.header.frame_id = frame_id
