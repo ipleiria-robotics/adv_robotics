@@ -18,6 +18,7 @@ from ament_index_python.packages import get_package_share_directory
 
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, SetEnvironmentVariable
+from launch.conditions import IfCondition
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 from nav2_common.launch import RewrittenYaml
@@ -28,14 +29,16 @@ def generate_launch_description():
     bringup_dir = get_package_share_directory('nav2_bringup')
 
     namespace = LaunchConfiguration('namespace')
+    use_localization = LaunchConfiguration('use_localization')
     map_yaml_file = LaunchConfiguration('map')
     use_sim_time = LaunchConfiguration('use_sim_time')
     autostart = LaunchConfiguration('autostart')
     params_file = LaunchConfiguration('params_file')
     lifecycle_nodes = ['map_server', 'amcl']
 
-    # Map fully qualified names to relative ones so the node's namespace can be prepended.
-    # In case of the transforms (tf), currently, there doesn't seem to be a better alternative
+    # Map fully qualified names to relative ones so the node's namespace can be
+    # prepended. In case of the transforms (tf), currently, there doesn't seem
+    # to be a better alternative.
     # https://github.com/ros/geometry2/issues/32
     # https://github.com/ros/robot_state_publisher/pull/30
     # TODO(orduno) Substitute with `PushNodeRemapping`
@@ -63,8 +66,14 @@ def generate_launch_description():
             description='Top-level namespace'),
 
         DeclareLaunchArgument(
+            'use_localization', default_value='True',
+            description='Whether run localization. If False, only the map '
+                        + ' server runs.'),
+
+        DeclareLaunchArgument(
             'map',
-            default_value=os.path.join(bringup_dir, 'maps', 'turtlebot3_world.yaml'),
+            default_value=os.path.join(bringup_dir, 'maps',
+                                       'turtlebot3_world.yaml'),
             description='Full path to map yaml file to load'),
 
         DeclareLaunchArgument(
@@ -77,7 +86,8 @@ def generate_launch_description():
 
         DeclareLaunchArgument(
             'params_file',
-            default_value=os.path.join(bringup_dir, 'params', 'nav2_params.yaml'),
+            default_value=os.path.join(bringup_dir, 'params',
+                                       'nav2_params.yaml'),
             description='Full path to the ROS2 parameters file to use'),
 
         Node(
@@ -89,6 +99,7 @@ def generate_launch_description():
             remappings=remappings),
 
         Node(
+            condition=IfCondition(use_localization),
             package='nav2_amcl',
             executable='amcl',
             name='amcl',

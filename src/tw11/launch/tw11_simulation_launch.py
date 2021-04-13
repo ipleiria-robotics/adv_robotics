@@ -38,6 +38,21 @@ def generate_launch_description():
     # declaration
     ld = LaunchDescription()
 
+    # Create the launch configuration variables
+    namespace = LaunchConfiguration('namespace')
+    use_namespace = LaunchConfiguration('use_namespace')
+    use_sim_time = LaunchConfiguration('use_sim_time')
+    map_yaml_file = LaunchConfiguration('map')
+    params_file = LaunchConfiguration('params_file')
+    autostart = LaunchConfiguration('autostart')
+    use_simulator = LaunchConfiguration('use_simulator')
+    world_file = LaunchConfiguration('world_file')
+    use_static_map_odom_tf = LaunchConfiguration('use_static_map_odom_tf')
+    rviz_config_file = LaunchConfiguration('rviz_config_file')
+    use_rviz = LaunchConfiguration('use_rviz')
+    use_slam = LaunchConfiguration('use_slam')
+    default_bt_xml_filename = LaunchConfiguration('default_bt_xml_filename')
+
     ''' General launch arguments '''
     # Namespace
     declare_namespace_cmd = DeclareLaunchArgument(
@@ -45,7 +60,6 @@ def generate_launch_description():
         default_value='',
         description='Top-level namespace')
     ld.add_action(declare_namespace_cmd)
-    namespace = LaunchConfiguration('namespace')
 
     # Wether or not to use the namespace
     declare_use_namespace_cmd = DeclareLaunchArgument(
@@ -53,10 +67,8 @@ def generate_launch_description():
         default_value='True',
         description='Whether to apply a namespace to the navigation stack')
     ld.add_action(declare_use_namespace_cmd)
-    use_namespace = LaunchConfiguration('use_namespace')
 
     # Wether to use simulation or real time
-    use_sim_time = LaunchConfiguration('use_sim_time')
     declare_use_sim_time_cmd = DeclareLaunchArgument(
         'use_sim_time',
         default_value='true',
@@ -69,10 +81,8 @@ def generate_launch_description():
         default_value=os.path.join(bringup_dir, 'maps', 'map.yaml'),
         description='Full path to map file to load')
     ld.add_action(declare_map_yaml_cmd)
-    map_yaml_file = LaunchConfiguration('map')
 
     # Configuration parameters for the various nodes
-    params_file = LaunchConfiguration('params_file')
     declare_params_file_cmd = DeclareLaunchArgument(
         'params_file',
         default_value=os.path.join(bringup_dir, 'params', 'nav2_params.yaml'),
@@ -85,7 +95,6 @@ def generate_launch_description():
         'autostart', default_value='true',
         description='Automatically startup the nav2 stack')
     ld.add_action(declare_autostart_cmd)
-    autostart = LaunchConfiguration('autostart')
 
     ''' Launch nodes and other launch files, and specific launch arguments '''
     # Simulator-related
@@ -95,7 +104,6 @@ def generate_launch_description():
         default_value='True',
         description='Whether to start the simulator')
     ld.add_action(declare_use_simulator_cmd)
-    use_simulator = LaunchConfiguration('use_simulator')
     # Get world file for the simulator
     declare_world_file_cmd = DeclareLaunchArgument(
         'world_file',
@@ -103,7 +111,6 @@ def generate_launch_description():
                                    'map_laser.world'),
         description='Full path to world model file to load')
     ld.add_action(declare_world_file_cmd)
-    world_file = LaunchConfiguration('world_file')
     # Use static map --> odom TF (if asked to)
     declare_use_static_map_odom_tf_cmd = DeclareLaunchArgument(
         name='use_static_map_odom_tf', default_value='False',
@@ -111,7 +118,6 @@ def generate_launch_description():
                     + '(simulation/debug)'
         )
     ld.add_action(declare_use_static_map_odom_tf_cmd)
-    use_static_map_odom_tf = LaunchConfiguration('use_static_map_odom_tf')
     # Start the simulator (if asked to)
     start_stage_cmd = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -130,14 +136,12 @@ def generate_launch_description():
                                    'namespaced_view.rviz'),
         description='Full path to the RVIZ config file to use')
     ld.add_action(declare_rviz_config_file_cmd)
-    rviz_config_file = LaunchConfiguration('rviz_config_file')
     # Wether or not to start RViz
     declare_use_rviz_cmd = DeclareLaunchArgument(
         'use_rviz',
         default_value='True',
         description='Whether to start RVIZ')
     ld.add_action(declare_use_rviz_cmd)
-    use_rviz = LaunchConfiguration('use_rviz')
     # Start RViz if asked to
     rviz_cmd = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(os.path.join(launch_dir,
@@ -150,14 +154,12 @@ def generate_launch_description():
 
     # Start Localization and navigation
     # Wether or not to run SLAM
-    declare_slam_cmd = DeclareLaunchArgument(
-        'slam',
+    declare_use_slam_cmd = DeclareLaunchArgument(
+        'use_slam',
         default_value='False',
         description='Whether run a SLAM')
-    ld.add_action(declare_slam_cmd)
-    slam = LaunchConfiguration('slam')
+    ld.add_action(declare_use_slam_cmd)
     # Behavior Tree XML description file
-    default_bt_xml_filename = LaunchConfiguration('default_bt_xml_filename')
     declare_bt_xml_cmd = DeclareLaunchArgument(
         'default_bt_xml_filename',
         default_value=os.path.join(
@@ -171,7 +173,11 @@ def generate_launch_description():
                                       'bringup_launch.py')),
         launch_arguments={'namespace': namespace,
                           'use_namespace': use_namespace,
-                          'slam': slam,
+                          'use_slam': use_slam,
+                          # Enable localization if not using static TF and slam
+                          'use_localization': PythonExpression(
+                              ['not ', use_slam, ' and not ',
+                               use_static_map_odom_tf]),
                           'map': map_yaml_file,
                           'use_sim_time': use_sim_time,
                           'params_file': params_file,
