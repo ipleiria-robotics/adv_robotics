@@ -280,7 +280,7 @@ class SearchAndPlanning(Node):
 
         # Output debug line
         self.get_logger().info(
-            ' ----> Performing depth-first search in a grid-based map:')
+            ' ----> Performing path-planning search in a grid-based map:')
 
         # List of nodes which were already generated but not yet explored.
         nodesToExplore = deque()
