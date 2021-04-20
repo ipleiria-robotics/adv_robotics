@@ -54,7 +54,7 @@ def generate_launch_description():
     stage_cmd = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(os.path.join(
                 get_package_share_directory('worlds'), 'launch',
-                'worlds lw1_simulator_launch. py')),
+                'worlds lw1_simulator_launch.py')),
         condition=IfCondition(LaunchConfiguration('start_stage')))
     ld.add_action(stage_cmd)
 
