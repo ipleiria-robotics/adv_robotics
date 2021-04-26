@@ -58,6 +58,7 @@ from sensor_msgs.msg import LaserScan
 import message_filters
 import tf2_ros
 from rclpy.executors import MultiThreadedExecutor
+from rcl_interfaces.msg import ParameterDescriptor, ParameterType
 
 # Our functions
 from tw07.utils import quaternionToYaw, rpyToQuaternion, normalize, \
@@ -80,16 +81,25 @@ MAX_ANG_VEL = 1.57  # 90º/s (in rad/s)
 
 
 class TfListener(Node):
+    '''
+    Class used to keep an updated internal copy of the TF tree.
+    '''
     def __init__(self):
+        '''
+        Initialize class instance.
+        '''   
         super().__init__("tf_listener")
+        # Create the TF tree buffer to store all the information, keeping track
+        # of the last 10 seconds (cache_time)
         self.tf_buffer = tf2_ros.Buffer(cache_time=CustomDuration(sec=10))
+        # Create the TF listener which will receive the TFs
         self.listener = tf2_ros.TransformListener(self.tf_buffer, node=self)
-        self.get_logger().info("Started tf listener thread")
+        self.get_logger().info("Started TF listener thread.")
 
 
 class ParticleFilter(Node):
     '''
-    Localization using a Particle Filter
+    Localization using a Particle Filter.
     '''
     def __init__(self, tf_buffer):
         '''
@@ -103,27 +113,42 @@ class ParticleFilter(Node):
         self.robot_name = 'robot_0'
 
         #
-        #  Particle filter constants
+        #  Particle filter constants/parameters
         #
         # Number of particles used in the particle filter
         self.NUM_PARTICLES = 200
         # Gain factor for the weights given the distance
-        self.DISTANCE_ERROR_GAIN = 0.5
-        # Gain factor when computing the weights from the angle
-        self.ANGLE_ERROR_GAIN = 5.0
+        distance_error_gain_param_desc = ParameterDescriptor(
+            type=ParameterType.PARAMETER_DOUBLE,
+            description='Gain factor for the weights given the distance')
+        self.declare_parameter('distance_error_gain', 0.5,
+                               distance_error_gain_param_desc)
+        '''# Gain factor when computing the weights from the angle (NOT USED)
+         angle_error_gain_param_desc = ParameterDescriptor(
+             type=ParameterType.PARAMETER_DOUBLE,
+             description=
+                 'Gain factor when computing the weights from the angle')
+         self.declare_parameter('angle_error_gain', 5.0,
+                                angle_error_gain_param_desc)'''
         # Distance error standard deviation [m]
-        self.SIGMA1 = 0.2
+        sigma1_desc = ParameterDescriptor(
+            type=ParameterType.PARAMETER_DOUBLE,
+            description='Distance error standard deviation [m].')
+        self.declare_parameter('sigma1', 0.2,  sigma1_desc)
         # Theta error standard deviation [rad]
-        self.SIGMA2 = radians(3.0)
-
+        sigma2_desc = ParameterDescriptor(
+            type=ParameterType.PARAMETER_DOUBLE,
+            description='Theta error standard deviation [rad]')
+        self.declare_parameter('sigma2', 3.0,  sigma2_desc)
+        
         # General global variables
         self.outfile = open('Output.txt', 'w')  # Save robot poses to this file
+        # Will store the latest odometry pose
         self.odo_robot_pose = Pose2D()
         # True if the odometry was updated at least once
         self.odom_updated_once = False
-        # Real robot pose from the simulator (for debugging purposes only)
-        self.real_pose = Pose2D()
 
+        # Send initial information to the output file
         self.outfile.write(
             'Estimated pose of the robot\n\n' +
             '[T]: Odometry [X Y Theta] Particle Filter [X Y Theta]\n\n')
@@ -157,7 +182,7 @@ class ParticleFilter(Node):
                              lfwft.Point2D(8.0, 4.0),  # 6
                              lfwft.Point2D(3.0, 8.0),  # 7
                              lfwft.Point2D(-3.0, 8.0)]  # 8
-        # Max/min x/y values of the markers
+        # Max/min x/y values of the markers (could be taken from above)
         self.min_x = -8.0
         self.max_x = 8.0
         self.min_y = -8.0
@@ -192,7 +217,7 @@ class ParticleFilter(Node):
                                                 self.map_cb, qos_profile)
 
         # The makers and odometry subscription will be made only once we
-        # receive a map
+        # receive a map, this they are not included here in the initialization.
 
     def __del__(self):
         ''' Destructor, which will be called when the instance is destroyed.'''
@@ -258,6 +283,8 @@ class ParticleFilter(Node):
         self.lock.release()
         self.get_logger().info('The Particle Filter has been initialized.')
 
+        # Not that we have oiur map, we can start processing odometry and
+        # markers information, so lets subsribe the corresponding topics.
         # Setup subscribers using a ApproximateTimeSynchronizer filter for the
         # odometry and the markers. We want to estimate the robot pose which is
         # closest in time from the published odometry and markers.
@@ -291,6 +318,12 @@ class ParticleFilter(Node):
             distance = local_pose.x
             dtheta = local_pose.theta
 
+            # Get/update sigma parameters
+            sigma1 = self.get_parameter(
+                'sigma1').get_parameter_value().double_value
+            sigma2 = self.get_parameter(
+                'sigma2').get_parameter_value().double_value
+            
             '''
             Δd = Δd*normal_noise(1.0, sigma1)
             Δθ = Δθ*normal_noise(1.0, sigma2)
@@ -307,8 +340,8 @@ class ParticleFilter(Node):
             # This could be vectorized to avoid the for loop, which would allow
             # highly reducing the time needed to execute!
             for n in range(0, self.NUM_PARTICLES):
-                rnd_distance = random.gauss(distance, distance*self.SIGMA1)
-                rnd_dtheta = random.gauss(dtheta, dtheta*self.SIGMA2)
+                rnd_distance = random.gauss(distance, distance*sigma1)
+                rnd_dtheta = random.gauss(dtheta, dtheta*sigma2)
                 delta_X = rnd_distance*cos(self.particles_theta[n])
                 delta_Y = rnd_distance*sin(self.particles_theta[n])
 
@@ -368,7 +401,7 @@ class ParticleFilter(Node):
 
             The weight for each particle will be:
             w(j) = mean(1/(1+sqrt((x_e(i)-x_r(i))^2+(y_e(i)-y_r(i))^2) *
-                        DISTANCE_ERROR_GAIN))
+                        distance_error_gain))
             where x_e(i)/y_e(i) and x_r(i)/y_r(i) are the expected and obtained
             x/y world coordinates of the detected marker, respectively. The
             GAIN are constant gains wich can be tuned to value smaller
@@ -376,6 +409,10 @@ class ParticleFilter(Node):
             '''
             if markers_msg.num_markers >= 1:
                 run_steps23 = True
+                # Get/update distance_erro_gain parameter
+                distance_error_gain = self.get_parameter(
+                    'distance_error_gain').get_parameter_value().double_value
+
                 # Reset normalization factor
                 norm_factor = 0
                 for j in range(0, self.NUM_PARTICLES):
@@ -397,7 +434,7 @@ class ParticleFilter(Node):
                                 marker_wpos.x)**2 +
                             (self.markers_wpos[markers_msg.id[n]-1].y -
                                 marker_wpos.y)**2) *
-                            self.DISTANCE_ERROR_GAIN)
+                            distance_error_gain)
 
                     # Perform the mean. We summed all elements above and now
                     # divide by the number of elements summed.
