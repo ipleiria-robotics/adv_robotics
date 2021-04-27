@@ -59,9 +59,9 @@ import tw07.LocalFrameWorldFrameTransformations as lfwft
 from markers_msgs.msg import Markers
 
 # Specify if the particle filter steps should run
-RUN_PREDICTION_STEP = True
-RUN_UPDATE_STEP = True
-RUN_RESAMPLE_STEP = True
+RUN_PREDICTION_STEP = False
+RUN_UPDATE_STEP = False
+RUN_RESAMPLE_STEP = False
 
 # Debug related variables
 DELTA_DEBUG = 0.5  # Show debug information ony once every DELTA_PRINT seconds
