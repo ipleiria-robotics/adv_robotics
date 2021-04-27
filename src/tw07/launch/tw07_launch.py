@@ -59,6 +59,16 @@ def generate_launch_description():
         condition=IfCondition(LaunchConfiguration('start_stage')))
     ld.add_action(stage_cmd)
 
+    # Ground trugh republisher
+    start_republisher_cmd = launch_ros.actions.Node(
+            package='tw07',
+            executable='ground_truth_republisher',
+            name='tw07_ground_truth_republisher',
+            output='screen',
+            emulate_tty=True,
+            parameters=[{'use_sim_time': use_sim_time}])
+    ld.add_action(start_republisher_cmd)
+
     # Include the map server launch
     map_config = os.path.join(
         get_package_share_directory('tw07'), 'config', 'map.yaml')

@@ -30,15 +30,9 @@
 
 # Matrices and OpenCV related functions
 import numpy as np
-import matplotlib as mpl
-from matplotlib import pyplot as plt
-import cv2
 
 # Library packages needed
-from math import radians, ceil, sin, cos, sqrt, pi
-import time
-import sys
-import os
+from math import radians, sin, cos, sqrt, pi
 import random
 import threading
 import pytransform3d.rotations as pyrot
@@ -54,16 +48,14 @@ from rclpy.duration import Duration
 from geometry_msgs.msg import Point, Pose, Pose2D, PoseStamped, PoseArray, \
     Quaternion
 from nav_msgs.msg import Odometry, OccupancyGrid
-from sensor_msgs.msg import LaserScan
 import message_filters
 import tf2_ros
 from rclpy.executors import MultiThreadedExecutor
 from rcl_interfaces.msg import ParameterDescriptor, ParameterType
 
 # Our functions
-from tw07.utils import quaternionToYaw, rpyToQuaternion, normalize, \
-    meter2cell, CustomDuration
-import LocalFrameWorldFrameTransformations as lfwft
+from tw07.utils import quaternionToYaw, rpyToQuaternion, normalize, meter2cell
+import tw07.LocalFrameWorldFrameTransformations as lfwft
 from markers_msgs.msg import Markers
 
 # Specify if the particle filter steps should run
@@ -74,11 +66,6 @@ RUN_RESAMPLE_STEP = True
 # Debug related variables
 DELTA_DEBUG = 0.5  # Show debug information ony once every DELTA_PRINT seconds
 
-# The robot will not move with speeds faster than these, so we better limit out
-# values
-MAX_LIN_VEL = 1.0  # [m/s]
-MAX_ANG_VEL = 1.57  # 90º/s (in rad/s)
-
 
 class TfListener(Node):
     '''
@@ -87,11 +74,11 @@ class TfListener(Node):
     def __init__(self):
         '''
         Initialize class instance.
-        '''   
+        '''
         super().__init__("tf_listener")
         # Create the TF tree buffer to store all the information, keeping track
         # of the last 10 seconds (cache_time)
-        self.tf_buffer = tf2_ros.Buffer(cache_time=CustomDuration(sec=10))
+        self.tf_buffer = tf2_ros.Buffer(cache_time=Duration(seconds=10.0))
         # Create the TF listener which will receive the TFs
         self.listener = tf2_ros.TransformListener(self.tf_buffer, node=self)
         self.get_logger().info("Started TF listener thread.")
@@ -111,6 +98,9 @@ class ParticleFilter(Node):
 
         # Robot name
         self.robot_name = 'robot_0'
+
+        # Initialize the node itself
+        super().__init__('tw07_particle_filter')
 
         #
         #  Particle filter constants/parameters
@@ -139,8 +129,8 @@ class ParticleFilter(Node):
         sigma2_desc = ParameterDescriptor(
             type=ParameterType.PARAMETER_DOUBLE,
             description='Theta error standard deviation [rad]')
-        self.declare_parameter('sigma2', 3.0,  sigma2_desc)
-        
+        self.declare_parameter('sigma2', radians(3.0),  sigma2_desc)
+
         # General global variables
         self.outfile = open('Output.txt', 'w')  # Save robot poses to this file
         # Will store the latest odometry pose
@@ -187,9 +177,6 @@ class ParticleFilter(Node):
         self.max_x = 8.0
         self.min_y = -8.0
         self.max_y = 8.0
-
-        # Initialize the node itself
-        super().__init__('tw07_particle_filter')
 
         # Create TF buffer and listener (for odom->base_link)
         self.tf_buffer = tf_buffer
@@ -297,9 +284,9 @@ class ParticleFilter(Node):
         # Joint callback
         ts = message_filters.ApproximateTimeSynchronizer(
             [self.sub_odom, self.sub_markers], 3, 0.2)
-        ts.registerCallback(self.odomMarkersCallback)
+        ts.registerCallback(self.odom_markers_cb)
 
-    def odomMarkersCallback(self, odom_msg: Odometry, markers_msg: Markers):
+    def odom_markers_cb(self, odom_msg: Odometry, markers_msg: Markers):
         '''
         This callback is called whenever we have an odometry message and a
         markers message. The messages are received here simultaneously and
@@ -323,7 +310,7 @@ class ParticleFilter(Node):
                 'sigma1').get_parameter_value().double_value
             sigma2 = self.get_parameter(
                 'sigma2').get_parameter_value().double_value
-            
+
             '''
             Δd = Δd*normal_noise(1.0, sigma1)
             Δθ = Δθ*normal_noise(1.0, sigma2)
@@ -465,7 +452,7 @@ class ParticleFilter(Node):
             # self.get_logger().info(f'Max weight={max_weight}')
 
             # Publish the TF fom map to odom
-            self.publishMapOdomTF(odom_msg.header.stamp)
+            self.publish_map_odom_tf(odom_msg.header.stamp)
 
             # Publish the estimated pose message. It needs to be
             # PoseStamped, a 3D pose with a timestamp. We will create one
@@ -529,9 +516,9 @@ class ParticleFilter(Node):
                                f'{self.robot_estimated_pose.y:.2f} ' +
                                f'{self.robot_estimated_pose.theta:.2f}')
             # Publish the particles
-            self.publishParticles(odom_msg.header.stamp)
+            self.publish_particles(odom_msg.header.stamp)
 
-    def publishMapOdomTF(self, stamp):
+    def publish_map_odom_tf(self, timestamp):
         '''
         Given an estimated pose, publish the map->odom transform.
         '''
@@ -545,13 +532,13 @@ class ParticleFilter(Node):
             # Get the transformation from odom to base_footprint
             odom_to_base_footprint_trans = self.tf_buffer.lookup_transform(
                 f'{self.robot_name}/base_footprint',
-                f'{self.robot_name}/odom', stamp, Duration(seconds=0.1))
+                f'{self.robot_name}/odom', timestamp, Duration(seconds=0.1))
         except (tf2_ros.LookupException, tf2_ros.ConnectivityException,
                 tf2_ros.ExtrapolationException) as e:
             self.get_logger().warn(
                 f'No required transformation found: {e}')
             return
-        
+
         # Get the odom to base_fooprint matrix transformation from the
         # transformation computed above
         odom_to_base_footprint_tf = pytr.transform_from_pq(
@@ -576,7 +563,7 @@ class ParticleFilter(Node):
 
         # Publish transformation from odom to map (map->odom link)
         odom_to_map_trans_stamped = tf2_ros.TransformStamped()
-        odom_to_map_trans_stamped.header.stamp = stamp
+        odom_to_map_trans_stamped.header.stamp = timestamp
         odom_to_map_trans_stamped.header.frame_id = self.base_frame_id
         odom_to_map_trans_stamped.child_frame_id = f'{self.robot_name}/odom'
         odom_to_map_trans_stamped.transform.translation.x = odom_to_map_pq[0]
@@ -589,7 +576,7 @@ class ParticleFilter(Node):
             w=odom_to_map_pq[3])
         self._tf_broadcaster.sendTransform(odom_to_map_trans_stamped)
 
-    def publishParticles(self, timestamp):
+    def publish_particles(self, timestamp):
         '''
         Debug information function.
         Given the list of particles, publish a list of the corresponding poses.
@@ -620,14 +607,18 @@ def main(args=None):
     # Initiate python ROS Python control
     rclpy.init(args=args)
 
-    # Create our navigation node
+    # Create our TF listener node
     tf_listener_node = TfListener()
+    # Create our Particle filter node
     particle_filter_node = ParticleFilter(tf_buffer=tf_listener_node.tf_buffer)
 
+    # We will execute each node in its own thread. This is important to make
+    # sure that the TF listener is continuously updated.
     executor = MultiThreadedExecutor(num_threads=2)
     executor.add_node(tf_listener_node)
     executor.add_node(particle_filter_node)
 
+    # Run both nodes until shutdown
     executor.spin()
     executor.shutdown()
 

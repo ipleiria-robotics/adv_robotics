@@ -46,12 +46,6 @@ from geometry_msgs.msg import Quaternion, Pose
 from tw07.LocalFrameWorldFrameTransformations import Point2D, Point2Di
 
 
-class CustomDuration:
-    def __init__(self, sec=0, nanosec=0):
-        self.sec = sec
-        self.nanosec = nanosec
-
-
 def clipValue(value: float, min: float, max: float) -> float:
     '''Clip a given value to the interval [min, max]'''
     if value > max:

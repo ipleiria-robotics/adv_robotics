@@ -24,6 +24,7 @@ setup(
     entry_points={
         'console_scripts': [
             'particle_filter = tw07.particle_filter:main',
+            'ground_truth_republisher = tw07.ground_truth_republisher:main',
         ],
     },
 )
