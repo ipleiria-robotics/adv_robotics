@@ -68,7 +68,7 @@ Visualization Manager:
           Value: true
         Value: true
       Enabled: true
-      Keep: 50
+      Keep: 0
       Name: Odometry
       Position Tolerance: 0.10000000149011612
       Shape:
@@ -178,7 +178,7 @@ Visualization Manager:
           Value: true
         Value: true
       Enabled: true
-      Keep: 50
+      Keep: 0
       Name: Ground Truth
       Position Tolerance: 0.10000000149011612
       Shape:
