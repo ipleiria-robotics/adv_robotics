@@ -34,7 +34,6 @@ import pytransform3d.rotations as pyrot
 import pytransform3d.transformations as pytr
 import numpy as np
 from math import atan2, cos, degrees, inf, sin, sqrt
-import cv2
 from scipy.spatial import cKDTree
 import sys
 
@@ -45,7 +44,7 @@ from rclpy.node import Node
 from rclpy.qos import QoSProfile, QoSHistoryPolicy, QoSReliabilityPolicy, \
     QoSDurabilityPolicy
 from rclpy.duration import Duration
-from geometry_msgs.msg import Point, Pose, Pose2D, PoseStamped, \
+from geometry_msgs.msg import Point, Pose, Pose2D, \
     PoseWithCovarianceStamped, Quaternion, Vector3
 from nav_msgs.msg import Odometry, OccupancyGrid
 from sensor_msgs.msg import LaserScan
@@ -54,18 +53,15 @@ from visualization_msgs.msg import Marker, MarkerArray
 import message_filters
 import tf2_ros
 from rclpy.executors import MultiThreadedExecutor
-from rcl_interfaces.msg import ParameterDescriptor, ParameterType
 import ros2_numpy as rnp
 
 # Our functions
 from tw09.ExtendedKalmanFilter import ExtendedKalmanFilter
 from tw07.utils import cell2meter, quaternionToYaw, rpyToQuaternion
 import tw07.LocalFrameWorldFrameTransformations as lfwft
-from markers_msgs.msg import Markers
 
 # Specify if the particle filter steps should run
 RUN_PREDICTION_STEP = False
-RUN_OBSERVATION_STEP = False
 
 # Amount of debug information to show
 FULL_ICP_DEBUG = True  # Show information on every ICP step
@@ -129,7 +125,7 @@ class EKFICPLocalization(Node):
         # Minimum error difference to terminate ICP [m]
         self.MIN_ICP_DELTA_ERROR = 0.01
         # Minimum time between consecutive IPC runs
-        self.MIN_ICP_DELTATIME = Duration(seconds=1.0, nanoseconds=0.0)
+        self.MIN_ICP_DELTATIME = Duration(seconds=2.0, nanoseconds=0.0)
         # Timestamp of the last ICP run
         self.last_icp_call_time = self.get_clock().now()
         # Will hold the KD-Tree built from the environment map
@@ -404,7 +400,6 @@ class EKFICPLocalization(Node):
             testfile.write(np.array2string(self.map_cloud,
                                            threshold=sys.maxsize))
 
-
         # Release access to shared data
         self.lock.release()
 
@@ -490,9 +485,9 @@ class EKFICPLocalization(Node):
         # time.
         current_time = Time.from_msg(laser_msg.header.stamp)
         if current_time < self.last_icp_call_time + self.MIN_ICP_DELTATIME:
-            self.lock.release()
             # In this case, publish the pose using the odometry timestamp
             self.createAndPublishPose(odom_msg.header.stamp)
+            self.lock.release()
             return  # To soon, return without running the observation step.
         # Else
         self.last_icp_call_time = current_time
@@ -535,7 +530,8 @@ class EKFICPLocalization(Node):
             testfile.write('\n\n-- Robot pose:\n')
             testfile.write(np.array_str(self.ekf.state))
             testfile.write('\n\n-- Sensed point cloud:\n')
-            testfile.write(np.array2string(sensed_cloud, threshold=sys.maxsize))
+            testfile.write(np.array2string(sensed_cloud,
+                                           threshold=sys.maxsize))
             testfile.close()
 
         # This variable will hold the total transformations (rotation and
@@ -690,7 +686,7 @@ class EKFICPLocalization(Node):
                            f'{self.ekf.state[0, 0]:.2f} ' +
                            f'{self.ekf.state[1, 0]:.2f} ' +
                            f'{self.ekf.state[2, 0]:.2f}\n')
-        
+
         # We no longer need access to the data
         self.lock.release()
 

@@ -7,5 +7,11 @@
     ],
     "python.linting.pylintEnabled": false,
     "python.linting.flake8Enabled": true,
-    "python.linting.enabled": true
+    "python.linting.enabled": true,
+    "python.analysis.extraPaths": [
+        "/home/hcostelha/ros/build/tw01",
+        "/home/hcostelha/ros/install/tw01/lib/python3.8/site-packages",
+        "/home/hcostelha/ros/install/markers_msgs/lib/python3.8/site-packages",
+        "/opt/ros/foxy/lib/python3.8/site-packages"
+    ]
 }
