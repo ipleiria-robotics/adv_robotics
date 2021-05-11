@@ -61,7 +61,7 @@ from tw07.utils import cell2meter, quaternionToYaw, rpyToQuaternion
 import tw07.LocalFrameWorldFrameTransformations as lfwft
 
 # Specify if the particle filter steps should run
-RUN_PREDICTION_STEP = False
+RUN_PREDICTION_STEP = True
 
 # Amount of debug information to show
 FULL_ICP_DEBUG = True  # Show information on every ICP step
