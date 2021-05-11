@@ -7,7 +7,6 @@ Panels:
         - /Global Options1
         - /Status1
         - /Ground Truth1/Shape1
-        - /PoseWithCovariance1
       Splitter Ratio: 0.47116968035697937
     Tree Height: 550
   - Class: rviz_common/Selection
@@ -184,7 +183,7 @@ Visualization Manager:
       Enabled: true
       Name: MarkerArray
       Namespaces:
-        robot_0: true
+        {}
       Topic:
         Depth: 5
         Durability Policy: Volatile
@@ -298,5 +297,5 @@ Window Geometry:
   Views:
     collapsed: true
   Width: 1255
-  X: 663
+  X: 702
   Y: 25
