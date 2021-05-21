@@ -72,7 +72,7 @@ def main(args=None):
     Ground truth republisher.
     '''
 
-    print('Ground truth repubsliher\n---------------------------')
+    print('Ground truth republisher\n---------------------------')
 
     # Initiate python ROS Python control
     rclpy.init(args=args)

@@ -41,9 +41,9 @@ from action_msgs.msg import GoalStatus
 
 # Our modules
 import tw10.myglobals as myglobals
-from ar_msgs_srvs_actions_interfaces.action import Move2Pos
-from tw07.utils import quaternionToYaw, clipValue
-import tw07.LocalFrameWorldFrameTransformations as lfwft
+from ar_utils.action import Move2Pos
+from ar_utils.utils import quaternionToYaw, clipValue
+import ar_utils.LocalFrameWorldFrameTransformations as lfwft
 
 # Other modules
 from math import radians, atan2, sqrt

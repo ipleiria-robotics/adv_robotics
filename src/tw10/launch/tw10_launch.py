@@ -59,6 +59,17 @@ def generate_launch_description():
         condition=IfCondition(LaunchConfiguration('start_stage')))
     ld.add_action(stage_cmd)
 
+    # Start the battery manager
+    start_battery_manager_cmd = launch_ros.actions.Node(
+            package='ar_utils',
+            executable='battery_manager',
+            namespace='robot_0',  # TODO: Make this a (launch) parameter
+            name='battery_manager',
+            output='screen',
+            emulate_tty=True,
+            parameters=[{'use_sim_time': use_sim_time}])
+    ld.add_action(start_battery_manager_cmd)
+
     # Ground trugh republisher
     start_republisher_cmd = launch_ros.actions.Node(
             package='tw07',
@@ -80,6 +91,11 @@ def generate_launch_description():
     ld.add_action(included_map_server_launch)
 
     # RViz node
+    auto_run_rviz_cmd = DeclareLaunchArgument(
+        'run-rviz',
+        default_value='False',
+        description='Whether to start RViz')
+    ld.add_action(auto_run_rviz_cmd)
     rviz_config = os.path.join(get_package_share_directory('tw10'),
                                'config', 'config.rviz')
     start_rviz_cmd = launch_ros.actions.Node(
@@ -88,7 +104,8 @@ def generate_launch_description():
             output='screen',
             emulate_tty=True,
             parameters=[{'use_sim_time': use_sim_time}],
-            arguments=['-d', rviz_config])
+            arguments=['-d', rviz_config],
+            condition=IfCondition(LaunchConfiguration('run-rviz')))
     ld.add_action(start_rviz_cmd)
 
     # The localization is not started by default. If the user wants,
@@ -117,15 +134,41 @@ def generate_launch_description():
             parameters=[{'use_sim_time': use_sim_time}])
     ld.add_action(start_action_server_move2pos_cmd)
 
+    # Action server for Rotate2Angle
+    start_action_server_rotate2angle_cmd = launch_ros.actions.Node(
+            package='tw10',
+            executable='action_rotate2angle',
+            output='screen',
+            emulate_tty=True,
+            parameters=[{'use_sim_time': use_sim_time}])
+    ld.add_action(start_action_server_rotate2angle_cmd)
+
+    # Action server for Recharge
+    start_action_server_recharge_cmd = launch_ros.actions.Node(
+            package='tw10',
+            executable='action_recharge',
+            output='screen',
+            emulate_tty=True,
+            parameters=[{'use_sim_time': use_sim_time}])
+    ld.add_action(start_action_server_recharge_cmd)
+
+    # Action server for Stop
+    start_action_server_stop_cmd = launch_ros.actions.Node(
+            package='tw10',
+            executable='action_stop',
+            output='screen',
+            emulate_tty=True,
+            parameters=[{'use_sim_time': use_sim_time}])
+    ld.add_action(start_action_server_stop_cmd)
+
     # Main task node
-    '''
     auto_run_simple_task_cmd = DeclareLaunchArgument(
         'run-simple-task',
         default_value='True',
         description='Whether to run the simple task')
     ld.add_action(auto_run_simple_task_cmd)
     start_simple_task_cmd = launch_ros.actions.Node(
-            package='tw03',
+            package='tw10',
             executable='simple_task',
             name='tw10_simple_task',
             output='screen',
@@ -135,6 +178,5 @@ def generate_launch_description():
                          'ref_ang_vel': radians(60)}],
             condition=IfCondition(LaunchConfiguration('run-simple-task')))
     ld.add_action(start_simple_task_cmd)
-    '''
 
     return ld

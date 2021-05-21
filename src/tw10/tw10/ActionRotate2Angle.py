@@ -42,8 +42,8 @@ from action_msgs.msg import GoalStatus
 
 # Our modules
 import tw10.myglobals as myglobals
-from ar_msgs_srvs_actions_interfaces.action import Rotate2Angle
-from tw07.utils import quaternionToYaw, clipValue
+from ar_utils.action import Rotate2Angle
+from ar_utils.utils import quaternionToYaw, clipValue
 
 # Other modules
 from math import radians

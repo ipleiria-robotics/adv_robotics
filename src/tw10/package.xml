@@ -13,7 +13,7 @@
   <test_depend>python3-pytest</test_depend>
   <exec_depend>tw07</exec_depend>
   <exec_depend>tw08</exec_depend>
-  <exec_depend>ar_msgs_srvs_actions_interfaces</exec_depend>
+  <exec_depend>ar_utils</exec_depend>
 
   <export>
     <build_type>ament_python</build_type>

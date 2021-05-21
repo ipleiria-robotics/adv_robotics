@@ -37,8 +37,7 @@ Execute a simple task, formed by the following sequential execution:
 '''
 
 # Our libraries and functions
-from ar_msgs_srvs_actions_interfaces.action import Move2Pos, Recharge, \
-    Rotate2Angle, Stop
+from ar_utils.action import Move2Pos, Recharge, Rotate2Angle, Stop
 import tw10.myglobals as myglobals
 
 # ROS API
@@ -69,17 +68,13 @@ class SimpleTask(Node):
             self, Rotate2Angle, f'/{myglobals.robot_name}/ActionRotate2Angle')
         self.clientRecharge = ActionClient(
             self, Recharge, f'/{myglobals.robot_name}/ActionRecharge')
-        '''
         self.clientStop = ActionClient(
-            self, Stop, 'f/{myglobals.robot_name}/ActionStop')
-        '''
+            self, Stop, f'/{myglobals.robot_name}/ActionStop')
         # Wait for each action server to be up and running
         self.clientMove2Pos.wait_for_server()
         self.clientRotate2Angle.wait_for_server()
         self.clientRecharge.wait_for_server()
-        '''
         self.clientStop.wait_for_server()
-        '''
 
     def runTask(self):
         ''' Execute a sequence of pre-defined actions'''
@@ -137,6 +132,8 @@ class SimpleTask(Node):
                 result_response.result.battery_level.__str__())
 
         self.get_logger().info('Done...')
+        # Shutdown ROS
+        rclpy.shutdown()
 
 
 def main(args=None):

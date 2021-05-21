@@ -42,8 +42,8 @@ from std_msgs.msg import UInt8
 
 # Our modules
 import tw10.myglobals as myglobals
-from ar_msgs_srvs_actions_interfaces.action import Recharge
-import tw11.srv  # Access to the battery manager service
+from ar_utils.action import Recharge
+from ar_utils.srv import StartCharging  # Access to the battery manager service
 from action_msgs.msg import GoalStatus
 
 # Other modules
@@ -71,7 +71,7 @@ class RechargeActionServer(Node):
 
         # Enable access to the battery charging service
         self.charge_battery_svc = self.create_client(
-            tw11.srv.StartCharging,
+            StartCharging,
             f'{myglobals.robot_name}/battery/charge')
 
         # Wait for the service fo bt available
@@ -104,24 +104,22 @@ class RechargeActionServer(Node):
 
     def execute_cb(self, goal):
         ''' Callback to execute when the action has a new goal '''
-        self.get_logger().info(
-            f'Executing action {ACTION_NAME}' +
-            f' with battery-level goal {goal.request.target_battery_level} %')
-        self.goal = goal
-        self.trigger_event.clear()  # Clear flag
+        with self.goal_lock:
+            self.get_logger().info(
+                f'Executing action {ACTION_NAME}' +
+                f' with battery-level goal {goal.request.target_battery_level} %')
+            self.goal = goal
+            self.trigger_event.clear()  # Clear flag
 
         # Request charging to start
-        svc_req = tw11.srv.StartCharging.Request()
+        svc_req = StartCharging.Request()
         svc_req.charge = True
-        resp = self.cli.call(svc_req)
+        resp = self.charge_battery_svc.call(svc_req)
         if resp.charging is False:
             # If it fails, abort action
             goal.canceled()
             self.get_logger().warn(f'{ACTION_NAME} aborted!')
             return Recharge.Result(battery_level=self.battery_level)
-
-        # Otherwise the robot is charging
-        self.battery_level_updated = False
 
         # Setup subscriber for the battery level
         self.sub_batt = self.create_subscription(
@@ -129,7 +127,7 @@ class RechargeActionServer(Node):
             myglobals.robot_name + '/battery/level',
             self.batteryLevelCallback, 1)
 
-        feedback = tw11.srv.StartCharging.Feedback()
+        feedback = Recharge.Feedback()
 
         while rclpy.ok():
             # Wait for a confimation (trigger), either due to the goal having
@@ -146,7 +144,8 @@ class RechargeActionServer(Node):
                     return Recharge.Result(battery_level=self.battery_level)
 
                 # Do nothing until we have an update
-                if self.battery_level >= self.goal.target_battery_level:
+                if self.battery_level >= \
+                   self.goal.request.target_battery_level:
                     # Stop the batteryLevelCallback callback
                     self.sub_batt.destroy()
                     # Store final result and trigger SUCCEED
@@ -165,15 +164,15 @@ class RechargeActionServer(Node):
         with self.goal_lock:
             # If the action is not active or a preemption was requested,
             # return immediately
-            if (not self.action_server.is_active()) or \
-               self.goal.status != GoalStatus.STATUS_EXECUTING:
+            if self.goal.is_active and \
+               (self.goal.status == GoalStatus.STATUS_EXECUTING):
+                # Store the robot pose
+                self.battery_level = msg.data
+            else:
                 return
 
-            # Store the robot pose
-            self.battery_level = msg.data
-
-            # Trigger update
-            self.trigger_event.set()  # Trigger execute_cb to continue
+        # Trigger update
+        self.trigger_event.set()  # Trigger execute_cb to continue
 
 
 def main(args=None):

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(ar_msgs_srvs_actions_interfaces)
+project(ar_utils)
 
 # Default to C99
 if(NOT CMAKE_C_STANDARD)
@@ -17,9 +17,13 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
+find_package(ament_cmake_python REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(rclpy REQUIRED)
 find_package(builtin_interfaces REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
+find_package(nav_msgs REQUIRED)
 
 # Message generation
 find_package(rosidl_default_generators REQUIRED)
@@ -29,7 +33,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "action/Recharge.action"
   "action/Rotate2Angle.action"
   "action/Stop.action"
-  DEPENDENCIES builtin_interfaces std_msgs geometry_msgs
+  DEPENDENCIES builtin_interfaces std_msgs geometry_msgs nav_msgs
  )
 
 if(BUILD_TESTING)
@@ -43,5 +47,37 @@ if(BUILD_TESTING)
   ament_lint_auto_find_test_dependencies()
 endif()
 
-#ament_export_dependencies(rosidl_default_runtime)
+# Install include files
+install(DIRECTORY include/ DESTINATION include)
+
+# Create Cpp executable
+add_executable(battery_manager
+               src/battery_manager.cpp
+               src/LocalFrameWorldFrameTransformations.cpp)
+target_include_directories(battery_manager PUBLIC include)
+ament_target_dependencies(battery_manager rclcpp)
+# Link against the generated interfaces
+rosidl_target_interfaces(battery_manager
+  ${PROJECT_NAME} "rosidl_typesupport_cpp")
+# Install Cpp executable
+install(TARGETS battery_manager DESTINATION lib/${PROJECT_NAME})
+
+# Exports
+ament_export_dependencies(builtin_interfaces)
+ament_export_dependencies(rosidl_default_runtime)
+ament_export_dependencies(ar_utils)
+
+ament_export_include_directories(include)
+  
+
+
+# Install Python modules
+ament_python_install_package(${PROJECT_NAME})
+
+# Install Python executables
+#install(PROGRAMS
+#  scripts/py_node.py
+#  DESTINATION lib/${PROJECT_NAME}
+#)
+
 ament_package()

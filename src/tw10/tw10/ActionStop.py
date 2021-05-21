@@ -44,7 +44,7 @@ from action_msgs.msg import GoalStatus
 
 # Our modules
 import tw10.myglobals as myglobals
-from ar_msgs_srvs_actions_interfaces.action import Stop
+from ar_utils.action import Stop
 
 # Other modules
 import os
