@@ -1,0 +1,8 @@
+# Goal: which position to reach
+geometry_msgs/Point target_position
+---
+# Result: final pose
+geometry_msgs/Pose2D final_pose
+---
+# Feedback: current pose
+geometry_msgs/Pose2D base_pose
