@@ -24,6 +24,7 @@ find_package(builtin_interfaces REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(nav_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)
 
 # Message generation
 find_package(rosidl_default_generators REQUIRED)
@@ -33,7 +34,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "action/Recharge.action"
   "action/Rotate2Angle.action"
   "action/Stop.action"
-  DEPENDENCIES builtin_interfaces std_msgs geometry_msgs nav_msgs
+  DEPENDENCIES builtin_interfaces std_msgs geometry_msgs nav_msgs sensor_msgs
  )
 
 if(BUILD_TESTING)

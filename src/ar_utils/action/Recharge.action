@@ -1,8 +1,8 @@
 # Goal: battery percentage to reach
-int8 target_battery_level
+float32 target_battery_level
 ---
 # Result: final battery level
-int8 battery_level
+float32 battery_level
 ---
 # Feedback: current battery level
-int8 battery_level
+float32 battery_level

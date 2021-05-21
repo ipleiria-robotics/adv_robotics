@@ -39,6 +39,7 @@ from rclpy.executors import MultiThreadedExecutor
 from rclpy.action import ActionServer, CancelResponse
 from rclpy.node import Node
 from std_msgs.msg import UInt8
+from sensor_msgs.msg import BatteryState
 
 # Our modules
 import tw10.myglobals as myglobals
@@ -66,7 +67,7 @@ class RechargeActionServer(Node):
         # Create condition to manage access to the goal variable, wich will be
         # accessed in multiple callbacks
         self.goal_lock = Lock()
-        self.battery_level = -1
+        self.battery_level = -1.0
         self.trigger_event = Event()
 
         # Enable access to the battery charging service
@@ -106,8 +107,8 @@ class RechargeActionServer(Node):
         ''' Callback to execute when the action has a new goal '''
         with self.goal_lock:
             self.get_logger().info(
-                f'Executing action {ACTION_NAME}' +
-                f' with battery-level goal {goal.request.target_battery_level} %')
+                f'Executing action {ACTION_NAME} with battery-level ' +
+                f'goal {goal.request.target_battery_level:2.2f}')
             self.goal = goal
             self.trigger_event.clear()  # Clear flag
 
@@ -123,9 +124,9 @@ class RechargeActionServer(Node):
 
         # Setup subscriber for the battery level
         self.sub_batt = self.create_subscription(
-            UInt8,
-            myglobals.robot_name + '/battery/level',
-            self.batteryLevelCallback, 1)
+            BatteryState,
+            myglobals.robot_name + '/battery/state',
+            self.batteryStateCallback, 1)
 
         feedback = Recharge.Feedback()
 
@@ -139,14 +140,14 @@ class RechargeActionServer(Node):
                 if self.goal.status != GoalStatus.STATUS_EXECUTING:
                     self.get_logger().warn(
                         f'{ACTION_NAME} is no longer running!')
-                    # Stop the batteryLevelCallback callback
+                    # Stop the batteryStateCallback callback
                     self.sub_batt.destroy()
                     return Recharge.Result(battery_level=self.battery_level)
 
                 # Do nothing until we have an update
                 if self.battery_level >= \
                    self.goal.request.target_battery_level:
-                    # Stop the batteryLevelCallback callback
+                    # Stop the batteryStateCallback callback
                     self.sub_batt.destroy()
                     # Store final result and trigger SUCCEED
                     self.goal.succeed()
@@ -157,7 +158,7 @@ class RechargeActionServer(Node):
                     feedback.battery_level = self.battery_level
                     self.goal.publish_feedback(feedback)
 
-    def batteryLevelCallback(self, msg: UInt8):
+    def batteryStateCallback(self, msg: BatteryState):
         '''
         Receive current robot pose and change its velocity accordingly
         '''
@@ -167,7 +168,7 @@ class RechargeActionServer(Node):
             if self.goal.is_active and \
                (self.goal.status == GoalStatus.STATUS_EXECUTING):
                 # Store the robot pose
-                self.battery_level = msg.data
+                self.battery_level = msg.percentage
             else:
                 return
 

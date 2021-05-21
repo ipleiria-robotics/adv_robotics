@@ -82,7 +82,10 @@ class SimpleTask(Node):
         # 1st action
         # Create the goal position and send it to the action server.
         # We will wait for the action to finish and return a result.
-        goal = Move2Pos.Goal(target_position=Point(x=1.0, y=-2.0, z=0.0))
+        goal = Move2Pos.Goal(target_position=Point(
+            x=myglobals.recharge_targets_wpose.x,
+            y=myglobals.recharge_targets_wpose.y,
+            z=myglobals.recharge_targets_wpose.theta))
         result_response = self.clientMove2Pos.send_goal(goal)
         if result_response.status != GoalStatus.STATUS_SUCCEEDED:
             self.get_logger().warn('Action Move2Pos failed with result:' +
@@ -120,7 +123,7 @@ class SimpleTask(Node):
         # 4th action
         # Create the goal position and send it to the action server.
         # We will wait for the action to finish and return a result.
-        goal = Recharge.Goal(target_battery_level=100)
+        goal = Recharge.Goal(target_battery_level=1.0)
         result_response = self.clientRecharge.send_goal(goal)
         if result_response.status != GoalStatus.STATUS_SUCCEEDED:
             self.get_logger().info(

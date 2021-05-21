@@ -118,7 +118,6 @@ def generate_launch_description():
     start_ekf_cmd = launch_ros.actions.Node(
             package='tw08',
             executable='ekf_localization',
-            name='tw08_ekf_localization',
             output='screen',
             emulate_tty=True,
             parameters=[{'use_sim_time': use_sim_time}],

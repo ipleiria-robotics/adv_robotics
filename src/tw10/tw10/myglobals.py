@@ -50,8 +50,7 @@ from numpy import pi
     you need to use locks to prevent simultaneous acess.
  '''
 robot_name = 'robot_0'
-MIN_POWER_LEVEL = 20  # Minimum power level before recharging
-MAX_POWER_LEVEL = 100  # Minimum power level after recharging
-power_level = 40  # Initial power level
+MIN_POWER_LEVEL = 0.20  # Minimum power level before recharging
+MAX_POWER_LEVEL = 1.00  # Minimum power level after recharging
 execution_rate = 10  # Hz
-recharge_targets_wpose = [Pose2D(x=0.0, y=-2.0, theta=-pi/2)]
+recharge_targets_wpose = Pose2D(x=1.0, y=-2.0, theta=-pi/2)
