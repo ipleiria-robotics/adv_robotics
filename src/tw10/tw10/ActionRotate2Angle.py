@@ -34,8 +34,9 @@ the robot until that orientation is reached.
 
 # ROS related modules
 import rclpy
+from rclpy.action import ActionServer, CancelResponse, GoalResponse
 from rclpy.executors import MultiThreadedExecutor
-from rclpy.action import ActionServer, CancelResponse
+from rclpy.callback_groups import ReentrantCallbackGroup
 from rclpy.node import Node
 from geometry_msgs.msg import Twist, PoseStamped
 from action_msgs.msg import GoalStatus
@@ -64,9 +65,11 @@ class Rotate2AngleActionServer(Node):
 
         # Create condition to manage access to the goal variable, wich will be
         # accessed in multiple callbacks
+        self.goal_handle = None
         self.goal_lock = Lock()
         self.trigger_event = Event()  # Flag is intiallt set to False
         self.goal_reached = False  # Keep track of the current goal status
+        self.sub_pose = None
 
         ''' Initialize members for navigation control '''
         self.curr_orientation = 0.0  # Hold the last/current robot orientation
@@ -90,32 +93,57 @@ class Rotate2AngleActionServer(Node):
             self,
             Rotate2Angle,
             f'/{myglobals.robot_name}/{ACTION_NAME}',
-            self.execute_cb,
-            cancel_callback=self.cancel_cb)
+            execute_callback=self.execute_cb,
+            goal_callback=self.goal_cb,
+            handle_accepted_callback=self.handle_accepted_cb,
+            cancel_callback=self.cancel_cb,
+            callback_group=ReentrantCallbackGroup())
 
-    def cancel_cb(self):
+    def destroy(self):
+        ''' Destructor '''
+        self.action_server.destroy()
+        super().destroy_node()
+
+    def goal_cb(self, goal_request):
+        '''This function is called when a new goal is requested. Currently it
+        always accept a new goal.'''
+        self.get_logger().info(f'{ACTION_NAME} received new goal request:')
+        return GoalResponse.ACCEPT
+
+    def handle_accepted_cb(self, goal_handle):
+        ''' This function runs whenever a new goal is accepted.'''
+        with self.goal_lock:
+            # This server only allows one goal at a time
+            if (self.goal_handle is not None) and (self.goal_handle.is_active):
+                self.get_logger().info(f'{ACTION_NAME} aborting previous goal')
+                # Abort the existing goal
+                self.goal_handle.abort()
+                # Allow the trigger callback to finish (it might be blocked)
+                self.trigger_event.set()
+            self.goal_handle = goal_handle
+        # Start runing the execute callback
+        goal_handle.execute()
+
+    def cancel_cb(self, goal_handle):
         ''' Callback to call when the action is cancelled '''
         self.get_logger().info(f'{ACTION_NAME} was cancelled!')
-        # Stop the robotPoseCallback callback
-        self.sub_pose.destroy()
-        # Allow the trigger callback to finish
+        # Stop the topic callback
+        if self.sub_pose is not None:
+            self.sub_pose.destroy()
+            self.sub_pose = None
+        # Allow the trigger callback to finish, if blocked
         self.trigger_event.set()
-        # Update internal information
-        with self.goal_lock:
-            if self.goal.status != GoalStatus.STATUS_CANCELED:
-                self.goal.canceled()
-        # Change the action status to cancelled
+        # The cancel request was accepted
         return CancelResponse.ACCEPT
 
-    def execute_cb(self, goal):
+    def execute_cb(self, goal_handle):
         ''' Callback to call when the action as a new goal '''
         with self.goal_lock:  # Store desired angle
             self.goal_reached = False  # New goal
             self.trigger_event.clear()  # Clear flag
-            self.goal = goal  # Store desired goal
             self.get_logger().info(
                 f'Executing action {ACTION_NAME} with goal angle ' +
-                f'{self.goal.request.target_orientation:.2f} [°].')
+                f'{goal_handle.request.target_orientation:.2f} [°].')
 
         # Setup subscriber for pose
         # The majority of the work will be done in the robotPoseCallback
@@ -128,11 +156,21 @@ class Rotate2AngleActionServer(Node):
         # succeeded, or the goal having been cancelled.
         self.trigger_event.wait()
         with self.goal_lock:
+            # Check if the goal is no longer active or if a cancel was
+            # requested.
+            if (not goal_handle.is_active) or \
+               (goal_handle.is_cancel_requested):
+                if not goal_handle.is_active:
+                    self.get_logger().info(f'{ACTION_NAME}: goal aborted')
+                else:  # goal_handle.is_cancel_requested
+                    goal_handle.canceled()  # Confirm goal is canceled
+                    self.get_logger().info(f'{ACTION_NAME}: goal canceled')
+                if self.sub_pose is not None:
+                    self.sub_pose.destroy()
+                    self.sub_pose = None
             if self.goal_reached:
-                self.goal.succeed()
+                goal_handle.succeed()
                 self.get_logger().info(f'{ACTION_NAME} has succeeded!')
-            elif self.goal.status != GoalStatus.STATUS_CANCELED:
-                self.goal.cancelled()
             return Rotate2Angle.Result(final_orientation=self.curr_orientation)
 
     def robotPoseCallback(self, msg: PoseStamped):
@@ -143,11 +181,12 @@ class Rotate2AngleActionServer(Node):
         with self.goal_lock:
             # If the action is not active or a cancel was requested,
             # return immediately
-            if (not self.goal.is_active) or self.goal.is_cancel_requested:
+            if (not self.goal_handle.is_active) or \
+               (self.goal_handle.status != GoalStatus.STATUS_EXECUTING):
                 return
 
             # Else, get the desired orientation
-            target_orientation = self.goal.request.target_orientation
+            target_orientation = self.goal_handle.request.target_orientation
 
             # Store the current orientation
             self.curr_orientation = quaternionToYaw(msg.pose.orientation)
@@ -160,7 +199,7 @@ class Rotate2AngleActionServer(Node):
             # Publish feedback (current robot orientation)
             feedback = Rotate2Angle.Feedback()
             feedback.base_orientation = self.curr_orientation
-            self.goal.publish_feedback(feedback)
+            self.goal_handle.publish_feedback(feedback)
 
             # Send velocity commands
             self.vel_cmd.angular.z = ang_vel
@@ -174,7 +213,9 @@ class Rotate2AngleActionServer(Node):
                 self.vel_cmd.linear.x = 0.0
                 self.vel_pub.publish(self.vel_cmd)
                 # Stop this callback
-                self.sub_pose.destroy()
+                if self.sub_pose is not None:
+                    self.sub_pose.destroy()
+                    self.sub_pose = None
                 # We are done!
                 self.goal_reached = True
                 self.trigger_event.set()  # Trigger execute_cb to continue

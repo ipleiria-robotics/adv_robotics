@@ -33,8 +33,9 @@ Move2Pos action: given a 2D position (X and Y), move to that position.
 
 # ROS related modules
 import rclpy
+from rclpy.action import ActionServer, CancelResponse, GoalResponse
 from rclpy.executors import MultiThreadedExecutor
-from rclpy.action import ActionServer, CancelResponse
+from rclpy.callback_groups import ReentrantCallbackGroup
 from rclpy.node import Node
 from geometry_msgs.msg import Pose2D, Twist, PoseStamped
 from action_msgs.msg import GoalStatus
@@ -64,9 +65,11 @@ class Move2PosActionServer(Node):
 
         # Create condition to manage access to the goal variable, wich will be
         # accessed in multiple callbacks
+        self.goal_handle = None
         self.goal_lock = Lock()
         self.trigger_event = Event()  # Flag is intially set to False
         self.goal_reached = False  # Keep track of the current goal status
+        self.sub_pose = None
 
         ''' Initialize members for navigation control '''
         self.curr_pose = Pose2D()
@@ -94,33 +97,58 @@ class Move2PosActionServer(Node):
             self,
             Move2Pos,
             f'/{myglobals.robot_name}/{ACTION_NAME}',
-            self.execute_cb,
-            cancel_callback=self.cancel_cb)
+            execute_callback=self.execute_cb,
+            goal_callback=self.goal_cb,
+            handle_accepted_callback=self.handle_accepted_cb,
+            cancel_callback=self.cancel_cb,
+            callback_group=ReentrantCallbackGroup())
 
-    def cancel_cb(self):
-        ''' Callback to call when the action is cancelled '''
-        self.get_logger().info(f'{ACTION_NAME} was cancelled!')
-        # Stop the robotPoseCallback callback
-        self.sub_pose.destroy()
+    def destroy(self):
+        ''' Destructor '''
+        self.action_server.destroy()
+        super().destroy_node()
+
+    def goal_cb(self, goal_request):
+        '''This function is called when a new goal is requested. Currently it
+        always accept a new goal.'''
+        self.get_logger().info(f'{ACTION_NAME} received new goal request')
+        return GoalResponse.ACCEPT
+
+    def handle_accepted_cb(self, goal_handle):
+        ''' This function runs whenever a new goal is accepted.'''
+        with self.goal_lock:
+            # This server only allows one goal at a time
+            if (self.goal_handle is not None) and (self.goal_handle.is_active):
+                self.get_logger().info(f'{ACTION_NAME} aborting previous goal')
+                # Abort the existing goal
+                self.goal_handle.abort()
+                # Allow the trigger callback to finish (it might be blocked)
+                self.trigger_event.set()
+            self.goal_handle = goal_handle
+        # Start runing the execute callback
+        goal_handle.execute()
+
+    def cancel_cb(self, goal_handle):
+        ''' Callback that's called when an action cancellation is requested '''
+        self.get_logger().info(f'{ACTION_NAME} received a cancel request!')
+        # Stop the topic callback
+        if self.sub_pose is not None:
+            self.sub_pose.destroy()
+            self.sub_pose = None
         # Allow the trigger callback to finish
         self.trigger_event.set()
-        # Update internal information
-        with self.goal_lock:
-            if self.goal.status != GoalStatus.STATUS_CANCELED:
-                self.goal.canceled()
-        # Change the action status to cancelled
+        # The cancel request was accepted
         return CancelResponse.ACCEPT
 
-    def execute_cb(self, goal):
+    def execute_cb(self, goal_handle):
         ''' Callback to execute when the action has a new goal '''
         with self.goal_lock:
             self.goal_reached = False  # New goal
             self.trigger_event.clear()  # Clear flag
-            self.goal = goal  # Store desired goal
         self.get_logger().info(
             f'Executing action {ACTION_NAME} with goal position ' +
-            f'[{self.goal.request.target_position.x:0.2f},' +
-            f' {self.goal.request.target_position.y:0.2f}]. [m]')
+            f'[{goal_handle.request.target_position.x:0.2f},' +
+            f' {goal_handle.request.target_position.y:0.2f}]. [m]')
 
         # Setup subscriber for pose
         # The majority of the work will be done in the robotPoseCallback
@@ -133,11 +161,21 @@ class Move2PosActionServer(Node):
         # succeeded, or the goal having been cancelled.
         self.trigger_event.wait()
         with self.goal_lock:
+            # Check if the goal is no longer active or if a cancel was
+            # requested.
+            if (not goal_handle.is_active) or \
+               (goal_handle.is_cancel_requested):
+                if not goal_handle.is_active:
+                    self.get_logger().info(f'{ACTION_NAME}: goal aborted')
+                else:  # goal_handle.is_cancel_requested
+                    goal_handle.canceled()  # Confirm goal is canceled
+                    self.get_logger().info(f'{ACTION_NAME}: goal canceled')
+                if self.sub_pose is not None:
+                    self.sub_pose.destroy()
+                    self.sub_pose = None
             if self.goal_reached:
-                self.goal.succeed()
+                goal_handle.succeed()
                 self.get_logger().info(f'{ACTION_NAME} has succeeded!')
-            elif self.goal.status != GoalStatus.STATUS_CANCELED:
-                self.goal.cancelled()
             return Move2Pos.Result(final_pose=self.curr_pose)
 
     def robotPoseCallback(self, msg: PoseStamped):
@@ -147,13 +185,14 @@ class Move2PosActionServer(Node):
         with self.goal_lock:
             # If the action is not active or a cancel was requested,
             # return immediately
-            if (not self.goal.is_active) or self.goal.is_cancel_requested:
+            if (not self.goal_handle.is_active) or \
+               (self.goal_handle.status != GoalStatus.STATUS_EXECUTING):
                 return
 
             # Else, get the desired orientation
             target_position = lfwft.Point2D(
-                self.goal.request.target_position.x,
-                self.goal.request.target_position.y)
+                self.goal_handle.request.target_position.x,
+                self.goal_handle.request.target_position.y)
             # Store current pose
             self.curr_pose = Pose2D(
                 x=msg.pose.position.x,
@@ -184,7 +223,7 @@ class Move2PosActionServer(Node):
         # Publish feedback (current pose)
         feedback = Move2Pos.Feedback()
         feedback.base_pose = self.curr_pose
-        self.goal.publish_feedback(feedback)
+        self.goal_handle.publish_feedback(feedback)
 
         # Send velocity commands
         self.vel_cmd.angular.z = ang_vel
@@ -198,7 +237,9 @@ class Move2PosActionServer(Node):
             self.vel_cmd.linear.x = 0.0
             self.vel_pub.publish(self.vel_cmd)
             # Stop this callback
-            self.sub_pose.destroy()
+            if self.sub_pose is not None:
+                self.sub_pose.destroy()
+                self.sub_pose = None
             # We are done!
             self.goal_reached = True
             self.trigger_event.set()  # Trigger execute_cb to continue

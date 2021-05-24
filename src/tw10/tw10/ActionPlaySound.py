@@ -30,7 +30,7 @@
 # Revision $Id$
 
 '''@package docstring
-Stop action: stop the robot.
+Sound action: play a sound file.
 '''
 
 # ROS related modules
@@ -39,47 +39,36 @@ from rclpy.action import ActionServer, CancelResponse, GoalResponse
 from rclpy.executors import MultiThreadedExecutor
 from rclpy.callback_groups import ReentrantCallbackGroup
 from rclpy.node import Node
-from geometry_msgs.msg import Twist
-from nav_msgs.msg import Odometry
-from action_msgs.msg import GoalStatus
 
 # Our modules
 import tw10.myglobals as myglobals
-from ar_utils.action import Stop
+from ar_utils.action import PlaySound
+from ar_utils.utils import play_sound, stop_all_sounds
 
 # Other modules
 import os
-from threading import Lock, Event
-from numpy import sqrt
+from threading import Lock
 
 # This action name (strip the '.py' preffix)
 ACTION_NAME = os.path.basename(__file__)[:-3]
 
 
-class StopActionServer(Node):
+class PlaySoundActionServer(Node):
     '''
-        Stop the robot motion.
+        Play a sound from a file.
     '''
     def __init__(self):
-        super().__init__('action_stop')
+        super().__init__('action_play_sound')
 
         # Create condition to manage access to the goal variable, wich will be
         # accessed in multiple callbacks
         self.goal_handle = None
         self.goal_lock = Lock()
-        self.trigger_event = Event()  # Flag is intially set to False
-        self.goal_reached = False  # Keep track of the current goal status
-        self.sub_odom = None
-
-        # Setup publisher for velocity commands
-        self.vel_pub = self.create_publisher(
-            Twist, f'/{myglobals.robot_name}/cmd_vel', 1)
-        self.vel_cmd = Twist()  # Velocity commands
 
         # Start the actual action server
         self.action_server = ActionServer(
             self,
-            Stop,
+            PlaySound,
             f'/{myglobals.robot_name}/{ACTION_NAME}',
             execute_callback=self.execute_cb,
             goal_callback=self.goal_cb,
@@ -107,7 +96,6 @@ class StopActionServer(Node):
                 # Abort the existing goal
                 self.goal_handle.abort()
                 # Allow the trigger callback to finish (it might be blocked)
-                self.trigger_event.set()
             self.goal_handle = goal_handle
         # Start runing the execute callback
         goal_handle.execute()
@@ -115,89 +103,45 @@ class StopActionServer(Node):
     def cancel_cb(self, goal_handle):
         ''' Callback to call when the action is cancelled '''
         self.get_logger().info(f'{ACTION_NAME} was cancelled!')
-        # Stop the topic callback
-        if self.sub_odom is not None:
-            self.sub_odom.destroy()
-            self.sub_odom = None
-        # Allow the trigger callback to finish
-        self.trigger_event.set()
+        # Update internal information
+        with self.goal_lock:
+            stop_all_sounds()
         # Change the action status to cancelled
         return CancelResponse.ACCEPT
 
     def execute_cb(self, goal_handle):
         ''' Callback to call when the action as a new goal '''
-        with self.goal_lock:
-            self.goal_reached = False  # New goal
-            self.trigger_event.clear()  # Clear flag
-        self.get_logger().info(f'Executing action {ACTION_NAME}')
+        self.get_logger().info(f'Executing action {ACTION_NAME} with ' +
+                               f'file {self.goal_handle.request.sound_file}')
 
-        # Setup subscriber for pose
-        # The majority of the work will be done in the robotPoseCallback
-        self.sub_odom = self.create_subscription(
-            Odometry,
-            myglobals.robot_name + '/odom',
-            self.robotOdomCallback, 1)
-
-        # Wait for a confimation (trigger), either due to the goal having
-        # succeeded, or the goal having been cancelled.
-        self.trigger_event.wait()
+        # Play sound
         with self.goal_lock:
-            # Check if the goal is no longer active or if a cancel was
-            # requested.
-            if (not goal_handle.is_active) or \
-               (goal_handle.is_cancel_requested):
+            play_succeeded = play_sound(self.goal_handle.request.sound_file, False)
+            if play_succeeded:
+                self.goal_handle.succeed()
+                self.get_logger().info(f'{ACTION_NAME} has succeeded!')
+                return PlaySound.Result(sound_played=True)
+            else:
                 if not goal_handle.is_active:
                     self.get_logger().info(f'{ACTION_NAME}: goal aborted')
-                else:  # goal_handle.is_cancel_requested
+                elif goal_handle.is_cancel_requested:
                     goal_handle.canceled()  # Confirm goal is canceled
                     self.get_logger().info(f'{ACTION_NAME}: goal canceled')
-                if self.sub_odom is not None:
-                    self.sub_odom.destroy()
-                    self.sub_odom = None
-            if self.goal_reached:
-                goal_handle.succeed()
-                self.get_logger().info(f'{ACTION_NAME} has succeeded!')
-            return Stop.Result(is_stopped=self.goal_reached)
-
-    def robotOdomCallback(self, msg: Odometry):
-        '''
-        Check current velocity and, if the robot is not stopped, stop it.
-        '''
-        with self.goal_lock:
-            # If the action is not active or a preemption was requested,
-            # return immediately
-            if (not self.goal_handle.is_active) or \
-               (self.goal_handle.status != GoalStatus.STATUS_EXECUTING):
-                return
-
-            # Check if the robot is moving
-            lin_speed = sqrt(msg.twist.twist.linear.x**2 +
-                             msg.twist.twist.linear.y**2)
-            if (lin_speed > 0.001) or (msg.twist.twist.angular.z > 0.002):
-                # Ask the robot to stop
-                self.vel_cmd.angular.z = 0.0
-                self.vel_cmd.linear.x = 0.0
-                self.vel_pub.publish(self.vel_cmd)
-            else:  # The robot is stopped
-                # Stop this callback
-                if self.sub_odom is not None:
-                    self.sub_odom.destroy()
-                    self.sub_odom = None
-                # We are done, store final result
-                self.goal_reached = True
-                self.trigger_event.set()  # Trigger execute_cb to continue
+                else:
+                    self.get_logger().info(f'{ACTION_NAME} failed!')
+                return PlaySound.Result(sound_played=False)
 
 
 def main(args=None):
     ''' Main function - start the action server.
     '''
     rclpy.init(args=args)
-    move2pos_action_server = StopActionServer()
+    play_sound_action_server = PlaySoundActionServer()
 
     # Use 2 threads to make sure callbacks can run in parallel and the action
     # does not block.
     executor = MultiThreadedExecutor(num_threads=2)
-    executor.add_node(move2pos_action_server)
+    executor.add_node(play_sound_action_server)
     executor.spin()
 
 

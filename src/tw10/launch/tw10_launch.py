@@ -38,6 +38,17 @@ import os
 from math import radians
 
 
+def addActionServer(ld, package, executable, use_sim_time):
+    # Action server for Rotate2Angle
+    start_action_server_cmd = launch_ros.actions.Node(
+            package=package,
+            executable=executable,
+            output='screen',
+            emulate_tty=True,
+            parameters=[{'use_sim_time': use_sim_time}])
+    ld.add_action(start_action_server_cmd)
+
+
 def generate_launch_description():
     # Parameters
     use_sim_time = True
@@ -108,8 +119,8 @@ def generate_launch_description():
             condition=IfCondition(LaunchConfiguration('run-rviz')))
     ld.add_action(start_rviz_cmd)
 
-    # The localization is not started by default. If the user wants,
-    # it can pass the "run-particle-filter:=true" argument to start it
+    # The localization is started by default. If the user wants, it can pass
+    # the "run-particle-filter:=False" argument to avoid starting it
     auto_run_ekf_cmd = DeclareLaunchArgument(
         'run-ekf-localization',
         default_value='True',
@@ -124,41 +135,12 @@ def generate_launch_description():
             condition=IfCondition(LaunchConfiguration('run-ekf-localization')))
     ld.add_action(start_ekf_cmd)
 
-    # Action server for Move2Pos
-    start_action_server_move2pos_cmd = launch_ros.actions.Node(
-            package='tw10',
-            executable='action_move2pos',
-            output='screen',
-            emulate_tty=True,
-            parameters=[{'use_sim_time': use_sim_time}])
-    ld.add_action(start_action_server_move2pos_cmd)
-
-    # Action server for Rotate2Angle
-    start_action_server_rotate2angle_cmd = launch_ros.actions.Node(
-            package='tw10',
-            executable='action_rotate2angle',
-            output='screen',
-            emulate_tty=True,
-            parameters=[{'use_sim_time': use_sim_time}])
-    ld.add_action(start_action_server_rotate2angle_cmd)
-
-    # Action server for Recharge
-    start_action_server_recharge_cmd = launch_ros.actions.Node(
-            package='tw10',
-            executable='action_recharge',
-            output='screen',
-            emulate_tty=True,
-            parameters=[{'use_sim_time': use_sim_time}])
-    ld.add_action(start_action_server_recharge_cmd)
-
-    # Action server for Stop
-    start_action_server_stop_cmd = launch_ros.actions.Node(
-            package='tw10',
-            executable='action_stop',
-            output='screen',
-            emulate_tty=True,
-            parameters=[{'use_sim_time': use_sim_time}])
-    ld.add_action(start_action_server_stop_cmd)
+    # Add action servers
+    addActionServer(ld, 'tw10', 'action_move2pos', use_sim_time)
+    addActionServer(ld, 'tw10', 'action_play_sound', use_sim_time)
+    addActionServer(ld, 'tw10', 'action_rotate2angle', use_sim_time)
+    addActionServer(ld, 'tw10', 'action_recharge', use_sim_time)
+    addActionServer(ld, 'tw10', 'action_stop', use_sim_time)
 
     # Main task node
     auto_run_simple_task_cmd = DeclareLaunchArgument(

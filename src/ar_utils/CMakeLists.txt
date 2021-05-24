@@ -31,6 +31,7 @@ find_package(rosidl_default_generators REQUIRED)
 rosidl_generate_interfaces(${PROJECT_NAME}
   "srv/StartCharging.srv"
   "action/Move2Pos.action"
+  "action/PlaySound.action"
   "action/Recharge.action"
   "action/Rotate2Angle.action"
   "action/Stop.action"

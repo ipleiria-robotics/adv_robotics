@@ -35,10 +35,10 @@ Recharge action: Request charging.
 
 # ROS related modules
 import rclpy
+from rclpy.action import ActionServer, CancelResponse, GoalResponse
 from rclpy.executors import MultiThreadedExecutor
-from rclpy.action import ActionServer, CancelResponse
+from rclpy.callback_groups import ReentrantCallbackGroup
 from rclpy.node import Node
-from std_msgs.msg import UInt8
 from sensor_msgs.msg import BatteryState
 
 # Our modules
@@ -58,17 +58,22 @@ ACTION_NAME = os.path.basename(__file__)[:-3]
 class RechargeActionServer(Node):
     '''
         Charge the robot battery, if the robot is in a charging location.
+        This action accepts a single goal at a time so, requesting a new goal
+        while a previous one was alread running, cancels the previous goal.
     '''
     # Store the action feecback and result functions as class attributes,
     # i.e., they are the same for all instances of this class
     def __init__(self):
+        '''Constructor'''
         super().__init__('action_recharge')
 
         # Create condition to manage access to the goal variable, wich will be
         # accessed in multiple callbacks
+        self.goal_handle = None
         self.goal_lock = Lock()
         self.battery_level = -1.0
         self.trigger_event = Event()
+        self.sub_batt = None
 
         # Enable access to the battery charging service
         self.charge_battery_svc = self.create_client(
@@ -81,36 +86,61 @@ class RechargeActionServer(Node):
                 f'Executing action {ACTION_NAME}: still waiting for the ' +
                 f'battery service at {myglobals.robot_name}/battery/charge...')
 
-        # Start the action server
+        # Start the action server.
+        # The option ReentrantCallbackGroup allows callbacks to be run in
+        # parallel without restrictions
         self.action_server = ActionServer(
             self,
             Recharge,
             f'/{myglobals.robot_name}/{ACTION_NAME}',
-            self.execute_cb,
-            cancel_callback=self.cancel_cb)
+            execute_callback=self.execute_cb,
+            goal_callback=self.goal_cb,
+            handle_accepted_callback=self.handle_accepted_cb,
+            cancel_callback=self.cancel_cb,
+            callback_group=ReentrantCallbackGroup())
 
-    def cancel_cb(self):
-        ''' Callback to call when the action is cancelled '''
-        self.get_logger().info(f'{ACTION_NAME} was cancelled!')
-        # Stop the robotPoseCallback callback
-        self.sub_batt.destroy()
-        # Allow the trigger callback to finish
-        self.trigger_event.set()
-        # Update internal information
+    def destroy(self):
+        ''' Destructor '''
+        self.action_server.destroy()
+        super().destroy_node()
+
+    def goal_cb(self, goal_request):
+        '''This function is called when a new goal is requested. Currently it
+        always accept a new goal.'''
+        self.get_logger().info(f'{ACTION_NAME} received new goal request:')
+        return GoalResponse.ACCEPT
+
+    def handle_accepted_cb(self, goal_handle):
+        ''' This function runs whenever a new goal is accepted.'''
         with self.goal_lock:
-            if self.goal.status != GoalStatus.STATUS_CANCELED:
-                self.goal.canceled()
-        # Change the action status to cancelled
+            # This server only allows one goal at a time
+            if (self.goal_handle is not None) and (self.goal_handle.is_active):
+                self.get_logger().info(f'{ACTION_NAME} aborting previous goal')
+                # Abort the existing goal
+                self.goal_handle.abort()
+                # Allow the trigger callback to finish (it might be blocked)
+                self.trigger_event.set()
+            self.goal_handle = goal_handle
+        # Start runing the execute callback
+        goal_handle.execute()
+
+    def cancel_cb(self, goal_handle):
+        ''' Callback that's called when an action cancellation is requested '''
+        self.get_logger().info(f'{ACTION_NAME} received a cancel request!')
+        # Stop the topic callback
+        if self.sub_batt is not None:
+            self.sub_batt.destroy()
+            self.sub_batt = None
+        # Allow the trigger callback to finish, if blocked
+        self.trigger_event.set()
+        # The cancel request was accepted
         return CancelResponse.ACCEPT
 
-    def execute_cb(self, goal):
+    def execute_cb(self, goal_handle):
         ''' Callback to execute when the action has a new goal '''
-        with self.goal_lock:
-            self.get_logger().info(
-                f'Executing action {ACTION_NAME} with battery-level ' +
-                f'goal {goal.request.target_battery_level:2.2f}')
-            self.goal = goal
-            self.trigger_event.clear()  # Clear flag
+        self.get_logger().info(
+            f'Executing action {ACTION_NAME} with battery-level ' +
+            f'goal {goal_handle.request.target_battery_level:2.2f}')
 
         # Request charging to start
         svc_req = StartCharging.Request()
@@ -118,15 +148,17 @@ class RechargeActionServer(Node):
         resp = self.charge_battery_svc.call(svc_req)
         if resp.charging is False:
             # If it fails, abort action
-            goal.canceled()
-            self.get_logger().warn(f'{ACTION_NAME} aborted!')
+            goal_handle.abort()
+            self.get_logger().warn(
+                f'{ACTION_NAME}  - unable to start charging!')
             return Recharge.Result(battery_level=self.battery_level)
 
         # Setup subscriber for the battery level
         self.sub_batt = self.create_subscription(
             BatteryState,
             myglobals.robot_name + '/battery/state',
-            self.batteryStateCallback, 1)
+            self.batteryStateCb, 1)
+        self.trigger_event.clear()  # Clear flag
 
         feedback = Recharge.Feedback()
 
@@ -135,38 +167,56 @@ class RechargeActionServer(Node):
             # succeeded, or the goal having been cancelled.
             self.trigger_event.wait()
             self.trigger_event.clear()  # Clear flag
+
             with self.goal_lock:
-                # Check if we got a preempt request
-                if self.goal.status != GoalStatus.STATUS_EXECUTING:
-                    self.get_logger().warn(
-                        f'{ACTION_NAME} is no longer running!')
-                    # Stop the batteryStateCallback callback
-                    self.sub_batt.destroy()
+                # Only continue if the goal is active and a cancel was not
+                # requested
+                if (not goal_handle.is_active) or \
+                   (goal_handle.is_cancel_requested):
+                    if not goal_handle.is_active:
+                        self.get_logger().info(f'{ACTION_NAME}: goal aborted')
+                    else:  # goal_handle.is_cancel_requested
+                        goal_handle.canceled()  # Confirm goal is canceled
+                        self.get_logger().info(f'{ACTION_NAME}: goal canceled')
+                    if self.sub_batt is not None:
+                        self.sub_batt.destroy()
+                        self.sub_batt = None
+                    # Cancel the recharging and return
+                    svc_req = StartCharging.Request()
+                    svc_req.charge = False
+                    resp = self.charge_battery_svc.call(svc_req)
                     return Recharge.Result(battery_level=self.battery_level)
 
                 # Do nothing until we have an update
                 if self.battery_level >= \
-                   self.goal.request.target_battery_level:
-                    # Stop the batteryStateCallback callback
-                    self.sub_batt.destroy()
+                   goal_handle.request.target_battery_level:
+                    # Stop the batteryStateCb callback
+                    if self.sub_batt is not None:
+                        self.sub_batt.destroy()
+                        self.sub_batt = None
                     # Store final result and trigger SUCCEED
-                    self.goal.succeed()
+                    goal_handle.succeed()
                     self.get_logger().info(f'{ACTION_NAME} has succeeded!')
+                    # Cancel the recharging and return
+                    svc_req = StartCharging.Request()
+                    svc_req.charge = False
+                    resp = self.charge_battery_svc.call(svc_req)
+                    # Return last reported battery level
                     return Recharge.Result(battery_level=self.battery_level)
                 else:
                     # Publish feedback (current battery level)
                     feedback.battery_level = self.battery_level
-                    self.goal.publish_feedback(feedback)
+                    goal_handle.publish_feedback(feedback)
 
-    def batteryStateCallback(self, msg: BatteryState):
+    def batteryStateCb(self, msg: BatteryState):
         '''
-        Receive current robot pose and change its velocity accordingly
+        Receive current robot battery charge
         '''
         with self.goal_lock:
             # If the action is not active or a preemption was requested,
             # return immediately
-            if self.goal.is_active and \
-               (self.goal.status == GoalStatus.STATUS_EXECUTING):
+            if self.goal_handle.is_active and \
+               (self.goal_handle.status == GoalStatus.STATUS_EXECUTING):
                 # Store the robot pose
                 self.battery_level = msg.percentage
             else:

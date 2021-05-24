@@ -37,7 +37,7 @@ Execute a simple task, formed by the following sequential execution:
 '''
 
 # Our libraries and functions
-from ar_utils.action import Move2Pos, Recharge, Rotate2Angle, Stop
+import ar_utils.action as action
 import tw10.myglobals as myglobals
 
 # ROS API
@@ -47,6 +47,7 @@ from rclpy.action import ActionClient
 from rclpy.node import Node
 from geometry_msgs.msg import Point
 from action_msgs.msg import GoalStatus
+from ament_index_python.packages import get_package_share_directory
 
 # Other libraries
 from numpy import pi, degrees
@@ -63,15 +64,19 @@ class SimpleTask(Node):
 
         # Create the client for each action
         self.clientMove2Pos = ActionClient(
-            self, Move2Pos, f'/{myglobals.robot_name}/ActionMove2Pos')
+            self, action.Move2Pos, f'/{myglobals.robot_name}/ActionMove2Pos')
+        self.clientPlaySound = ActionClient(
+            self, action.PlaySound, f'/{myglobals.robot_name}/ActionPlaySound')
         self.clientRotate2Angle = ActionClient(
-            self, Rotate2Angle, f'/{myglobals.robot_name}/ActionRotate2Angle')
+            self, action.Rotate2Angle,
+            f'/{myglobals.robot_name}/ActionRotate2Angle')
         self.clientRecharge = ActionClient(
-            self, Recharge, f'/{myglobals.robot_name}/ActionRecharge')
+            self, action.Recharge, f'/{myglobals.robot_name}/ActionRecharge')
         self.clientStop = ActionClient(
-            self, Stop, f'/{myglobals.robot_name}/ActionStop')
+            self, action.Stop, f'/{myglobals.robot_name}/ActionStop')
         # Wait for each action server to be up and running
         self.clientMove2Pos.wait_for_server()
+        self.clientPlaySound.wait_for_server()
         self.clientRotate2Angle.wait_for_server()
         self.clientRecharge.wait_for_server()
         self.clientStop.wait_for_server()
@@ -82,10 +87,10 @@ class SimpleTask(Node):
         # 1st action
         # Create the goal position and send it to the action server.
         # We will wait for the action to finish and return a result.
-        goal = Move2Pos.Goal(target_position=Point(
+        goal = action.Move2Pos.Goal(target_position=Point(
             x=myglobals.recharge_targets_wpose.x,
             y=myglobals.recharge_targets_wpose.y,
-            z=myglobals.recharge_targets_wpose.theta))
+            z=0.0))
         result_response = self.clientMove2Pos.send_goal(goal)
         if result_response.status != GoalStatus.STATUS_SUCCEEDED:
             self.get_logger().warn('Action Move2Pos failed with result:' +
@@ -97,7 +102,7 @@ class SimpleTask(Node):
         # 2nd action
         # Create the goal angle and send it to the action server.
         # We will wait for the action to finish and return a result.
-        goal = Rotate2Angle.Goal(target_orientation=-pi/2)
+        goal = action.Rotate2Angle.Goal(target_orientation=-pi/2)
         result_response = self.clientRotate2Angle.send_goal(goal)
         if result_response.status != GoalStatus.STATUS_SUCCEEDED:
             self.get_logger().info(
@@ -111,7 +116,7 @@ class SimpleTask(Node):
         # 3rd action
         # Create the goal angle and send it to the action server.
         # We will wait for the action to finish and return a result.
-        goal = Stop.Goal()  # Nothing specific
+        goal = action.Stop.Goal()  # Nothing specific
         result_response = self.clientStop.send_goal(goal)
         if result_response.status != GoalStatus.STATUS_SUCCEEDED:
             self.get_logger().info('Action Stop failed with result:' +
@@ -123,7 +128,7 @@ class SimpleTask(Node):
         # 4th action
         # Create the goal position and send it to the action server.
         # We will wait for the action to finish and return a result.
-        goal = Recharge.Goal(target_battery_level=1.0)
+        goal = action.Recharge.Goal(target_battery_level=1.0)
         result_response = self.clientRecharge.send_goal(goal)
         if result_response.status != GoalStatus.STATUS_SUCCEEDED:
             self.get_logger().info(
@@ -133,6 +138,16 @@ class SimpleTask(Node):
             self.get_logger().info(
                 'Action Recharge suceeded with result:' +
                 result_response.result.battery_level.__str__())
+
+            # In this case, run the play sound action
+            goal = action.PlaySound.Goal(
+                sound_file=get_package_share_directory('tw10') +
+                '/sounds/charging_complete.wav')
+            result_response = self.clientPlaySound.send_goal(goal)
+            if result_response.status != GoalStatus.STATUS_SUCCEEDED:
+                self.get_logger().info('Action PlaySound failed!')
+            else:
+                self.get_logger().info('Action PlaySound suceeded!')
 
         self.get_logger().info('Done...')
         # Shutdown ROS

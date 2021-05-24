@@ -38,8 +38,12 @@ import datetime
 import queue
 import multiprocessing
 import matplotlib.pyplot as plt
+import subprocess
+import time
+import threading
 
 # ROS
+import rclpy
 from geometry_msgs.msg import Quaternion, Pose
 
 # Our packages
@@ -219,3 +223,47 @@ def clearLine():
     '''Clear current terminar line
        http://ascii-table.com/ansi-escape-sequences.php'''
     sys.stdout.write('\x1b[K')
+
+
+###############################################################################
+# Sound related functions
+###############################################################################
+
+
+def play_sound(sound_file, play_async=True, cancel_others=False):
+    '''Play given sound_file. Should be called only within a ROS node.
+       If play_async is True, the method starts the sound play and returns
+    immediately, otherwise it waits for the sound to finish.
+    '''
+    # If cancel_others is true, cancel all running sounds.
+    if cancel_others:
+        stop_all_sounds()
+    else:  # Otherwise, we will wait for other sounds to complete
+        # Check if some sound is playing
+        while True:
+            result = subprocess.run(
+                ['pgrep', 'aplay'], capture_output=True, text=True)
+            if result.returncode == 1:
+                # No process aplay is running
+                break
+            time.sleep(0.1)
+
+    if play_async:
+        # Asyncrhonous play. Function will continue on background
+        thread = threading.Thread(target=play_sound(sound_file, False))
+        thread.start()
+    else:
+        # Synchronous play, will only return when finished
+        result = subprocess.run(['aplay', sound_file],
+                                capture_output=True, text=True)
+        # If something went wrong, output the error
+        if result.returncode != 0:
+            rclpy.logging._root_logger.warn(
+                f'Problem in sound module: {result.stderr}')
+            return False
+    return True
+
+
+def stop_all_sounds():
+    '''Stop all sounds by shutting down aplay executions'''
+    subprocess.run(['killall', 'aplay'], capture_output=True)

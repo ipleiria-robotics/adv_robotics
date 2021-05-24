@@ -11,6 +11,7 @@
             "program": "${file}",
             "console": "integratedTerminal",
             "subProcess": false,
+            //"justMyCode": false,
             "args": [
                 "--ros-args",
                 "-p",
@@ -22,19 +23,6 @@
             "type": "python",
             "request": "launch",
             "program": "${workspaceFolder}/tw10/simple_task.py",
-            "console": "integratedTerminal",
-            "subProcess": false,
-            "args": [
-                "--ros-args",
-                "-p",
-                "use_sim_time:=True"
-            ]
-        },
-        {
-            "name": "ActionMove2Pos",
-            "type": "python",
-            "request": "launch",
-            "program": "${workspaceFolder}/tw10/ActionMove2Pos.py",
             "console": "integratedTerminal",
             "subProcess": false,
             "args": [
