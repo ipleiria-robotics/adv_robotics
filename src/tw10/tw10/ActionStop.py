@@ -33,6 +33,12 @@
 Stop action: stop the robot.
 '''
 
+# Non-ROS modules
+import os
+from threading import Lock, Event
+from numpy import sqrt
+import functools
+
 # ROS related modules
 import rclpy
 from rclpy.action import ActionServer, CancelResponse, GoalResponse
@@ -41,16 +47,11 @@ from rclpy.callback_groups import ReentrantCallbackGroup
 from rclpy.node import Node
 from geometry_msgs.msg import Twist
 from nav_msgs.msg import Odometry
-from action_msgs.msg import GoalStatus
 
 # Our modules
 import tw10.myglobals as myglobals
 from ar_utils.action import Stop
 
-# Other modules
-import os
-from threading import Lock, Event
-from numpy import sqrt
 
 # This action name (strip the '.py' preffix)
 ACTION_NAME = os.path.basename(__file__)[:-3]
@@ -67,9 +68,7 @@ class StopActionServer(Node):
         # accessed in multiple callbacks
         self.goal_handle = None
         self.goal_lock = Lock()
-        self.trigger_event = Event()  # Flag is intially set to False
-        self.goal_reached = False  # Keep track of the current goal status
-        self.sub_odom = None
+        self.curr_odom = None
 
         # Setup publisher for velocity commands
         self.vel_pub = self.create_publisher(
@@ -106,8 +105,6 @@ class StopActionServer(Node):
                 self.get_logger().info(f'{ACTION_NAME} aborting previous goal')
                 # Abort the existing goal
                 self.goal_handle.abort()
-                # Allow the trigger callback to finish (it might be blocked)
-                self.trigger_event.set()
             self.goal_handle = goal_handle
         # Start runing the execute callback
         goal_handle.execute()
@@ -115,77 +112,87 @@ class StopActionServer(Node):
     def cancel_cb(self, goal_handle):
         ''' Callback to call when the action is cancelled '''
         self.get_logger().info(f'{ACTION_NAME} was cancelled!')
-        # Stop the topic callback
-        if self.sub_odom is not None:
-            self.sub_odom.destroy()
-            self.sub_odom = None
-        # Allow the trigger callback to finish
-        self.trigger_event.set()
         # Change the action status to cancelled
         return CancelResponse.ACCEPT
 
     def execute_cb(self, goal_handle):
         ''' Callback to call when the action as a new goal '''
-        with self.goal_lock:
-            self.goal_reached = False  # New goal
-            self.trigger_event.clear()  # Clear flag
         self.get_logger().info(f'Executing action {ACTION_NAME}')
-
-        # Setup subscriber for pose
-        # The majority of the work will be done in the robotPoseCallback
-        self.sub_odom = self.create_subscription(
-            Odometry,
-            myglobals.robot_name + '/odom',
-            self.robotOdomCallback, 1)
 
         # Wait for a confimation (trigger), either due to the goal having
         # succeeded, or the goal having been cancelled.
-        self.trigger_event.wait()
-        with self.goal_lock:
-            # Check if the goal is no longer active or if a cancel was
-            # requested.
-            if (not goal_handle.is_active) or \
-               (goal_handle.is_cancel_requested):
-                if not goal_handle.is_active:
-                    self.get_logger().info(f'{ACTION_NAME}: goal aborted')
-                else:  # goal_handle.is_cancel_requested
-                    goal_handle.canceled()  # Confirm goal is canceled
-                    self.get_logger().info(f'{ACTION_NAME}: goal canceled')
-                if self.sub_odom is not None:
-                    self.sub_odom.destroy()
-                    self.sub_odom = None
-            if self.goal_reached:
-                goal_handle.succeed()
-                self.get_logger().info(f'{ACTION_NAME} has succeeded!')
-            return Stop.Result(is_stopped=self.goal_reached)
+        trigger_event = Event()  # Flag is intially set to False
 
-    def robotOdomCallback(self, msg: Odometry):
+        sub_odom = self.create_subscription(
+            Odometry,
+            myglobals.robot_name + '/odom',
+            functools.partial(self.robotOdomCallback,
+                              goal_handle=goal_handle,
+                              trigger_event=trigger_event),
+            1,
+            callback_group=ReentrantCallbackGroup())
+
+        while rclpy.ok():
+            # Wait for a confimation (trigger), either due to the goal having
+            # succeeded, or the goal having been cancelled.
+            trigger_event.wait()
+            with self.goal_lock:
+                # Wait for new information to arrive
+                if trigger_event.wait(5.0) is False:
+                    self.get_logger().warn(
+                        f'{ACTION_NAME} is still running')
+                else:
+                    # If the event was triggered, clear it
+                    trigger_event.clear()
+
+                with self.goal_lock:
+                    # Check if the goal is no longer active or if a cancel was
+                    # requested.
+                    if (not goal_handle.is_active) or \
+                       (goal_handle.is_cancel_requested):
+                        if not goal_handle.is_active:
+                            self.get_logger().info(
+                                f'{ACTION_NAME}: goal aborted')
+                        else:  # goal_handle.is_cancel_requested
+                            goal_handle.canceled()  # Confirm goal is canceled
+                            self.get_logger().info(
+                                f'{ACTION_NAME}: goal canceled')
+                        # No need for the callback anymore
+                        self.destroy_subscription(sub_odom)
+                        return Stop.Result(is_stopped=False)
+
+                    # Check if the robot is moving
+                    lin_speed = sqrt(self.curr_odom.twist.twist.linear.x**2 +
+                                     self.curr_odom.twist.twist.linear.y**2)
+                    if (lin_speed > 0.001) or \
+                       (self.curr_odom.twist.twist.angular.z > 0.002):
+                        # Ask the robot to stop
+                        self.vel_cmd.angular.z = 0.0
+                        self.vel_cmd.linear.x = 0.0
+                        self.vel_pub.publish(self.vel_cmd)
+                    else:  # The robot is stopped, we are done!
+                        # No need for the callback anymore
+                        self.destroy_subscription(sub_odom)
+                        goal_handle.succeed()
+                        self.get_logger().info(f'{ACTION_NAME} has succeeded!')
+                        return Stop.Result(is_stopped=self.goal_reached)
+
+    def robotOdomCallback(self, msg: Odometry, goal_handle, trigger_event):
         '''
         Check current velocity and, if the robot is not stopped, stop it.
         '''
         with self.goal_lock:
-            # If the action is not active or a preemption was requested,
-            # return immediately
-            if (not self.goal_handle.is_active) or \
-               (self.goal_handle.status != GoalStatus.STATUS_EXECUTING):
+            # If the goal is not active, there is nothing to do here
+            if not goal_handle.is_active:
+                self.get_logger().warn(
+                    f'{ACTION_NAME} callback called without active goal!')
                 return
 
-            # Check if the robot is moving
-            lin_speed = sqrt(msg.twist.twist.linear.x**2 +
-                             msg.twist.twist.linear.y**2)
-            if (lin_speed > 0.001) or (msg.twist.twist.angular.z > 0.002):
-                # Ask the robot to stop
-                self.vel_cmd.angular.z = 0.0
-                self.vel_cmd.linear.x = 0.0
-                self.vel_pub.publish(self.vel_cmd)
-            else:  # The robot is stopped
-                # Stop this callback
-                if self.sub_odom is not None:
-                    self.sub_odom.destroy()
-                    self.sub_odom = None
-                # We are done, store final result
-                self.goal_reached = True
-                self.trigger_event.set()  # Trigger execute_cb to continue
+            # Store odometry information
+            self.curr_odom = msg
+
+            # Trigger execute_cb to continue
+            trigger_event.set()
 
 
 def main(args=None):

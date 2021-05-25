@@ -25,6 +25,7 @@
             "program": "${workspaceFolder}/tw10/simple_task.py",
             "console": "integratedTerminal",
             "subProcess": false,
+            //"justMyCode": false,
             "args": [
                 "--ros-args",
                 "-p",
@@ -35,6 +36,7 @@
             "name": "Python: Attach using Process Id",
             "type": "python",
             "request": "attach",
+            //"justMyCode": false,
             "processId": "${command:pickProcess}"
         }
     ],

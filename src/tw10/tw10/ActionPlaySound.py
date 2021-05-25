@@ -116,7 +116,8 @@ class PlaySoundActionServer(Node):
 
         # Play sound
         with self.goal_lock:
-            play_succeeded = play_sound(self.goal_handle.request.sound_file, False)
+            play_succeeded = play_sound(self.goal_handle.request.sound_file,
+                                        False)
             if play_succeeded:
                 self.goal_handle.succeed()
                 self.get_logger().info(f'{ACTION_NAME} has succeeded!')

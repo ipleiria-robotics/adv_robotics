@@ -33,6 +33,11 @@
 Recharge action: Request charging.
 '''
 
+# Non-ROS modules
+import os
+from threading import Lock, Event
+import functools
+
 # ROS related modules
 import rclpy
 from rclpy.action import ActionServer, CancelResponse, GoalResponse
@@ -45,11 +50,7 @@ from sensor_msgs.msg import BatteryState
 import tw10.myglobals as myglobals
 from ar_utils.action import Recharge
 from ar_utils.srv import StartCharging  # Access to the battery manager service
-from action_msgs.msg import GoalStatus
 
-# Other modules
-import os
-from threading import Lock, Event
 
 # This action name (strip the '.py' preffix)
 ACTION_NAME = os.path.basename(__file__)[:-3]
@@ -72,8 +73,6 @@ class RechargeActionServer(Node):
         self.goal_handle = None
         self.goal_lock = Lock()
         self.battery_level = -1.0
-        self.trigger_event = Event()
-        self.sub_batt = None
 
         # Enable access to the battery charging service
         self.charge_battery_svc = self.create_client(
@@ -118,8 +117,6 @@ class RechargeActionServer(Node):
                 self.get_logger().info(f'{ACTION_NAME} aborting previous goal')
                 # Abort the existing goal
                 self.goal_handle.abort()
-                # Allow the trigger callback to finish (it might be blocked)
-                self.trigger_event.set()
             self.goal_handle = goal_handle
         # Start runing the execute callback
         goal_handle.execute()
@@ -127,12 +124,6 @@ class RechargeActionServer(Node):
     def cancel_cb(self, goal_handle):
         ''' Callback that's called when an action cancellation is requested '''
         self.get_logger().info(f'{ACTION_NAME} received a cancel request!')
-        # Stop the topic callback
-        if self.sub_batt is not None:
-            self.sub_batt.destroy()
-            self.sub_batt = None
-        # Allow the trigger callback to finish, if blocked
-        self.trigger_event.set()
         # The cancel request was accepted
         return CancelResponse.ACCEPT
 
@@ -141,6 +132,10 @@ class RechargeActionServer(Node):
         self.get_logger().info(
             f'Executing action {ACTION_NAME} with battery-level ' +
             f'goal {goal_handle.request.target_battery_level:2.2f}')
+
+        # Wait for a confimation (trigger), either due to the goal having
+        # succeeded, or the goal having been cancelled.
+        trigger_event = Event()  # Flag is intially set to False
 
         # Request charging to start
         svc_req = StartCharging.Request()
@@ -154,19 +149,26 @@ class RechargeActionServer(Node):
             return Recharge.Result(battery_level=self.battery_level)
 
         # Setup subscriber for the battery level
-        self.sub_batt = self.create_subscription(
-            BatteryState,
-            myglobals.robot_name + '/battery/state',
-            self.batteryStateCb, 1)
-        self.trigger_event.clear()  # Clear flag
+        sub_batt = self.create_subscription(
+                BatteryState,
+                myglobals.robot_name + '/battery/state',
+                functools.partial(self.batteryStateCb,
+                                  goal_handle=goal_handle,
+                                  trigger_event=trigger_event),
+                1,
+                callback_group=ReentrantCallbackGroup())
 
+        # Used for feedback purposes
         feedback = Recharge.Feedback()
 
         while rclpy.ok():
-            # Wait for a confimation (trigger), either due to the goal having
-            # succeeded, or the goal having been cancelled.
-            self.trigger_event.wait()
-            self.trigger_event.clear()  # Clear flag
+            # Wait for new information to arrive
+            if trigger_event.wait(5.0) is False:
+                self.get_logger().warn(
+                    f'{ACTION_NAME} is still running')
+            else:
+                # If the event was triggered, clear it
+                trigger_event.clear()
 
             with self.goal_lock:
                 # Only continue if the goal is active and a cancel was not
@@ -178,9 +180,8 @@ class RechargeActionServer(Node):
                     else:  # goal_handle.is_cancel_requested
                         goal_handle.canceled()  # Confirm goal is canceled
                         self.get_logger().info(f'{ACTION_NAME}: goal canceled')
-                    if self.sub_batt is not None:
-                        self.sub_batt.destroy()
-                        self.sub_batt = None
+                    # No need for the callback anymore
+                    self.destroy_subscription(sub_batt)
                     # Cancel the recharging and return
                     svc_req = StartCharging.Request()
                     svc_req.charge = False
@@ -190,11 +191,9 @@ class RechargeActionServer(Node):
                 # Do nothing until we have an update
                 if self.battery_level >= \
                    goal_handle.request.target_battery_level:
-                    # Stop the batteryStateCb callback
-                    if self.sub_batt is not None:
-                        self.sub_batt.destroy()
-                        self.sub_batt = None
-                    # Store final result and trigger SUCCEED
+                    # We are done, no need for the callback anymore
+                    self.destroy_subscription(sub_batt)
+                    # Trigger SUCCEED
                     goal_handle.succeed()
                     self.get_logger().info(f'{ACTION_NAME} has succeeded!')
                     # Cancel the recharging and return
@@ -208,22 +207,22 @@ class RechargeActionServer(Node):
                     feedback.battery_level = self.battery_level
                     goal_handle.publish_feedback(feedback)
 
-    def batteryStateCb(self, msg: BatteryState):
+    def batteryStateCb(self, msg: BatteryState, goal_handle, trigger_event):
         '''
         Receive current robot battery charge
         '''
         with self.goal_lock:
-            # If the action is not active or a preemption was requested,
-            # return immediately
-            if self.goal_handle.is_active and \
-               (self.goal_handle.status == GoalStatus.STATUS_EXECUTING):
-                # Store the robot pose
-                self.battery_level = msg.percentage
-            else:
+            # Check if we are still "in business"
+            if not goal_handle.is_active:
+                self.get_logger().warn(
+                    f'{ACTION_NAME} callback called without active goal!')
                 return
 
-        # Trigger update
-        self.trigger_event.set()  # Trigger execute_cb to continue
+            # Store the robot pose
+            self.battery_level = msg.percentage
+
+            # Trigger execute_cb to continue
+            trigger_event.set()
 
 
 def main(args=None):

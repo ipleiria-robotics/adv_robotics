@@ -31,6 +31,12 @@
 Move2Pos action: given a 2D position (X and Y), move to that position.
 '''
 
+# Non-ROS modules
+from math import radians, atan2, sqrt
+import os
+from threading import Lock, Event
+import functools
+
 # ROS related modules
 import rclpy
 from rclpy.action import ActionServer, CancelResponse, GoalResponse
@@ -38,18 +44,12 @@ from rclpy.executors import MultiThreadedExecutor
 from rclpy.callback_groups import ReentrantCallbackGroup
 from rclpy.node import Node
 from geometry_msgs.msg import Pose2D, Twist, PoseStamped
-from action_msgs.msg import GoalStatus
 
 # Our modules
 import tw10.myglobals as myglobals
 from ar_utils.action import Move2Pos
 from ar_utils.utils import quaternionToYaw, clipValue
 import ar_utils.LocalFrameWorldFrameTransformations as lfwft
-
-# Other modules
-from math import radians, atan2, sqrt
-import os
-from threading import Lock, Event
 
 # This action name (strip the '.py' preffix)
 ACTION_NAME = os.path.basename(__file__)[:-3]
@@ -67,9 +67,6 @@ class Move2PosActionServer(Node):
         # accessed in multiple callbacks
         self.goal_handle = None
         self.goal_lock = Lock()
-        self.trigger_event = Event()  # Flag is intially set to False
-        self.goal_reached = False  # Keep track of the current goal status
-        self.sub_pose = None
 
         ''' Initialize members for navigation control '''
         self.curr_pose = Pose2D()
@@ -122,8 +119,6 @@ class Move2PosActionServer(Node):
                 self.get_logger().info(f'{ACTION_NAME} aborting previous goal')
                 # Abort the existing goal
                 self.goal_handle.abort()
-                # Allow the trigger callback to finish (it might be blocked)
-                self.trigger_event.set()
             self.goal_handle = goal_handle
         # Start runing the execute callback
         goal_handle.execute()
@@ -131,118 +126,131 @@ class Move2PosActionServer(Node):
     def cancel_cb(self, goal_handle):
         ''' Callback that's called when an action cancellation is requested '''
         self.get_logger().info(f'{ACTION_NAME} received a cancel request!')
-        # Stop the topic callback
-        if self.sub_pose is not None:
-            self.sub_pose.destroy()
-            self.sub_pose = None
-        # Allow the trigger callback to finish
-        self.trigger_event.set()
         # The cancel request was accepted
         return CancelResponse.ACCEPT
 
     def execute_cb(self, goal_handle):
         ''' Callback to execute when the action has a new goal '''
-        with self.goal_lock:
-            self.goal_reached = False  # New goal
-            self.trigger_event.clear()  # Clear flag
         self.get_logger().info(
             f'Executing action {ACTION_NAME} with goal position ' +
             f'[{goal_handle.request.target_position.x:0.2f},' +
             f' {goal_handle.request.target_position.y:0.2f}]. [m]')
 
-        # Setup subscriber for pose
-        # The majority of the work will be done in the robotPoseCallback
-        self.sub_pose = self.create_subscription(
-            PoseStamped,
-            myglobals.robot_name + '/pose',
-            self.robotPoseCallback, 1)
-
         # Wait for a confimation (trigger), either due to the goal having
         # succeeded, or the goal having been cancelled.
-        self.trigger_event.wait()
-        with self.goal_lock:
-            # Check if the goal is no longer active or if a cancel was
-            # requested.
-            if (not goal_handle.is_active) or \
-               (goal_handle.is_cancel_requested):
-                if not goal_handle.is_active:
-                    self.get_logger().info(f'{ACTION_NAME}: goal aborted')
-                else:  # goal_handle.is_cancel_requested
-                    goal_handle.canceled()  # Confirm goal is canceled
-                    self.get_logger().info(f'{ACTION_NAME}: goal canceled')
-                if self.sub_pose is not None:
-                    self.sub_pose.destroy()
-                    self.sub_pose = None
-            if self.goal_reached:
-                goal_handle.succeed()
-                self.get_logger().info(f'{ACTION_NAME} has succeeded!')
-            return Move2Pos.Result(final_pose=self.curr_pose)
+        trigger_event = Event()  # Flag is intially set to False
 
-    def robotPoseCallback(self, msg: PoseStamped):
+        # Setup subscriber for pose
+        # The majority of the work will be done in the robotPoseCallback
+        sub_pose = self.create_subscription(
+                PoseStamped,
+                myglobals.robot_name + '/pose',
+                functools.partial(self.robotPoseCallback,
+                                  goal_handle=goal_handle,
+                                  trigger_event=trigger_event),
+                1,
+                callback_group=ReentrantCallbackGroup())
+
+        # Desired position
+        target_position = lfwft.Point2D(
+            goal_handle.request.target_position.x,
+            goal_handle.request.target_position.y)
+        # Used for feedback purposes
+        feedback = Move2Pos.Feedback()
+
+        while rclpy.ok():
+            # Wait for new information to arrive
+            if trigger_event.wait(5.0) is False:
+                self.get_logger().warn(
+                    f'{ACTION_NAME} is still running')
+            else:
+                # If the event was triggered, clear it
+                trigger_event.clear()
+
+            with self.goal_lock:
+                # Check if the goal is no longer active or if a cancel was
+                # requested.
+                if (not goal_handle.is_active) or \
+                   (goal_handle.is_cancel_requested):
+                    if not goal_handle.is_active:
+                        self.get_logger().info(f'{ACTION_NAME}: goal aborted')
+                    else:  # goal_handle.is_cancel_requested
+                        goal_handle.canceled()  # Confirm goal is canceled
+                        self.get_logger().info(f'{ACTION_NAME}: goal canceled')
+                    # No need for the callback anymore
+                    self.destroy_subscription(sub_pose)
+                    # Return whatever result we have so far
+                    return Move2Pos.Result(final_pose=self.curr_pose)
+
+                ''' Control de robot velocity to reach the desired goal '''
+
+                # The angular velocity will be proportional to the angle of the
+                # target as seen by the robot.
+                target_local_pos = lfwft.world2Localp(self.curr_pose,
+                                                      target_position)
+                angle_to_target = atan2(target_local_pos.y, target_local_pos.x)
+                ang_vel = self.Kp_ang_vel * angle_to_target
+
+                # We will not update the linear velocity if the robot is not
+                # facing the target enough. If it is, then the linear velocity
+                # will be proportional to the distance, increased with the
+                # target velocity. We actually use the squared distance just
+                # for performance reasons.
+                distance = sqrt((self.curr_pose.x-target_position.x)**2 +
+                                (self.curr_pose.y-target_position.y)**2)
+                if abs(angle_to_target) < self.max_angle_to_target:
+                    lin_vel = self.Kp_lin_vel * distance + \
+                              self.velocity_at_target
+                else:
+                    lin_vel = 0.0
+
+                # Limit maximum velocities
+                lin_vel = clipValue(
+                    lin_vel, -self.MAX_LIN_VEL, self.MAX_LIN_VEL)
+                ang_vel = clipValue(
+                    ang_vel, -self.MAX_ANG_VEL, self.MAX_ANG_VEL)
+
+                # Did we reach the goal?
+                if distance < self.min_distance:
+                    # No need for the callback anymore
+                    self.destroy_subscription(sub_pose)
+                    # Stop the robot
+                    self.vel_cmd.angular.z = 0.0
+                    self.vel_cmd.linear.x = 0.0
+                    self.vel_pub.publish(self.vel_cmd)
+                    # We are done!
+                    goal_handle.succeed()
+                    self.get_logger().info(f'{ACTION_NAME} has succeeded!')
+                    return Move2Pos.Result(final_pose=self.curr_pose)
+                else:
+                    # Send velocity commands
+                    self.vel_cmd.angular.z = ang_vel
+                    self.vel_cmd.linear.x = lin_vel
+                    self.vel_pub.publish(self.vel_cmd)
+
+                    # Publish feedback (current pose)
+                    feedback.base_pose = self.curr_pose
+                    goal_handle.publish_feedback(feedback)
+
+    def robotPoseCallback(self, msg: PoseStamped, goal_handle, trigger_event):
         '''
         Receive current robot pose and change its velocity accordingly
         '''
         with self.goal_lock:
-            # If the action is not active or a cancel was requested,
-            # return immediately
-            if (not self.goal_handle.is_active) or \
-               (self.goal_handle.status != GoalStatus.STATUS_EXECUTING):
+            # If the goal is not active, there is nothing to do here
+            if not goal_handle.is_active:
+                self.get_logger().warn(
+                    f'{ACTION_NAME} callback called without active goal!')
                 return
 
-            # Else, get the desired orientation
-            target_position = lfwft.Point2D(
-                self.goal_handle.request.target_position.x,
-                self.goal_handle.request.target_position.y)
             # Store current pose
             self.curr_pose = Pose2D(
                 x=msg.pose.position.x,
                 y=msg.pose.position.y,
                 theta=quaternionToYaw(msg.pose.orientation))
 
-        # The angular velocity will be proportional to the angle of the target
-        # as seen by the robot.
-        target_local_pos = lfwft.world2Localp(self.curr_pose, target_position)
-        angle_to_target = atan2(target_local_pos.y, target_local_pos.x)
-        ang_vel = self.Kp_ang_vel * angle_to_target
-
-        #  We will not update the linear velocity if the robot is not facing
-        # the target enough. If it is, then the linear velocity will be
-        # proportional to the distance, increased with the target velocity. We
-        # actually use the squared distance just for performance reasons.
-        distance = sqrt((self.curr_pose.x-target_position.x)**2 +
-                        (self.curr_pose.y-target_position.y)**2)
-        if abs(angle_to_target) < self.max_angle_to_target:
-            lin_vel = self.Kp_lin_vel * distance + self.velocity_at_target
-        else:
-            lin_vel = 0.0
-
-        # Limit maximum velocities
-        lin_vel = clipValue(lin_vel, -self.MAX_LIN_VEL, self.MAX_LIN_VEL)
-        ang_vel = clipValue(ang_vel, -self.MAX_ANG_VEL, self.MAX_ANG_VEL)
-
-        # Publish feedback (current pose)
-        feedback = Move2Pos.Feedback()
-        feedback.base_pose = self.curr_pose
-        self.goal_handle.publish_feedback(feedback)
-
-        # Send velocity commands
-        self.vel_cmd.angular.z = ang_vel
-        self.vel_cmd.linear.x = lin_vel
-        self.vel_pub.publish(self.vel_cmd)
-
-        # Did we reach the goal?
-        if distance < self.min_distance:
-            # Stop the robot
-            self.vel_cmd.angular.z = 0.0
-            self.vel_cmd.linear.x = 0.0
-            self.vel_pub.publish(self.vel_cmd)
-            # Stop this callback
-            if self.sub_pose is not None:
-                self.sub_pose.destroy()
-                self.sub_pose = None
-            # We are done!
-            self.goal_reached = True
-            self.trigger_event.set()  # Trigger execute_cb to continue
+            # Trigger execute_cb to continue
+            trigger_event.set()
 
 
 def main(args=None):
