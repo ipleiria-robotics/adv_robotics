@@ -35,7 +35,6 @@ from launch.conditions import IfCondition
 import launch_ros.actions
 from ament_index_python.packages import get_package_share_directory
 import os
-from math import radians
 
 
 def generate_launch_description():
@@ -55,32 +54,28 @@ def generate_launch_description():
     stage_cmd = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(os.path.join(
                 get_package_share_directory('worlds'), 'launch',
-                'map_laser_with_landmarks2_launch.py')),
+                'lw2_simulator_launch.py')),
         condition=IfCondition(LaunchConfiguration('start_stage')))
     ld.add_action(stage_cmd)
 
-    # Ground trugh republisher
-    start_republisher_cmd = launch_ros.actions.Node(
-            package='tw07',
-            executable='ground_truth_republisher',
-            name='tw07_ground_truth_republisher',
+    # Start the battery manager
+    start_battery_manager_cmd = launch_ros.actions.Node(
+            package='ar_utils',
+            executable='battery_manager',
+            namespace='robot_0',  # TODO: Make this a (launch) parameter
+            name='battery_manager',
             output='screen',
             emulate_tty=True,
             parameters=[{'use_sim_time': use_sim_time}])
-    ld.add_action(start_republisher_cmd)
-
-    # Include the map server launch
-    map_config = os.path.join(
-        get_package_share_directory('tw09'), 'config', 'map.yaml')
-    included_map_server_launch = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            os.path.join(get_package_share_directory('tw07'),
-                         'launch', 'map_server_launch.py')),
-        launch_arguments={'map_yaml_file': map_config}.items())
-    ld.add_action(included_map_server_launch)
+    ld.add_action(start_battery_manager_cmd)
 
     # RViz node
-    rviz_config = os.path.join(get_package_share_directory('tw09'),
+    auto_run_rviz_cmd = DeclareLaunchArgument(
+        'run-rviz',
+        default_value='False',
+        description='Whether to start RViz')
+    ld.add_action(auto_run_rviz_cmd)
+    rviz_config = os.path.join(get_package_share_directory('lw2'),
                                'config', 'config.rviz')
     start_rviz_cmd = launch_ros.actions.Node(
             package='rviz2',
@@ -88,44 +83,8 @@ def generate_launch_description():
             output='screen',
             emulate_tty=True,
             parameters=[{'use_sim_time': use_sim_time}],
-            arguments=['-d', rviz_config])
+            arguments=['-d', rviz_config],
+            condition=IfCondition(LaunchConfiguration('run-rviz')))
     ld.add_action(start_rviz_cmd)
-
-    # The localization is not started by default. If the user wants,
-    # it can pass the "run-particle-filter:=true" argument to start it
-    auto_run_ekf_cmd = DeclareLaunchArgument(
-        'run-icp-ekf-localization',
-        default_value='False',
-        description='Whether to run the EKF Filter with ICP-based localization'
-    )
-    ld.add_action(auto_run_ekf_cmd)
-    start_ekf_cmd = launch_ros.actions.Node(
-            package='tw09',
-            executable='ekf_icp_localization',
-            name='tw09_ekf_icp_localization',
-            output='screen',
-            emulate_tty=True,
-            parameters=[{'use_sim_time': use_sim_time}],
-            condition=IfCondition(
-                LaunchConfiguration('run-icp-ekf-localization')))
-    ld.add_action(start_ekf_cmd)
-
-    # Path navigation node (from TW09)
-    auto_run_navigation_cmd = DeclareLaunchArgument(
-        'run-navigation',
-        default_value='True',
-        description='Whether to run the navigation')
-    ld.add_action(auto_run_navigation_cmd)
-    start_navigation_cmd = launch_ros.actions.Node(
-            package='tw09',
-            executable='path_navigation',
-            name='tw09_path_navigation',
-            output='screen',
-            emulate_tty=True,
-            parameters=[{'use_sim_time': use_sim_time,
-                         'ref_lin_vel': 0.5,
-                         'ref_ang_vel': radians(60)}],
-            condition=IfCondition(LaunchConfiguration('run-navigation')))
-    ld.add_action(start_navigation_cmd)
 
     return ld

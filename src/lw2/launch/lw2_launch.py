@@ -38,6 +38,17 @@ import os
 from math import radians
 
 
+def addActionServer(ld, package, executable, use_sim_time):
+    # Action server for Rotate2Angle
+    start_action_server_cmd = launch_ros.actions.Node(
+            package=package,
+            executable=executable,
+            output='screen',
+            emulate_tty=True,
+            parameters=[{'use_sim_time': use_sim_time}])
+    ld.add_action(start_action_server_cmd)
+
+
 def generate_launch_description():
     # Parameters
     use_sim_time = True
@@ -55,32 +66,64 @@ def generate_launch_description():
     stage_cmd = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(os.path.join(
                 get_package_share_directory('worlds'), 'launch',
-                'map_laser_with_landmarks2_launch.py')),
+                'lw2_simulator_launch.py')),
         condition=IfCondition(LaunchConfiguration('start_stage')))
     ld.add_action(stage_cmd)
 
-    # Ground trugh republisher
-    start_republisher_cmd = launch_ros.actions.Node(
-            package='tw07',
-            executable='ground_truth_republisher',
-            name='tw07_ground_truth_republisher',
+    # Start the battery manager
+    start_battery_manager_cmd = launch_ros.actions.Node(
+            package='ar_utils',
+            executable='battery_manager',
+            namespace='robot_0',  # TODO: Make this a (launch) parameter
+            name='battery_manager',
             output='screen',
             emulate_tty=True,
             parameters=[{'use_sim_time': use_sim_time}])
-    ld.add_action(start_republisher_cmd)
+    ld.add_action(start_battery_manager_cmd)
 
     # Include the map server launch
+    # The map server is needed only while the ICP is not changed, so it it does
+    # not run by default.
+    auto_run_map_server_cmd = DeclareLaunchArgument(
+        'run-map-server',
+        default_value='False',
+        description='Whether to run the map server (it should not be needed)')
+    ld.add_action(auto_run_map_server_cmd)
     map_config = os.path.join(
-        get_package_share_directory('tw09'), 'config', 'map.yaml')
+        get_package_share_directory('tw04'), 'config', 'map.yaml')
     included_map_server_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(get_package_share_directory('tw07'),
                          'launch', 'map_server_launch.py')),
-        launch_arguments={'map_yaml_file': map_config}.items())
+        launch_arguments={'map_yaml_file': map_config}.items(),
+        condition=IfCondition(
+                LaunchConfiguration('run-map-server')))
     ld.add_action(included_map_server_launch)
 
+    # The localization is started by default. If the user wants, it can pass
+    # the "run-ekf-localization:=False" argument to avoid starting it
+    auto_run_ekf_cmd = DeclareLaunchArgument(
+        'run-ekf-icp-localization',
+        default_value='True',
+        description='Whether to run the ICP-based EKF localization')
+    ld.add_action(auto_run_ekf_cmd)
+    start_ekf_cmd = launch_ros.actions.Node(
+            package='lw2',
+            executable='ekf_icp_localization',
+            output='screen',
+            emulate_tty=True,
+            parameters=[{'use_sim_time': use_sim_time}],
+            condition=IfCondition(
+                LaunchConfiguration('run-ekf-icp-localization')))
+    ld.add_action(start_ekf_cmd)
+
     # RViz node
-    rviz_config = os.path.join(get_package_share_directory('tw09'),
+    auto_run_rviz_cmd = DeclareLaunchArgument(
+        'run-rviz',
+        default_value='False',
+        description='Whether to start RViz')
+    ld.add_action(auto_run_rviz_cmd)
+    rviz_config = os.path.join(get_package_share_directory('lw2'),
                                'config', 'config.rviz')
     start_rviz_cmd = launch_ros.actions.Node(
             package='rviz2',
@@ -88,38 +131,26 @@ def generate_launch_description():
             output='screen',
             emulate_tty=True,
             parameters=[{'use_sim_time': use_sim_time}],
-            arguments=['-d', rviz_config])
+            arguments=['-d', rviz_config],
+            condition=IfCondition(LaunchConfiguration('run-rviz')))
     ld.add_action(start_rviz_cmd)
 
-    # The localization is not started by default. If the user wants,
-    # it can pass the "run-particle-filter:=true" argument to start it
-    auto_run_ekf_cmd = DeclareLaunchArgument(
-        'run-icp-ekf-localization',
-        default_value='False',
-        description='Whether to run the EKF Filter with ICP-based localization'
-    )
-    ld.add_action(auto_run_ekf_cmd)
-    start_ekf_cmd = launch_ros.actions.Node(
-            package='tw09',
-            executable='ekf_icp_localization',
-            name='tw09_ekf_icp_localization',
-            output='screen',
-            emulate_tty=True,
-            parameters=[{'use_sim_time': use_sim_time}],
-            condition=IfCondition(
-                LaunchConfiguration('run-icp-ekf-localization')))
-    ld.add_action(start_ekf_cmd)
+    # Add action servers
+    addActionServer(ld, 'lw2', 'action_play_sound', use_sim_time)
+    addActionServer(ld, 'lw2', 'action_move2pos', use_sim_time)
+    addActionServer(ld, 'lw2', 'action_rotate2angle', use_sim_time)
+    addActionServer(ld, 'lw2', 'action_recharge', use_sim_time)
 
-    # Path navigation node (from TW09)
+    # Path navigation node
     auto_run_navigation_cmd = DeclareLaunchArgument(
         'run-navigation',
-        default_value='True',
+        default_value='False',
         description='Whether to run the navigation')
     ld.add_action(auto_run_navigation_cmd)
     start_navigation_cmd = launch_ros.actions.Node(
-            package='tw09',
+            package='lw2',
             executable='path_navigation',
-            name='tw09_path_navigation',
+            name='lw2_path_navigation',
             output='screen',
             emulate_tty=True,
             parameters=[{'use_sim_time': use_sim_time,
@@ -127,5 +158,23 @@ def generate_launch_description():
                          'ref_ang_vel': radians(60)}],
             condition=IfCondition(LaunchConfiguration('run-navigation')))
     ld.add_action(start_navigation_cmd)
+
+    # Task node
+    auto_run_task_cmd = DeclareLaunchArgument(
+        'run-task',
+        default_value='True',
+        description='Whether to run the main task')
+    ld.add_action(auto_run_task_cmd)
+    start_task_cmd = launch_ros.actions.Node(
+            package='lw2',
+            executable='task',
+            name='lw2_task',
+            output='screen',
+            emulate_tty=True,
+            parameters=[{'use_sim_time': use_sim_time,
+                         'ref_lin_vel': 0.5,
+                         'ref_ang_vel': radians(60)}],
+            condition=IfCondition(LaunchConfiguration('run-task')))
+    ld.add_action(start_task_cmd)
 
     return ld

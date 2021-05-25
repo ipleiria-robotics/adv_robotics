@@ -301,7 +301,7 @@ class BatteryManager : public rclcpp::Node
     std::mutex pose_vel_mutex_;
 
     // Charging pose / location
-    const pose_2d charging_pose_ = {1.0, -2.0, -M_PI/2.0};
+    const pose_2d charging_pose_ = {0.0, -2.0, -M_PI/2.0};
 };
 
 
