@@ -51,11 +51,33 @@ from ament_index_python.packages import get_package_share_directory
 
 # Other libraries
 from numpy import pi, degrees
+from enum import Enum
+
+
+class States(Enum):
+    STATE_MOTION = 'STATE_MOTION'
+    STATE_ROTATION = 'STATE_ROTATION'
+    STATE_STOP = 'STATE_STOP'
+    STATE_RECHARGING = 'STATE_RECHARGING'
+    STATE_FAILURE = 'STATE_FAILURE'
+    STATE_SUCCESS = 'STATE_SUCCESS'
 
 
 class SimpleTask(Node):
     def __init__(self) -> None:
         super().__init__('tw10_simple_task')
+        # Set the initial state
+        self.state = States.STATE_MOTION
+        # Build internal states structure for calling the correspond
+        # methods
+        self.state_call = {
+            'STATE_MOTION': self.STATE_MOTION,
+            'STATE_ROTATION': self.STATE_ROTATION,
+            'STATE_STOP': self.STATE_STOP,
+            'STATE_RECHARGING': self.STATE_RECHARGING,
+            'STATE_FAILURE': self.STATE_FAILURE,
+            'STATE_SUCCESS': self.STATE_SUCCESS
+        }
 
     def createActionClients(self):
         ''' Create all the action clients. It will wait for each action server
@@ -81,10 +103,13 @@ class SimpleTask(Node):
         self.clientRecharge.wait_for_server()
         self.clientStop.wait_for_server()
 
-    def runTask(self):
-        ''' Execute a sequence of pre-defined actions'''
+    '''
+    State methods
+    '''
 
-        # 1st action
+    def STATE_MOTION(self):
+        self.get_logger().info(f'Running state {self.state.value}...')
+
         # Create the goal position and send it to the action server.
         # We will wait for the action to finish and return a result.
         goal = action.Move2Pos.Goal(target_position=Point(
@@ -95,11 +120,17 @@ class SimpleTask(Node):
         if result_response.status != GoalStatus.STATUS_SUCCEEDED:
             self.get_logger().warn('Action Move2Pos failed with result:' +
                                    result_response.result.final_pose.__str__())
+            # Select nest state
+            self.state = States.STATE_FAILURE
         else:
             self.get_logger().info('Action Move2Pos suceeded with result:' +
                                    result_response.result.final_pose.__str__())
+            # Select next state
+            self.state = States.STATE_ROTATION
 
-        # 2nd action
+    def STATE_ROTATION(self):
+        self.get_logger().info(f'Running state {self.state.value}...')
+
         # Create the goal angle and send it to the action server.
         # We will wait for the action to finish and return a result.
         goal = action.Rotate2Angle.Goal(target_orientation=-pi/2)
@@ -108,25 +139,37 @@ class SimpleTask(Node):
             self.get_logger().info(
                 'Action Rotate2Angle failed with result:' +
                 f'{degrees(result_response.result.final_orientation):.2f}')
+            # Select nest state
+            self.state = States.STATE_FAILURE
         else:
             self.get_logger().info(
                 'Action Rotate2Angle suceeded with result:' +
                 f'{degrees(result_response.result.final_orientation):.2f}')
+            # Select next state
+            self.state = States.STATE_STOP
 
-        # 3rd action
-        # Create the goal angle and send it to the action server.
+    def STATE_STOP(self):
+        self.get_logger().info(f'Running state {self.state.value}...')
+
+        # Create the goal stop (empty) send it to the action server.
         # We will wait for the action to finish and return a result.
         goal = action.Stop.Goal()  # Nothing specific
         result_response = self.clientStop.send_goal(goal)
         if result_response.status != GoalStatus.STATUS_SUCCEEDED:
             self.get_logger().info('Action Stop failed with result:' +
                                    result_response.result.is_stopped.__str__())
+            # Select nest state
+            self.state = States.STATE_FAILURE
         else:
             self.get_logger().info('Action Stop suceeded with result:' +
                                    result_response.result.is_stopped.__str__())
+            # Select next state
+            self.state = States.STATE_RECHARGING
 
-        # 4th action
-        # Create the goal position and send it to the action server.
+    def STATE_RECHARGING(self):
+        self.get_logger().info(f'Running state {self.state.value}...')
+
+        # Create the goal battery level and send it to the action server.
         # We will wait for the action to finish and return a result.
         goal = action.Recharge.Goal(target_battery_level=1.0)
         result_response = self.clientRecharge.send_goal(goal)
@@ -134,6 +177,8 @@ class SimpleTask(Node):
             self.get_logger().info(
                 'Action Recharge failed with result:' +
                 result_response.result.battery_level.__str__())
+            # Select nest state
+            self.state = States.STATE_FAILURE
         else:
             self.get_logger().info(
                 'Action Recharge suceeded with result:' +
@@ -149,9 +194,28 @@ class SimpleTask(Node):
             else:
                 self.get_logger().info('Action PlaySound suceeded!')
 
-        self.get_logger().info('Done...')
-        # Shutdown ROS
+            # Select next state
+            self.state = States.STATE_SUCCESS
+
+    def STATE_FAILURE(self):
+        self.get_logger().info(f'Running state {self.state}...')
+
+        # In this case, shtudown
         rclpy.shutdown()
+
+    def STATE_SUCCESS(self):
+        self.get_logger().info(f'Running state {self.state}...')
+
+        # In this case, shtudown
+        rclpy.shutdown()
+
+    def runTask(self):
+        ''' Execute a sequence of pre-defined actions'''
+        while rclpy.ok():
+            # Execute the current state
+            self.state_call[self.state.value]()
+
+        self.get_logger().info('Done...')
 
 
 def main(args=None):

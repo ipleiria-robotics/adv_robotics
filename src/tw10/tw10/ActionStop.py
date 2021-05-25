@@ -135,47 +135,43 @@ class StopActionServer(Node):
         while rclpy.ok():
             # Wait for a confimation (trigger), either due to the goal having
             # succeeded, or the goal having been cancelled.
-            trigger_event.wait()
+            if trigger_event.wait(5.0) is False:
+                self.get_logger().warn(f'{ACTION_NAME} is still running')
+            else:
+                # If the event was triggered, clear it
+                trigger_event.clear()
+
             with self.goal_lock:
-                # Wait for new information to arrive
-                if trigger_event.wait(5.0) is False:
-                    self.get_logger().warn(
-                        f'{ACTION_NAME} is still running')
-                else:
-                    # If the event was triggered, clear it
-                    trigger_event.clear()
+                # Check if the goal is no longer active or if a cancel was
+                # requested.
+                if (not goal_handle.is_active) or \
+                   (goal_handle.is_cancel_requested):
+                    if not goal_handle.is_active:
+                        self.get_logger().info(
+                            f'{ACTION_NAME}: goal aborted')
+                    else:  # goal_handle.is_cancel_requested
+                        goal_handle.canceled()  # Confirm goal is canceled
+                        self.get_logger().info(
+                            f'{ACTION_NAME}: goal canceled')
+                    # No need for the callback anymore
+                    self.destroy_subscription(sub_odom)
+                    return Stop.Result(is_stopped=False)
 
-                with self.goal_lock:
-                    # Check if the goal is no longer active or if a cancel was
-                    # requested.
-                    if (not goal_handle.is_active) or \
-                       (goal_handle.is_cancel_requested):
-                        if not goal_handle.is_active:
-                            self.get_logger().info(
-                                f'{ACTION_NAME}: goal aborted')
-                        else:  # goal_handle.is_cancel_requested
-                            goal_handle.canceled()  # Confirm goal is canceled
-                            self.get_logger().info(
-                                f'{ACTION_NAME}: goal canceled')
-                        # No need for the callback anymore
-                        self.destroy_subscription(sub_odom)
-                        return Stop.Result(is_stopped=False)
-
-                    # Check if the robot is moving
-                    lin_speed = sqrt(self.curr_odom.twist.twist.linear.x**2 +
-                                     self.curr_odom.twist.twist.linear.y**2)
-                    if (lin_speed > 0.001) or \
-                       (self.curr_odom.twist.twist.angular.z > 0.002):
-                        # Ask the robot to stop
-                        self.vel_cmd.angular.z = 0.0
-                        self.vel_cmd.linear.x = 0.0
-                        self.vel_pub.publish(self.vel_cmd)
-                    else:  # The robot is stopped, we are done!
-                        # No need for the callback anymore
-                        self.destroy_subscription(sub_odom)
-                        goal_handle.succeed()
-                        self.get_logger().info(f'{ACTION_NAME} has succeeded!')
-                        return Stop.Result(is_stopped=self.goal_reached)
+                # Check if the robot is moving
+                lin_speed = sqrt(self.curr_odom.twist.twist.linear.x**2 +
+                                 self.curr_odom.twist.twist.linear.y**2)
+                if (lin_speed > 0.001) or \
+                   (self.curr_odom.twist.twist.angular.z > 0.002):
+                    # Ask the robot to stop
+                    self.vel_cmd.angular.z = 0.0
+                    self.vel_cmd.linear.x = 0.0
+                    self.vel_pub.publish(self.vel_cmd)
+                else:  # The robot is stopped, we are done!
+                    # No need for the callback anymore
+                    self.destroy_subscription(sub_odom)
+                    goal_handle.succeed()
+                    self.get_logger().info(f'{ACTION_NAME} has succeeded!')
+                    return Stop.Result(is_stopped=True)
 
     def robotOdomCallback(self, msg: Odometry, goal_handle, trigger_event):
         '''

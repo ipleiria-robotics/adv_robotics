@@ -153,8 +153,7 @@ class Rotate2AngleActionServer(Node):
         while rclpy.ok():
             # Wait for new information to arrive
             if trigger_event.wait(5.0) is False:
-                self.get_logger().warn(
-                    f'{ACTION_NAME} is still running')
+                self.get_logger().warn(f'{ACTION_NAME} is still running')
             else:
                 # If the event was triggered, clear it
                 trigger_event.clear()
