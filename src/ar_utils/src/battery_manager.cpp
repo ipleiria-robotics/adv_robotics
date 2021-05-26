@@ -72,53 +72,52 @@ class BatteryManager : public rclcpp::Node
     BatteryManager() : Node("battery_manager")
     {
       /// Battery start/default values
-      this->battery_sate_.voltage = 12.0;
-      this->battery_sate_.temperature = NAN;  // Not measured
-      this->battery_sate_.current = NAN;
-      this->battery_sate_.charge = NAN;
-      this->battery_sate_.capacity = NAN;
-      this->battery_sate_.design_capacity = NAN;
-      this->battery_sate_.percentage = 0.80;
-      this->battery_sate_.power_supply_status = 
+      battery_sate_.voltage = 12.0;
+      battery_sate_.temperature = NAN;  // Not measured
+      battery_sate_.current = NAN;
+      battery_sate_.charge = NAN;
+      battery_sate_.capacity = NAN;
+      battery_sate_.design_capacity = NAN;
+      battery_sate_.percentage = 0.80;
+      battery_sate_.power_supply_status = 
         sensor_msgs::msg::BatteryState::POWER_SUPPLY_STATUS_DISCHARGING;
-      this->battery_sate_.power_supply_status =
+      battery_sate_.power_supply_status =
         sensor_msgs::msg::BatteryState::POWER_SUPPLY_HEALTH_GOOD;
-      this->battery_sate_.power_supply_technology =
+      battery_sate_.power_supply_technology =
         sensor_msgs::msg::BatteryState::POWER_SUPPLY_TECHNOLOGY_LION;
-      this->battery_sate_.present = true;
-      this->battery_sate_.cell_voltage = {NAN, NAN, NAN};
-      this->battery_sate_.cell_temperature = {NAN, NAN, NAN};
-      this->battery_sate_.location = "MAIN_SLOT";
-      this->battery_sate_.serial_number = "SIMULATED_BATTERY";
+      battery_sate_.present = true;
+      battery_sate_.cell_voltage = {NAN, NAN, NAN};
+      battery_sate_.cell_temperature = {NAN, NAN, NAN};
+      battery_sate_.location = "MAIN_SLOT";
+      battery_sate_.serial_number = "SIMULATED_BATTERY";
 
       /// ROS variables/objects
       std::string robot_name = "/robot_0";
 
       // Publisher for the battery state
-      this->batttery_level_pub_ = 
-          this->create_publisher<sensor_msgs::msg::BatteryState>(
+      batttery_level_pub_ = 
+          create_publisher<sensor_msgs::msg::BatteryState>(
             robot_name + "/battery/state", rclcpp::QoS(rclcpp::KeepLast(1)));
       // Publisher for the velocity commands    
-      this->vel_pub_ = this->create_publisher<geometry_msgs::msg::Twist>(
+      vel_pub_ = create_publisher<geometry_msgs::msg::Twist>(
         robot_name + "/cmd_vel", rclcpp::QoS(rclcpp::KeepLast(1)));
 
       /// Setup subscribers
       // Real, error-free robot pose (for debug purposes only)
-      this->sub_real_pose_ = 
-        this->create_subscription<nav_msgs::msg::Odometry>(
+      sub_real_pose_ = 
+        create_subscription<nav_msgs::msg::Odometry>(
           robot_name + "/base_pose_ground_truth", 1,
           std::bind(&BatteryManager::odomCallback, this,
-          std::placeholders::_1));
+                    std::placeholders::_1));
 
       // Clock
-      this->sub_bat_ = 
-        this->create_subscription<rosgraph_msgs::msg::Clock>(
+      sub_bat_ = create_subscription<rosgraph_msgs::msg::Clock>(
           "/clock", 1,
           std::bind(&BatteryManager::batteryCallback, this,
           std::placeholders::_1));
 
       // Advertise the battery charging service
-      this->service_ = this->create_service<ar_utils::srv::StartCharging>(
+      service_ = create_service<ar_utils::srv::StartCharging>(
           robot_name + "/battery/charge",
           std::bind(&BatteryManager::startChargeRequest,
                     this, 
@@ -137,19 +136,19 @@ class BatteryManager : public rclcpp::Node
     {
       geometry_msgs::msg::Pose2D robot_pose, robot_speed;
       // Store a local copy of the robot pose and velocity
-      this->pose_vel_mutex_.lock();
-      robot_pose = this->robot_pose_;
-      robot_speed = this->robot_speed_;
-      this->pose_vel_mutex_.unlock();
+      pose_vel_mutex_.lock();
+      robot_pose = robot_pose_;
+      robot_speed = robot_speed_;
+      pose_vel_mutex_.unlock();
 
       // Are we cancelling the charge?
       if(request->charge == false)
       {
-	if(this->is_charging_ == false)
+        if(is_charging_ == false)
           RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Robot was already not charging...");
         else
         {
-          this->is_charging_ = false;
+          is_charging_ = false;
           RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Robot stopped charging...");
         }
         response->charging = false;
@@ -159,29 +158,29 @@ class BatteryManager : public rclcpp::Node
       // If the robot is not stopped, or too far, return false response
       if((abs(sqrt(pow(robot_speed.x,2)+pow(robot_speed.y,2))) > MAX_LIN_SPEED ||
          (abs(robot_speed.theta) > MAX_ANG_SPEED)) ||
-         (abs(robot_pose.x - this->charging_pose_.x) > MAX_X_OFFSET) ||
-         (abs(robot_pose.y - this->charging_pose_.y) > MAX_Y_OFFSET) ||
-         (abs(robot_pose.theta - this->charging_pose_.theta) > MAX_ANG_OFFSET))
+         (abs(robot_pose.x - charging_pose_.x) > MAX_X_OFFSET) ||
+         (abs(robot_pose.y - charging_pose_.y) > MAX_Y_OFFSET) ||
+         (abs(robot_pose.theta - charging_pose_.theta) > MAX_ANG_OFFSET))
       {
         if((abs(sqrt(pow(robot_speed.x,2)+pow(robot_speed.y,2))) > MAX_LIN_SPEED) ||
            (abs(robot_speed.theta) > MAX_ANG_SPEED))
           RCLCPP_WARN(rclcpp::get_logger("rclcpp"),
                       "Robot is moving, unable to start charging...");
-        if((abs(robot_pose.x - this->charging_pose_.x) > MAX_X_OFFSET) ||
-           (abs(robot_pose.y - this->charging_pose_.y) > MAX_Y_OFFSET) ||
-           (abs(robot_pose.theta - this->charging_pose_.theta) > MAX_ANG_OFFSET))
+        if((abs(robot_pose.x - charging_pose_.x) > MAX_X_OFFSET) ||
+           (abs(robot_pose.y - charging_pose_.y) > MAX_Y_OFFSET) ||
+           (abs(robot_pose.theta - charging_pose_.theta) > MAX_ANG_OFFSET))
           RCLCPP_WARN(
             rclcpp::get_logger("rclcpp"),
             "Robot not in charging pose, unable to start charging...");
-          this->is_charging_ = false;
+          is_charging_ = false;
           response->charging = false;
       } else
       {
-	if(this->is_charging_ == true)
+	      if(is_charging_ == true)
           RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Robot was already charging...");
         else
         {
-          this->is_charging_ = true;
+          is_charging_ = true;
           RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Robot started charging...");
         }
         response->charging = true;
@@ -194,73 +193,73 @@ class BatteryManager : public rclcpp::Node
      */
     void batteryCallback(const rosgraph_msgs::msg::Clock::SharedPtr)
     {
-      if(this->is_charging_)
+      if(is_charging_)
       {
         // Check if our position is still good, and that we are stopped
         geometry_msgs::msg::Pose2D robot_pose, robot_speed;
-        this->pose_vel_mutex_.lock();
-        robot_pose = this->robot_pose_;
-        robot_speed = this->robot_speed_;
-        this->pose_vel_mutex_.unlock();
+        pose_vel_mutex_.lock();
+        robot_pose = robot_pose_;
+        robot_speed = robot_speed_;
+        pose_vel_mutex_.unlock();
         if((abs(sqrt(pow(robot_speed.x,2)+pow(robot_speed.y,2))) > MAX_LIN_SPEED ||
            (abs(robot_speed.theta) > MAX_ANG_SPEED)) ||
-           (abs(robot_pose.x - this->charging_pose_.x) > MAX_X_OFFSET) ||
-           (abs(robot_pose.y - this->charging_pose_.y) > MAX_Y_OFFSET) ||
-           (abs(robot_pose.theta - this->charging_pose_.theta) > MAX_ANG_OFFSET))
+           (abs(robot_pose.x - charging_pose_.x) > MAX_X_OFFSET) ||
+           (abs(robot_pose.y - charging_pose_.y) > MAX_Y_OFFSET) ||
+           (abs(robot_pose.theta - charging_pose_.theta) > MAX_ANG_OFFSET))
         {
           if((abs(sqrt(pow(robot_speed.x,2)+pow(robot_speed.y,2))) > MAX_LIN_SPEED) ||
              (abs(robot_speed.theta) > MAX_ANG_SPEED))
             RCLCPP_WARN(
                 rclcpp::get_logger("rclcpp"),
                 "Robot is moving, stop charging...");
-          if((abs(robot_pose.x - this->charging_pose_.x) > MAX_X_OFFSET) ||
-              (abs(robot_pose.y - this->charging_pose_.y) > MAX_Y_OFFSET) ||
-              (abs(robot_pose.theta - this->charging_pose_.theta) > MAX_ANG_OFFSET))
+          if((abs(robot_pose.x - charging_pose_.x) > MAX_X_OFFSET) ||
+              (abs(robot_pose.y - charging_pose_.y) > MAX_Y_OFFSET) ||
+              (abs(robot_pose.theta - charging_pose_.theta) > MAX_ANG_OFFSET))
             RCLCPP_WARN(
                 rclcpp::get_logger("rclcpp"),
                 "Robot not in charging pose, stop charging...");
-          this->is_charging_ = false;
-          this->battery_sate_.power_supply_status = 
+          is_charging_ = false;
+          battery_sate_.power_supply_status = 
             sensor_msgs::msg::BatteryState::POWER_SUPPLY_STATUS_DISCHARGING;
         } else
         {
-          if(this->battery_sate_.percentage < 1.0 - BATT_CHARGE_DELTA)
+          if(battery_sate_.percentage < 1.0 - BATT_CHARGE_DELTA)
           {
-            this->battery_sate_.percentage += BATT_CHARGE_DELTA;
-            this->battery_sate_.power_supply_status = 
+            battery_sate_.percentage += BATT_CHARGE_DELTA;
+            battery_sate_.power_supply_status = 
               sensor_msgs::msg::BatteryState::POWER_SUPPLY_STATUS_CHARGING;
           } else
           {
-            this->battery_sate_.percentage = 1.0;
-            this->battery_sate_.power_supply_status = 
+            battery_sate_.percentage = 1.0;
+            battery_sate_.power_supply_status = 
               sensor_msgs::msg::BatteryState::POWER_SUPPLY_STATUS_FULL;
           }
         }
       } else
       {
-        if(this->battery_sate_.percentage > BATT_DISCHARGE_DELTA)
-          this->battery_sate_.percentage -= BATT_DISCHARGE_DELTA;
+        if(battery_sate_.percentage > BATT_DISCHARGE_DELTA)
+          battery_sate_.percentage -= BATT_DISCHARGE_DELTA;
         else
-          this->battery_sate_.percentage = 0.0;
-        this->battery_sate_.power_supply_status = 
+          battery_sate_.percentage = 0.0;
+        battery_sate_.power_supply_status = 
           sensor_msgs::msg::BatteryState::POWER_SUPPLY_STATUS_DISCHARGING;
       }
 
       // Publish the battery state
-      this->batttery_level_pub_->publish(this->battery_sate_);
+      batttery_level_pub_->publish(battery_sate_);
 
       // If the battery level is too low, the robot should not move
-      if(this->battery_sate_.percentage < 0.05)
+      if(battery_sate_.percentage < 0.05)
       {
         RCLCPP_WARN_THROTTLE(
           rclcpp::get_logger("rclcpp"),
-          *this->get_clock(),
+          *get_clock(),
           2000,
           "Low battery, robot might have not move correctly...");
         geometry_msgs::msg::Twist vel_cmd;
         vel_cmd.angular.z = 0.0;
         vel_cmd.linear.x = 0.0;
-        this->vel_pub_->publish(vel_cmd);
+        vel_pub_->publish(vel_cmd);
       }
     }
 
@@ -270,14 +269,14 @@ class BatteryManager : public rclcpp::Node
     void odomCallback(const nav_msgs::msg::Odometry::SharedPtr msg)
     {
       // Update global values
-      this->pose_vel_mutex_.lock();
-      this->robot_pose_.x = msg->pose.pose.position.x;
-      this->robot_pose_.y = msg->pose.pose.position.y;
-      this->robot_pose_.theta = tf2::getYaw(msg->pose.pose.orientation);
-      this->robot_speed_.x = msg->twist.twist.linear.x;
-      this->robot_speed_.y = msg->twist.twist.linear.y;
-      this->robot_speed_.theta = msg->twist.twist.angular.z;
-      this->pose_vel_mutex_.unlock();
+      pose_vel_mutex_.lock();
+      robot_pose_.x = msg->pose.pose.position.x;
+      robot_pose_.y = msg->pose.pose.position.y;
+      robot_pose_.theta = tf2::getYaw(msg->pose.pose.orientation);
+      robot_speed_.x = msg->twist.twist.linear.x;
+      robot_speed_.y = msg->twist.twist.linear.y;
+      robot_speed_.theta = msg->twist.twist.angular.z;
+      pose_vel_mutex_.unlock();
     }
 
   private:

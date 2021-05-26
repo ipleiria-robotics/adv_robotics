@@ -52,7 +52,7 @@ endif()
 # Install include files
 install(DIRECTORY include/ DESTINATION include)
 
-# Create Cpp executable
+# Create Cpp executable for the battery_manager
 add_executable(battery_manager
                src/battery_manager.cpp
                src/LocalFrameWorldFrameTransformations.cpp)
@@ -63,6 +63,18 @@ rosidl_target_interfaces(battery_manager
   ${PROJECT_NAME} "rosidl_typesupport_cpp")
 # Install Cpp executable
 install(TARGETS battery_manager DESTINATION lib/${PROJECT_NAME})
+
+# Create Cpp executable for the sim_control
+add_executable(sim_control
+               src/sim_control.cpp
+               src/LocalFrameWorldFrameTransformations.cpp)
+target_include_directories(sim_control PUBLIC include)
+ament_target_dependencies(sim_control rclcpp)
+# Link against the generated interfaces
+rosidl_target_interfaces(sim_control
+  ${PROJECT_NAME} "rosidl_typesupport_cpp")
+# Install Cpp executable
+install(TARGETS sim_control DESTINATION lib/${PROJECT_NAME})
 
 # Exports
 ament_export_dependencies(builtin_interfaces)

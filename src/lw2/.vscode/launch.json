@@ -11,7 +11,21 @@
             "program": "${file}",
             "console": "integratedTerminal",
             "subProcess": false,
-            "justMyCode": false,
+            //"justMyCode": false,
+            "args": [
+                "--ros-args",
+                "-p",
+                "use_sim_time:=True"
+            ]
+        },
+        {
+            "name": "task",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/lw2/task.py",
+            "console": "integratedTerminal",
+            "subProcess": false,
+            //"justMyCode": false,
             "args": [
                 "--ros-args",
                 "-p",
@@ -28,7 +42,7 @@
     "compounds": [
         {
             "name": "simple_task + current file",
-            "configurations": ["simple_task", "Python: Current File"]
+            "configurations": ["task", "Python: Current File"]
         }
     ]
 }

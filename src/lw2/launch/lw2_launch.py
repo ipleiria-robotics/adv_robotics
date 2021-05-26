@@ -70,16 +70,16 @@ def generate_launch_description():
         condition=IfCondition(LaunchConfiguration('start_stage')))
     ld.add_action(stage_cmd)
 
-    # Start the battery manager
-    start_battery_manager_cmd = launch_ros.actions.Node(
+    # Start the simulation control
+    start_sim_control_cmd = launch_ros.actions.Node(
             package='ar_utils',
-            executable='battery_manager',
+            executable='sim_control',
             namespace='robot_0',  # TODO: Make this a (launch) parameter
-            name='battery_manager',
+            name='sim_control',
             output='screen',
             emulate_tty=True,
             parameters=[{'use_sim_time': use_sim_time}])
-    ld.add_action(start_battery_manager_cmd)
+    ld.add_action(start_sim_control_cmd)
 
     # Include the map server launch
     # The map server is needed only while the ICP is not changed, so it it does
