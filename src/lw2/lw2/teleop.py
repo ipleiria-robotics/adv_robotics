@@ -314,13 +314,10 @@ class Teleop(Node):
         rclpy.shutdown()
 
 
-def main(stdscr):
+def execute(stdscr):
     '''
-    Main function
-    Controls the robot using the keyboard keys and outputs relevant information
+    This is the actual function that starts everything
     '''
-    print('LW2 teleoperation\n-----------------------')
-
     # Initiate python ROS Python control
     rclpy.init()
 
@@ -337,10 +334,21 @@ def main(stdscr):
     executor.spin()
     executor.shutdown()
 
+
+def main(args=None):
+    '''
+    Main function
+    Controls the robot using the keyboard keys and outputs relevant information
+    '''
+    try:
+        curses.wrapper(execute)
+    except KeyboardInterrupt:
+        pass
+
 '''
 This is what is actually called when we run this python script. It then calls
 the main function defined above, but using the curses wrapper in order to
 control the terminal
 '''
 if __name__ == '__main__':
-    curses.wrapper(main)
+    main()

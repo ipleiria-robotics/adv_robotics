@@ -24,6 +24,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+            'teleop = lw2.teleop:main',
             'task = lw2.task:main',
             'ekf_icp_localization = lw2.ekf_icp_localization:main',
             'path_navigation = lw2.path_navigation:main',
