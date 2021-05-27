@@ -277,14 +277,18 @@ class Teleop(Node):
                 self.forklift_pub.publish(forklift_pos_cmd)
             elif nChar == ord('+'):
                 # Request charging
-                resp = self.charge_battery(True)
+                svc_req = ar_utils.srv.StartCharging.Request()
+                svc_req.charge = True
+                resp = self.charge_battery.call(svc_req)
                 if resp.charging is False:
                     self.stdscr.addstr(12, 0, 'Unable to start charging. Check robot position!\n\r')
                 else:
                     self.stdscr.addstr(12, 0, 'Robot is now charging.\n\r')
             elif nChar == ord('-'):
                 # Request charging to stop
-                resp = self.charge_battery(False)
+                svc_req = ar_utils.srv.StartCharging.Request()
+                svc_req.charge = False
+                resp = self.charge_battery.call(svc_req)
                 if resp.charging is False:
                     self.stdscr.addstr(12, 0, 'Robot has stopped charging.\n\r')
                 else:
