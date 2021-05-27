@@ -180,6 +180,8 @@ class SimControl : public rclcpp::Node
         battery_state_.power_supply_status = 
           sensor_msgs::msg::BatteryState::POWER_SUPPLY_STATUS_DISCHARGING;
         res->charging = false;
+        RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Battery not charging...");
+        battery_state_mutex_.unlock();
         return true;
       }
 
@@ -193,11 +195,13 @@ class SimControl : public rclcpp::Node
         battery_state_.power_supply_status = 
           sensor_msgs::msg::BatteryState::POWER_SUPPLY_STATUS_DISCHARGING;
         res->charging = false;
+        RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Battery not charging...");
       } else
       {
         battery_state_.power_supply_status = 
           sensor_msgs::msg::BatteryState::POWER_SUPPLY_STATUS_CHARGING;
         res->charging = true;
+        RCLCPP_INFO(rclcpp::get_logger("rclcpp"), "Battery is charging...");
       }
       battery_state_mutex_.unlock();
       return true;
