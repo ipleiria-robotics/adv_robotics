@@ -29,6 +29,7 @@ find_package(sensor_msgs REQUIRED)
 # Message generation
 find_package(rosidl_default_generators REQUIRED)
 rosidl_generate_interfaces(${PROJECT_NAME}
+  "msg/ForkliftState.msg"
   "srv/StartCharging.srv"
   "action/Move2Pos.action"
   "action/PlaySound.action"

@@ -51,6 +51,7 @@ from rclpy.qos import DurabilityPolicy, HistoryPolicy, QoSProfile, \
 from markers_msgs.msg import Markers
 from ar_utils.utils import clipValue
 import ar_utils.srv
+import ar_utils.msg
 
 # The robot will not move with speeds faster than these, so we better limit out
 # values
@@ -75,7 +76,6 @@ class Teleop(Node):
         self.robot_name = 'robot_0'
 
         # Forklift (dynamic) information
-        self.forklift_position = -1.0
         self.forklift_up = False
         self.forklift_down = False
 
@@ -89,27 +89,34 @@ class Teleop(Node):
         self.vel_pub = self.create_publisher(
             Twist, f'/{self.robot_name}/cmd_vel', 1)
 
+        # QOS to receive info for some topics that are published less
+        # frequently, particularly if they havebeen published before 
+        # subscription.
+        qos_transient_local = QoSProfile(
+            depth=1,
+            durability=DurabilityPolicy.TRANSIENT_LOCAL,
+            reliability=ReliabilityPolicy.RELIABLE,
+            history=HistoryPolicy.KEEP_LAST)
+
         # Setup subscriber for the forklift status
         self.create_subscription(
-            Float32,
-            f'/{self.robot_name}/forklift/position',
-            self.forkliftCallback, 1)
+            ar_utils.msg.ForkliftState,
+            f'/{self.robot_name}/forklift/state',
+            self.forkliftCallback,
+            qos_profile=qos_transient_local)
 
         # Setup publishers for the forklift commands
         self.forklift_pub = self.create_publisher(
             Float32,
-            f'/{self.robot_name}/forklift/command', 1)
+            f'/{self.robot_name}/forklift/goal_position', 1)
 
         # Setup subscriber for the parts sensor
-        qos = QoSProfile(depth=1,
-                         durability=DurabilityPolicy.TRANSIENT_LOCAL,
-                         reliability=ReliabilityPolicy.RELIABLE,
-                         history=HistoryPolicy.KEEP_LAST)
+
         self.create_subscription(
             UInt8MultiArray,
             f'/{self.robot_name}/parts_sensor',
             self.partsSensorCallback,
-            qos_profile=qos)
+            qos_profile=qos_transient_local)
 
         # Setup subscriber for parts detection (simulated with markers)
         self.create_subscription(
@@ -139,30 +146,30 @@ class Teleop(Node):
         if (msg.percentage < 0.05) and (self.battery_level >= 0.05):
             self.stdscr.addstr(11, 0, 'Battery is getting extremely low...\n\r')
         elif (msg.percentage < 0.20) and (self.battery_level >= 0.20):
-            self.stdscr.addstr(11,0, 'Battery is getting low...\n\r')
+            self.stdscr.addstr(11, 0, 'Battery is getting low...\n\r')
         # Store the current value
         self.battery_level = msg.percentage
 
-    def forkliftCallback(self, msg: Float32):
+    def forkliftCallback(self, msg: ar_utils.msg.ForkliftState):
         ''' Process forklift related messages '''
 
         # Show forklift position
         self.stdscr.addstr(9, 0,
-            f'Forklift position = {self.forklift_position:.3f} [m]\n\r')
+            f'Forklift position = {msg.position:.3f} [m]\n\r')
 
         # If the forklift is moving, then it is neither down or up
-        if abs(msg.error) > 0.02:
+        if msg.moving:
             self.forklift_up = False
             self.forklift_down = False
         else:
-            # The forklift is almost stopped, lets check in which position
-            if abs(self.forklift_position-FORKLIFT_DOWN) < 0.01:
+            # The forklift is stopped, lets check in which position
+            if abs(msg.position-FORKLIFT_DOWN) < 0.01:
                 # It's down
                 if self.forklift_down is False:
                     self.stdscr.addstr(10, 0, 'Forklift is down\n\r')
                     self.forklift_up = False
                     self.forklift_down = True
-            elif abs(self.forklift_position-FORKLIFT_UP) < 0.01:
+            elif abs(msg.position-FORKLIFT_UP) < 0.01:
                 # It's up
                 if self.forklift_up is False:
                     self.forklift_up = True

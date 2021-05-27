@@ -47,6 +47,7 @@ discharging.
 // Our files
 #include "ar_utils/LocalFrameWorldFrameTransformations.hpp"
 #include "ar_utils/srv/start_charging.hpp"
+#include "ar_utils/msg/forklift_state.hpp"
 
 // Other includes
 #include <mutex>
@@ -80,7 +81,8 @@ class SimControl : public rclcpp::Node
       std::string robot_name = "/robot_0/";
 
       // Forklift related
-      forklift_position_.data = 0.0;
+      forklift_state_.position = 0.0;
+      forklift_state_.moving = false;
       forklift_down_ = true;
 
       // Battery information
@@ -109,17 +111,10 @@ class SimControl : public rclcpp::Node
         parts_status_msg_.data.push_back(PART_UNPROCESSED);
 
       // Publisher for the forklift status
-      pub_forklift_ = create_publisher<std_msgs::msg::Float32>(
-          robot_name + "forklift/position", 
-          rclcpp::QoS(rclcpp::KeepLast(1)));
-      // Publish initial status
-      pub_forklift_->publish(forklift_position_);
+      pub_forklift_ = create_publisher<ar_utils::msg::ForkliftState>(
+          robot_name + "forklift/state", 
+          rclcpp::QoS(1).reliable().transient_local());
       // Publisher for the parts status
-      //rclcpp::QoS qos();
-      //qos.history(1)
-      //qos.reliable();
-      //qos.durability(RMW_QOS_POLICY_DURABILITY_TRANSIENT_LOCAL);
-      //qos.durability(RMW_QOS_POLICY_DURABILITY_TRANSIENT_LOCAL);
       pub_parts_status_ = create_publisher<std_msgs::msg::UInt8MultiArray>(
             "parts_sensor", 
             rclcpp::QoS(1).reliable().transient_local());
@@ -138,7 +133,7 @@ class SimControl : public rclcpp::Node
                     std::placeholders::_1));
       // Setup subscriber for the forlift commands
       sub_forklift_ = create_subscription<std_msgs::msg::Float32>(
-        robot_name + "forklift/command", 1,
+        robot_name + "forklift/goal_position", 1,
           std::bind(&SimControl::forkliftCallback, this,
                     std::placeholders::_1));
       // Baterry manager (subscriber to the clock)
@@ -567,12 +562,13 @@ class SimControl : public rclcpp::Node
       if(first_time_)
       {
         pub_parts_status_->publish(parts_status_msg_);
+        pub_forklift_->publish(forklift_state_);
         last_time_ = get_clock()->now();
         first_time_ = false;
       }
 
       // Else, usual business
-      float delta = forklift_desired_pos_ - forklift_position_.data;
+      float delta = forklift_desired_pos_ - forklift_state_.position;
       rclcpp::Time current_time = get_clock()->now();
       double dt = (current_time - last_time_).seconds();
       last_time_ = current_time;
@@ -581,15 +577,14 @@ class SimControl : public rclcpp::Node
       {
         // Move forklift
         if(delta > 0)
-          forklift_position_.data =
-            clipValue(forklift_position_.data + FORKLIFT_SPEED_*dt,
+          forklift_state_.position =
+            clipValue(forklift_state_.position + FORKLIFT_SPEED_*dt,
                       FORKLIFT_DOWN_, FORKLIFT_UP_);
         else
-          forklift_position_.data =
-            clipValue(forklift_position_.data - FORKLIFT_SPEED_*dt,
+          forklift_state_.position =
+            clipValue(forklift_state_.position - FORKLIFT_SPEED_*dt,
                       FORKLIFT_DOWN_, FORKLIFT_UP_);
-        if(forklift_position_.data <
-           FORKLIFT_DOWN_ + FORKLIFT_MARGIN_)
+        if(forklift_state_.position < FORKLIFT_DOWN_ + FORKLIFT_MARGIN_)
         {
           if(forklift_down_ == false)
           {
@@ -598,22 +593,26 @@ class SimControl : public rclcpp::Node
             RCLCPP_INFO(rclcpp::get_logger("rclcpp"),
                         "Forklift is down...");
           }
-        } else if(forklift_position_.data > FORKLIFT_UP_ - FORKLIFT_MARGIN_)
+        } else if(forklift_state_.position > FORKLIFT_UP_ - FORKLIFT_MARGIN_)
         {
           if(forklift_up_ == false)
           {
             forklift_down_ = false;
             forklift_up_ = true;
-              RCLCPP_INFO(rclcpp::get_logger("rclcpp"),
-                          "Forklift is up...");
+            RCLCPP_INFO(rclcpp::get_logger("rclcpp"),
+                        "Forklift is up...");
           }
         } else
         {
           forklift_down_ = false;
           forklift_up_ = false;
         }
+        if(forklift_desired_pos_ - forklift_state_.position <= 0.001)
+          forklift_state_.moving = false;
+        else
+          forklift_state_.moving = true;
         // Publish new value, if changed
-        pub_forklift_->publish(forklift_position_);
+        pub_forklift_->publish(forklift_state_);
       }
     }
 
@@ -622,9 +621,9 @@ class SimControl : public rclcpp::Node
     // Timer for the periodic callback (main loop)
     rclcpp::TimerBase::SharedPtr main_loop_timer_;
     // Forklift related variables
-    rclcpp::Publisher<std_msgs::msg::Float32>::SharedPtr pub_forklift_;
+    rclcpp::Publisher<ar_utils::msg::ForkliftState>::SharedPtr pub_forklift_;
     rclcpp::Subscription<std_msgs::msg::Float32>::SharedPtr sub_forklift_;
-    std_msgs::msg::Float32 forklift_position_;
+    ar_utils::msg::ForkliftState forklift_state_;
     rclcpp::Time last_time_;
     float forklift_desired_pos_ = 0.0; // Received forklift position command
     const float FORKLIFT_SPEED_ = 0.03;  // [m/s]
