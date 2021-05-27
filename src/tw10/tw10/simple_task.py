@@ -133,7 +133,8 @@ class SimpleTask(Node):
 
         # Create the goal angle and send it to the action server.
         # We will wait for the action to finish and return a result.
-        goal = action.Rotate2Angle.Goal(target_orientation=-pi/2)
+        goal = action.Rotate2Angle.Goal(
+            target_orientation=myglobals.recharge_targets_wpose.theta)
         result_response = self.clientRotate2Angle.send_goal(goal)
         if result_response.status != GoalStatus.STATUS_SUCCEEDED:
             self.get_logger().info(
