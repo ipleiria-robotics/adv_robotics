@@ -29,7 +29,8 @@
 
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
-from launch.launch_description_sources import PythonLaunchDescriptionSource
+from launch.launch_description_sources import (PythonLaunchDescriptionSource,
+                                               AnyLaunchDescriptionSource)
 from launch.substitutions import LaunchConfiguration
 from launch.conditions import IfCondition
 import launch_ros.actions
@@ -44,6 +45,19 @@ def generate_launch_description():
     # Create the launch description. It will be filled below, and returned in
     # the end
     ld = LaunchDescription()
+
+    # Start the stage simulator
+    start_stage_cmd = DeclareLaunchArgument(
+        'start_stage',
+        default_value='True',
+        description='Whether to start the stage simulator')
+    ld.add_action(start_stage_cmd)
+    stage_cmd = IncludeLaunchDescription(
+        AnyLaunchDescriptionSource(os.path.join(
+                get_package_share_directory('worlds'), 'launch',
+                'factory_laser_with_landmarks_launch.xml')),
+        condition=IfCondition(LaunchConfiguration('start_stage')))
+    ld.add_action(stage_cmd)
 
     # Include the map server launch used in the tw04
     included_map_server_launch = IncludeLaunchDescription(
@@ -76,11 +90,13 @@ def generate_launch_description():
 
     # The potential-based planner is not started by default. If the user wants,
     # it can pass the "start_planner:=true" argument to start it
+    # Launch argument
     auto_start_planner_cmd = DeclareLaunchArgument(
         'start_planner',
-        default_value='false',
+        default_value='False',
         description='Whether to auto-start the planner')
     ld.add_action(auto_start_planner_cmd)
+    # Node launch configuration
     start_planner_cmd = launch_ros.actions.Node(
             package='tw06',
             executable='search_and_planning',
