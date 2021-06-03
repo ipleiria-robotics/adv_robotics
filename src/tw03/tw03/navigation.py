@@ -31,6 +31,7 @@
 from math import radians, degrees
 import sys
 import numpy as np
+import time
 
 # ROS API
 import rclpy
@@ -208,6 +209,7 @@ def main(args=None):
     nav_node = BasicNavigation()
 
     # Get the node executing
+    time.sleep(5)  # Wait 5 seconds before starting to move
     rclpy.spin(nav_node)
 
     # Cleanup memory and shutdown
