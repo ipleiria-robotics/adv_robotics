@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>tw11</name>
+  <name>tw14</name>
   <version>3.0.0</version>
-  <description>tw11 - ROS Navigation 2 tutorial</description>
+  <description>tw14 - ROS Navigation 2 tutorial</description>
   <maintainer email="hugo.costelha@ipleiria.pt">Hugo Costelha</maintainer>
   <license>BSD</license>
 

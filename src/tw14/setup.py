@@ -1,7 +1,7 @@
 from setuptools import setup
 from glob import glob
 
-package_name = 'tw11'
+package_name = 'tw14'
 
 setup(
     name=package_name,
@@ -20,12 +20,12 @@ setup(
     zip_safe=True,
     maintainer='Hugo Costelha',
     maintainer_email='hugo.costelha@ipleiria.pt',
-    description='tw11 - ROS Navigation 2 tutorial',
+    description='tw14 - ROS Navigation 2 tutorial',
     license='BSD',
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'search_and_planning = tw11.search_and_planning:main',
+            'search_and_planning = tw14.search_and_planning:main',
         ],
     },
 )
