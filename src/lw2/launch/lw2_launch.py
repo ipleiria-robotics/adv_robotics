@@ -138,6 +138,8 @@ def generate_launch_description():
     # Add action servers
     addActionServer(ld, 'lw2', 'action_play_sound', use_sim_time)
     addActionServer(ld, 'lw2', 'action_move2pos', use_sim_time)
+    addActionServer(ld, 'lw2', 'action_move_forklift', use_sim_time)
+    addActionServer(ld, 'lw2', 'action_move_visual_servoing', use_sim_time)
     addActionServer(ld, 'lw2', 'action_rotate2angle', use_sim_time)
     addActionServer(ld, 'lw2', 'action_recharge', use_sim_time)
 

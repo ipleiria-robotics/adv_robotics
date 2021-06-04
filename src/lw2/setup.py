@@ -29,6 +29,8 @@ setup(
             'ekf_icp_localization = lw2.ekf_icp_localization:main',
             'path_navigation = lw2.path_navigation:main',
             'action_move2pos = lw2.ActionMove2Pos:main',
+            'action_move_forklift = lw2.ActionMoveForklift:main',
+            'action_move_visual_servoing = lw2.ActionMoveVisualServoing:main',
             'action_play_sound = lw2.ActionPlaySound:main',
             'action_rotate2angle = lw2.ActionRotate2Angle:main',
             'action_recharge = lw2.ActionRecharge:main',
