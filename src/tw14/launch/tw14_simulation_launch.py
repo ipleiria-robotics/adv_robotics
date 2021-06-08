@@ -30,7 +30,7 @@ from launch_ros.actions import Node
 
 def generate_launch_description():
     # Get the launch directory
-    bringup_dir = get_package_share_directory('tw11')
+    bringup_dir = get_package_share_directory('tw14')
     launch_dir = os.path.join(bringup_dir, 'launch')
     worlds_pkg_dir = get_package_share_directory('worlds')
 
