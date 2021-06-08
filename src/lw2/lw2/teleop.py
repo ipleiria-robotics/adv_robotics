@@ -90,7 +90,7 @@ class Teleop(Node):
             Twist, f'/{self.robot_name}/cmd_vel', 1)
 
         # QOS to receive info for some topics that are published less
-        # frequently, particularly if they havebeen published before 
+        # frequently, particularly if they havebeen published before
         # subscription.
         qos_transient_local = QoSProfile(
             depth=1,
@@ -111,7 +111,6 @@ class Teleop(Node):
             f'/{self.robot_name}/forklift/goal_position', 1)
 
         # Setup subscriber for the parts sensor
-
         self.create_subscription(
             UInt8MultiArray,
             f'/{self.robot_name}/parts_sensor',
@@ -144,7 +143,8 @@ class Teleop(Node):
         ''' Process battery level related messages'''
         # If the battery as dropped below 5%
         if (msg.percentage < 0.05) and (self.battery_level >= 0.05):
-            self.stdscr.addstr(11, 0, 'Battery is getting extremely low...\n\r')
+            self.stdscr.addstr(11, 0,
+                               'Battery is getting extremely low...\n\r')
         elif (msg.percentage < 0.20) and (self.battery_level >= 0.20):
             self.stdscr.addstr(11, 0, 'Battery is getting low...\n\r')
         # Store the current value
@@ -154,7 +154,8 @@ class Teleop(Node):
         ''' Process forklift related messages '''
 
         # Show forklift position
-        self.stdscr.addstr(9, 0,
+        self.stdscr.addstr(
+            9, 0,
             f'Forklift position = {msg.position:.3f} [m]\n\r')
 
         # If the forklift is moving, then it is neither down or up
@@ -191,7 +192,8 @@ class Teleop(Node):
             self.stdscr.addstr(13, 0,
                                f'Found {msg.num_markers} parts/locations.')
             for i in range(msg.num_markers):
-                self.stdscr.addstr(13+i, 0,
+                self.stdscr.addstr(
+                    13+i, 0,
                     'Part seen at : (range, bearing) = (' +
                     f'{msg.range[i]:.2f}, {msg.bearing[i]:.2f})\n\r')
 
@@ -201,7 +203,7 @@ class Teleop(Node):
         '''
         # Terminal settings
         # Check https://docs.python.org/3.6/howto/curses.html for more info
-        #self.stdscr.clear()  # Clear screen
+        # self.stdscr.clear()  # Clear screen
         self.stdscr.nodelay(True)  # Do not block when getting a key
 
         #
@@ -224,7 +226,7 @@ class Teleop(Node):
             'Use UP, LEFT, DOWN, RIGHT and space to move front, left, back, ' +
             'right and stop, respectively.\n\r' +
             'Use e and d to move the forklift up and down, respectively\n\r' +
-            'Use + and - to move start and stop the charging, respectively\n\r' +
+            'Use + and - to start and stop the charging, respectively\n\r' +
             'Press q to quit.\n\r' +
             '---------------------------\n\r')
         self.stdscr.addstr('\nPRESS ANY KEY TO START...\n\r')
@@ -281,7 +283,9 @@ class Teleop(Node):
                 svc_req.charge = True
                 resp = self.charge_battery.call(svc_req)
                 if resp.charging is False:
-                    self.stdscr.addstr(12, 0, 'Unable to start charging. Check robot position!\n\r')
+                    self.stdscr.addstr(
+                        12, 0,
+                        'Unable to start charging. Check robot position!\n\r')
                 else:
                     self.stdscr.addstr(12, 0, 'Robot is now charging.\n\r')
             elif nChar == ord('-'):
@@ -290,7 +294,8 @@ class Teleop(Node):
                 svc_req.charge = False
                 resp = self.charge_battery.call(svc_req)
                 if resp.charging is False:
-                    self.stdscr.addstr(12, 0, 'Robot has stopped charging.\n\r')
+                    self.stdscr.addstr(
+                        12, 0, 'Robot has stopped charging.\n\r')
                 else:
                     self.stdscr.addstr(12, 0, 'Unable to stop charging.\n\r')
 
@@ -348,6 +353,7 @@ def main(args=None):
         curses.wrapper(execute)
     except KeyboardInterrupt:
         pass
+
 
 '''
 This is what is actually called when we run this python script. It then calls
