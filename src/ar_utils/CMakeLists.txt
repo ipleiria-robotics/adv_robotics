@@ -32,6 +32,8 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/ForkliftState.msg"
   "srv/StartCharging.srv"
   "action/Move2Pos.action"
+  "action/MoveVisualServoing.action"
+  "action/MoveForklift.action"
   "action/PlaySound.action"
   "action/Recharge.action"
   "action/Rotate2Angle.action"

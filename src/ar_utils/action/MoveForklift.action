@@ -1,0 +1,9 @@
+# Goal:
+float32 position    # Desired forlkift position
+---
+# Result:
+bool success             # True if successful, False otherwise
+---
+# Feedback:
+ForkliftState state        # Current forklisft state
+
