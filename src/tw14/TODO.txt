@@ -1,0 +1,14 @@
+ - Test tw14 with 
+	ros2 launch tw14 tw14_simulation_launch.py namespace:=robot_0 use_static_map_odom_tf:=True
+ Then test with
+        ros2 launch tw14 tw14_simulation_launch.py namespace:=robot_0 
+Make sure it runs without and with localization (AMCL), respectively.
+
+With this the launch files should generally be working well. Proceed with analysing the BT, the Planner and the Controller.
+
+
+Click Navigation goal and see the robot go.
+Clicke waypoint mode, add "Navigation2 goals" and click start
+
+
+SLAM: slamm_toolbox paraeters in the nav2..yaml file
