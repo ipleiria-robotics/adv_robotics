@@ -28,8 +28,8 @@
 # POSSIBILITY OF SUCH DAMAGE
 
 from launch import LaunchDescription
-from launch.actions import (DeclareLaunchArgument, IncludeLaunchDescription,
-                            GroupAction)
+from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, \
+                           GroupAction
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, TextSubstitution
 from launch.conditions import IfCondition
@@ -63,6 +63,12 @@ def generate_launch_description():
     ld.add_action(declare_world_file_cmd)
 
     # Robot namespace
+    use_namespace = LaunchConfiguration('use_namespace')
+    declare_use_namespace_cmd = DeclareLaunchArgument(
+        'use_namespace',
+        default_value='false',
+        description='Whether to apply a namespace to the navigation stack')
+    ld.add_action(declare_use_namespace_cmd)
     namespace = LaunchConfiguration('namespace')
     declare_ns_cmd = DeclareLaunchArgument(
         name='namespace', default_value='robot_0',
@@ -80,7 +86,9 @@ def generate_launch_description():
 
     ld.add_action(GroupAction([
         # Change namespace
-        PushRosNamespace(namespace=namespace),
+        PushRosNamespace(
+            condition=IfCondition(use_namespace),
+            namespace=namespace),
         # Simulator node.
         launch_ros.actions.Node(
             package='stage_ros',

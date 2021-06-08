@@ -28,12 +28,13 @@ from nav2_common.launch import ReplaceString
 
 def generate_launch_description():
     # Get the launch directory
-    bringup_dir = get_package_share_directory('nav2_bringup')
+    bringup_dir = get_package_share_directory('tw14')
 
     # Create the launch configuration variables
     namespace = LaunchConfiguration('namespace')
     use_namespace = LaunchConfiguration('use_namespace')
     rviz_config_file = LaunchConfiguration('rviz_config')
+    use_sim_time = LaunchConfiguration('use_sim_time')
 
     # Declare the launch arguments
     declare_namespace_cmd = DeclareLaunchArgument(
@@ -52,12 +53,19 @@ def generate_launch_description():
         default_value=os.path.join(bringup_dir, 'rviz', 'nav2_default_view.rviz'),
         description='Full path to the RVIZ config file to use')
 
+    # Wether to use simulation or real time
+    declare_use_sim_time_cmd = DeclareLaunchArgument(
+        'use_sim_time',
+        default_value='False',
+        description='Use simulation clock if true')
+
     # Launch rviz
     start_rviz_cmd = Node(
         condition=UnlessCondition(use_namespace),
         package='rviz2',
         executable='rviz2',
         name='rviz2',
+        parameters=[{'use_sim_time': use_sim_time}],
         arguments=['-d', rviz_config_file],
         output='screen')
 
@@ -71,6 +79,7 @@ def generate_launch_description():
         executable='rviz2',
         name='rviz2',
         namespace=namespace,
+        parameters=[{'use_sim_time': use_sim_time}],
         arguments=['-d', namespaced_rviz_config_file],
         output='screen',
         remappings=[('/tf', 'tf'),
@@ -98,6 +107,7 @@ def generate_launch_description():
     ld.add_action(declare_namespace_cmd)
     ld.add_action(declare_use_namespace_cmd)
     ld.add_action(declare_rviz_config_file_cmd)
+    ld.add_action(declare_use_sim_time_cmd)
 
     # Add any conditioned actions
     ld.add_action(start_rviz_cmd)

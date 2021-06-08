@@ -71,7 +71,7 @@ def generate_launch_description():
     # Wether to use simulation or real time
     declare_use_sim_time_cmd = DeclareLaunchArgument(
         'use_sim_time',
-        default_value='true',
+        default_value='True',
         description='Use simulation clock if true')
     ld.add_action(declare_use_sim_time_cmd)
 
@@ -149,7 +149,8 @@ def generate_launch_description():
         condition=IfCondition(use_rviz),
         launch_arguments={'namespace': namespace,
                           'use_namespace': use_namespace,
-                          'rviz_config': rviz_config_file}.items())
+                          'rviz_config': rviz_config_file,
+                          'use_sim_time': use_sim_time}.items())
     ld.add_action(rviz_cmd)
 
     # Start Localization and navigation
