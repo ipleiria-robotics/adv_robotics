@@ -15,6 +15,7 @@
 import py_trees
 import sys
 import operator
+from py_trees.common import ClearingPolicy
 
 # ROS
 import py_trees_ros.trees
@@ -22,9 +23,12 @@ import py_trees.console as console
 import rclpy
 from ament_index_python.packages import get_package_share_directory
 from geometry_msgs.msg import Point
+from std_msgs.msg import Float32, UInt8MultiArray
+from rosgraph_msgs.msg import Clock
 
 # Advanced Robotics
 import ar_utils.action as action
+import ar_utils.msg
 import lw2.myglobals as myglobals
 from lw2.behaviors import GenerateNextPose
 
@@ -53,7 +57,7 @@ def tutorial_create_root() -> py_trees.behaviour.Behaviour:
     )
 
     # The parent composite to read all relevant ROS topics to the blackboard
-    topics2bb = py_trees.composites.Sequence("Topics2BB")
+    topics2bb = py_trees.composites.Sequence("Topics2BB", memory=False)
     # Add the topics2bb as a root child
     root.add_child(topics2bb)
     # Battery topic
@@ -78,8 +82,27 @@ def tutorial_create_root() -> py_trees.behaviour.Behaviour:
         qos_profile=py_trees_ros.utilities.qos_profile_unlatched(),
         variable_name="event_start"
     )
+    # Subscribe to the forklift state
+    forkstate2bb = py_trees_ros.subscribers.ToBlackboard(
+        name="ForliftState2BB",
+        topic_name=f"/{robot_name}/forklift/state",
+        topic_type=ar_utils.msg.ForkliftState,
+        qos_profile=py_trees_ros.utilities.qos_profile_latched(),
+        clearing_policy=py_trees.common.ClearingPolicy.NEVER,
+        blackboard_variables={'forklift_state': None}
+    )
+    # Subscribe to the parts state
+    parts2bb = py_trees_ros.subscribers.ToBlackboard(
+        name="PartsState2BB",
+        topic_name=f"/{robot_name}/parts_sensor",
+        topic_type=UInt8MultiArray,
+        qos_profile=py_trees_ros.utilities.qos_profile_latched(),
+        clearing_policy=py_trees.common.ClearingPolicy.NEVER,
+        blackboard_variables={'parts_state': None}
+    )
     # Add the children of the topics2bb
-    topics2bb.add_children([battery2bb, force_recharge2bb, start2bb])
+    topics2bb.add_children([battery2bb, force_recharge2bb, start2bb,
+                            forkstate2bb, parts2bb])
 
     '''
     Tasks

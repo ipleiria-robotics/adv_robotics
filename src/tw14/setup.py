@@ -25,7 +25,6 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'search_and_planning = tw14.search_and_planning:main',
         ],
     },
 )
