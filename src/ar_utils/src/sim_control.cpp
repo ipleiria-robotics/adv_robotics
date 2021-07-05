@@ -499,7 +499,7 @@ class SimControl : public rclcpp::Node
               {
                 // Check the angle and the forklift position
                 dangle = atan2(part_local_pos.y, part_local_pos.x);
-                if((abs(dangle) < MAX_ANG_ERROR_) && forklift_down_)
+                if((abs(dangle) < MAX_ANG_ERROR_) && forklift_up_)
                 {
                   // The robot is ready to start placing the part
                   parts_state_[part_num] = PART_PROCESSED_DELIVERED_DROPING;
