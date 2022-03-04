@@ -12,13 +12,10 @@ echo "--> Type the root password if asked, sit back, and relax..."
 sudo apt update
 sudo apt -y upgrade
 
-# Visual Studio Code IDE (see https://code.visualstudio.com/docs/setup/linux)
-snap install --classic code
-
 # Other needed software
 sudo apt -y install python3-pip python3-empy python3-flake8 python3-pep8 python3-numpy python3-opencv python3-matplotlib
-sudo apt -y install python3-scipy python3-argcomplete python3-skimage python3-ruamel.yaml
-sudo apt -y install git gimp unrar vlc firefox screen kdiff3 curl synaptic
+sudo apt -y install python3-scipy python3-argcomplete python3-skimage python3-ruamel.yaml python3-pykdl
+sudo apt -y install git unrar screen kdiff3 curl synaptic
 #sudo apt -y install  mesa-utils libgirepository1.0-dev
 #sudo apt -y install    gdb open-vm-tools open-vm-tools-desktop python3-virtualenv cc
 #sudo apt kde-workspace-randr kwrite texlive-latex-base vlc-plugin-pulse 
@@ -53,6 +50,10 @@ if [ ! -d "$HOME/ros" ]; then
     echo "# ROS Environment variables" >> $HOME/.bashrc
     echo ". /opt/ros/foxy/setup.bash" >> $HOME/.bashrc
     #echo ". $HOME/ros/install/setup.bash" >> $HOME/.bashrc
+    echo "# Other utilities for WSL:" >> $HOME/.bashrc
+    echo "export LIBGL_ALWAYS_SOFTWARE=1" >> $HOME/.bashrc
+    echo "alias npp=\"/mnt/c/Program\ Files/Notepad++/notepad++.exe\"" >> $HOME/.bashrc
+    echo "export DISPLAY=\$(ip route list default | awk '{print \$3}'):0" >> $HOME/.bashrc
   fi
   git clone --recurse-submodules https://github.com/ipleiria-robotics/adv_robotics $HOME/ros
 else

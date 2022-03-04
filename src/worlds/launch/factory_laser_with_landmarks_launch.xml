@@ -4,8 +4,8 @@
     <!-- Run the stage simulator -->
     <node pkg="stage_ros" exec="stageros" name="stage" 
           args="$(find-pkg-share worlds)/stage-worlds/factory_laser_with_landmarks.world"
-          required="true"/>
+          respawn="true"/>
     <node pkg="tf2_ros" exec="static_transform_publisher"
-          args="0 0 0 0 0 0 map robot_0/odom" required="true"/>		
+          args="0 0 0 0 0 0 map robot_0/odom" respawn="true"/>		
   </group>
 </launch>

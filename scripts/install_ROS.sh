@@ -23,11 +23,16 @@ apt update
 # Perform ROS2 desktop installation
 # In systems with low memory, installing everything simultaneously can lead to 
 #problems. To prevent this, we should first install texlive, then proceed with ROS.
-sudo apt -y install ros-foxy-desktop ros-foxy-plotjuggler-ros ros-foxy-nav2-map-server ros-foxy-nav2-lifecycle-manager ros-foxy-nav2-bringup 
+apt -y install ros-foxy-desktop ros-foxy-plotjuggler-ros ros-foxy-nav2-map-server ros-foxy-nav2-lifecycle-manager ros-foxy-nav2-bringup ros-foxy-ament-cmake-nose
 # Install additional ros packages
+apt -y install ros-foxy-py-trees-ros ros-foxy-py-trees-ros-tutorials ros-foxy-py-trees-ros-viewer
 ##apt -y install ros-melodic-hector-sensors-description ros-melodic-hector-models ros-melodic-ros-control ros-melodic-effort-controllers ros-melodic-joint-state-controller ros-melodic-gazebo-ros-control ros-melodic-gazebo-ros-pkgs
 ##apt -y install ros-melodic-pcl-conversions ros-melodic-pcl-ros ros-melodic-laser-filters
 ##apt -y install python-rosinstall python-rosinstall-generator python-wstool build-essential
+
+# Relevant ROS-related packages
+sudo apt -y install python3-colcon-common-extensions python3-catkin-pkg-modules python3-rospkg-modules python3-rosdep 
+
 rosdep init
 
 
