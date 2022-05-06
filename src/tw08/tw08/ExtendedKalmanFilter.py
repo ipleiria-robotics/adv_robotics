@@ -56,12 +56,16 @@ class ExtendedKalmanFilter:
         self.state = np.zeros((3, 1))  # EKF state
         # EKF process covariance (confidence associated with current state)
         # (Σ in the course theoretic material)
-        self.P = np.zeros((3, 3))
+        # Consider some uncertainty in the initial state
+        self.P = np.array([[0.5, 0.0, 0.0],
+                           [0.0, 0.5, 0.0],
+                           [0.0, 0.0, 0.02]])
+
         # EKF dynamics covariance matrix, that is, covariance matrix associated
         # with the robot motion/actuation
-        self.V = np.array([[0.1**2, 0.0, 0.0],
-                           [0.0, 0.03**2, 0.0],
-                           [0.0, 0.0, 0.2**2]])
+        self.V = np.array([[0.05**2, 0.0, 0.0],
+                           [0.0, 0.015**2, 0.0],
+                           [0.0, 0.0, 0.1**2]])
         # EKF process dynamics jacobian (prediction) regarding the state
         # Only elements (1,3) and (2,3) need to be updated later on, so we only
         # set the correct values for the other ones now (positions (1,3) and
@@ -74,6 +78,14 @@ class ExtendedKalmanFilter:
         self.Fv = np.array([[0.0, 0.0, 0.0],
                             [0.0, 0.0, 0.0],
                             [0.0, 0.0, 1.0]])
+
+        # Sensors measure jacobian (H)
+        # H is computed in runtime, since it depends on the number of detected
+        # markers
+        # self.H = ...
+        # Sensors covariance (confidence associated with sensor values)
+        # Updated in runtime according to the detected markers
+        # self.W = ...
 
     '''
     Run the EKF predict step.
@@ -94,7 +106,7 @@ class ExtendedKalmanFilter:
                 <=> | xr(k+1|k) | = | xr(k) + Δx(k) |
                     | yr(k+1|k) | = | yr(k) + Δy(k) |
                     | θr(k+1|k) | = | θr(k) + Δθ(k) |
-            but where the movements are extracted directly from the odometry:
+            but where the motions are extracted directly from the odometry:
                 Δx = Δxr*cos(θr(k))-Δyr*sin(θr(k))
                 Δy = Δxr*sin(θr(k))+Δyr*cos(θr(k))
         '''
@@ -120,7 +132,9 @@ class ExtendedKalmanFilter:
 
                 V(k) constant (initialized at the beggining)
 
-            with Δx and Δy given as above
+            with (as above)
+                Δx = Δxr*cos(θr(k))-Δyr*sin(θr(k))
+                Δy = Δxr*sin(θr(k))+Δyr*cos(θr(k))
         '''
         # Note that the constant members of Fx(k) were already set previously,
         # so we will just update the 1st and 2nd positions of the last column.
@@ -157,7 +171,7 @@ class ExtendedKalmanFilter:
 
         For each landmark j of the l possibly detected landmarks we have:
 
-            y_j(k+1) = | xl_j(k+1) |
+            z_j(k+1) = | xl_j(k+1) |
                        | yl_j(k+1) |
 
             h_j(k+1) =
@@ -170,16 +184,16 @@ class ExtendedKalmanFilter:
                 | sin(θr(k+1)) -cos(θr(k+1)) -(xl_j-xr(k+1))*cos(θr(k+1))-
                                               (yl_j-yr(k+1))*sin(θr(k+1)) |
         '''
-        y = np.empty((msg.num_markers*2, 1))
+        z = np.empty((msg.num_markers*2, 1))
         h = np.empty((msg.num_markers*2, 1))
-        H = np.empty((msg.num_markers*2, 3))
-        W = np.zeros((msg.num_markers*2, msg.num_markers*2))
+        self.H = np.empty((msg.num_markers*2, 3))
+        self.W = np.zeros((msg.num_markers*2, msg.num_markers*2))
         for n in range(msg.num_markers):
             ''' Compute y (measures in cartesian coordinates) '''
             # Local x coordinate of the landmark n position
-            y[n*2, 0] = msg.range[n]*cos(msg.bearing[n])
+            z[n*2, 0] = msg.range[n]*cos(msg.bearing[n])
             # Local y coordinate of the landmark n position
-            y[n*2+1, 0] = msg.range[n]*sin(msg.bearing[n])
+            z[n*2+1, 0] = msg.range[n]*sin(msg.bearing[n])
             ''' Compute h '''
             # NOTE: We could have used the local2world function, as in previous
             # works, but then we needed to store h differently.
@@ -188,49 +202,50 @@ class ExtendedKalmanFilter:
             h[n*2+1, 0] = -(markers_wpos[msg.id[n]-1].x-xr)*sin_thetar + \
                            (markers_wpos[msg.id[n]-1].y-yr)*cos_thetar
             ''' Compute H '''
-            H[n*2, 0] = -cos_thetar
-            H[n*2, 1] = -sin_thetar
-            H[n*2, 2] = -(markers_wpos[msg.id[n]-1].x-xr)*sin_thetar + \
-                         (markers_wpos[msg.id[n]-1].y-yr)*cos_thetar
-            H[n*2+1, 0] = sin_thetar
-            H[n*2+1, 1] = -cos_thetar
-            H[n*2+1, 2] = -(markers_wpos[msg.id[n]-1].x-xr)*cos_thetar - \
-                           (markers_wpos[msg.id[n]-1].y-yr)*sin_thetar
+            self.H[n*2, 0] = -cos_thetar
+            self.H[n*2, 1] = -sin_thetar
+            self.H[n*2, 2] = -(markers_wpos[msg.id[n]-1].x-xr)*sin_thetar + \
+                              (markers_wpos[msg.id[n]-1].y-yr)*cos_thetar
+            self.H[n*2+1, 0] = sin_thetar
+            self.H[n*2+1, 1] = -cos_thetar
+            self.H[n*2+1, 2] = -(markers_wpos[msg.id[n]-1].x-xr)*cos_thetar - \
+                                (markers_wpos[msg.id[n]-1].y-yr)*sin_thetar
             # The error associated with the landmark measure is higher if the
             # landmark is further away.
             #  We consider a variance of 0.05 m^2 if less than or equal to 1 m,
-            # and 0.5 m^2 if equal to 8 m.
-            if y[n*2, 0] < 1.0:
-                W[n*2, n*2] = 0.05
+            # and 0.5 m^2 if equal to 8 m. For the values in between, we use a
+            # linear function.
+            if z[n*2, 0] < 1.0:
+                self.W[n*2, n*2] = 0.05
             else:
-                W[n*2, n*2] = 0.0643*y[n*2, 0]-0.0143
-            if y[n*2+1, 0] < 1.0:
-                W[n*2+1, n*2+1] = 0.05
+                self.W[n*2, n*2] = 0.0643*z[n*2, 0]-0.0143
+            if z[n*2+1, 0] < 1.0:
+                self.W[n*2+1, n*2+1] = 0.05
             else:
-                W[n*2+1, n*2+1] = 0.0643*y[n*2+1, 0]-0.0143
+                self.W[n*2+1, n*2+1] = 0.0643*z[n*2+1, 0]-0.0143
 
         '''
         The update step consists on
             ---> Updating the state
-                x(k+1|k+1) = x(k+1|k) + R*v
+                x(k+1|k+1) = x(k+1|k) + K*v
 
             ---> And updating the covariance matrix
-                P(k+1|k+1) = P(k+1|k) - R*H(k+1)*P(k+1|k)
+                P(k+1|k+1) = P(k+1|k) - K*H(k+1)*P(k+1|k)
 
             with
-                v = y(k+1) - h(x(k+1|k),k+1)
-                S = H(k+1)*P(k+1|k)*H(k+1)' + W(k+1)
-                R = P(k+1|K)*H(k+1)'*S^(-1)
+                v = z(k+1) - h(x(k+1|k),k+1)
+                s = H(k+1)*P(k+1|k)*H(k+1)' + W(k+1)
+                K = P(k+1|K)*H(k+1)'*s^(-1)
         '''
         # Compute v - will have size (msg.num_markers*2, 1)
-        v = y-h
+        v = z-h
         # Compute S - will have size (msg.num_markers*2, msg.num_markers*2)
         # '@' means multiplication when using numpy
-        S = H @ self.P @ H.T + W
-        # Compute R - will have size (3, msg.num_markers*2)
-        # S.I is the inverse of S
-        R = self.P @ H.T @ inv(S)
+        s = self.H @ self.P @ self.H.T + self.W
+        # Compute K - will have size (3, msg.num_markers*2)
+        # inv(s) is the inverse of s
+        K = self.P @ self.H.T @ inv(s)
         # Now update the state
-        self.state += R @ v
+        self.state += K @ v
         # And update the state covariance matrix
-        self.P += -R @ H @ self.P
+        self.P += -K @ self.H @ self.P

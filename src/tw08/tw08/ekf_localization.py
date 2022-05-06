@@ -32,13 +32,14 @@
 import threading
 import pytransform3d.rotations as pyrot
 import pytransform3d.transformations as pytr
-
+import numpy as np
 
 # ROS API
 import rclpy
 from rclpy.node import Node
 from rclpy.duration import Duration
-from geometry_msgs.msg import Point, Pose2D, PoseStamped, Quaternion
+from geometry_msgs.msg import Point, Pose2D, PoseWithCovarianceStamped, \
+    Quaternion
 from nav_msgs.msg import Odometry
 import message_filters
 import tf2_ros
@@ -101,7 +102,9 @@ class EKFLocalization(Node):
         #  Parameters
         #
 
-        # Gain factor for the weights given the distance
+        # Map frame id parameter
+        # This is defined here, and can be changed as a parameter, given
+        # that we are not receiving a map.
         base_frame_id_param_desc = ParameterDescriptor(
             type=ParameterType.PARAMETER_STRING,
             description='Map frame id (defaults to "map"')
@@ -148,8 +151,8 @@ class EKFLocalization(Node):
         self._tf_broadcaster = tf2_ros.TransformBroadcaster(self)
 
         # Estimated pose publisher
-        self.pose_pub = self.create_publisher(PoseStamped,
-                                              f'/{self.robot_name}/pose', 1)
+        self.pose_pub = self.create_publisher(PoseWithCovarianceStamped,
+                                              f'/{self.robot_name}/pose', 2)
 
         # Not that we have oiur map, we can start processing odometry and
         # markers information, so lets subsribe the corresponding topics.
@@ -225,18 +228,30 @@ class EKFLocalization(Node):
         self.publish_map_odom_tf(odom_msg.header.stamp)
 
         # Publish the estimated pose message. It needs to be
-        # PoseStamped, a 3D pose with a timestamp. We will create one
-        # from the robot_estimated_pose.
-        pose_to_publish = PoseStamped()
+        # PoseWithCovarianceStamped, a 3D pose with a timestamp and a
+        # covariance. We will create one from the robot_estimated_pose.
+        pose_to_publish = PoseWithCovarianceStamped()
         pose_to_publish.header.frame_id = self.get_parameter(
                 'base_frame_id').get_parameter_value().string_value
         pose_to_publish.header.stamp = odom_msg.header.stamp
-        pose_to_publish.pose.position = \
+        pose_to_publish.pose.pose.position = \
             Point(x=self.ekf.state[0, 0],
                   y=self.ekf.state[1, 0],
                   z=0.)
-        pose_to_publish.pose.orientation = \
+        pose_to_publish.pose.pose.orientation = \
             rpyToQuaternion(0., 0., self.ekf.state[2, 0])
+
+        # Fill covariance matrix. We will consider 0 for all the values we are
+        # not computing, i.e., Z, RX and RY, and correlated values.
+        pose_to_publish.pose.covariance = np.array([
+            # X, Y, Z, RX, RY, RZ
+            self.ekf.P[0, 0], self.ekf.P[0, 1], 0.0, 0.0, 0.0, self.ekf.P[0, 2],  # X
+            self.ekf.P[1, 0], self.ekf.P[1, 1], 0.0, 0.0, 0.0, self.ekf.P[1, 2],  # Y
+            0.0, 0.0, 0.0, 0.0, 0.0, 0.0,  # Z
+            0.0, 0.0, 0.0, 0.0, 0.0, 0.0,  # RX
+            0.0, 0.0, 0.0, 0.0, 0.0, 0.0,  # RY
+            self.ekf.P[2, 0], self.ekf.P[2, 1], 0.0, 0.0, 0.0, self.ekf.P[2, 2]])  # RZ
+        # The pose_to_publish is complete, lets publish it
         self.pose_pub.publish(pose_to_publish)
 
         # Publish debug information from time to time
