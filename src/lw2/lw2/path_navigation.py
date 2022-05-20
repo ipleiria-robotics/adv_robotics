@@ -35,7 +35,8 @@ import numpy as np
 import rclpy
 from rclpy.node import Node
 from nav_msgs.msg import Odometry, Path
-from geometry_msgs.msg import Pose2D, PoseStamped, Twist
+from geometry_msgs.msg import Pose2D, PoseStamped, PoseWithCovarianceStamped, \
+    Twist
 from rcl_interfaces.msg import ParameterDescriptor
 from rcl_interfaces.msg import ParameterType
 
@@ -108,7 +109,7 @@ class BasicPathNavigation(Node):
             self.create_subscription(Odometry, f'/{self.robot_name}/odom',
                                      self.pose_cb, 1)
         else:  # Use the localization result
-            self.create_subscription(PoseStamped, f'/{self.robot_name}/pose',
+            self.create_subscription(PoseWithCovarianceStamped, f'/{self.robot_name}/pose',
                                      self.pose_cb, 1)
 
         # Setup velocity publisher
