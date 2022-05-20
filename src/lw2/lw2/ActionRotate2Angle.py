@@ -44,7 +44,7 @@ from rclpy.action import ActionServer, CancelResponse, GoalResponse
 from rclpy.executors import MultiThreadedExecutor
 from rclpy.callback_groups import ReentrantCallbackGroup
 from rclpy.node import Node
-from geometry_msgs.msg import Twist, PoseStamped
+from geometry_msgs.msg import Twist, PoseWithCovarianceStamped
 
 # Our modules
 import lw2.myglobals as myglobals
@@ -137,7 +137,7 @@ class Rotate2AngleActionServer(Node):
         # Setup subscriber for pose
         # The majority of the work will be done in the robotPoseCallback
         sub_pose = self.create_subscription(
-                PoseStamped,
+                PoseWithCovarianceStamped,
                 myglobals.robot_name + '/pose',
                 functools.partial(self.robotPoseCallback,
                                   goal_handle=goal_handle,
@@ -203,7 +203,7 @@ class Rotate2AngleActionServer(Node):
                 feedback.base_orientation = self.curr_orientation
                 goal_handle.publish_feedback(feedback)
 
-    def robotPoseCallback(self, msg: PoseStamped, goal_handle, trigger_event):
+    def robotPoseCallback(self, msg: PoseWithCovarianceStamped, goal_handle, trigger_event):
         '''
         Receive current robot pose and change its velocity according to the
         orientation
@@ -217,7 +217,7 @@ class Rotate2AngleActionServer(Node):
                 return
 
             # Store the current orientation
-            self.curr_orientation = quaternionToYaw(msg.pose.orientation)
+            self.curr_orientation = quaternionToYaw(msg.pose.pose.orientation)
 
             # Trigger execute_cb to continue
             trigger_event.set()

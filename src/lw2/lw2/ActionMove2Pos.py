@@ -43,7 +43,7 @@ from rclpy.action import ActionServer, CancelResponse, GoalResponse
 from rclpy.executors import MultiThreadedExecutor
 from rclpy.callback_groups import ReentrantCallbackGroup
 from rclpy.node import Node
-from geometry_msgs.msg import Pose2D, Twist, PoseStamped
+from geometry_msgs.msg import Pose2D, Twist, PoseWithCovarianceStamped
 
 # Our modules
 import lw2.myglobals as myglobals
@@ -143,7 +143,7 @@ class Move2PosActionServer(Node):
         # Setup subscriber for pose
         # The majority of the work will be done in the robotPoseCallback
         sub_pose = self.create_subscription(
-                PoseStamped,
+                PoseWithCovarianceStamped,
                 myglobals.robot_name + '/pose',
                 functools.partial(self.robotPoseCallback,
                                   goal_handle=goal_handle,
@@ -231,7 +231,7 @@ class Move2PosActionServer(Node):
                     feedback.base_pose = self.curr_pose
                     goal_handle.publish_feedback(feedback)
 
-    def robotPoseCallback(self, msg: PoseStamped, goal_handle, trigger_event):
+    def robotPoseCallback(self, msg: PoseWithCovarianceStamped, goal_handle, trigger_event):
         '''
         Receive current robot pose and change its velocity accordingly
         '''
@@ -244,9 +244,9 @@ class Move2PosActionServer(Node):
 
             # Store current pose
             self.curr_pose = Pose2D(
-                x=msg.pose.position.x,
-                y=msg.pose.position.y,
-                theta=quaternionToYaw(msg.pose.orientation))
+                x=msg.pose.pose.position.x,
+                y=msg.pose.pose.position.y,
+                theta=quaternionToYaw(msg.pose.pose.orientation))
 
             # Trigger execute_cb to continue
             trigger_event.set()

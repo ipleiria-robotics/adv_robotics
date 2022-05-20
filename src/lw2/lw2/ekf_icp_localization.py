@@ -44,8 +44,8 @@ from rclpy.node import Node
 from rclpy.qos import QoSProfile, QoSHistoryPolicy, QoSReliabilityPolicy, \
     QoSDurabilityPolicy
 from rclpy.duration import Duration
-from geometry_msgs.msg import Point, Pose, Pose2D, PoseStamped, Quaternion, \
-    Vector3
+from geometry_msgs.msg import Point, Pose, Pose2D, \
+    PoseWithCovarianceStamped, Quaternion, Vector3
 from nav_msgs.msg import Odometry, OccupancyGrid
 from sensor_msgs.msg import LaserScan
 from std_msgs.msg import ColorRGBA
@@ -64,7 +64,7 @@ import tw07.LocalFrameWorldFrameTransformations as lfwft
 RUN_PREDICTION_STEP = True
 
 # Amount of debug information to show
-FULL_ICP_DEBUG = False  # Show information on every ICP step
+FULL_ICP_DEBUG = True  # Show information on every ICP step
 
 
 class TfListener(Node):
@@ -141,7 +141,7 @@ class EKFICPLocalization(Node):
 
         # Estimated pose publisher
         self.pose_pub = self.create_publisher(
-            PoseStamped,
+            PoseWithCovarianceStamped,
             f'/{self.robot_name}/pose', 2)
 
         # Markers array publisher (used for debugging ICP)
@@ -314,27 +314,27 @@ class EKFICPLocalization(Node):
         if self.pose_pub.get_subscription_count() == 0:
             return
 
-        pose_msg = PoseStamped()
+        pose_msg = PoseWithCovarianceStamped()
         pose_msg.header.frame_id = self.base_frame_id
         pose_msg.header.stamp = timestamp
-        pose_msg.pose.position.x = float(self.ekf.state[0, 0])
-        pose_msg.pose.position.y = float(self.ekf.state[1, 0])
-        pose_msg.pose.position.z = 0.0  # Robot is on the ground
+        pose_msg.pose.pose.position.x = float(self.ekf.state[0, 0])
+        pose_msg.pose.pose.position.y = float(self.ekf.state[1, 0])
+        pose_msg.pose.pose.position.z = 0.0  # Robot is on the ground
         # Store robot orientation in quaternions by converting from RPY. In
         # this case we only have a rotation around the Z axis
-        pose_msg.pose.orientation = \
+        pose_msg.pose.pose.orientation = \
             rpyToQuaternion(0, 0, self.ekf.state[2, 0])
 
         # Fill covariance matrix. We will consider 0 for all the values we are
         # not computing, i.e., Z, RX and RY, and correlated values.
-        # pose_msg.pose.covariance = np.array([
-        #     # X, Y, Z, RX, RY, RZ
-        #     self.ekf.P[0, 0], self.ekf.P[0, 1], 0.0, 0.0, 0.0, self.ekf.P[0, 2],  # X
-        #     self.ekf.P[1, 0], self.ekf.P[1, 1], 0.0, 0.0, 0.0, self.ekf.P[1, 2],  # Y
-        #     0.0, 0.0, 0.0, 0.0, 0.0, 0.0,  # Z
-        #     0.0, 0.0, 0.0, 0.0, 0.0, 0.0,  # RX
-        #     0.0, 0.0, 0.0, 0.0, 0.0, 0.0,  # RY
-        #     self.ekf.P[2, 0], self.ekf.P[2, 1], 0.0, 0.0, 0.0, self.ekf.P[2, 2]])  # RZ
+        pose_msg.pose.covariance = np.array([
+            # X, Y, Z, RX, RY, RZ
+            self.ekf.P[0, 0], self.ekf.P[0, 1], 0.0, 0.0, 0.0, self.ekf.P[0, 2],  # X
+            self.ekf.P[1, 0], self.ekf.P[1, 1], 0.0, 0.0, 0.0, self.ekf.P[1, 2],  # Y
+            0.0, 0.0, 0.0, 0.0, 0.0, 0.0,  # Z
+            0.0, 0.0, 0.0, 0.0, 0.0, 0.0,  # RX
+            0.0, 0.0, 0.0, 0.0, 0.0, 0.0,  # RY
+            self.ekf.P[2, 0], self.ekf.P[2, 1], 0.0, 0.0, 0.0, self.ekf.P[2, 2]])  # RZ
 
         # Publish message
         self.pose_pub.publish(pose_msg)

@@ -163,17 +163,10 @@ class BasicPathNavigation(Node):
         '''
             Navigation callback, executes on odometry or pose message received
         '''
-
-        if USE_ODOM:  # Get robot pose from the odometry message
-            robot_pose = Pose2D(
-                x=msg.pose.pose.position.x,
-                y=msg.pose.pose.position.y,
-                theta=utils.quaternionToYaw(msg.pose.pose.orientation))
-        else:  # Get the robot pose from the PoseStamped message
-            robot_pose = Pose2D(
-                x=msg.pose.position.x,
-                y=msg.pose.position.y,
-                theta=utils.quaternionToYaw(msg.pose.orientation))
+        robot_pose = Pose2D(
+            x=msg.pose.pose.position.x,
+            y=msg.pose.pose.position.y,
+            theta=utils.quaternionToYaw(msg.pose.pose.orientation))
 
         # If this is the first time we are entering this calback, determine
         # the closest point. We do that by computing the distance from the
