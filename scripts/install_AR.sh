@@ -18,7 +18,7 @@ snap install --classic code
 # Other needed software
 sudo apt -y install python3-pip python3-empy python3-flake8 python3-pep8 python3-numpy python3-opencv python3-matplotlib
 sudo apt -y install python3-scipy python3-argcomplete python3-skimage python3-ruamel.yaml
-sudo apt -y install git gimp unrar vlc firefox screen kdiff3 curl synaptic
+sudo apt -y install git gimp unrar vlc firefox screen kdiff3 curl synaptic alsa-utils
 #sudo apt -y install  mesa-utils libgirepository1.0-dev
 #sudo apt -y install    gdb open-vm-tools open-vm-tools-desktop python3-virtualenv cc
 #sudo apt kde-workspace-randr kwrite texlive-latex-base vlc-plugin-pulse 
