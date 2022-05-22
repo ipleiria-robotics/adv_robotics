@@ -201,13 +201,13 @@ class SimpleTask(Node):
     def STATE_FAILURE(self):
         self.get_logger().info(f'Running state {self.state}...')
 
-        # In this case, shtudown
+        # In this case, shutdown
         rclpy.shutdown()
 
     def STATE_SUCCESS(self):
         self.get_logger().info(f'Running state {self.state}...')
 
-        # In this case, shtudown
+        # In this case, shutdown
         rclpy.shutdown()
 
     def runTask(self):
