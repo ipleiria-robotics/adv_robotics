@@ -1,6 +1,0 @@
-# Goal: None (be stopped)
----
-# Result: True, if stopped
-bool is_stopped
----
-# Feedback: None

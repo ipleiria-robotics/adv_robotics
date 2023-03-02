@@ -1,7 +1,0 @@
-# Goal: sound file to be played
-string sound_file
----
-# Result: True if sound fully played, false otherwise
-bool sound_played
----
-# Feedback: None
