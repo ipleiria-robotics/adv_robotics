@@ -36,7 +36,8 @@ apt -y install ros-humble-py-trees-ros ros-humble-py-trees-ros-tutorials ros-hum
 ##apt -y install python-rosinstall python-rosinstall-generator python-wstool build-essential
 
 # Relevant ROS-related packages
-sudo apt -y install python3-colcon-common-extensions python3-catkin-pkg-modules python3-rospkg-modules python3-rosdep 
+apt -y install python3-colcon-common-extensions python3-catkin-pkg-modules python3-rospkg-modules python3-rosdep
+apt -y install ros-dev-tools
 
 rosdep init
 
