@@ -48,7 +48,7 @@ if [ ! -d "$HOME/ros" ]; then
     echo "Setting ROS environment variables..." 
     echo "" >> $HOME/.bashrc
     echo "# ROS Environment variables" >> $HOME/.bashrc
-    echo ". /opt/ros/foxy/setup.bash" >> $HOME/.bashrc
+    echo ". /opt/ros/humble/setup.bash" >> $HOME/.bashrc
     #echo ". $HOME/ros/install/setup.bash" >> $HOME/.bashrc
     echo "# Other utilities for WSL:" >> $HOME/.bashrc
     echo "export LIBGL_ALWAYS_SOFTWARE=1" >> $HOME/.bashrc
@@ -61,7 +61,7 @@ else
 fi
 
 # Build our workspace
-source "/opt/ros/foxy/setup.bash"
+source "/opt/ros/humble/setup.bash"
 cd $HOME/ros
 colcon build --symlink-install
 source "$HOME/ros/install/setup.bash"
