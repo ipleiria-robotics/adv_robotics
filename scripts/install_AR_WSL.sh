@@ -53,7 +53,7 @@ if [ ! -d "$HOME/ros" ]; then
     echo "# Other utilities for WSL:" >> $HOME/.bashrc
     echo "export LIBGL_ALWAYS_SOFTWARE=1" >> $HOME/.bashrc
     echo "alias npp=\"/mnt/c/Program\ Files/Notepad++/notepad++.exe\"" >> $HOME/.bashrc
-    echo "export DISPLAY=\$(ip route list default | awk '{print \$3}'):0" >> $HOME/.bashrc
+    #echo "export DISPLAY=\$(ip route list default | awk '{print \$3}'):0" >> $HOME/.bashrc
   fi
   git clone --recurse-submodules https://github.com/ipleiria-robotics/adv_robotics $HOME/ros
 else
