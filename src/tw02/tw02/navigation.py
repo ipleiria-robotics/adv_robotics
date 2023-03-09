@@ -38,7 +38,7 @@ from geometry_msgs.msg import Twist
 from sensor_msgs.msg import LaserScan
 
 # Advanced Robotics class utilities
-import ar_py_utils as utils
+import ar_py_utils.utils as utils
 
 # The robot will not move with speeds faster than these, so we better limit out
 # values
