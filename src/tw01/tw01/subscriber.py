@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Copyright (c) 2021, Hugo Costelha
+# Copyright (c) 2022, Hugo Costelha
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -34,21 +34,11 @@ from rclpy.node import Node
 from nav_msgs.msg import Odometry
 
 # Python
-from math import pi, atan2
+from math import pi
 import sys
 
-
-def printxy(x, y, text):
-    '''Print in a specified screen position'''
-    sys.stdout.write('\x1b[%d;%df%s' % (x, y, text))
-
-
-def quaternionToYaw(q):
-    '''Returns the yaw in radians of a quaternion.
-    '''
-    t0 = 2.0 * (q.w * q.z + q.x * q.y)
-    t1 = 1.0 - 2.0 * (q.y**2 + q.z**2)
-    return atan2(t0, t1)
+# Advanced Robotics class utilities
+from ar_py_utils.utils import clearTerminal, printxy, quaternionToYaw
 
 
 def odomCallback(msg):
@@ -56,7 +46,7 @@ def odomCallback(msg):
 
     # Clear the screen. Check these and other key sequences in:
     #   http://ascii-table.com/ansi-escape-sequences.php
-    sys.stdout.write('\x1b[2J')
+    clearTerminal()
     printxy(
         1, 0,
         f'Robot true pose = {msg.pose.pose.position.x:.2f} [m], ' +

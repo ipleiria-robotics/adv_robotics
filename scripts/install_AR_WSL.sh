@@ -53,6 +53,8 @@ if [ ! -d "$HOME/ros" ]; then
     echo "# Other utilities for WSL:" >> $HOME/.bashrc
     echo "export LIBGL_ALWAYS_SOFTWARE=1" >> $HOME/.bashrc
     echo "alias npp=\"/mnt/c/Program\ Files/Notepad++/notepad++.exe\"" >> $HOME/.bashrc
+    # TODO Remove this in 2023/2024
+    echo "export PYTHONWARNINGS=ignore::UserWarning,ignore:::setuptools.command.install,ignore:::setuptools.command.easy_install,ignore:::pkg_resources" >> $HOME/.bashrc
     #echo "export DISPLAY=\$(ip route list default | awk '{print \$3}'):0" >> $HOME/.bashrc
   fi
   git clone --recurse-submodules https://github.com/ipleiria-robotics/adv_robotics $HOME/ros

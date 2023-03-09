@@ -52,6 +52,8 @@ if [ ! -d "$HOME/ros" ]; then
     echo "" >> $HOME/.bashrc
     echo "# ROS Environment variables" >> $HOME/.bashrc
     echo ". /opt/ros/humble/setup.bash" >> $HOME/.bashrc
+    # TODO Remove this in 2023/2024
+    echo "export PYTHONWARNINGS=ignore::UserWarning,ignore:::setuptools.command.install,ignore:::setuptools.command.easy_install,ignore:::pkg_resources" >> $HOME/.bashrc
     #echo ". $HOME/ros/install/setup.bash" >> $HOME/.bashrc
   fi
   git clone --recurse-submodules https://github.com/ipleiria-robotics/adv_robotics $HOME/ros

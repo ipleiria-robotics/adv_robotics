@@ -3,5 +3,7 @@
         "**/build": true,
         "**/install": true,
         "**/log": true
-    }
+    },
+    "python.linting.flake8Enabled": true,
+    "python.linting.enabled": true
 }
