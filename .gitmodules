@@ -1,7 +1,8 @@
 [submodule "src/stage_ros"]
 	path = src/stage_ros
 	url = https://github.com/ipleiria-robotics/stage_ros.git
+	branch = eloquent-devel
 [submodule "src/stage-release"]
-	path = src/stage-release
+	path = src/stage_release
 	url = https://github.com/ipleiria-robotics/stage-release.git
-	branch = release/noetic/stage
+	branch = upstream

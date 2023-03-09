@@ -47,7 +47,7 @@ def generate_launch_description():
 
     # Simulator node.
     world_file = os.path.join(get_package_share_directory('worlds'),
-                              'stage-worlds',
+                              'stage_worlds',
                               'map_laser_with_landmarks2.world')
     start_simulator_cmd = launch_ros.actions.Node(
             package='stage_ros',

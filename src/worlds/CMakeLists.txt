@@ -40,7 +40,7 @@ install(DIRECTORY
 
 # Install world files.
 install(DIRECTORY
-  stage-worlds
+  stage_worlds
   DESTINATION share/${PROJECT_NAME}/
 )
 
