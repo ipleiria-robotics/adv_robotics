@@ -59,19 +59,19 @@ def odomCallback(msg):
     sys.stdout.write('\x1b[2J')
     printxy(
         1, 0,
-        f'Robot estimated pose = {msg.pose.pose.position.x:.2f} [m], ' +
+        f'Robot true pose = {msg.pose.pose.position.x:.2f} [m], ' +
         f'{msg.pose.pose.position.y:.2f} [m], ' +
         f'{quaternionToYaw(msg.pose.pose.orientation)*180.0/pi:.2f} [°]')
 
     printxy(
         2, 0,
-        f'Robot estimated velocity = {msg.twist.twist.linear.x:.2f} [m/s], '
+        f'Robot true velocity = {msg.twist.twist.linear.x:.2f} [m/s], '
         f'{msg.twist.twist.angular.z*180.0/pi:.2f} [°/s]')
     sys.stdout.flush()  # Make sure the information is printed now
 
 
 def main(args=None):
-    '''Main function. Associate a callback to a topic. Print the root position
+    '''Main function. Associate a callback to a topic. Print the robot position
        and orientation in that callback.
     '''
     # Initiate python node
@@ -82,7 +82,7 @@ def main(args=None):
         'Running tw01 - print robot pose and velocity...')
 
     node = Node('tw01_subscriber')
-    node.create_subscription(Odometry, '/robot_0/odom',
+    node.create_subscription(Odometry, '/robot_0/base_pose_ground_truth',
                              odomCallback, 5)
     rclpy.spin(node)
 
