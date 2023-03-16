@@ -49,7 +49,7 @@ if [ ! -d "$HOME/ros" ]; then
     echo "" >> $HOME/.bashrc
     echo "# ROS Environment variables" >> $HOME/.bashrc
     echo ". /opt/ros/humble/setup.bash" >> $HOME/.bashrc
-    #echo ". $HOME/ros/install/setup.bash" >> $HOME/.bashrc
+    echo ". $HOME/ros/install/setup.bash" >> $HOME/.bashrc
     echo "# Other utilities for WSL:" >> $HOME/.bashrc
     echo "export LIBGL_ALWAYS_SOFTWARE=1" >> $HOME/.bashrc
     echo "alias npp=\"/mnt/c/Program\ Files/Notepad++/notepad++.exe\"" >> $HOME/.bashrc

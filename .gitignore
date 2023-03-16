@@ -1,6 +1,8 @@
 .catkin_workspace
 build/
 devel/
+install/
+log/
 py3env/
 __pycache__/
 my_tw*.py
