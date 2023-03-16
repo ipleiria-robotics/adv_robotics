@@ -76,7 +76,7 @@ class BasicNavigation(Node):
             ParameterDescriptor(type=ParameterType.PARAMETER_DOUBLE,
                                 description='Reference linear velocity!')
         self.declare_parameter('ref_lin_vel', 0.2,  ref_lin_vel_param_desc)
-        # Maximum linear velocity
+        # Maximum angular velocity
         ref_ang_vel_param_desc = \
             ParameterDescriptor(type=ParameterType.PARAMETER_DOUBLE,
                                 description='reference angular velocity!')
