@@ -25,7 +25,7 @@ setup(
         'console_scripts': [
             'path_navigation = tw04.path_navigation:main',
             'localization = tw04.localization:main',
-            'run_fixed_path = tw04.run_fixed_path:main'
+            'publish_fixed_path = tw04.publish_fixed_path:main'
         ],
     },
 )
