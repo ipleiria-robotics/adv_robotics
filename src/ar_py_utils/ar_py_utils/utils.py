@@ -30,8 +30,12 @@
 # Revision $Id$
 
 # Library packages needed
-from math import atan2
+from math import atan2, cos, sin
+import numpy as np
 import sys
+
+# ROS
+from geometry_msgs.msg import Quaternion
 
 
 def quaternionToYaw(q) -> float:
@@ -42,6 +46,26 @@ def quaternionToYaw(q) -> float:
     t0 = 2.0 * (q.w * q.z + q.x * q.y)
     t1 = 1.0 - 2.0 * (q.y**2 + q.z**2)
     return atan2(t0, t1)
+
+
+def rpyToQuaternion(roll, pitch, yaw) -> np.matrix:
+    '''Returns the quaternian corresponding to a yaw rotation. Reimplements
+    part of the tf package because tf doesn't play well in Python 3.
+    '''
+    halfYaw = yaw * 0.5
+    halfPitch = pitch * 0.5
+    halfRoll = roll * 0.5
+    cosYaw = cos(halfYaw)
+    sinYaw = sin(halfYaw)
+    cosPitch = cos(halfPitch)
+    sinPitch = sin(halfPitch)
+    cosRoll = cos(halfRoll)
+    sinRoll = sin(halfRoll)
+    return Quaternion(
+        x=sinRoll * cosPitch * cosYaw - cosRoll * sinPitch * sinYaw,
+        y=cosRoll * sinPitch * cosYaw + sinRoll * cosPitch * sinYaw,
+        z=cosRoll * cosPitch * sinYaw - sinRoll * sinPitch * cosYaw,
+        w=cosRoll * cosPitch * cosYaw + sinRoll * sinPitch * sinYaw)
 
 
 def clipValue(value: float, min: float, max: float) -> float:
