@@ -52,7 +52,7 @@ from ar_py_utils.LocalFrameWorldFrameTransformations import Point2D, Point2Di
 # Wether to use odometry (if True) or the localization pose (if False).
 # The "USE_ODOM = True" should be used only for initial tests, while you are
 # not running the localization algorithm.
-USE_ODOM = False
+USE_ODOM = True
 
 
 class PlannerPotentialFields(Node):
