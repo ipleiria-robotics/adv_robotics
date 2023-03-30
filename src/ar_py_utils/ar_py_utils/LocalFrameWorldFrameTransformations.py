@@ -39,8 +39,15 @@ from geometry_msgs.msg import Pose2D
 
 
 class Point2D:
-    ''' 2D point class '''
+    ''' 2D point class (float/double) '''
     def __init__(self, x=0.0, y=0.0):
+        self.x = x
+        self.y = y
+
+
+class Point2Di:
+    ''' 2D point class (integers) '''
+    def __init__(self, x: int = 0, y: int = 0):
         self.x = x
         self.y = y
 

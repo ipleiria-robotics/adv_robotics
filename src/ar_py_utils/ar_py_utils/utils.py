@@ -31,11 +31,17 @@
 
 # Library packages needed
 from math import atan2, cos, sin
-import numpy as np
 import sys
+import numpy as np
+import cv2
+import datetime
+import queue
+import multiprocessing
+import matplotlib.pyplot as plt
 
 # ROS
-from geometry_msgs.msg import Quaternion
+from geometry_msgs.msg import Quaternion, Pose
+from ar_py_utils.LocalFrameWorldFrameTransformations import Point2D, Point2Di
 
 
 def quaternionToYaw(q) -> float:
@@ -76,6 +82,115 @@ def clipValue(value: float, min: float, max: float) -> float:
         return min
     else:
         return value
+
+
+def meter2cell(pt_in_meters: Point2D, map_origin: Pose, map_resolution: float):
+    '''
+    Given a point in worlds coordinates the map information, convert to the
+    corresponding map cell.
+    Note that we assume that the cell map and the world reference frame have
+    the X and Y axis paralell and with the same direction.
+    '''
+    if (map_origin.orientation.x != 0.0) or (map_origin.orientation.y != 0.0) \
+       or (map_origin.orientation.z != 0.0) \
+       or (map_origin.orientation.w != 1.0):
+        raise Exception('meter2cell: Conversion with orientation other than 0'
+                        + ' not implemented yet!')
+
+    # Do the actua conversion
+    target_pxl = Point2Di(round((pt_in_meters.x-map_origin.position.x) /
+                                map_resolution),
+                          round((pt_in_meters.y-map_origin.position.y) /
+                                map_resolution))
+    return target_pxl
+
+
+def cell2meter(cell_pt: Point2D, map_origin: Pose, map_resolution: float):
+    '''
+    Given a point in cell coordinates and the map information, convert to a
+    point in world coordinates.
+    Note that we assume that the cell map and the world reference frame have
+    the X and Y axis paralell and with the same direction.
+    '''
+    if (map_origin.orientation.x != 0.0) or (map_origin.orientation.y != 0.0) \
+       or (map_origin.orientation.z != 0.0) \
+       or (map_origin.orientation.w != 1.0):
+        raise Exception('cell2meter: Conversion with orientation other than 0'
+                        + ' not implemented yet!')
+
+    target_meter = Point2D(
+        cell_pt.x*map_resolution + map_origin.position.x,
+        cell_pt.y*map_resolution + map_origin.position.y)
+    return target_meter
+
+
+def downsampleOccGridMap(occ_grid_map, downsample_factor):
+    '''
+    Reduces the size of a map while maintaing taking the necessary steps so
+    that obstacles do not disappear in the downsampling process.
+
+        occ_grid_map - origina, occupancy grid map as numpy matrix, where -1 is
+            unknown space, 0 is free space, 100 is occupied space, and any
+            value in between 0 a 100 is an occupancy factor.
+        downsample_factor - value greater than 1, of how much to scale down.
+            Ideally it should be an odd number.
+
+    To achieve that, we first grow the obstacles by the downsample_factor, and
+    only then we downsample the map. The function returns the downsampled map
+    of the same type as original map.
+    '''
+
+    # OpenCv does not suporte S8 image types for dilation, so use S16
+    map_copy = np.asarray(occ_grid_map, dtype=np.int16)
+
+    # Dilate obstacles (obstaces have the highest cell value)
+    kernel = cv2.getStructuringElement(
+        cv2.MORPH_ELLIPSE, (downsample_factor, downsample_factor))
+    cv2.dilate(map_copy, kernel, dst=map_copy, iterations=1)
+
+    # Since unknown cells have -1 value, the abode dilation might lead to part
+    # of those areas being replaced by free or almost free cell values, which
+    # we do not want to happen. As such, we will return all cells that were -1
+    # previously and are not occupied after the dilation, back to -1.
+    map_copy[(occ_grid_map == -1) & (map_copy <= 50)] = -1
+
+    # Now we can resize/downsample the map
+    resized_map = cv2.resize(map_copy, None,
+                             fx=1./downsample_factor,
+                             fy=1./downsample_factor,
+                             interpolation=cv2.INTER_NEAREST)
+    return resized_map.astype(np.int8)
+
+
+def showImage(img: np.ndarray, title: str = str(datetime.datetime.today()),
+              cmap=None):
+    """Show an image in a new process without blocking. Usefull for debugging.
+    Args:
+        img (np.ndarray): Image to be shown
+        title (str, optional): Title to be shown. Defaults to
+    str(datetime.datetime.today()).
+    """
+
+    def plot(q, title, cmap):
+        fig = plt.figure()
+        fig.suptitle(title)
+        try:
+            q.get(True, 2.0)  # Wait a couple of seconds
+        except queue.Empty:
+            print('Not image received to plot...quitting')
+            sys.exit()
+
+        plt.imshow(img, cmap=cmap)
+        plt.show()
+        sys.exit()
+
+    # Create a queue to share data between process
+    q = multiprocessing.Queue()
+
+    # Create and start the process
+    proc = multiprocessing.Process(None, plot, args=(q, title, cmap))
+    proc.start()
+    q.put(img)
 
 
 ###############################################################################
