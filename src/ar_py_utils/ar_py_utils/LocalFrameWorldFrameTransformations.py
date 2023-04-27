@@ -52,6 +52,11 @@ class Point2Di:
         self.y = y
 
 
+'''
+2D position transformations
+'''
+
+
 def local2World(baseFrame: Pose2D, vectorInBaseFrame: Point2D) -> Point2D:
     '''
     Transform a given vector in local coordinates, referenced to localFrame
@@ -94,3 +99,54 @@ def world2Local(baseFrame: Pose2D, vectorInWorldFrame: Point2D) -> Point2D:
 
     # Return the result
     return Point2D(x, y)  # vectorInBaseFrame
+
+
+'''
+2D pose transformations (2D position + orientation)
+'''
+
+
+def local2WorldPose(baseFrame: Pose2D, poseInBaseFrame: Pose2D) -> Pose2D:
+    '''
+    Transform a given pose in local coordinates, referenced to
+    localFrame into global coordinates.
+    @Argument baseFrame - the values of the base frame
+    @Argument poseInLocalFrame - the vector coordinates in the base
+    frame
+    @Return pose in World frame, containing the given local pose in world
+    coordinates
+    '''
+    sinTheta = sin(baseFrame.theta)
+    cosTheta = cos(baseFrame.theta)
+
+    # Perform the transformation
+    x = baseFrame.x + poseInBaseFrame.x*cosTheta - poseInBaseFrame.y*sinTheta
+    y = baseFrame.y + poseInBaseFrame.x*sinTheta + poseInBaseFrame.y*cosTheta
+    theta = baseFrame.theta + poseInBaseFrame.theta
+
+    # Return result
+    return Pose2D(x=x, y=y, theta=theta)
+
+
+def world2LocalPose(baseFrame: Pose2D, poseInWorldFrame: Pose2D) -> Pose2D:
+    '''
+    Transform a given pose in world coordinates, into a pose based
+    on the given baseFrame.
+    @Argument baseFrame - the value of the base frame
+    @Argument poseInWorldFrame - the pose coordinates in the world
+    frame.
+    @Return pose in base frame, containing the given world pose in local
+    coordinates
+    '''
+    sinTheta = sin(baseFrame.theta)
+    cosTheta = cos(baseFrame.theta)
+
+    # Do the transformation
+    x = (poseInWorldFrame.x - baseFrame.x)*cosTheta + \
+        (poseInWorldFrame.y - baseFrame.y)*sinTheta
+    y = -(poseInWorldFrame.x - baseFrame.x)*sinTheta + \
+         (poseInWorldFrame.y - baseFrame.y)*cosTheta
+    theta = poseInWorldFrame.theta - baseFrame.theta
+
+    # Return the computed values
+    return Pose2D(x=x, y=y, theta=theta)

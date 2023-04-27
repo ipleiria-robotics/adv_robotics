@@ -84,6 +84,11 @@ def clipValue(value: float, min: float, max: float) -> float:
         return value
 
 
+def normalize(angle: float) -> float:
+    '''Normalize an angle between -PI and PI'''
+    return atan2(sin(angle), cos(angle))
+
+
 def meter2cell(pt_in_meters: Point2D, map_origin: Pose, map_resolution: float):
     '''
     Given a point in worlds coordinates the map information, convert to the
