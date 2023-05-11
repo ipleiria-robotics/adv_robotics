@@ -138,7 +138,9 @@ class BasicWaypointPathNavigation(Node):
             self.global_path = msg.poses
             self.num_targets = len(msg.poses)
             # Start in the first pose of the path
-            self.curr_target_idx = 0
+            #TODO: make the path publisher only publish when a path is finished
+            if self.curr_target_idx is None:
+                self.curr_target_idx = 0
 
             # Setup odometry or pose subscriber, according to USE_ODOM
             if self.pose_sub is not None:

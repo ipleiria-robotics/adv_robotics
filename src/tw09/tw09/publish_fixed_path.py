@@ -87,8 +87,8 @@ class PeriodicFixedPathPublisher(Node):
         # Publish the path right now
         self.path_pub_cb()
 
-        # Setup periodic callback to publish the path evey 50 secs
-        self.pubtimer = self.create_timer(120.0, self.path_pub_cb)
+        # Setup periodic callback to publish the path evey n secs
+        self.pubtimer = self.create_timer(10.0, self.path_pub_cb)
 
     def path_pub_cb(self):
         '''
