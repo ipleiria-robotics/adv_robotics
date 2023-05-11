@@ -138,7 +138,6 @@ class BasicWaypointPathNavigation(Node):
             self.global_path = msg.poses
             self.num_targets = len(msg.poses)
             # Start in the first pose of the path
-            #TODO: make the path publisher only publish when a path is finished
             if self.curr_target_idx is None:
                 self.curr_target_idx = 0
 
@@ -186,7 +185,7 @@ class BasicWaypointPathNavigation(Node):
             distance = (robot_pose.x-self.curr_target.x)**2 + \
                        (robot_pose.y-self.curr_target.y)**2
             # If the distance is small enough, proceed to the next target
-            if(distance < self.min_distance):
+            if (distance < self.min_distance):
                 # If there are not more targets, stop the robot and return
                 if self.curr_target_idx == self.num_targets-1:
                     # Stop the robot
@@ -226,7 +225,7 @@ class BasicWaypointPathNavigation(Node):
         # for performance reasons.
         base_lin_vel = self.get_parameter(
             'base_lin_vel').get_parameter_value().double_value
-        if(abs(angle_to_target) < self.max_angle_to_target):
+        if (abs(angle_to_target) < self.max_angle_to_target):
             kp_lin_vel = self.get_parameter(
                 'kp_lin_vel').get_parameter_value().double_value
             lin_vel = kp_lin_vel * distance + base_lin_vel
