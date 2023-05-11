@@ -138,7 +138,8 @@ class BasicWaypointPathNavigation(Node):
             self.global_path = msg.poses
             self.num_targets = len(msg.poses)
             # Start in the first pose of the path
-            if self.curr_target_idx is None:
+            if (self.curr_target_idx is None) or \
+               (self.curr_target_idx == self.num_targets-1):
                 self.curr_target_idx = 0
 
             # Setup odometry or pose subscriber, according to USE_ODOM
