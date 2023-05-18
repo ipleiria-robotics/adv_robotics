@@ -30,7 +30,7 @@ apt -y upgrade
 #problems. To prevent this, we should first install texlive, then proceed with ROS.
 apt -y install ros-humble-desktop ros-humble-plotjuggler-ros ros-humble-nav2-map-server ros-humble-nav2-lifecycle-manager ros-humble-nav2-bringup ros-humble-ament-cmake-nose
 # Install additional ros packages
-apt -y install ros-humble-py-trees-ros ros-humble-py-trees-ros-tutorials ros-humble-py-trees-ros-viewer ros-humble-rqt-tf-tree
+apt -y install ros-humble-py-trees-ros ros-humble-py-trees-ros-interfaces ros-humble-rqt-tf-tree
 ##apt -y install ros-melodic-hector-sensors-description ros-melodic-hector-models ros-melodic-ros-control ros-melodic-effort-controllers ros-melodic-joint-state-controller ros-melodic-gazebo-ros-control ros-melodic-gazebo-ros-pkgs
 ##apt -y install ros-melodic-pcl-conversions ros-melodic-pcl-ros ros-melodic-laser-filters
 ##apt -y install python-rosinstall python-rosinstall-generator python-wstool build-essential

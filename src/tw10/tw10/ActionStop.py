@@ -195,12 +195,12 @@ def main(args=None):
     ''' Main function - start the action server.
     '''
     rclpy.init(args=args)
-    move2pos_action_server = StopActionServer()
+    stop_action_server = StopActionServer()
 
     # Use 2 threads to make sure callbacks can run in parallel and the action
     # does not block.
     executor = MultiThreadedExecutor(num_threads=2)
-    executor.add_node(move2pos_action_server)
+    executor.add_node(stop_action_server)
     executor.spin()
 
 
