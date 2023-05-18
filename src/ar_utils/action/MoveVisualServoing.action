@@ -1,0 +1,11 @@
+# Goal:
+float64 max_bearing    # Maximum angle to the detected part/location
+float64 max_distance   # Maximum distance to the detected part/location
+---
+# Result:
+bool success             # True if successful, False otherwise
+---
+# Feedback:
+float64 bearing        # Current angle to the detected part/location
+float64 distance       # Current distance to the detected part/location
+
