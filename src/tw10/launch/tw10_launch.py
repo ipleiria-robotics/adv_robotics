@@ -124,7 +124,7 @@ def generate_launch_description():
     auto_run_ekf_cmd = DeclareLaunchArgument(
         'run-ekf-localization',
         default_value='True',
-        description='Whether to run the Particle Filter-based localization')
+        description='Whether to run the EKF-based localization')
     ld.add_action(auto_run_ekf_cmd)
     start_ekf_cmd = launch_ros.actions.Node(
             package='tw08',
