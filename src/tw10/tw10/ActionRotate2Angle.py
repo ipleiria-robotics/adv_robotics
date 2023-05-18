@@ -83,6 +83,8 @@ class Rotate2AngleActionServer(Node):
         # Setup publisher for velocity commands
         self.vel_pub = self.create_publisher(
             Twist, f'{myglobals.robot_name}/cmd_vel', 1)
+        # Pose subscriber (to be used later on)
+        self.sub_pose = None
 
         # Start the actual action server
         self.action_server = ActionServer(
@@ -136,14 +138,16 @@ class Rotate2AngleActionServer(Node):
 
         # Setup subscriber for pose
         # The majority of the work will be done in the robotPoseCallback
-        sub_pose = self.create_subscription(
-                PoseWithCovarianceStamped,
-                myglobals.robot_name + '/pose',
-                functools.partial(self.robotPoseCallback,
-                                  goal_handle=goal_handle,
-                                  trigger_event=trigger_event),
-                1,
-                callback_group=ReentrantCallbackGroup())
+        with self.goal_lock:
+            if self.sub_pose is None:
+                self.sub_pose = self.create_subscription(
+                        PoseWithCovarianceStamped,
+                        myglobals.robot_name + '/pose',
+                        functools.partial(self.robotPoseCallback,
+                                          goal_handle=goal_handle,
+                                          trigger_event=trigger_event),
+                        1,
+                        callback_group=ReentrantCallbackGroup())
 
         # Get the desired orientation
         target_orientation = goal_handle.request.target_orientation
@@ -154,6 +158,17 @@ class Rotate2AngleActionServer(Node):
             # Wait for new information to arrive
             if trigger_event.wait(5.0) is False:
                 self.get_logger().warn(f'{ACTION_NAME} is still running')
+                # If, for some reason, we are not subscribed eyet, subscribe
+                with self.goal_lock:
+                    if self.sub_pose is None:
+                        self.sub_pose = self.create_subscription(
+                                PoseWithCovarianceStamped,
+                                myglobals.robot_name + '/pose',
+                                functools.partial(self.robotPoseCallback,
+                                                  goal_handle=goal_handle,
+                                                  trigger_event=trigger_event),
+                                1,
+                                callback_group=ReentrantCallbackGroup())
             else:
                 # If the event was triggered, clear it
                 trigger_event.clear()
@@ -168,7 +183,9 @@ class Rotate2AngleActionServer(Node):
                         goal_handle.canceled()  # Confirm goal is canceled
                         self.get_logger().info(f'{ACTION_NAME}: goal canceled')
                     # No need for the callback anymore
-                    self.destroy_subscription(sub_pose)
+                    if self.sub_pose is not None:
+                        self.destroy_subscription(self.sub_pose)
+                        self.sub_pose = None
                     # Return whatever result we have so far
                     return Rotate2Angle.Result(
                         final_orientation=self.curr_orientation)
@@ -184,7 +201,9 @@ class Rotate2AngleActionServer(Node):
                 # Did we reach the goal?
                 if abs(error) < self.max_angle_error:
                     # No need for the callback anymore
-                    self.destroy_subscription(sub_pose)
+                    if self.sub_pose is not None:
+                        self.destroy_subscription(self.sub_pose)
+                        self.sub_pose = None
                     # Stop the robot
                     vel_cmd.angular.z = 0.0
                     vel_cmd.linear.x = 0.0

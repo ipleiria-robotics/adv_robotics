@@ -59,9 +59,9 @@ discharging.
 #define BATT_CHARGE_DELTA 0.01  // Per iteration, ~15xDISCHARGE
 
 // Maximum error to consider in desired orientation
-#define MAX_X_OFFSET 0.20 // [m]
-#define MAX_Y_OFFSET 0.20 // [m]
-#define MAX_ANG_OFFSET 0.17 // [rad] (10 deg)
+#define MAX_X_OFFSET 0.25 // [m]
+#define MAX_Y_OFFSET 0.25 // [m]
+#define MAX_ANG_OFFSET 0.26 // [rad] (15 deg)
 // Maxumum speed to grab/drop the parts
 #define MAX_LIN_SPEED 0.01 // [m/s]
 #define MAX_ANG_SPEED 0.017 // [rad/s] (1º/s)

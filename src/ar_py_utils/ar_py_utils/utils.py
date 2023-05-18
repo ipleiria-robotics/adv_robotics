@@ -242,7 +242,7 @@ def play_sound(sound_file, play_async=True, cancel_others=False):
     if cancel_others:
         stop_all_sounds()
     else:  # Otherwise, we will wait for other sounds to complete
-        # Check if some sound is playing
+        # Check if some sound is playing does not work in WSL for now)
         while True:
             result = subprocess.run(
                 ['pgrep', 'aplay'], capture_output=True, text=True)

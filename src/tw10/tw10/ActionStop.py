@@ -75,6 +75,9 @@ class StopActionServer(Node):
             Twist, f'/{myglobals.robot_name}/cmd_vel', 1)
         self.vel_cmd = Twist()  # Velocity commands
 
+        # Pose subscriber (to be used later on)
+        self.sub_odom = None
+
         # Start the actual action server
         self.action_server = ActionServer(
             self,
@@ -123,20 +126,34 @@ class StopActionServer(Node):
         # succeeded, or the goal having been cancelled.
         trigger_event = Event()  # Flag is intially set to False
 
-        sub_odom = self.create_subscription(
-            Odometry,
-            myglobals.robot_name + '/odom',
-            functools.partial(self.robotOdomCallback,
-                              goal_handle=goal_handle,
-                              trigger_event=trigger_event),
-            1,
-            callback_group=ReentrantCallbackGroup())
+        # Setup subscriber for odometry
+        with self.goal_lock:
+            if self.sub_odom is None:
+                self.sub_odom = self.create_subscription(
+                    Odometry,
+                    myglobals.robot_name + '/odom',
+                    functools.partial(self.robotOdomCallback,
+                                      goal_handle=goal_handle,
+                                      trigger_event=trigger_event),
+                    1,
+                    callback_group=ReentrantCallbackGroup())
 
         while rclpy.ok():
             # Wait for a confimation (trigger), either due to the goal having
             # succeeded, or the goal having been cancelled.
             if trigger_event.wait(5.0) is False:
                 self.get_logger().warn(f'{ACTION_NAME} is still running')
+                # If, for some reason, we are not subscribed eyet, subscribe
+                with self.goal_lock:
+                    if self.sub_odom is None:
+                        self.sub_odom = self.create_subscription(
+                            Odometry,
+                            myglobals.robot_name + '/odom',
+                            functools.partial(self.robotOdomCallback,
+                                              goal_handle=goal_handle,
+                                              trigger_event=trigger_event),
+                            1,
+                            callback_group=ReentrantCallbackGroup())
             else:
                 # If the event was triggered, clear it
                 trigger_event.clear()
@@ -154,7 +171,9 @@ class StopActionServer(Node):
                         self.get_logger().info(
                             f'{ACTION_NAME}: goal canceled')
                     # No need for the callback anymore
-                    self.destroy_subscription(sub_odom)
+                    if self.sub_odom is not None:
+                        self.destroy_subscription(self.sub_odom)
+                        self.sub_odom = None
                     return Stop.Result(is_stopped=False)
 
                 # Check if the robot is moving
@@ -168,7 +187,9 @@ class StopActionServer(Node):
                     self.vel_pub.publish(self.vel_cmd)
                 else:  # The robot is stopped, we are done!
                     # No need for the callback anymore
-                    self.destroy_subscription(sub_odom)
+                    if self.sub_odom is not None:
+                        self.destroy_subscription(self.sub_odom)
+                        self.sub_odom = None
                     goal_handle.succeed()
                     self.get_logger().info(f'{ACTION_NAME} has succeeded!')
                     return Stop.Result(is_stopped=True)

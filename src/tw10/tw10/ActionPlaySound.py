@@ -118,19 +118,19 @@ class PlaySoundActionServer(Node):
         with self.goal_lock:
             play_succeeded = play_sound(self.goal_handle.request.sound_file,
                                         False)
-            if play_succeeded:
+
+            if not goal_handle.is_active:
+                self.get_logger().info(f'{ACTION_NAME}: goal aborted')
+            elif goal_handle.is_cancel_requested:
+                goal_handle.canceled()  # Confirm goal is canceled
+                self.get_logger().info(f'{ACTION_NAME}: goal canceled')
+            elif play_succeeded:
                 self.goal_handle.succeed()
                 self.get_logger().info(f'{ACTION_NAME} has succeeded!')
                 return PlaySound.Result(sound_played=True)
             else:
-                if not goal_handle.is_active:
-                    self.get_logger().info(f'{ACTION_NAME}: goal aborted')
-                elif goal_handle.is_cancel_requested:
-                    goal_handle.canceled()  # Confirm goal is canceled
-                    self.get_logger().info(f'{ACTION_NAME}: goal canceled')
-                else:
-                    self.get_logger().info(f'{ACTION_NAME} failed!')
-                return PlaySound.Result(sound_played=False)
+                self.get_logger().info(f'{ACTION_NAME} failed!')
+            return PlaySound.Result(sound_played=False)
 
 
 def main(args=None):

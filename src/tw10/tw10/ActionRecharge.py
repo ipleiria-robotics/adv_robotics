@@ -85,6 +85,9 @@ class RechargeActionServer(Node):
                 f'Executing action {ACTION_NAME}: still waiting for the ' +
                 f'battery service at {myglobals.robot_name}/battery/charge...')
 
+        # Battery state subscriber (to be used later on)
+        self.sub_batt = None
+
         # Start the action server.
         # The option ReentrantCallbackGroup allows callbacks to be run in
         # parallel without restrictions
@@ -149,14 +152,16 @@ class RechargeActionServer(Node):
             return Recharge.Result(battery_level=self.battery_level)
 
         # Setup subscriber for the battery level
-        sub_batt = self.create_subscription(
-                BatteryState,
-                myglobals.robot_name + '/battery/state',
-                functools.partial(self.batteryStateCb,
-                                  goal_handle=goal_handle,
-                                  trigger_event=trigger_event),
-                1,
-                callback_group=ReentrantCallbackGroup())
+        with self.goal_lock:
+            if self.sub_batt is None:
+                self.sub_batt = self.create_subscription(
+                    BatteryState,
+                    myglobals.robot_name + '/battery/state',
+                    functools.partial(self.batteryStateCb,
+                                      goal_handle=goal_handle,
+                                      trigger_event=trigger_event),
+                    1,
+                    callback_group=ReentrantCallbackGroup())
 
         # Used for feedback purposes
         feedback = Recharge.Feedback()
@@ -165,6 +170,16 @@ class RechargeActionServer(Node):
             # Wait for new information to arrive
             if trigger_event.wait(5.0) is False:
                 self.get_logger().warn(f'{ACTION_NAME} is still running')
+                with self.goal_lock:
+                    if self.sub_batt is None:
+                        self.sub_batt = self.create_subscription(
+                            BatteryState,
+                            myglobals.robot_name + '/battery/state',
+                            functools.partial(self.batteryStateCb,
+                                              goal_handle=goal_handle,
+                                              trigger_event=trigger_event),
+                            1,
+                            callback_group=ReentrantCallbackGroup())
             else:
                 # If the event was triggered, clear it
                 trigger_event.clear()
@@ -180,7 +195,9 @@ class RechargeActionServer(Node):
                         goal_handle.canceled()  # Confirm goal is canceled
                         self.get_logger().info(f'{ACTION_NAME}: goal canceled')
                     # No need for the callback anymore
-                    self.destroy_subscription(sub_batt)
+                    if self.sub_batt is not None:
+                        self.destroy_subscription(self.sub_batt)
+                        self.sub_batt = None
                     # Cancel the recharging and return
                     svc_req = StartCharging.Request()
                     svc_req.charge = False
@@ -191,7 +208,9 @@ class RechargeActionServer(Node):
                 if self.battery_level >= \
                    goal_handle.request.target_battery_level:
                     # We are done, no need for the callback anymore
-                    self.destroy_subscription(sub_batt)
+                    if self.sub_batt is not None:
+                        self.destroy_subscription(self.sub_batt)
+                        self.sub_batt = None
                     # Trigger SUCCEED
                     goal_handle.succeed()
                     self.get_logger().info(f'{ACTION_NAME} has succeeded!')
