@@ -142,6 +142,7 @@ def generate_launch_description():
     addActionServer(ld, 'lw2', 'action_move_visual_servoing', use_sim_time)
     addActionServer(ld, 'lw2', 'action_rotate2angle', use_sim_time)
     addActionServer(ld, 'lw2', 'action_recharge', use_sim_time)
+    addActionServer(ld, 'lw2', 'action_stop', use_sim_time)
 
     # Path navigation node
     auto_run_navigation_cmd = DeclareLaunchArgument(
