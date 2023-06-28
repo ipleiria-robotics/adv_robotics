@@ -40,7 +40,7 @@ pip3 install pytransform3d
 
 # ROS installation
 echo "Downloading the install ROS script"
-wget https://raw.githubusercontent.com/ipleiria-robotics/adv_robotics/master/scripts/install_ROS.sh
+wget https://github.com/ipleiria-robotics/adv_robotics/raw/master/scripts/install_ROS.sh
 echo "Installing ROS (you might need to type the root password)..."
 sudo sh install_ROS.sh
 rosdep update
