@@ -6,5 +6,6 @@
     },
     "python.linting.flake8Enabled": true,
     "python.linting.enabled": true,
-    "cmake.configureOnOpen": false
+    "cmake.configureOnOpen": false,
+    "markdown.validate.enabled": true
 }
