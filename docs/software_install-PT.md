@@ -33,25 +33,15 @@ Para poder usar o WSL2 tem que ter a versão do Windows 10 2004 (Build 19041) ou
 10. Confirme novamente a versão do WSL utilizada com o Ubuntu. Se necessário, corra novamente o passo 7.
 11. De modo a garantir que está a utilizar a versão mais atual do WSL2, corra o seguinte comando na consola do Windows (aberta no passo 5 com acesso de administrador): "wsl.exe --update".
 
-Pode agora seguir os passos da [Secção 4](#4-instalação-e-configuração-do-software-adicional) para instalar o ROS2. Note que pode aceder à pasta "HOME" do Linux usando o Windows Explorer com o caminho "\\wsl.localhost\Ubuntu-22.04\home\USER", onde "USER" deve ser substituído pelo nome de utilizador que especificou na instalação do Linux. No final, ou durante a execução dos passos da [Secção 4](#4-instalação-e-configuração-do-software-adicional), instale no Windows as aplicações como indicado na [Secção 2.2](#12-aplicações-adicionais-a-instalar-no-windows).
+Note que pode aceder à pasta "HOME" do Linux usando o Windows Explorer com o caminho "\\wsl.localhost\Ubuntu-22.04\home\USER", onde "USER" deve ser substituído pelo nome de utilizador que especificou na instalação do Linux.
+
+Proceda agora com a instalação de outras aplicações no Windows que irão ser úteis em Robótica Avançada, seguindo a próxima secção.
 
 ## 1.2 Aplicações adicionais a instalar no Windows
 
 Aconselha-se a instalar o [Notepad++](https://notepad-plus-plus.org/), caso pretenda editar no Windows ficheiros guardados no Linux.
 
-Tem ainda que instalar o [Microsoft Visual Studio Code](https://code.visualstudio.com/) no Windows e, dentro do Visual Studio Code, instalar a extensão WSL publicada pela Microsoft.
-
-Abra o ficheiro "\\wsl$\Ubuntu-22.04\home\USER\.bashrc" (substitua "USER" pelo seu utilizador) e, caso no final do ficheiro tenha
-```
-export DISPLAY=$(ip route list default | awk '{print $3}'):0
-```
-
-adicione um "# " no início dessa linha, de forma a que fique comentada, como abaixo: 
-
-```
-# export DISPLAY=$(ip route list default | awk '{print $3}'):0
-```
-Caso não tenha a instrução acima, pode prosseguir.
+Tem ainda que instalar o [Microsoft Visual Studio Code](https://code.visualstudio.com/) no Windows e, dentro do Visual Studio Code, instalar a extensão [WSL](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-wsl) publicada pela Microsoft.
 
 Concluída a instalação da distribuição de Linux, interessa agora instalar as aplicações específicas para Robótica Avançada. Para tal, siga os passos indicados na [Secção 4](#4-instalação-e-configuração-do-software-adicional).
 
@@ -140,7 +130,7 @@ wget https://github.com/ipleiria-robotics/adv_robotics/raw/master/scripts/instal
 ```bash
 wget https://github.com/ipleiria-robotics/adv_robotics/raw/master/scripts/install_AR_WSL.sh 
 ```
-3. Ainda no mesmo terminal, execute agora o comando "bash install_AR.sh" (ou o comando "bash install_AR_WSL.sh", caso esteja a usar o WSL);
+3. Ainda no mesmo terminal, execute agora o comando `bash install_AR.sh` (ou o comando `bash install_AR_WSL.sh`, caso esteja a usar o WSL);
 4. Siga as instruções exibidas no terminal, inserindo a palavra-passe, sempre que solicitada, e respondo sim (Y) ou com o ENTER às questões que surjam. Note que, dependendo da velocidade de internet, este passo pode demorar significativamente;
 
 Terminada esta instalação aconselha-se que reinicie o PC, ficando este pronto para a realização dos trabalhos práticos. Caso tenha obtido algum erro no último passo, corra novamente o passo 3.
