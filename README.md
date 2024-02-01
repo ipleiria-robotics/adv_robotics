@@ -30,3 +30,7 @@ If you have already set up the installation and tutorials, you can always update
     >> cd ~/ros
     >> git pull
   
+Setting up your software environment
+====================================
+
+Follow the instructions [here](https://github.com/ipleiria-robotics/adv_robotics/blob/master/docs/software_install-PT.md), for Portuguese, and [here](https://github.com/ipleiria-robotics/adv_robotics/blob/master/docs/software_install-EN.md), for English, to setup your work environment.

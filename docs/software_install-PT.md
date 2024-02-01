@@ -2,7 +2,7 @@
 
 _**NOTA: Fora da aula pode utilizar o Teams ou o e-mail para colocar dúvidas e obter respostas mais rapidamente sobre este assunto. Caso tenha alguma dificuldade, sugere-se que contacte o docente no horário da atendimento, pessoalmente ou através dos canais acima, para não perder demasiado tempo com a instalação/configuração do sistema.**_
 
-O desenvolvimento prático na UC de Robótica Avançada é baseado no ROS2. Não obstate hoje em dia este já ser suportado em Windows, tipicamente este tipo de sistemas é implementado em ambiente Linux, sendo também essa a abordagem utilizada em Robótica Avançada. Em 2023/2024, em Robótica Avançada, a distribuição de Linux instalada nos PCs do Laboratório de Simulação de Sistemas é o Kubuntu 22.04.3 (Jammy Jellyfish). Não sendo obrigatório utilizar o Kubuntu, sugere-se fortemente que, por questões de compatibilidade, utilize uma versão do Ubuntu 22.04, que poderá ser o Kubuntu, o Ubuntu, o Xubuntu, etc., sendo o Xubuntu a que consome menos recursos. No final deste documento encontra as ligações para todo o software referido neste documento, incluindo o Kubuntu, como o Xubuntu.
+O desenvolvimento prático na UC de Robótica Avançada é baseado no ROS2. Não obstante hoje em dia este já ser suportado em Windows, tipicamente este tipo de sistemas é implementado em ambiente Linux, sendo também essa a abordagem utilizada em Robótica Avançada. Em 2023/2024, em Robótica Avançada, a distribuição de Linux instalada nos PCs do Laboratório de Simulação de Sistemas é o Kubuntu 22.04.3 (Jammy Jellyfish). Não sendo obrigatório utilizar o Kubuntu, sugere-se fortemente que, por questões de compatibilidade, utilize uma versão do Ubuntu 22.04, que poderá ser o Kubuntu, o Ubuntu, o Xubuntu, etc., sendo o Xubuntu a que consome menos recursos. No final deste documento encontra as ligações para todo o software referido neste documento, incluindo o Kubuntu, como o Xubuntu.
 
 Existem três formas aconselhadas para instalar a distribuição, resumidas na tabela seguinte.
 
@@ -31,9 +31,9 @@ Para poder usar o WSL2 tem que ter a versão do Windows 10 2004 (Build 19041) ou
 8. Caso no final do passo 7 o WSL2 não tenha ficado ativo, tal poderá ser devido à necessidade de uma configuração adicional para usar o WSL2. Nesse caso, descarregue e instale a atualização disponível [aqui](https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi);
 9. Reinicie o PC e confirme que tem a opção de virtualização ativada na BIOS. Caso o seu PC não suporte virtualização, não poderá utilizar o WSL2, pelo que nesse caso deve optar pela opção da [máquina virtual](#2-máquina-virtual) ou da [máquina real](#3-máquina-real);
 10. Confirme novamente a versão do WSL utilizada com o Ubuntu. Se necessário, corra novamente o passo 7.
-11. De modo a garantir que está a utilizar a versão mais atual do WSL2, corra o seguinte comando na consola do Windows (aberta no passo 5 com acesso de administrador): "wsl.exe --update".
+11. De modo a garantir que está a utilizar a versão mais atual do WSL2, corra o seguinte comando na consola do Windows (aberta no passo 5 com acesso de administrador): `wsl.exe --update`.
 
-Note que pode aceder à pasta "HOME" do Linux usando o Windows Explorer com o caminho "\\wsl.localhost\Ubuntu-22.04\home\USER", onde "USER" deve ser substituído pelo nome de utilizador que especificou na instalação do Linux.
+Note que pode aceder à pasta "HOME" do Linux usando o Windows Explorer com o caminho `\\wsl.localhost\Ubuntu-22.04\home\USER`, onde `USER` deve ser substituído pelo nome de utilizador que especificou na instalação do Linux.
 
 Proceda agora com a instalação de outras aplicações no Windows que irão ser úteis em Robótica Avançada, seguindo a próxima secção.
 
@@ -62,13 +62,13 @@ Relativamente à instalação da máquina virtual, tem duas opções:
 ## 2.1 Instalação fornecida pelo docente
 Para utilizar a instalação previamente preparada pelo docente, siga os passos abaixo:
 
-1. Descarregue o [Vmware Player](#5-ligações-relevantes) clicando no botão "Download for free", seguido da opção "Go do downloads" e, depois, da opção "Download now" para o seu sistema operativo;
+1. Descarregue o [Vmware Player](#5-ligações-relevantes) clicando no botão "Download for free", seguido da opção "Go to downloads" e, depois, da opção "Download now" para o seu sistema operativo;
 2. Instale o Vmware Player a partir do ficheiro descarregado (aceite as opções por omissão);
-3. Descarregue a máquina virtual fornecida pelo docente;
-4. Descomprima o ficheiro descarregado (máquina virtual) para a pasta onde estão guardadas as máquinas virtuais (no caso do docente, a pasta "C:\Users\hugoc\Documentos\Virtual Machines\"), ou uma outra pasta qualquer à sua escolha. Após descompactar o ficheiro, irá ocupar cerca de 25Gb de armazenamendo no disco;
+3. Descarregue a máquina [virtual fornecida pelo docente](TODO);
+4. Descomprima o ficheiro descarregado (máquina virtual) para a pasta onde estão guardadas as máquinas virtuais (no caso do docente, a pasta `C:\Users\hugoc\Documentos\Virtual Machines\`), ou uma outra pasta qualquer à sua escolha. Após descompactar o ficheiro, irá ocupar cerca de 25Gb de armazenamendo no disco;
 5. Abra o Vmware player. Caso apareça informação sobre o VMware Workstation escolha "Skip this version";
 6. Clique em Player --> File --> Open... e abra, na pasta onde guardou a máquina virtual, o ficheiro "Xubuntu 22.04 64-bit AR\Xubuntu 22.04 64-bit AR.vmx";
-7. Na mensagem que surge a questionar se a máquina virtual foi movida ou copiada, escolha a opção "I Moved It";
+7. Na mensagem que surge a questionar se a máquina virtual foi movida ou copiada, escolha a opção "I moved it";
 
 O nome de utilizador é `robotics` e a palavra-passe é `robotics`.
 
@@ -79,7 +79,7 @@ Neste momento está apto a seguir os tutoriais das aulas laboratoriais, não pre
 
 Para proceder à instalação do sistema na máquina virtual, siga os seguintes passos:
 
-1. Descarregue o [Vmware Player](#5-ligações-relevantes) clicando no botão "Download for free", seguido da opção "Go do downloads" e, depois, da opção "Download now" para o seu sistema operativo;
+1. Descarregue o [Vmware Player](#5-ligações-relevantes) clicando no botão "Download for free", seguido da opção "Go to downloads" e, depois, da opção "Download now" para o seu sistema operativo;
 2. Descarregue a versão [22.04.3 do Xubuntu 64 bit](#5-ligações-relevantes);
 3. Instale o Vmware Player a partir do ficheiro descarregado (aceite as opções por omissão);
 4. Abra o Vmware player. Caso apareça informação sobre o VMware Workstation escolha "Skip this version";
@@ -133,7 +133,14 @@ wget https://github.com/ipleiria-robotics/adv_robotics/raw/master/scripts/instal
 3. Ainda no mesmo terminal, execute agora o comando `bash install_AR.sh` (ou o comando `bash install_AR_WSL.sh`, caso esteja a usar o WSL);
 4. Siga as instruções exibidas no terminal, inserindo a palavra-passe, sempre que solicitada, e respondo sim (Y) ou com o ENTER às questões que surjam. Note que, dependendo da velocidade de internet, este passo pode demorar significativamente;
 
-Terminada esta instalação aconselha-se que reinicie o PC, ficando este pronto para a realização dos trabalhos práticos. Caso tenha obtido algum erro no último passo, corra novamente o passo 3.
+Terminada esta instalação verifique no terminal que não ocorreu nenhum erro durante a execução dos scripts. Caso tenha surgido algum erro, além do indicado abaixo, volte a correr o script (passo 3). Caso o(s) erro(s) não sejam resolvidos, contacte o docente. O erro que se segue pode ser ignorado sem problemas.
+```bash
+WARNING:colcon.colcon_ros.task.ament_python.build:Package 'py_trees_ros_viewer' doesn't explicitly install a marker in the package index (colcon-ros currently does it implicitly but that fallback will be removed in the future)
+--- stderr: py_trees_ros_viewer
+/home/user/ros/build/py_trees_ros_viewer/setup.py:5: DeprecationWarning: The distutils package is deprecated and slated for removal in Python 3.12. Use setuptools or check PEP 632 for potential alternatives
+  from distutils import log
+```
+De seguida deve reiniciar o PC, ficando este pronto para a realização dos trabalhos práticos.
 
 No caso de estar a utilizar uma máquina virtual e queira partilhar pastas entre o sistema operativo anfitrião mas ainda não o tenha feito, siga as indicaçõe no final da [Secção 2.1](#21-instalação-fornecida-pelo-docente).
 
@@ -142,4 +149,4 @@ No caso de estar a utilizar uma máquina virtual e queira partilhar pastas entre
 * [Kubuntu 22.04.2](https://cdimage.ubuntu.com/kubuntu/releases/22.04.3/release/kubuntu-22.04.3-desktop-amd64.iso)
 * [Xubuntu 22.04.3](https://cdimage.ubuntu.com/xubuntu/releases/22.04.3/release/xubuntu-22.04.3-desktop-amd64.iso)
 * [Vmware Player](https://www.vmware.com/products/workstation-player.html)
-* [Balena Etcheer](https://etcher.balena.io/)
+* [balenaEtcher](https://etcher.balena.io/)
