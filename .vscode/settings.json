@@ -4,8 +4,6 @@
         "**/install": true,
         "**/log": true
     },
-    "python.linting.flake8Enabled": true,
-    "python.linting.enabled": true,
     "cmake.configureOnOpen": false,
     "markdown.validate.enabled": true
 }
