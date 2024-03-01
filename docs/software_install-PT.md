@@ -72,7 +72,15 @@ Para utilizar a instalação previamente preparada pelo docente, siga os passos 
 
 O nome de utilizador é `robotics` e a palavra-passe é `robotics`.
 
+
 Neste caso a máquina virtual está totalmente configurada, pelo que não necessita de fazer mais nada, exceto se quiser ter pastas partilhadas entre o Windows (_host_) e o Linux (_guest_) (note que é possível fazer _Copy&Paste_ de conteúdos e ficheiros entre o _host_ e o _guest_, independentemente de partilhar ou não as pastas). Para ativar as pastas partilhadas entre o Windows e o Linux clique, dentro da janela do VMware, no menu _Player_ --> _Manage_ --> _Virtual Machine Settings_ e  seleccione o separador "Options", seguido da opção "Shared Folders". Ative a opção "Always Enabled" e clique em "Add" para adicionar a pasta a partilhar. As pastas criadas ficarão imediatamente disponíveis na máquina virtual em `/mnt/hgfs`.
+
+Antes de prosseguir, abra a máquina virtual e, num terminal dentro da máquina virtual, corra os seguintes comandos para garantir que o sistema está atualizado:
+```bash
+sudo apt update
+sudo apt dist-upgrade
+```
+
 Neste momento está apto a seguir os tutoriais das aulas laboratoriais, não precisando de fazer mais nada em termos de instalação/configuração.
 
 ## 2.2 Instalação da máquina virtual de raiz
