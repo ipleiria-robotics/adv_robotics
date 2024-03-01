@@ -76,6 +76,12 @@ The username is `robotics` and the password is `robotics`.
 
 In this case the virtual machine is completely configured and ready to be used, except for the shared folders. Although you can already use Copy&Paste between the host (Windows) and the guest (Linux), it might be useful to share folders between Windows and Linux. To do so, click _Player_ --> _Manage_ --> _Virtual Machine Settings_ and select the option "Options", followed by the option "Shared Folders", activate the Always Enabled option and click Add in order to select the folder to be shared. The shared folders will be immediately available in "/mnt/hgfs".
 
+Before proceeding, open the virtual mchine and, in a terminal inside the virtual machine, run the following commands to make sure your system is up to date:
+```bash
+sudo apt update
+sudo apt dist-upgrade
+```
+
 You are now ready to follow the laboratory tutorials, you do not need to do anything else in terms of installation/configuration.
 
 ## 2.2 Installing the virtual machine from scratch
