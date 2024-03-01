@@ -66,7 +66,7 @@ In order to proceed with the installation previously set up by the professor, go
 
 1. Download [Vmware Player](#5-relevant-links) (click the "Download for free" button, followed by the option "Go to downloads", and then the "Download now" option for your operating system);
 2. Install VMware Player from the downloaded file (accept the default options);
-3. Download the [virtual machine previously set up by the professor](TODO);
+3. Download the [virtual machine previously set up by the professor](https://drive.google.com/file/d/17SYxfxE7aYtO6aJpFTFZD-hDmw8fhU-Z/view?usp=sharing);
 4. Decompress the file (virtual machine) to the folder where the virtual machines are stored in your PC (in the professor's case, it was in `C:\Users\hugoc\Documentos\Virtual Machines\`), or to any other folder of your choosing. After decompressing the files, it will take about 25Gb of hardrive space;
 5. Open VMware Player. If you see a message about VMware Workstation choose "Skip this version";
 6. Click in Player --> File --> Open... and open, in the folder where you stored the virtual machine, the file "Xubuntu 22.04 64-bit AR\Xubuntu 22.04 64-bit AR.vmx";

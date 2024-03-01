@@ -64,7 +64,7 @@ Para utilizar a instalação previamente preparada pelo docente, siga os passos 
 
 1. Descarregue o [Vmware Player](#5-ligações-relevantes) clicando no botão "Download for free", seguido da opção "Go to downloads" e, depois, da opção "Download now" para o seu sistema operativo;
 2. Instale o Vmware Player a partir do ficheiro descarregado (aceite as opções por omissão);
-3. Descarregue a máquina [virtual fornecida pelo docente](TODO);
+3. Descarregue a máquina [virtual fornecida pelo docente](https://drive.google.com/file/d/17SYxfxE7aYtO6aJpFTFZD-hDmw8fhU-Z/view?usp=sharing);
 4. Descomprima o ficheiro descarregado (máquina virtual) para a pasta onde estão guardadas as máquinas virtuais (no caso do docente, a pasta `C:\Users\hugoc\Documentos\Virtual Machines\`), ou uma outra pasta qualquer à sua escolha. Após descompactar o ficheiro, irá ocupar cerca de 25Gb de armazenamendo no disco;
 5. Abra o Vmware player. Caso apareça informação sobre o VMware Workstation escolha "Skip this version";
 6. Clique em Player --> File --> Open... e abra, na pasta onde guardou a máquina virtual, o ficheiro "Xubuntu 22.04 64-bit AR\Xubuntu 22.04 64-bit AR.vmx";
