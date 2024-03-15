@@ -12,11 +12,7 @@
             "console": "integratedTerminal",
             "justMyCode": true,
             "subProcess": false,
-            "args": [
-                "--ros-args",
-                "-p",
-                "use_sim_time:=True"
-            ]
+            "args": []
         }
     ]
 }
