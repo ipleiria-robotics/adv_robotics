@@ -18,7 +18,7 @@ Getting the tutorials
 
 If you installed the class software using the provided scripts, this step is already done and you can skip to the next one, otherwise use the following command:
 
-    >> git clone https://github.com/ipleiria-robotics/adv_robotics ~/ros
+    >> git clone --recurse-submodules https://github.com/ipleiria-robotics/adv_robotics ~/ros
 
 If you already had a folder named "ros" in your home folder, this will fail. You should delete the previous folder and run the command again.
 
