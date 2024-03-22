@@ -31,9 +31,10 @@ from simple_launch import SimpleLauncher
 
 
 def generate_launch_description():
-    # Parameters
     lifecycle_nodes = ['map_server']
 
+    # Create the launch description. It will be filled below, and returned in
+    # the end
     sl = SimpleLauncher(use_sim_time=True)
 
     # Declare arguments
@@ -62,8 +63,7 @@ def generate_launch_description():
     # Map server
     sl.declare_arg('map_config', sl.find('tw04', 'map.yaml', 'config'),
                    description='(Optional) Path to the map config file')
-    # Get the YAML configuration file
-    map_config_file = sl.arg('map_config')
+    map_config_file = sl.arg('map_config')  # Get the YAML configuration file
     sl.node(package='nav2_map_server',
             executable='map_server',
             name='map_server',
