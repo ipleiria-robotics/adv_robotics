@@ -31,7 +31,7 @@ def generate_launch_description():
     )
 
     # Stage simulator
-    sl.declare_arg('start_stage', True,
+    sl.declare_arg('run_stage', True,
                    description='If True, the Stage simulator is started')
     sl.node(package='stage_ros',
             executable='stageros',
@@ -82,8 +82,6 @@ def generate_launch_description():
                 parameters=[configured_params])
 
     # Start lifecycle node manager
-    node_names = [sl.py_eval(sl.arg(namespace) + '/') + node_name for node_name in lifecycle_nodes]
-    
     sl.node(package='nav2_lifecycle_manager',
             executable='lifecycle_manager',
             name='lifecycle_manager',
