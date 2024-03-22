@@ -11,14 +11,10 @@ def generate_launch_description():
     sl = SimpleLauncher(use_sim_time=True)
 
     # Declare arguments
-    sl.declare_arg(
-        'namespace',
-        'robot_0',
+    sl.declare_arg('namespace', 'robot_0',
         description='Top-level robot namespace.')
     namespace = sl.arg('namespace')
-    sl.declare_arg(
-        'params_file',
-        sl.find('tw07', 'params.yaml', 'config'),
+    sl.declare_arg('params_file', sl.find('tw07', 'params.yaml', 'config'),
         description='(Optional) Complete path to the parameters file')
     # Get the YAML configuration file
     params = sl.arg('params_file')
@@ -87,7 +83,6 @@ def generate_launch_description():
 
     # Start lifecycle node manager
     node_names = [sl.py_eval(sl.arg(namespace) + '/') + node_name for node_name in lifecycle_nodes]
-    #node_names = [os.path.join(sl.arg(namespace), node_name) for node_name in lifecycle_nodes]
     
     sl.node(package='nav2_lifecycle_manager',
             executable='lifecycle_manager',
