@@ -6,7 +6,7 @@
     "configurations": [
         {
             "name": "Python: Current File",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
@@ -15,7 +15,9 @@
             "args": [
                 "--ros-args",
                 "-p",
-                "use_sim_time:=True"
+                "use_sim_time:=True",
+                "-r",
+                "__ns:=/robot_0"
             ]
         }
     ]

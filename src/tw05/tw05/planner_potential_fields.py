@@ -69,9 +69,6 @@ class PlannerPotentialFields(Node):
         # Prevent simultaneous read/write to the class variables
         self.lock = threading.Lock()
 
-        # Robot name(space)
-        self.robot_name = 'robot_0'
-
         # Amount of map resolution  scaling to apply to reduce computational
         # cost. Must be greater than or equal to 1 (no scaling if equal to 1)
         self.scale_factor = 3
@@ -97,7 +94,7 @@ class PlannerPotentialFields(Node):
             reliability=QoSReliabilityPolicy.RELIABLE,
             durability=QoSDurabilityPolicy.TRANSIENT_LOCAL)
         self.sub_map = self.create_subscription(OccupancyGrid,
-                                                f'/{self.robot_name}/map',
+                                                'map',
                                                 self.map_cb, qos_profile)
 
         # Setup subscribers using a ApproximateTimeSynchronizer filter. We want
@@ -107,14 +104,14 @@ class PlannerPotentialFields(Node):
         if USE_ODOM:  # Use odometry
             # Use odometry should be only until localization is fully working
             self.sub_pose = message_filters.Subscriber(
-                self, Odometry, f'/{self.robot_name}/odom')
+                self, Odometry, 'odom')
         else:
             # Estimated pose (from localization)
             self.sub_pose = message_filters.Subscriber(
-                self, PoseWithCovarianceStamped, f'/{self.robot_name}/pose')
+                self, PoseWithCovarianceStamped, 'pose')
         # Goal pose
         self.sub_goal_pose = message_filters.Subscriber(
-            self, PoseStamped, f'/{self.robot_name}/goal_pose')
+            self, PoseStamped, 'goal_pose')
         # Joint callback
         ts = message_filters.ApproximateTimeSynchronizer(
             [self.sub_pose, self.sub_goal_pose], 5, 0.1)
@@ -122,16 +119,14 @@ class PlannerPotentialFields(Node):
 
         # Setup publishers
         # Actual potential field as costmap
-        self.costmap_pub = self.create_publisher(
-            Costmap, f'/{self.robot_name}/pot_costmap', 1)
+        self.costmap_pub = self.create_publisher(Costmap, 'pot_costmap', 1)
 
         # Actual potential field as OccupancyGrid (for RViz)
-        self.occ_grid_pub = self.create_publisher(
-            OccupancyGrid, f'/{self.robot_name}/pot_occgrid', 1)
+        self.occ_grid_pub = self.create_publisher(OccupancyGrid,
+                                                  'pot_occgrid', 1)
 
         # Path publisher
-        self.path_pub = self.create_publisher(Path,
-                                              f'/{self.robot_name}/path', 1)
+        self.path_pub = self.create_publisher(Path, 'path', 1)
 
     def map_cb(self, msg: OccupancyGrid):
         '''
