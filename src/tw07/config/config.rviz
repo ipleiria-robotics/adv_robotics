@@ -158,7 +158,7 @@ Visualization Manager:
         Filter size: 10
         History Policy: Keep Last
         Reliability Policy: Reliable
-        Value: /robot_0/amcl_pose
+        Value: /robot_0/pose
       Value: true
     - Alpha: 0.699999988079071
       Class: rviz_default_plugins/Map
@@ -339,5 +339,5 @@ Window Geometry:
   Views:
     collapsed: true
   Width: 1423
-  X: 2252
-  Y: 58
+  X: 223
+  Y: 234
