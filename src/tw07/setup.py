@@ -1,26 +1,31 @@
 from setuptools import setup
+from glob import glob
 
-package_name = 'ar_py_utils'
+package_name = 'tw07'
 
 setup(
     name=package_name,
-    version='2.0.0',
+    version='3.0.0',
     packages=[package_name],
     data_files=[
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
+        (f'share/{package_name}/launch', glob('launch/*_launch.py')),
+        (f'share/{package_name}/config', glob('config/*')),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
     maintainer='Hugo Costelha',
     maintainer_email='hugo.costelha@ipleiria.pt',
-    description='Auxiliar files, functions and applications used in Advanced Robotics',
+    description='tw07 - Particle Filter',
     license='BSD',
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'ground_truth_republisher = ar_py_utils.ground_truth_republisher:main',
+            'particle_filter = tw07.particle_filter:main',
+            'publish_fixed_path = tw07.publish_fixed_path:main',
+            'tf_path_navigation = tw07.tf_path_navigation:main',
         ],
     },
 )
