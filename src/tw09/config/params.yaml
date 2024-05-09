@@ -1,0 +1,8 @@
+# Configuration file for this package
+
+tw09_path_navigation:
+  ros__parameters:
+    use_odom: false
+    ref_lin_vel: 1.0
+    ref_ang_vel: 1.57
+
