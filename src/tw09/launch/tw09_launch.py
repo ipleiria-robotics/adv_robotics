@@ -46,20 +46,18 @@ def generate_launch_description():
         description='(Optional) Complete path to the parameters file')
 
     # Get the YAML configuration file
-    params = sl.arg('params_file')
+    org_param_file = sl.arg('params_file')
     # configured_params = params
-    configured_params = ParameterFile(
+    rewritten_params_file = \
         RewrittenYaml(
-            source_file=params,
+            source_file=org_param_file,
             root_key=namespace,
             param_rewrites={
                 'base_frame_id': sl.arg(namespace)+'/base_footprint',
                 'odom_frame_id': sl.arg(namespace)+'/odom',
                 'robot_base_frame': sl.arg(namespace)+'/base_footprint'},
             convert_types=True,
-        ),
-        allow_substs=True,
-    )
+        )
 
     # Stage simulator
     sl.declare_arg('run-stage', True,
@@ -73,14 +71,14 @@ def generate_launch_description():
                                   'stage_worlds'))
 
     # Map server (use map from TW07)
-    sl.node(package='nav2_map_server',
-            executable='map_server',
-            name='map_server',
-            namespace=namespace,
-            output='screen',
-            emulate_tty=True,  # https://github.com/ros2/launch/issues/188
-            parameters=[
-                {'yaml_filename': sl.find('tw07', 'map.yaml', 'config')}])
+    sl.node(
+        package='nav2_map_server',
+        executable='map_server',
+        name='map_server',
+        namespace=namespace,
+        output='screen',
+        emulate_tty=True,  # https://github.com/ros2/launch/issues/188
+        parameters={'yaml_filename': sl.find('tw07', 'map.yaml', 'config')})
 
     # RViz
     sl.declare_arg('run-rviz', True,
@@ -108,7 +106,7 @@ def generate_launch_description():
                 namespace=namespace,
                 output='screen',
                 emulate_tty=True,
-                parameters=[configured_params])
+                parameters={'yaml_filename': rewritten_params_file})
 
     # Path navigation node (from TW09)
     sl.declare_arg('run-navigation', True,
@@ -120,7 +118,7 @@ def generate_launch_description():
                 namespace=namespace,
                 output='screen',
                 emulate_tty=True,
-                parameters=[configured_params])
+                parameters={'yaml_filename': rewritten_params_file})
 
     # Path publishing node (from TW09)
     sl.declare_arg('run-path-publisher', True,
@@ -132,7 +130,7 @@ def generate_launch_description():
                 namespace=namespace,
                 output='screen',
                 emulate_tty=True,
-                parameters=[configured_params])
+                parameters={'yaml_filename': rewritten_params_file})
 
     # Start lifecycle node manager
     sl.node(package='nav2_lifecycle_manager',
@@ -141,7 +139,7 @@ def generate_launch_description():
             namespace=namespace,
             output='screen',
             emulate_tty=True,  # https://github.com/ros2/launch/issues/188
-            parameters=[{'autostart': True},
-                        {'node_names': lifecycle_nodes}])
+            parameters={'autostart': True,
+                        'node_names': lifecycle_nodes})
 
     return sl.launch_description()
