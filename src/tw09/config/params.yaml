@@ -5,4 +5,3 @@ tw09_path_navigation:
     use_odom: false
     ref_lin_vel: 1.0
     ref_ang_vel: 1.57
-

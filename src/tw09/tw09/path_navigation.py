@@ -134,6 +134,10 @@ class BasicWaypointPathNavigation(Node):
         '''
 
         with self.lock:
+            # Ignore request if we have not yet finished the previous path
+            if self.global_path is not None:
+                return
+
             # Store an internal copy of the path
             self.global_path = msg.poses
             self.num_targets = len(msg.poses)

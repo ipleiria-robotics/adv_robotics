@@ -11,7 +11,8 @@ do
     # Get the process command
     process_command=$(ps -p $pid -o args=)
 
-    # If the process name is not 'rqt' or 'rqt_graph', kill it
+    # If the process name is not 'rqt', 'rqt_graph' and does not include
+    # ros2-daemon in its aguments, kill it
     if [[ "$process_name" != "rqt" && 
           "$process_command" != *"ros2-daemon"* &&
           "$process_name" != "rqt_graph" ]]; then

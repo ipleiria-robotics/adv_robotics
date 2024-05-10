@@ -82,8 +82,7 @@ class PeriodicFixedPathPublisher(Node):
             self.path.poses.append(pose)
 
         # Path publisher
-        self.path_pub = self.create_publisher(Path,
-                                              f'/{self.robot_name}/path', 1)
+        self.path_pub = self.create_publisher(Path, 'path', 1)
         # Publish the path right now
         self.path_pub_cb()
 
