@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2021, Hugo Costelha
+Copyright (c) 2024, Hugo Costelha
 All rights reserved.
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -93,21 +93,20 @@ class BatteryManager : public rclcpp::Node
       battery_sate_.serial_number = "SIMULATED_BATTERY";
 
       /// ROS variables/objects
-      std::string robot_name = "/robot_0";
 
       // Publisher for the battery state
       batttery_level_pub_ = 
           create_publisher<sensor_msgs::msg::BatteryState>(
-            robot_name + "/battery/state", rclcpp::QoS(rclcpp::KeepLast(1)));
+            "battery/state", rclcpp::QoS(rclcpp::KeepLast(1)));
       // Publisher for the velocity commands    
       vel_pub_ = create_publisher<geometry_msgs::msg::Twist>(
-        robot_name + "/cmd_vel", rclcpp::QoS(rclcpp::KeepLast(1)));
+        "cmd_vel", rclcpp::QoS(rclcpp::KeepLast(1)));
 
       /// Setup subscribers
       // Real, error-free robot pose (for debug purposes only)
       sub_real_pose_ = 
         create_subscription<nav_msgs::msg::Odometry>(
-          robot_name + "/base_pose_ground_truth", 1,
+          "base_pose_ground_truth", 1,
           std::bind(&BatteryManager::odomCallback, this,
                     std::placeholders::_1));
 
@@ -119,7 +118,7 @@ class BatteryManager : public rclcpp::Node
 
       // Advertise the battery charging service
       service_ = create_service<ar_utils::srv::StartCharging>(
-          robot_name + "/battery/charge",
+          "battery/charge",
           std::bind(&BatteryManager::startChargeRequest,
                     this, 
                     std::placeholders::_1,

@@ -1,9 +1,5 @@
 # Configuration file for this package
 
-tw09_ekf_icp_localization:
-  ros__parameters:
-    test_parameter: 27
-
 tw09_path_navigation:
   ros__parameters:
     use_odom: false
@@ -19,7 +15,7 @@ global_costmap:
       global_frame: "map"
       robot_base_frame: "robot_0/base_footprint"
       use_sim_time: True
-      robot_radius: 0.30 # radius set and used, so no footprint points
+      robot_radius: 0.40 # radius set and used, so no footprint points
       resolution: 0.05
       plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
       obstacle_layer:

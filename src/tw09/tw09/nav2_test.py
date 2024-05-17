@@ -16,7 +16,6 @@
 from geometry_msgs.msg import PoseStamped, Point, Pose2D
 from nav2_simple_commander.robot_navigator import BasicNavigator, TaskResult
 import rclpy
-from rclpy.duration import Duration
 
 from ar_py_utils.utils import rpyToQuaternion
 from numpy import radians
@@ -36,7 +35,7 @@ def main():
     targets = [Pose2D(x=2.0, y=2.0, theta=45.0),  # 1
                Pose2D(x=6.0, y=7.0, theta=90.0),  # 2
                Pose2D(x=-6.5, y=-1.0, theta=-90.0),  # 3
-               Pose2D(x=0.0, y=-7.0, theta=0.0)]  # 4
+               Pose2D(x=-1.0, y=-7.0, theta=0.0)]  # 4
     num_targets = len(targets)
 
     # Generate list of waypoints using ROS format from the targets list above
@@ -60,6 +59,12 @@ def main():
                             goal=target,
                             planner_id="GridBased",
                             use_start=False)
+
+        # If no path exists, try the next target 
+        if path is None:
+            print(f'No path found for target {j}, trying next target!')
+            j = (j+1) % num_targets
+            continue
 
         # Go through the path to the waypoint
         nav2.followPath(path, controller_id='FollowPath',

@@ -53,10 +53,10 @@ import ar_py_utils.LocalFrameWorldFrameTransformations as lfwft
 from markers_msgs.msg import Markers
 
 # Specify if the particle filter steps should run
-RUN_PREDICTION_STEP = False
-RUN_OBSERVATION_STEP = False
+RUN_PREDICTION_STEP = True
+RUN_OBSERVATION_STEP = True
 
-# Output debug information to the file only once every DELTA_PRINT seconds
+# Output debug information to the file only once every DELTA_DEBUG seconds
 DELTA_DEBUG = 1
 
 
