@@ -245,7 +245,7 @@ def play_sound(sound_file, play_async=True, cancel_others=False):
         # Check if some sound is playing does not work in WSL for now)
         while True:
             result = subprocess.run(
-                ['pgrep', 'aplay'], capture_output=True, text=True)
+                ['pgrep', 'paplay'], capture_output=True, text=True)
             if result.returncode == 1:
                 # No process aplay is running
                 break
@@ -257,13 +257,13 @@ def play_sound(sound_file, play_async=True, cancel_others=False):
         thread.start()
     else:
         # Synchronous play, will only return when finished
-        if (in_wsl()):  # When running inside WSL
+        if False:  # (in_wsl()):  # When running inside WSL
             result = subprocess.run(
                 ['powershell.exe', '-c',
                  f'(New-Object Media.SoundPlayer {sound_file}).PlaySync();'],
                 capture_output=True, text=True)
         else:  # When running in VM or barebone metal
-            result = subprocess.run(['aplay', sound_file],
+            result = subprocess.run(['paplay', sound_file],
                                     capture_output=True, text=True)
         # If something went wrong, output the error
         if result.returncode != 0:
@@ -275,4 +275,4 @@ def play_sound(sound_file, play_async=True, cancel_others=False):
 
 def stop_all_sounds():
     '''Stop all sounds by shutting down aplay executions'''
-    subprocess.run(['killall', 'aplay'], capture_output=True)
+    subprocess.run(['killall', 'paplay'], capture_output=True)
