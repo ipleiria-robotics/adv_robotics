@@ -39,19 +39,11 @@ import os
 
 def generate_launch_description():
     # Parameters
-    use_sim_time = LaunchConfiguration('use_sim_time')
+    use_sim_time = True
 
     # Create the launch description. It will be filled below, and returned in
     # the end
     ld = LaunchDescription()
-
-    # Use simulator time
-    declare_use_sim_time_cmd = DeclareLaunchArgument(
-        'use_sim_time',
-        default_value='true',
-        description='Use simulation (Gazebo) clock if true',
-    )
-    ld.add_action(declare_use_sim_time_cmd)
 
     # Simulator node.
     world_file = os.path.join(get_package_share_directory('worlds'),

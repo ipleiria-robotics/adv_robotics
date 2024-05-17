@@ -4,7 +4,7 @@ from nav2_common.launch import RewrittenYaml
 
 
 def generate_launch_description():
-    lifecycle_nodes = ['map_server', 'amcl', 'planner_server']
+    lifecycle_nodes = ['map_server', 'amcl']
 
     sl = SimpleLauncher(use_sim_time=True)
 
@@ -59,7 +59,7 @@ def generate_launch_description():
         sl.rviz(sl.find('tw07', 'config.rviz', 'config'), warnings=True)
 
     # Ground truth republisher
-    sl.node(package='tw07',
+    sl.node(package='ar_py_utils',
             executable='ground_truth_republisher',
             name='tw07_ground_truth_republisher',
             namespace=namespace,
@@ -71,27 +71,29 @@ def generate_launch_description():
             name='amcl',
             namespace=namespace,
             output='screen',
+            remappings=[('amcl_pose', 'pose')],
             parameters=[configured_params])
 
-    # NAV2-based path planner
-    sl.node(package='nav2_planner',
-            executable='planner_server',
-            name='planner_server',
-            namespace=namespace,
-            output='screen',
-            parameters=[configured_params])
-
-    # Path navigation node (from TW03)
-    #sl.declare_arg('run-navigation', True,
-    #               description='If True, run the navigation node')
-    #with sl.group(if_arg='run-navigation'):
-    #    sl.node(package='tw03',
-    #            executable='navigation',
-    #            name='navigation',
-    #            namespace=namespace,
-    #            output='screen',
-    #            emulate_tty=True,
-    #            parameters=[configured_params])
+    # Path navigation node (from TW04)
+    sl.declare_arg('run-navigation', True,
+                   description='If True, run the navigation node')
+    with sl.group(if_arg='run-navigation'):
+        # Path navigation
+        sl.node(package='tw07',
+                executable='tf_path_navigation',
+                name='tf_path_navigation',
+                namespace=namespace,
+                output='screen',
+                emulate_tty=True,
+                parameters=[configured_params])
+        # Publish (fixed) navigation path (from TW07)
+        sl.node(package='tw07',
+                executable='publish_fixed_path',
+                name='tw07_publish_fixed_path',
+                namespace=namespace,
+                output='screen',
+                emulate_tty=True,
+                parameters=[configured_params])
 
     # Start lifecycle node manager
     sl.node(package='nav2_lifecycle_manager',
