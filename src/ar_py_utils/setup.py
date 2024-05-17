@@ -15,12 +15,12 @@ setup(
     zip_safe=True,
     maintainer='Hugo Costelha',
     maintainer_email='hugo.costelha@ipleiria.pt',
-    description='Auxiliar functions and files used in Advanced Robotics',
+    description='Auxiliar files, functions and applications used in Advanced Robotics',
     license='BSD',
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            # None
+            'ground_truth_republisher = ar_py_utils.ground_truth_republisher:main',
         ],
     },
 )
