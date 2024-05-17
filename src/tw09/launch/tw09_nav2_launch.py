@@ -33,7 +33,7 @@ from nav2_common.launch import RewrittenYaml
 
 
 def generate_launch_description():
-    lifecycle_nodes = ['map_server']
+    lifecycle_nodes = ['map_server', 'planner_server', 'controller_server']
     use_sim_time = True
 
     sl = SimpleLauncher(use_sim_time=use_sim_time)
@@ -43,7 +43,7 @@ def generate_launch_description():
                    description='Top-level robot namespace.')
     namespace = sl.arg('namespace')
     sl.declare_arg(
-        'params_file', sl.find('tw09', 'params.yaml', 'config'),
+        'params_file', sl.find('tw09', 'params_nav2.yaml', 'config'),
         description='(Optional) Complete path to the parameters file')
 
     # Get the YAML configuration file
@@ -53,7 +53,12 @@ def generate_launch_description():
         RewrittenYaml(
             source_file=org_param_file,
             root_key=namespace,
-            param_rewrites={},
+            param_rewrites={
+                # 'odom_topic': '/' + sl.arg(namespace)+'/base_footprint',
+                # 'local_costmap.local_costmap.ros__parameters.global_frame': sl.arg(namespace)+'/odom',
+                # 'robot_base_frame': sl.arg(namespace)+'/base_footprint',
+                # 'global_costmap.global_costmap.ros__parameters.obstacle_layer.scan.topic': '/' + sl.arg(namespace)+'/base_scan'
+                },
             convert_types=True,
         ),
         allow_substs=True,
@@ -86,7 +91,7 @@ def generate_launch_description():
     sl.declare_arg('run-rviz', True,
                    description='If True, RViz is started')
     with sl.group(if_arg='run-rviz'):
-        sl.rviz(sl.find('tw09', 'config.rviz', 'config'), warnings=True)
+        sl.rviz(sl.find('tw09', 'config_nav2.rviz', 'config'), warnings=True)
 
     # Ground truth republisher
     sl.node(package='ar_py_utils',
@@ -105,33 +110,32 @@ def generate_launch_description():
         # Publish (fixed) navigation path (from TW07)
         sl.node(package='tw09',
                 executable='ekf_icp_localization',
-                # name='tw09_ekf_icp_localization',
                 namespace=namespace,
                 output='screen',
                 emulate_tty=True,
                 parameters=[rewritten_params_file,
                             {'use_sim_time': use_sim_time}])
 
-    # Path navigation node (from TW09)
-    sl.declare_arg('run-navigation', True,
-                   description='If True, run navigation node.')
-    with sl.group(if_arg='run-navigation'):
-        sl.node(package='tw09',
-                executable='path_navigation',
-                name='tw09_path_navigation',
+    # Nav2 planner (path planning algorithms)
+    sl.declare_arg('run-nav2-planner', True,
+                   description='If True, run the nav2 path planner node.')
+    with sl.group(if_arg='run-nav2-planner'):
+        sl.node(package='nav2_planner',
+                executable='planner_server',
+                name='planner_server',
                 namespace=namespace,
                 output='screen',
                 emulate_tty=True,
                 parameters=[rewritten_params_file,
                             {'use_sim_time': use_sim_time}])
 
-    # Path publishing node (from TW09)
-    sl.declare_arg('run-path-publisher', True,
-                   description='If True, run the path publisher node.')
-    with sl.group(if_arg='run-path-publisher'):
-        sl.node(package='tw09',
-                executable='publish_fixed_path',
-                name='tw09_publish_fixed_path',
+    # Nav2 controller (path execution algorithms)
+    sl.declare_arg('run-nav2-controller', True,
+                   description='If True, run the nav2 path controller node.')
+    with sl.group(if_arg='run-nav2-controller'):
+        sl.node(package='nav2_controller',
+                executable='controller_server',
+                name='controller_server',
                 namespace=namespace,
                 output='screen',
                 emulate_tty=True,

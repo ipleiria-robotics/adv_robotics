@@ -97,7 +97,7 @@ class EKFICPLocalization(Node):
         self.lock = threading.Lock()
 
         # Initialize the node itself
-        super().__init__('ekf_localization')
+        super().__init__('tw09_ekf_icp_localization')
 
         # Robot name
         self.robot_name = self.get_namespace()[1:]
@@ -423,7 +423,7 @@ class EKFICPLocalization(Node):
             self, LaserScan, 'base_scan')
         # Joint callback
         ts = message_filters.ApproximateTimeSynchronizer(
-            [self.sub_odom, self.sub_laserscan], 3, 0.2)
+            [self.sub_odom, self.sub_laserscan], 3, 0.05)
         ts.registerCallback(self.odom_laserscan_cb)
 
     def odom_laserscan_cb(self, odom_msg: Odometry, laser_msg: LaserScan):
