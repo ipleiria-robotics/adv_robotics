@@ -110,7 +110,6 @@ controller_server:
     # Goal checker parameters
     # https://docs.nav2.org/configuration/packages/nav2_controller-plugins/simple_goal_checker.html
     general_goal_checker:
-      stateful: True
       plugin: "nav2_controller::SimpleGoalChecker"
       xy_goal_tolerance: 0.10 # m
       yaw_goal_tolerance: 0.09 # 5 deg in rad

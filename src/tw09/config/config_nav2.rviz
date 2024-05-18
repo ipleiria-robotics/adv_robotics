@@ -183,17 +183,17 @@ Visualization Manager:
         Value: /robot_0/base_pose_ground_truth_map
       Value: false
     - Class: rviz_default_plugins/MarkerArray
-      Enabled: true
+      Enabled: false
       Name: MarkerArray
       Namespaces:
-        robot_0: true
+        {}
       Topic:
         Depth: 5
         Durability Policy: Volatile
         History Policy: Keep Last
         Reliability Policy: Reliable
         Value: /robot_0/visualization_marker
-      Value: true
+      Value: false
     - Alpha: 1
       Axes Length: 1
       Axes Radius: 0.10000000149011612
@@ -354,5 +354,5 @@ Window Geometry:
   Views:
     collapsed: true
   Width: 1255
-  X: 18
-  Y: 28
+  X: -14
+  Y: -4
