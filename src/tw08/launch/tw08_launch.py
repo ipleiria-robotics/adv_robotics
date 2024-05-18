@@ -104,7 +104,6 @@ def generate_launch_description():
         # Publish (fixed) navigation path (from TW07)
         sl.node(package='tw08',
                 executable='ekf_localization',
-                name='tw08_ekf_localization',
                 namespace=namespace,
                 output='screen',
                 emulate_tty=True,
