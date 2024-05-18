@@ -23,9 +23,10 @@ def generate_launch_description():
             source_file=params,
             root_key=namespace,
             param_rewrites={
-                'base_frame_id': sl.arg(namespace)+'/base_footprint',
-                'odom_frame_id': sl.arg(namespace)+'/odom',
-                'robot_base_frame': sl.arg(namespace)+'/base_footprint'},
+               # 'base_frame_id': sl.arg(namespace)+'/base_footprint',
+               # 'odom_frame_id': sl.arg(namespace)+'/odom',
+               # 'robot_base_frame': sl.arg(namespace)+'/base_footprint'
+               },
             convert_types=True,
         ),
         allow_substs=True,
@@ -74,14 +75,13 @@ def generate_launch_description():
             remappings=[('amcl_pose', 'pose')],
             parameters=[configured_params])
 
-    # Path navigation node (from TW04)
+    # Navigation part
     sl.declare_arg('run-navigation', True,
                    description='If True, run the navigation node')
     with sl.group(if_arg='run-navigation'):
-        # Path navigation
+        # Path navigation (TW07)
         sl.node(package='tw07',
                 executable='tf_path_navigation',
-                name='tf_path_navigation',
                 namespace=namespace,
                 output='screen',
                 emulate_tty=True,
