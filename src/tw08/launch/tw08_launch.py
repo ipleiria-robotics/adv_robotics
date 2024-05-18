@@ -53,9 +53,10 @@ def generate_launch_description():
             source_file=params,
             root_key=namespace,
             param_rewrites={
-                'base_frame_id': sl.arg(namespace)+'/base_footprint',
-                'odom_frame_id': sl.arg(namespace)+'/odom',
-                'robot_base_frame': sl.arg(namespace)+'/base_footprint'},
+               # 'base_frame_id': sl.arg(namespace)+'/base_footprint',
+               # 'odom_frame_id': sl.arg(namespace)+'/odom',
+               # 'robot_base_frame': sl.arg(namespace)+'/base_footprint'
+               },
             convert_types=True,
         ),
         allow_substs=True,
