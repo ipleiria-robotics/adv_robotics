@@ -32,6 +32,7 @@ find_package(rosidl_default_generators REQUIRED)
 rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/ForkliftState.msg"
   "srv/StartCharging.srv"
+  "action/Move2Pose.action"
   "action/Move2Pos.action"
   "action/MoveVisualServoing.action"
   "action/MoveForklift.action"

@@ -60,7 +60,7 @@ def main():
                             planner_id="GridBased",
                             use_start=False)
 
-        # If no path exists, try the next target 
+        # If no path exists, try the next target
         if path is None:
             print(f'No path found for target {j}, trying next target!')
             j = (j+1) % num_targets

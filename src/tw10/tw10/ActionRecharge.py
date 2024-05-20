@@ -47,7 +47,6 @@ from rclpy.node import Node
 from sensor_msgs.msg import BatteryState
 
 # Our modules
-import tw10.myglobals as myglobals
 from ar_utils.action import Recharge
 from ar_utils.srv import StartCharging  # Access to the battery manager service
 

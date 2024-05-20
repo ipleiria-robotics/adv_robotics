@@ -44,7 +44,7 @@ def addActionServer(sl, package, executable, namespace, params_file,
 
 
 def generate_launch_description():
-    lifecycle_nodes = ['map_server', 'planner_server', 'controller_server']
+    lifecycle_nodes = ['map_server']
     use_sim_time = True
 
     sl = SimpleLauncher(use_sim_time=use_sim_time)
@@ -148,23 +148,17 @@ def generate_launch_description():
     addActionServer(sl, 'tw10', 'action_stop',
                     namespace, rewritten_params_file, use_sim_time)
 
-    # Main task node
+    # Main task node argument
     sl.declare_arg('run-simple-task', False,
                    description='If True, run the main task node.')
-    with sl.group(if_arg='run-simple-task'):
-        sl.node(package='tw10',
-                executable='simple_task',
-                namespace=namespace,
-                name='tw10_simple_task',
-                output='screen',
-                emulate_tty=True,
-                parameters=[rewritten_params_file,
-                            {'use_sim_time': use_sim_time}])
 
-    # Nav2 planner (path planning algorithms)
-    sl.declare_arg('run-nav2-planner', True,
+    # Nav2 planner and controller
+    sl.declare_arg('run-nav2-planner-and-controller', False,
                    description='If True, run the nav2 path planner node.')
-    with sl.group(if_arg='run-nav2-planner'):
+    with sl.group(if_arg='run-nav2-planner-and-controller'):
+        full_lifecycle_nodes = lifecycle_nodes.copy()
+        # Planner
+        full_lifecycle_nodes.append('planner_server')
         sl.node(package='nav2_planner',
                 executable='planner_server',
                 name='planner_server',
@@ -174,10 +168,8 @@ def generate_launch_description():
                 parameters=[rewritten_params_file,
                             {'use_sim_time': use_sim_time}])
 
-    # Nav2 controller (path execution algorithms)
-    sl.declare_arg('run-nav2-controller', True,
-                   description='If True, run the nav2 path controller node.')
-    with sl.group(if_arg='run-nav2-controller'):
+        # Controller
+        full_lifecycle_nodes.append('controller_server')
         sl.node(package='nav2_controller',
                 executable='controller_server',
                 name='controller_server',
@@ -187,15 +179,51 @@ def generate_launch_description():
                 parameters=[rewritten_params_file,
                             {'use_sim_time': use_sim_time}])
 
-    # Start lifecycle node manager
-    sl.node(package='nav2_lifecycle_manager',
-            executable='lifecycle_manager',
-            name='lifecycle_manager',
-            namespace=namespace,
-            output='screen',
-            emulate_tty=True,  # https://github.com/ros2/launch/issues/188
-            parameters={'autostart': True,
-                        'node_names': lifecycle_nodes,
-                        'use_sim_time': use_sim_time})
+        # Main task node (with nav2)
+        with sl.group(if_arg='run-simple-task'):
+            sl.node(package='tw10',
+                    executable='simple_task_nav2',
+                    namespace=namespace,
+                    name='tw10_simple_task',
+                    output='screen',
+                    emulate_tty=True,
+                    parameters=[rewritten_params_file,
+                                {'use_sim_time': use_sim_time}])
+
+        # Start lifecycle node manager
+        sl.node(package='nav2_lifecycle_manager',
+                executable='lifecycle_manager',
+                name='lifecycle_manager',
+                namespace=namespace,
+                output='screen',
+                emulate_tty=True,  # https://github.com/ros2/launch/issues/188
+                parameters={'autostart': True,
+                            'node_names': full_lifecycle_nodes,
+                            'use_sim_time': use_sim_time})
+
+    # Nodes that run only when not using nav2
+    with sl.group(unless_arg='run-nav2-planner-and-controller'):
+        # Non-nav2 main simple task
+        with sl.group(if_arg='run-simple-task'):
+            sl.node(package='tw10',
+                    executable='simple_task',
+                    namespace=namespace,
+                    name='tw10_simple_task',
+                    output='screen',
+                    emulate_tty=True,
+                    parameters=[rewritten_params_file,
+                                {'use_sim_time': use_sim_time}])
+
+        # If we are not running the nav2 planner and controller, use the
+        # lifecycle node manager just for the map_server
+        sl.node(package='nav2_lifecycle_manager',
+                executable='lifecycle_manager',
+                name='lifecycle_manager',
+                namespace=namespace,
+                output='screen',
+                emulate_tty=True,  # https://github.com/ros2/launch/issues/188
+                parameters={'autostart': True,
+                            'node_names': lifecycle_nodes,
+                            'use_sim_time': use_sim_time})
 
     return sl.launch_description()

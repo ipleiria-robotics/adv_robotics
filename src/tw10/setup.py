@@ -25,6 +25,7 @@ setup(
     entry_points={
         'console_scripts': [
             'simple_task = tw10.simple_task:main',
+            'simple_task_nav2 = tw10.simple_task_nav2:main',
             'action_move2pos = tw10.ActionMove2Pos:main',
             'action_play_sound = tw10.ActionPlaySound:main',
             'action_rotate2angle = tw10.ActionRotate2Angle:main',

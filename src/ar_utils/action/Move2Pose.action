@@ -1,0 +1,8 @@
+# Goal: which pose to reach
+geometry_msgs/Pose2D target_pose
+---
+# Result: True if successful, False otherwise
+bool success
+---
+# Feedback: distance to target
+float32 distance_to_goal

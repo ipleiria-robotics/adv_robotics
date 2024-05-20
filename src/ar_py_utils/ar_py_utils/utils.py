@@ -36,7 +36,7 @@ from math import atan2, cos, sin
 import matplotlib.pyplot as plt
 import multiprocessing
 import numpy as np
-from platform import uname
+# from platform import uname
 import queue
 import subprocess
 import sys
@@ -229,8 +229,8 @@ def clearLine():
 ###############################################################################
 
 
-def in_wsl() -> bool:
-    return 'WSL' in uname().release
+# def in_wsl() -> bool:
+#     return 'WSL' in uname().release
 
 
 def play_sound(sound_file, play_async=True, cancel_others=False):
@@ -257,14 +257,8 @@ def play_sound(sound_file, play_async=True, cancel_others=False):
         thread.start()
     else:
         # Synchronous play, will only return when finished
-        if False:  # (in_wsl()):  # When running inside WSL
-            result = subprocess.run(
-                ['powershell.exe', '-c',
-                 f'(New-Object Media.SoundPlayer {sound_file}).PlaySync();'],
-                capture_output=True, text=True)
-        else:  # When running in VM or barebone metal
-            result = subprocess.run(['paplay', sound_file],
-                                    capture_output=True, text=True)
+        result = subprocess.run(['paplay', sound_file],
+                                capture_output=True, text=True)
         # If something went wrong, output the error
         if result.returncode != 0:
             rclpy.logging._root_logger.warn(

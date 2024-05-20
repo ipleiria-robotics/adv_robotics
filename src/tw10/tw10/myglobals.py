@@ -49,7 +49,6 @@ from numpy import pi
     The use of this variables assume a single-threaded execution, otherwise
     you need to use locks to prevent simultaneous acess.
  '''
-#robot_name = 'robot_0'
 MIN_POWER_LEVEL = 0.20  # Minimum power level before recharging
 MAX_POWER_LEVEL = 1.00  # Power level to reach with recharge
 execution_rate = 10  # Hz
