@@ -26,7 +26,7 @@ setup(
             'ekf_icp_localization = tw09.ekf_icp_localization:main',
             'path_navigation = tw09.path_navigation:main',
             'publish_fixed_path = tw09.publish_fixed_path:main',
-            'nav2_test.py = tw09.nav2_test.py'
+            'nav2_test = tw09.nav2_test:main'
         ],
     },
 )

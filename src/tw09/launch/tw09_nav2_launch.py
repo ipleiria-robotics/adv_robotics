@@ -30,6 +30,7 @@
 from simple_launch import SimpleLauncher
 from launch_ros.descriptions import ParameterFile
 from nav2_common.launch import RewrittenYaml
+from simple_launch.events import When, OnProcessStart
 
 
 def generate_launch_description():
@@ -104,43 +105,51 @@ def generate_launch_description():
     # ICP-based EKF node
     # Started by default
     sl.declare_arg(
-        'run-icp-ekf-localization', False,
+        'run-icp-ekf-localization', True,
         description='If True, run the ICP-based EKF localization node.')
     with sl.group(if_arg='run-icp-ekf-localization'):
         # Publish (fixed) navigation path (from TW07)
-        sl.node(package='tw09',
-                executable='ekf_icp_localization',
-                namespace=namespace,
-                output='screen',
-                emulate_tty=True,
-                parameters=[rewritten_params_file,
-                            {'use_sim_time': use_sim_time}])
+        ekf_node = sl.node(package='tw09',
+                           executable='ekf_icp_localization',
+                           namespace=namespace,
+                           output='screen',
+                           emulate_tty=True,
+                           parameters=[rewritten_params_file,
+                                       {'use_sim_time': use_sim_time}])
 
     # Nav2 planner (path planning algorithms)
-    sl.declare_arg('run-nav2-planner', True,
-                   description='If True, run the nav2 path planner node.')
-    with sl.group(if_arg='run-nav2-planner'):
-        sl.node(package='nav2_planner',
-                executable='planner_server',
-                name='planner_server',
-                namespace=namespace,
-                output='screen',
-                emulate_tty=True,
-                parameters=[rewritten_params_file,
-                            {'use_sim_time': use_sim_time}])
+    sl.node(package='nav2_planner',
+            executable='planner_server',
+            name='planner_server',
+            namespace=namespace,
+            output='screen',
+            emulate_tty=True,
+            parameters=[rewritten_params_file,
+                        {'use_sim_time': use_sim_time}])
 
     # Nav2 controller (path execution algorithms)
-    sl.declare_arg('run-nav2-controller', True,
-                   description='If True, run the nav2 path controller node.')
-    with sl.group(if_arg='run-nav2-controller'):
-        sl.node(package='nav2_controller',
-                executable='controller_server',
-                name='controller_server',
-                namespace=namespace,
-                output='screen',
-                emulate_tty=True,
-                parameters=[rewritten_params_file,
-                            {'use_sim_time': use_sim_time}])
+    sl.node(package='nav2_controller',
+            executable='controller_server',
+            name='controller_server',
+            namespace=namespace,
+            output='screen',
+            emulate_tty=True,
+            parameters=[rewritten_params_file,
+                        {'use_sim_time': use_sim_time}])
+
+    # Run nav2 application only after EKF is running
+    sl.declare_arg('run-nav2-test', False,
+                   description='If True, run the nav2 test app.')
+    with sl.group(if_arg='run-nav2-test'):
+        with sl.group(when=When(ekf_node, OnProcessStart, 3.)):
+            sl.node(package='tw09',
+                    executable='nav2_test',
+                    name='nav2_test',
+                    namespace=namespace,
+                    output='screen',
+                    emulate_tty=True,
+                    parameters=[rewritten_params_file,
+                                {'use_sim_time': use_sim_time}])
 
     # Start lifecycle node manager
     sl.node(package='nav2_lifecycle_manager',
