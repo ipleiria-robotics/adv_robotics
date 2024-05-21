@@ -140,16 +140,16 @@ def generate_launch_description():
     # Run nav2 application only after EKF is running
     sl.declare_arg('run-nav2-test', False,
                    description='If True, run the nav2 test app.')
-    with sl.group(if_arg='run-nav2-test'):
-        with sl.group(when=When(ekf_node, OnProcessStart, 3.)):
-            sl.node(package='tw09',
-                    executable='nav2_test',
-                    name='nav2_test',
-                    namespace=namespace,
-                    output='screen',
-                    emulate_tty=True,
-                    parameters=[rewritten_params_file,
-                                {'use_sim_time': use_sim_time}])
+    with sl.group(if_arg='run-nav2-test',
+                  when=When(ekf_node, OnProcessStart, 3.)):
+        sl.node(package='tw09',
+                executable='nav2_test',
+                name='nav2_test',
+                namespace=namespace,
+                output='screen',
+                emulate_tty=True,
+                parameters=[rewritten_params_file,
+                            {'use_sim_time': use_sim_time}])
 
     # Start lifecycle node manager
     sl.node(package='nav2_lifecycle_manager',
