@@ -87,7 +87,7 @@ class GenerateNextPose(py_trees.behaviour.Behaviour):
             self.blackboard.set(
                 self.pose_key,
                 action.Move2Pose.Goal(
-                    target_position=self.waypoints[self.curr_waypoint]))
+                    target_pose=self.waypoints[self.curr_waypoint]))
         if self.pos_key is not None:
             self.blackboard.set(
                 self.pos_key,

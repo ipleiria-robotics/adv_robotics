@@ -45,6 +45,7 @@ def addActionServer(sl, package, executable, namespace, params_file,
 
 def generate_launch_description():
     # Parameters
+    lifecycle_nodes = ['map_server', 'planner_server', 'controller_server']
     use_sim_time = True
 
     sl = SimpleLauncher(use_sim_time=use_sim_time)
@@ -138,6 +139,26 @@ def generate_launch_description():
     addActionServer(sl, 'tw10', 'action_recharge', namespace,
                     rewritten_params_file, use_sim_time)
 
+    # Planner
+    sl.node(package='nav2_planner',
+            executable='planner_server',
+            name='planner_server',
+            namespace=namespace,
+            output='screen',
+            emulate_tty=True,
+            parameters=[rewritten_params_file,
+                        {'use_sim_time': use_sim_time}])
+
+    # Controller
+    sl.node(package='nav2_controller',
+            executable='controller_server',
+            name='controller_server',
+            namespace=namespace,
+            output='screen',
+            emulate_tty=True,
+            parameters=[rewritten_params_file,
+                        {'use_sim_time': use_sim_time}])
+
     # Tutorial example
     sl.declare_arg('run-example-03-nav2', True,
                    description='If True, run the 3rd BT')
@@ -150,5 +171,16 @@ def generate_launch_description():
                 emulate_tty=True,
                 parameters=[rewritten_params_file,
                             {'use_sim_time': use_sim_time}])
+        
+    # Start lifecycle node manager
+    sl.node(package='nav2_lifecycle_manager',
+            executable='lifecycle_manager',
+            name='lifecycle_manager',
+            namespace=namespace,
+            output='screen',
+            emulate_tty=True,  # https://github.com/ros2/launch/issues/188
+            parameters={'autostart': True,
+                        'node_names': lifecycle_nodes,
+                        'use_sim_time': use_sim_time})
 
     return sl.launch_description()
