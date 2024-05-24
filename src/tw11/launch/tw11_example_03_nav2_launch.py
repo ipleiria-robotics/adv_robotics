@@ -171,7 +171,7 @@ def generate_launch_description():
                 emulate_tty=True,
                 parameters=[rewritten_params_file,
                             {'use_sim_time': use_sim_time}])
-        
+
     # Start lifecycle node manager
     sl.node(package='nav2_lifecycle_manager',
             executable='lifecycle_manager',
