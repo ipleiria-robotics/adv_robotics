@@ -51,7 +51,7 @@ class GenerateNextPose(py_trees.behaviour.Behaviour):
             raise KeyError(error_message) from e  # 'direct cause' traceability
         # Not get setup the blackboard keys acess
         self.blackboard = py_trees.blackboard.Client()
-        if self.pose_ke is not None:
+        if self.pose_key is not None:
             self.blackboard.register_key(key=self.pose_key,
                                          access=py_trees.common.Access.WRITE)
         if (self.pos_key is not None) and (self.angle_key is not None):
