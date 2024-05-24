@@ -140,10 +140,17 @@ class Teleop(Node):
         ''' Process battery level related messages'''
         # If the battery as dropped below 5%
         if (msg.percentage < 0.05) and (self.battery_level >= 0.05):
-            self.stdscr.addstr(11, 0,
-                               'Battery is getting extremely low...\n\r')
+            self.stdscr.addstr(
+                11, 0, 'Battery is getting extremely low ' +
+                f'({self.battery_level*100:0.1f}%)...\n\r')
         elif (msg.percentage < 0.20) and (self.battery_level >= 0.20):
-            self.stdscr.addstr(11, 0, 'Battery is getting low...\n\r')
+            self.stdscr.addstr(
+                11, 0, 'Battery is getting low ' +
+                f'({self.battery_level*100:0.1f}%)...\n\r')
+        else:
+            self.stdscr.addstr(
+                11, 0, f'Battery level: {self.battery_level*100:0.1f}%\n\r')
+
         # Store the current value
         self.battery_level = msg.percentage
 
