@@ -44,7 +44,7 @@ def addActionServer(sl, package, executable, namespace, params_file,
 
 
 def generate_launch_description():
-    lifecycle_nodes = ['map_server']
+    # Parameters
     use_sim_time = True
 
     sl = SimpleLauncher(use_sim_time=use_sim_time)
@@ -54,7 +54,7 @@ def generate_launch_description():
                    description='Top-level robot namespace.')
     namespace = sl.arg('namespace')
     sl.declare_arg(
-        'params_file', sl.find('tw10', 'params.yaml', 'config'),
+        'params_file', sl.find('tw11', 'params.yaml', 'config'),
         description='(Optional) Complete path to the parameters file')
 
     # Get the YAML configuration file
@@ -64,12 +64,7 @@ def generate_launch_description():
         RewrittenYaml(
             source_file=org_param_file,
             root_key=namespace,
-            param_rewrites={
-                # 'odom_topic': '/' + sl.arg(namespace)+'/base_footprint',
-                # 'local_costmap.local_costmap.ros__parameters.global_frame': sl.arg(namespace)+'/odom',
-                # 'robot_base_frame': sl.arg(namespace)+'/base_footprint',
-                # 'global_costmap.global_costmap.ros__parameters.obstacle_layer.scan.topic': '/' + sl.arg(namespace)+'/base_scan'
-                },
+            param_rewrites={},
             convert_types=True,
         ),
         allow_substs=True,
@@ -87,6 +82,16 @@ def generate_launch_description():
                                   'stage_worlds'),
                 parameters={'use_sim_time': use_sim_time})
 
+    # Start the battery manager
+    sl.node(
+        package='ar_cpp_utils',
+        executable='battery_manager',
+        name='battery_manager',
+        namespace=namespace,
+        output='screen',
+        emulate_tty=True,  # https://github.com/ros2/launch/issues/188
+        parameters={'use_sim_time': use_sim_time})
+
     # Map server (use map from TW07)
     sl.node(
         package='nav2_map_server',
@@ -99,10 +104,10 @@ def generate_launch_description():
                     'use_sim_time': use_sim_time})
 
     # RViz
-    sl.declare_arg('run-rviz', True,
+    sl.declare_arg('run-rviz', False,
                    description='If True, RViz is started')
     with sl.group(if_arg='run-rviz'):
-        sl.rviz(sl.find('tw10', 'config.rviz', 'config'), warnings=True)
+        sl.rviz(sl.find('tw11', 'config.rviz', 'config'), warnings=True)
 
     # Ground truth republisher
     sl.node(package='ar_py_utils',
@@ -125,104 +130,27 @@ def generate_launch_description():
                 parameters=[rewritten_params_file,
                             {'use_sim_time': use_sim_time}])
 
-    # Start the battery manager
-    sl.node(package='ar_cpp_utils',
-            executable='battery_manager',
-            namespace=namespace,
-            name='battery_manager',
-            output='screen',
-            emulate_tty=True,
-            parameters=[rewritten_params_file,
-                        {'use_sim_time': use_sim_time}])
+    # Add action servers (from TW10)
+    addActionServer(sl, 'tw10', 'action_play_sound', namespace,
+                    rewritten_params_file, use_sim_time)
+    addActionServer(sl, 'tw10', 'action_move2pos', namespace,
+                    rewritten_params_file, use_sim_time)
+    addActionServer(sl, 'tw10', 'action_rotate2angle', namespace,
+                    rewritten_params_file, use_sim_time)
+    addActionServer(sl, 'tw10', 'action_recharge', namespace,
+                    rewritten_params_file, use_sim_time)
 
-    # Add action servers
-    addActionServer(sl, 'tw10', 'action_move2pos',
-                    namespace, rewritten_params_file, use_sim_time)
-    addActionServer(sl, 'tw10', 'action_play_sound',
-                    namespace, rewritten_params_file, use_sim_time)
-    addActionServer(sl, 'tw10', 'action_rotate2angle',
-                    namespace, rewritten_params_file, use_sim_time)
-    addActionServer(sl, 'tw10', 'action_recharge',
-                    namespace, rewritten_params_file, use_sim_time)
-    addActionServer(sl, 'tw10', 'action_stop',
-                    namespace, rewritten_params_file, use_sim_time)
-
-    # Main task node argument
-    sl.declare_arg('run-simple-task', False,
-                   description='If True, run the main task node.')
-
-    # Nav2 planner and controller
-    sl.declare_arg('run-nav2-planner-and-controller', False,
-                   description='If True, run the nav2 path planner node.')
-    with sl.group(if_arg='run-nav2-planner-and-controller'):
-        full_lifecycle_nodes = lifecycle_nodes.copy()
-        # Planner
-        full_lifecycle_nodes.append('planner_server')
-        sl.node(package='nav2_planner',
-                executable='planner_server',
-                name='planner_server',
+    # Tutorial example
+    sl.declare_arg('run-example-03', True,
+                   description='If True, run the 3rd BT')
+    with sl.group(if_arg='run-example-03'):
+        sl.node(package='tw11',
+                executable='simple-task',
                 namespace=namespace,
+                name='simple_task',
                 output='screen',
                 emulate_tty=True,
                 parameters=[rewritten_params_file,
                             {'use_sim_time': use_sim_time}])
-
-        # Controller
-        full_lifecycle_nodes.append('controller_server')
-        sl.node(package='nav2_controller',
-                executable='controller_server',
-                name='controller_server',
-                namespace=namespace,
-                output='screen',
-                emulate_tty=True,
-                parameters=[rewritten_params_file,
-                            {'use_sim_time': use_sim_time}])
-
-        # Main task node (with nav2)
-        with sl.group(if_arg='run-simple-task'):
-            sl.node(package='tw10',
-                    executable='simple_task_nav2',
-                    namespace=namespace,
-                    name='tw10_simple_task',
-                    output='screen',
-                    emulate_tty=True,
-                    parameters=[rewritten_params_file,
-                                {'use_sim_time': use_sim_time}])
-
-        # Start lifecycle node manager
-        sl.node(package='nav2_lifecycle_manager',
-                executable='lifecycle_manager',
-                name='lifecycle_manager',
-                namespace=namespace,
-                output='screen',
-                emulate_tty=True,  # https://github.com/ros2/launch/issues/188
-                parameters={'autostart': True,
-                            'node_names': full_lifecycle_nodes,
-                            'use_sim_time': use_sim_time})
-
-    # Nodes that run only when not using nav2
-    with sl.group(unless_arg='run-nav2-planner-and-controller'):
-        # Non-nav2 main simple task
-        with sl.group(if_arg='run-simple-task'):
-            sl.node(package='tw10',
-                    executable='simple_task',
-                    namespace=namespace,
-                    name='tw10_simple_task',
-                    output='screen',
-                    emulate_tty=True,
-                    parameters=[rewritten_params_file,
-                                {'use_sim_time': use_sim_time}])
-
-        # If we are not running the nav2 planner and controller, use the
-        # lifecycle node manager just for the map_server
-        sl.node(package='nav2_lifecycle_manager',
-                executable='lifecycle_manager',
-                name='lifecycle_manager',
-                namespace=namespace,
-                output='screen',
-                emulate_tty=True,  # https://github.com/ros2/launch/issues/188
-                parameters={'autostart': True,
-                            'node_names': lifecycle_nodes,
-                            'use_sim_time': use_sim_time})
 
     return sl.launch_description()

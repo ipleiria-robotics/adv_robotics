@@ -46,7 +46,6 @@ from rclpy.node import Node
 from geometry_msgs.msg import Pose2D, Twist, PoseWithCovarianceStamped
 
 # Our modules
-import tw10.myglobals as myglobals
 from ar_utils.action import Move2Pos
 from ar_py_utils.utils import quaternionToYaw, clipValue
 import ar_py_utils.LocalFrameWorldFrameTransformations as lfwft
@@ -65,7 +64,7 @@ class Move2PosActionServer(Node):
 
         # Create condition to manage access to the goal variable, wich will be
         # accessed in multiple callbacks
-        self.goal_handle = None
+        self._goal_handle = None
         self.goal_lock = Lock()
 
         ''' Initialize members for navigation control '''
@@ -117,11 +116,12 @@ class Move2PosActionServer(Node):
         ''' This function runs whenever a new goal is accepted.'''
         with self.goal_lock:
             # This server only allows one goal at a time
-            if (self.goal_handle is not None) and (self.goal_handle.is_active):
+            if (self._goal_handle is not None) and \
+               (self._goal_handle.is_active):
                 self.get_logger().info(f'{ACTION_NAME} aborting previous goal')
                 # Abort the existing goal
-                self.goal_handle.abort()
-            self.goal_handle = goal_handle
+                self._goal_handle.abort()
+            self._goal_handle = goal_handle
         # Start runing the execute callback
         goal_handle.execute()
 
@@ -198,7 +198,9 @@ class Move2PosActionServer(Node):
                     # Return whatever result we have so far
                     return Move2Pos.Result(final_pose=self.curr_pose)
 
-                ''' Control de robot velocity to reach the desired goal '''
+                '''
+                Else, control de robot velocity to reach the desired goal
+                '''
 
                 # The angular velocity will be proportional to the angle of the
                 # target as seen by the robot.
@@ -260,6 +262,9 @@ class Move2PosActionServer(Node):
             if not goal_handle.is_active:
                 self.get_logger().warn(
                     f'{ACTION_NAME} callback called without active goal!')
+                if self.sub_pose is not None:
+                    self.destroy_subscription(self.sub_pose)
+                    self.sub_pose = None
                 return
 
             # Store current pose
@@ -280,7 +285,7 @@ def main(args=None):
 
     # Use 2 threads to make sure callbacks can run in parallel and the action
     # does not block.
-    executor = MultiThreadedExecutor(num_threads=2)
+    executor = MultiThreadedExecutor(num_threads=3)
     executor.add_node(move2pos_action_server)
     executor.spin()
 

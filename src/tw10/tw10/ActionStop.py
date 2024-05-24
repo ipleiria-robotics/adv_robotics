@@ -220,7 +220,7 @@ def main(args=None):
 
     # Use 2 threads to make sure callbacks can run in parallel and the action
     # does not block.
-    executor = MultiThreadedExecutor(num_threads=2)
+    executor = MultiThreadedExecutor(num_threads=3)
     executor.add_node(stop_action_server)
     executor.spin()
 
