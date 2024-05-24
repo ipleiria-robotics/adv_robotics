@@ -1,0 +1,26 @@
+{
+    "python.autoComplete.extraPaths": [
+        "/home/hcostelha/ros/build/tw08",
+        "/home/hcostelha/ros/install/tw08/lib/python3.8/site-packages",
+        "/home/hcostelha/ros/build/tw11",
+        "/home/hcostelha/ros/install/tw11/lib/python3.8/site-packages",
+        "/home/hcostelha/ros/build/tw07",
+        "/home/hcostelha/ros/install/tw07/lib/python3.8/site-packages",
+        "/home/hcostelha/ros/build/tw06",
+        "/home/hcostelha/ros/install/tw06/lib/python3.8/site-packages",
+        "/home/hcostelha/ros/build/tw05",
+        "/home/hcostelha/ros/install/tw05/lib/python3.8/site-packages",
+        "/home/hcostelha/ros/build/tw04",
+        "/home/hcostelha/ros/install/tw04/lib/python3.8/site-packages",
+        "/home/hcostelha/ros/build/tw03",
+        "/home/hcostelha/ros/install/tw03/lib/python3.8/site-packages",
+        "/home/hcostelha/ros/build/tw02",
+        "/home/hcostelha/ros/install/tw02/lib/python3.8/site-packages",
+        "/home/hcostelha/ros/build/tw01",
+        "/home/hcostelha/ros/install/tw01/lib/python3.8/site-packages",
+        "/home/hcostelha/ros/install/markers_msgs/lib/python3.8/site-packages",
+        "/home/hcostelha/ros/build/lw1",
+        "/home/hcostelha/ros/install/lw1/lib/python3.8/site-packages",
+        "/opt/ros/foxy/lib/python3.8/site-packages"
+    ]
+}

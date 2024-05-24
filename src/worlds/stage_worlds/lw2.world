@@ -1,0 +1,411 @@
+# Factory World (setup similar to the one used in the Portuguese Robotics Open)
+# Authors: Hugo Costelha
+# 13/03/2013
+
+include "pioneer.inc" # File with Pioneer models
+include "map.inc" # File with map definition
+include "sick.inc" # File for the sick laser
+
+# Simulation setup
+resolution 0.01 # Resolution of the underlying ray-trace model
+threads 1 # Set this to the number of CPUs for increased simulation speed
+
+# configure the GUI window
+window
+(
+  size [ 400.000 350.000 ] # in pixels
+  scale 50.0   # pixels per meter
+  center [ 0  0 ]
+  rotate [ 0  0 ]
+
+  show_data 1              # 1=on 0=off
+)
+
+# load an environment bitmap
+floorplan
+( 
+  name "factory"
+  size [7.20 5.75 0.800]
+  pose [0 -0.05 0 0]
+  bitmap "factory.png"
+  color "tan3"
+  ranger_return 0
+)
+
+# Lines on the floor
+model (
+  size [7.20 5.75 0.001] # Same as above, except for height
+  gui_move 0 # Do now allow it to be moved
+  gripper_return 0 # Do not allow a gripper to grab the environment
+  fiducial_return 0 # Not detectable as marker
+  obstacle_return 0 # Not Detectable as an obstacle
+  ranger_return 0 # Not detectable by range sensors
+  laser_return 0 # Not detectable by lasers
+
+  pose [0 -0.05 0 0]
+  color "black"
+  bitmap "factory_lines.png"
+)
+
+#obstacle
+#( 
+#  name "obst1"
+#  pose [2.2 1.7 0 60.0]
+#  color "red"
+#)
+
+#obstacle
+#( 
+#  name "obst2"
+#  pose [0.0 -1.3 0.0 45.0]
+#  color "green"
+#  bitmap "circle.png"
+#)
+
+#pioneer3dx
+pioneer2dx_base_no_sonar
+(
+  # can refer to the robot by this name
+  name "robot0"
+  # Initial pose
+#  pose [ -2 3 0 0 ] # Initial posture
+  pose [ 0 0 0 0 ] # Initial posture
+
+  # pioneer3dx's sonars, will be ranger:0 and the laser will be ranger:1
+  sicklaser( pose [ 0 0 0 0 ] ) 
+
+  # Simulate landmark detection
+  fiducial
+  (
+    # fiducialfinder properties
+    range_min 0.0
+    range_max 1.0
+    range_max_id 50.0
+    fov 70
+
+    # mode properties
+    size [0 0 0]
+  )
+
+#  # add a camera to the robot
+#  camera( 
+#    pose [ 0 0 0.2 0 ]
+#    range [ 0.2 8.0 ]
+#    resolution [ 160 120 ]
+#    fov [ 70 52.5 ]
+#    pantilt [ 0 0 ]
+#    alwayson 1
+#  )
+
+  # Uncomment if you want the robot to wander alone without your code
+  #ctrl "wander"
+
+  # Use "gps" for error-free position in world coordinates, and "odom" for
+  # odometry with uniform random distributed error
+  localization "gps"
+  localization_origin [ 0 0 0 0 ]
+  odom_error [ 0.1 0.03 0 0.2 ] # [ X Y Z Theta ]
+)
+
+# Marker definition
+define part position (
+  size [0.16 0.16 0.24]
+#  noise 0.10
+  gui_outline 1
+  gui_move 0
+)
+
+# Parts in the input warehouse
+part(
+  name "in_part_1"
+  color "red"
+  bitmap "circle.png"
+  pose [2.60 -2.48 0 0]
+  fiducial_return 1
+)
+
+part(
+  name "in_part_2"
+  color "red"
+  bitmap "circle.png"
+  pose [2.23 -2.48 0 0]
+  fiducial_return 1
+)
+
+part(
+  name "in_part_3"
+  color "red"
+  bitmap "circle.png"
+  pose [1.86 -2.48 0 0]
+  fiducial_return 1
+)
+
+part(
+  name "in_part_4"
+  color "red"
+  bitmap "circle.png"
+  pose [1.49 -2.48 0 0]
+  fiducial_return 1
+)
+
+part(
+  name "in_part_5"
+  color "red"
+  bitmap "circle.png"
+  pose [1.12 -2.48 0 0]
+  fiducial_return 1
+)
+
+# Parts in the output warhouse
+part(
+  name "out_part_1"
+  color "blue"
+  bitmap "circle.png"
+  pose [-2.62 2.50 0 0]
+  fiducial_return 1
+)
+
+part(
+  name "out_part_2"
+  color "blue"
+  bitmap "circle.png"
+  pose [-2.25 2.50 0 0]
+  fiducial_return 1
+)
+
+part(
+  name "out_part_3"
+  color "blue"
+  bitmap "circle.png"
+  pose [-1.88 2.50 0 0]
+  fiducial_return 1
+)
+
+part(
+  name "out_part_4"
+  color "blue"
+  bitmap "circle.png"
+  pose [-1.51 2.50 0 0]
+  fiducial_return 1
+)
+
+part(
+  name "out_part_5"
+  color "blue"
+  bitmap "circle.png"
+  pose [-1.14 2.50 0 0]
+  fiducial_return 1
+)
+
+#Parts in the processing units - Right
+part(
+  name "proc_part_R1"
+  color "green"
+  bitmap "circle.png"
+  pose [1.10 0.18 0 0]
+  fiducial_return 1
+)
+
+part(
+  name "proc_part_R2"
+  color "green"
+  bitmap "circle.png"
+  pose [1.46 0.18 0 0]
+  fiducial_return 1
+)
+
+part(
+  name "proc_part_R3"
+  color "green"
+  bitmap "circle.png"
+  pose [1.10 -0.18 0 0]
+  fiducial_return 1
+)
+
+part(
+  name "proc_part_R4"
+  color "green"
+  bitmap "circle.png"
+  pose [1.46 -0.18 0 0]
+  fiducial_return 1
+)
+
+#Parts in the processing units - Left
+part(
+  name "proc_part_L1"
+  color "green"
+  bitmap "circle.png"
+  pose [-1.12 0.18 0 0]
+  fiducial_return 1
+)
+
+part(
+  name "proc_part_L2"
+  color "green"
+  bitmap "circle.png"
+  pose [-1.48 0.18 0 0]
+  fiducial_return 1
+)
+
+part(
+  name "proc_part_L3"
+  color "green"
+  bitmap "circle.png"
+  pose [-1.12 -0.18 0 0]
+  fiducial_return 1
+)
+
+part(
+  name "proc_part_L4"
+  color "green"
+  bitmap "circle.png"
+  pose [-1.48 -0.18 0 0]
+  fiducial_return 1
+)
+
+# Marker definition
+define reflector position (
+  size [0.002 0.050 0.810]
+  color "grey"
+  noise 0.10
+  ranger_return 1 # Laser intensity return value
+  fiducial_return 0 # Not detected by fidutials
+  gui_outline 1
+  gui_move 0
+)
+
+# Right wall
+reflector(
+  name "reflector1"
+  pose [3.44 -2.0 0 0]
+)
+
+reflector(
+  name "reflector2"
+  pose [3.44 0.0 0 0]
+)
+
+reflector(
+  name "reflector3"
+  pose [3.44 2.0 0 0]
+)
+
+# Top wall
+reflector(
+  name "reflector4"
+  pose [3.0 2.42 0 90]
+)
+
+reflector(
+  name "reflector5"
+  pose [1.0 2.42 0 90]
+)
+
+reflector(
+  name "reflector6"
+  pose [-0.975 2.42 0 90]
+)
+
+reflector(
+  name "reflector7"
+  pose [-3.0 2.42 0 90]
+)
+
+# Left wall
+reflector(
+  name "reflector8"
+  pose [-3.44 2.0 0 180]
+)
+
+reflector(
+  name "reflector9"
+  pose [-3.44 0.0 0 180]
+)
+
+reflector(
+  name "reflector10"
+  pose [-3.44 -2.0 0 180]
+)
+
+# Bottom wall
+reflector(
+  name "reflector11"
+  pose [-3.0 -2.42 0 -90]
+)
+
+reflector(
+  name "reflector12"
+  pose [-1.0 -2.42 0 -90]
+)
+
+reflector(
+  name "reflector13"
+  pose [0.975 -2.42 0 -90]
+)
+
+reflector(
+  name "reflector14"
+  pose [3.0 -2.42 0 -90]
+)
+
+# Right machine
+reflector(
+  name "reflector15"
+  pose [1.02 0.370 0.0 0]
+)
+
+reflector(
+  name "reflector16"
+  pose [1.02 0.0 0 0]
+)
+
+reflector(
+  name "reflector17"
+  pose [1.02 -0.370 0 0]
+)
+
+reflector(
+  name "reflector18"
+  pose [1.57 0.370 0.0 180]
+)
+
+reflector(
+  name "reflector19"
+  pose [1.57 0.0 0 180]
+)
+
+reflector(
+  name "reflector20"
+  pose [1.57 -0.370 0 180]
+)
+
+# Left machine
+reflector(
+  name "reflector21"
+  pose [-1.04 0.370 0.0 180]
+)
+
+reflector(
+  name "reflector22"
+  pose [-1.04 0.0 0 180]
+)
+
+reflector(
+  name "reflector23"
+  pose [-1.04 -0.370 0 180]
+)
+
+reflector(
+  name "reflector24"
+  pose [-1.59 0.370 0.0 0]
+)
+
+reflector(
+  name "reflector25"
+  pose [-1.59 0.0 0 0]
+)
+
+reflector(
+  name "reflector26"
+  pose [-1.59 -0.370 0 0]
+)
