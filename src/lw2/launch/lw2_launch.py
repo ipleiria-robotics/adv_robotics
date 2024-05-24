@@ -95,7 +95,7 @@ def generate_launch_description():
     # The map server is needed only while the ICP is not changed, so it it does
     # not run by default.
     sl.declare_arg('run-map-server', False,
-                   description='If True, RViz is started')
+                   description='If True, the map server is started')
     with sl.group(if_arg='run-map-server'):
         sl.node(
             package='nav2_map_server',
