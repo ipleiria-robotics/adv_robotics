@@ -172,7 +172,7 @@ def generate_launch_description():
     sl.declare_arg(
         'run-task', True,
         description='If True, run the main task.')
-    with sl.group(if_arg='run-navigation'):
+    with sl.group(if_arg='run-task'):
         sl.node(package='lw2',
                 executable='task',
                 name='lw2_task',
