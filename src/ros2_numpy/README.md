@@ -54,6 +54,7 @@ Currently supports:
    data = ros2_numpy.numpify(msg)
    ```
 
+* `sensor_msgs.msg.LaserScan` &harr; structured `np.array`
 * `sensor_msgs.msg.Image` &harr; 2/3-D `np.array`, similar to the function of `cv_bridge`, but without the dependency on `cv2`
 * `nav_msgs.msg.OccupancyGrid` &harr; `np.ma.array`
 * `geometry.msg.Vector3` &harr; 1-D `np.array`. `hom=True` gives `[x, y, z, 0]`

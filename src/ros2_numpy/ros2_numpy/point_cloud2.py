@@ -37,8 +37,11 @@ Functions for working with PointCloud2.
 
 __docformat__ = "restructuredtext en"
 
+import sys
+
 from .registry import converts_from_numpy, converts_to_numpy
 
+import array
 import numpy as np
 from sensor_msgs.msg import PointCloud2, PointField
 
@@ -58,15 +61,6 @@ type_mappings = [(PointField.INT8, np.dtype('int8')),
 pftype_to_nptype = dict(type_mappings)
 nptype_to_pftype = dict((nptype, pftype) for pftype, nptype in type_mappings)
 
-# sizes (in bytes) of PointField types
-pftype_sizes = {PointField.INT8: 1,
-                PointField.UINT8: 1,
-                PointField.INT16: 2,
-                PointField.UINT16: 2,
-                PointField.INT32: 4,
-                PointField.UINT32: 4,
-                PointField.FLOAT32: 4,
-                PointField.FLOAT64: 8}
 
 @converts_to_numpy(PointField, plural=True)
 def fields_to_dtype(fields, point_step):
@@ -86,7 +80,7 @@ def fields_to_dtype(fields, point_step):
             dtype = np.dtype((dtype, f.count))
 
         np_dtype_list.append((f.name, dtype))
-        offset += pftype_sizes[f.datatype] * f.count
+        offset += pftype_to_nptype[f.datatype].itemsize * f.count
 
     # might be extra padding between points
     while offset < point_step:
@@ -159,13 +153,27 @@ def array_to_pointcloud2(cloud_arr, stamp=None, frame_id=None):
     cloud_msg.height = cloud_arr.shape[0]
     cloud_msg.width = cloud_arr.shape[1]
     cloud_msg.fields = dtype_to_fields(cloud_arr.dtype)
-    cloud_msg.is_bigendian = False # assumption
+    cloud_msg.is_bigendian = sys.byteorder != 'little'
     cloud_msg.point_step = cloud_arr.dtype.itemsize
     cloud_msg.row_step = cloud_msg.point_step*cloud_arr.shape[1]
     cloud_msg.is_dense = \
       all([np.isfinite(
             cloud_arr[fname]).all() for fname in cloud_arr.dtype.names])
-    cloud_msg.data = cloud_arr.tostring()
+
+    # The PointCloud2.data setter will create an array.array object for you if you don't
+    # provide it one directly. This causes very slow performance because it iterates
+    # over each byte in python.
+    # Here we create an array.array object using a memoryview, limiting copying and
+    # increasing performance.
+    memory_view = memoryview(cloud_arr)
+    if memory_view.nbytes > 0:
+        array_bytes = memory_view.cast("B")
+    else:
+        # Casting raises a TypeError if the array has no elements
+        array_bytes = b""
+    as_array = array.array("B")
+    as_array.frombytes(array_bytes)
+    cloud_msg.data = as_array
     return cloud_msg
 
 def merge_rgb_fields(cloud_arr):
@@ -239,7 +247,7 @@ def split_rgb_field(cloud_arr):
             new_cloud_arr[field_name] = cloud_arr[field_name]
     return new_cloud_arr
 
-def get_xyz_points(cloud_array, remove_nans=True, dtype=np.float):
+def get_xyz_points(cloud_array, remove_nans=True, dtype=float):
     '''Pulls out x, y, and z columns from the cloud recordarray, and returns
     a 3xN matrix.
     '''

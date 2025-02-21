@@ -1,5 +1,6 @@
 from .registry import converts_from_numpy, converts_to_numpy
 from geometry_msgs.msg import Transform, Vector3, Quaternion, Point, Pose
+import tf_transformations as transformations
 from . import numpify
 
 import numpy as np
@@ -65,8 +66,6 @@ def numpy_to_quat(arr):
 
 @converts_to_numpy(Transform)
 def transform_to_numpy(msg):
-    from . import transformations
-
     return np.dot(
         transformations.translation_matrix(numpify(msg.translation)),
         transformations.quaternion_matrix(numpify(msg.rotation))
@@ -74,8 +73,6 @@ def transform_to_numpy(msg):
 
 @converts_from_numpy(Transform)
 def numpy_to_transform(arr):
-    from . import transformations
-
     shape, rest = arr.shape[:-2], arr.shape[-2:]
     assert rest == (4,4)
 
@@ -103,8 +100,6 @@ def numpy_to_transform(arr):
 
 @converts_to_numpy(Pose)
 def pose_to_numpy(msg):
-    from . import transformations
-
     return np.dot(
         transformations.translation_matrix(numpify(msg.position)),
         transformations.quaternion_matrix(numpify(msg.orientation))
@@ -112,8 +107,6 @@ def pose_to_numpy(msg):
 
 @converts_from_numpy(Pose)
 def numpy_to_pose(arr):
-    from . import transformations
-
     shape, rest = arr.shape[:-2], arr.shape[-2:]
     assert rest == (4,4)
 

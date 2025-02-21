@@ -7,3 +7,4 @@ from . import point_cloud2
 from . import image
 from . import occupancy_grid
 from . import geometry
+from . import laser_scan

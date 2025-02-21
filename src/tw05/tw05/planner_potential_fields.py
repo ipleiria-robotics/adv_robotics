@@ -260,7 +260,7 @@ class PlannerPotentialFields(Node):
             self.map_origin,
             self.new_map_resolution)
 
-        atractive_pot = np.zeros(self.resized_map.shape, dtype=np.float)
+        atractive_pot = np.zeros(self.resized_map.shape, dtype=float)
         max_atr_value = 0.0
         for xr in range(0, atractive_pot.shape[1]):
             for yr in range(0, atractive_pot.shape[0]):

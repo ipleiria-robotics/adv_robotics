@@ -75,8 +75,15 @@ class TestPointClouds(unittest.TestCase):
         np.testing.assert_equal(points_arr, new_points_arr)
 
     def test_roundtrip_numpy(self):
-
         points_arr = self.makeArray(100)
+        cloud_msg = rnp.msgify(PointCloud2, points_arr)
+        new_points_arr = rnp.numpify(cloud_msg)
+
+        np.testing.assert_equal(points_arr, new_points_arr)
+
+    def test_roundtrip_zero_points(self):
+        """Test to make sure zero point arrays don't raise memoryview.cast(*) errors"""
+        points_arr = self.makeArray(0)
         cloud_msg = rnp.msgify(PointCloud2, points_arr)
         new_points_arr = rnp.numpify(cloud_msg)
 
