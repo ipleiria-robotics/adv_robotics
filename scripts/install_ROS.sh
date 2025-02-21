@@ -1,8 +1,8 @@
 #!/bin/sh
 
-echo "Installing ROS 2 Humble Hawksbill on Ubuntu $(lsb_release -sc)"
+echo "Installing ROS 2 Jazzy Jalisco on Ubuntu $(lsb_release -sc)"
 ## This script must run using sudo
-## Most information came from https://docs.ros.org/en/humble/Installation/Ubuntu-Install-Debians.html
+## Most information came from https://docs.ros.org/en/jazzy/Installation/Ubuntu-Install-Debs.html
 
 # Check if this script is being run as root
 if [ `whoami` != "root" ]
@@ -26,14 +26,12 @@ apt update
 apt -y upgrade
 
 # Perform ROS2 desktop installation
-# In systems with low memory, installing everything simultaneously can lead to 
-#problems. To prevent this, we should first install texlive, then proceed with ROS.
-apt -y install ros-humble-desktop ros-humble-plotjuggler-ros ros-humble-nav2-map-server ros-humble-nav2-lifecycle-manager ros-humble-nav2-bringup ros-humble-ament-cmake-nose
+apt -y install ros-jazzy-desktop ros-jazzy-plotjuggler-ros ros-jazzy-nav2-map-server ros-jazzy-nav2-lifecycle-manager ros-jazzy-nav2-bringup
+# ros-jazzy-ament-cmake-nose
+
 # Install additional ros packages
-apt -y install ros-humble-py-trees-ros ros-humble-py-trees-ros-interfaces ros-humble-rqt-tf-tree ros-humble-simple-launch
-##apt -y install ros-melodic-hector-sensors-description ros-melodic-hector-models ros-melodic-ros-control ros-melodic-effort-controllers ros-melodic-joint-state-controller ros-melodic-gazebo-ros-control ros-melodic-gazebo-ros-pkgs
-##apt -y install ros-melodic-pcl-conversions ros-melodic-pcl-ros ros-melodic-laser-filters
-##apt -y install python-rosinstall python-rosinstall-generator python-wstool build-essential
+apt -y install ros-jazzy-py-trees-ros ros-jazzy-py-trees-ros-interfaces ros-jazzy-py-trees-ros-viewer
+apt -y install ros-jazzy-rqt-tf-tree ros-jazzy-simple-launch ros-jazzy-tf-transformations
 
 # Relevant ROS-related packages
 apt -y install python3-colcon-common-extensions python3-catkin-pkg-modules python3-rospkg-modules python3-rosdep

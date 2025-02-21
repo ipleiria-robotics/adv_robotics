@@ -15,7 +15,7 @@ sudo apt -y upgrade
 # Other needed software
 sudo apt -y install python3-pip python3-empy python3-flake8 python3-pep8 python3-numpy python3-opencv python3-matplotlib
 sudo apt -y install python3-scipy python3-argcomplete python3-skimage python3-ruamel.yaml python3-pykdl
-sudo apt -y install git unrar screen kdiff3 curl synaptic alsa-utils
+sudo apt -y install git unrar screen kdiff3 curl synaptic alsa-utils python3-venv espeak-ng mbrola-us1
 #sudo apt -y install  mesa-utils libgirepository1.0-dev
 #sudo apt -y install    gdb open-vm-tools open-vm-tools-desktop python3-virtualenv cc
 #sudo apt kde-workspace-randr kwrite texlive-latex-base vlc-plugin-pulse 
@@ -25,7 +25,10 @@ sudo apt -y install git unrar screen kdiff3 curl synaptic alsa-utils
 sudo apt -y install libfltk1.3-dev
 
 # Transformations
-pip3 install pytransform3d
+#pip3 install pytransform3d
+#mkdir -p ~/.venvs
+#python3 -m venv ~/.venvs/advrob --system-site-packages
+#. $HOME/.venvs/advrob/bin/python -m pip install pytransform3d
 
 # Gazebo installation
 #sudo sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list'
@@ -42,18 +45,22 @@ echo "Installing ROS (you might need to type the root password)..."
 sudo sh install_ROS.sh
 rosdep update
 
-# Set up variables and Clone our gir repository, if not already cloned
+# Set up variables and Clone our git repository, if not already cloned
 if [ ! -d "$HOME/ros" ]; then
   if ! grep -q ROS "$HOME/.bashrc"; then
     echo "Setting ROS environment variables..." 
     echo "" >> $HOME/.bashrc
     echo "# ROS Environment variables" >> $HOME/.bashrc
-    echo ". /opt/ros/humble/setup.bash" >> $HOME/.bashrc
+    echo ". /opt/ros/jazzy/setup.bash" >> $HOME/.bashrc
     echo ". $HOME/ros/install/setup.bash" >> $HOME/.bashrc
+    #echo "# Activate our virtual environment" >> $HOME/.bashrc
+    #echo ". $HOME/.venvs/advrob/bin/activate" >> $HOME/.bashrc
+    #echo "# Make sure ROS2 as access to our virtual environment modules (TODO: get the python version automatically)" >> $HOME/.bashrc
+    #echo "export PYTHONPATH=\"${PYTHONPATH}:${HOME}/.venvs/advrob/lib/python3.12/site-packages/\"" >> $HOME/.bashrc
     echo "# Other utilities for WSL:" >> $HOME/.bashrc
     echo "export LIBGL_ALWAYS_SOFTWARE=1" >> $HOME/.bashrc
     echo "alias npp=\"/mnt/c/Program\ Files/Notepad++/notepad++.exe\"" >> $HOME/.bashrc
-    # TODO Remove this in 2023/2024
+    # TODO Remove this in 2024/2025
     #echo "export PYTHONWARNINGS=ignore::UserWarning,ignore:::setuptools.command.install,ignore:::setuptools.command.easy_install,ignore:::pkg_resources" >> $HOME/.bashrc
     #echo "export DISPLAY=\$(ip route list default | awk '{print \$3}'):0" >> $HOME/.bashrc
   fi
@@ -63,7 +70,8 @@ else
 fi
 
 # Build our workspace
-source "/opt/ros/humble/setup.bash"
+source "/opt/ros/jazzy/setup.bash"
+#source "$HOME/.venvs/advrob/bin/activate"
 cd $HOME/ros
 colcon build --symlink-install
 source "$HOME/ros/install/setup.bash"
