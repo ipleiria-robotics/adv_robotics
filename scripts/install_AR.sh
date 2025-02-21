@@ -13,7 +13,10 @@ sudo apt update
 sudo apt -y upgrade
 
 # Visual Studio Code IDE (see https://code.visualstudio.com/docs/setup/linux)
-snap install --classic code
+#snap install --classic code
+echo "code code/add-microsoft-repo boolean true" | sudo debconf-set-selections
+sudo apt update
+sudo apt install code
 
 # Other needed software
 sudo apt -y install python3-pip python3-empy python3-flake8 python3-pep8 python3-numpy python3-opencv python3-matplotlib
@@ -53,8 +56,11 @@ if [ ! -d "$HOME/ros" ]; then
     echo "# ROS Environment variables" >> $HOME/.bashrc
     echo ". /opt/ros/humble/setup.bash" >> $HOME/.bashrc
     echo ". $HOME/ros/install/setup.bash" >> $HOME/.bashrc
+    echo "# Other utilities for WSL:" >> $HOME/.bashrc
+    echo "export LIBGL_ALWAYS_SOFTWARE=1" >> $HOME/.bashrc
+    echo "alias npp=\"/mnt/c/Program\ Files/Notepad++/notepad++.exe\"" >> $HOME/.bashrc
     # TODO Remove this in 2023/2024
-    echo "export PYTHONWARNINGS=ignore::UserWarning,ignore:::setuptools.command.install,ignore:::setuptools.command.easy_install,ignore:::pkg_resources" >> $HOME/.bashrc
+    #echo "export PYTHONWARNINGS=ignore::UserWarning,ignore:::setuptools.command.install,ignore:::setuptools.command.easy_install,ignore:::pkg_resources" >> $HOME/.bashrc
   fi
   git clone --recurse-submodules https://github.com/ipleiria-robotics/adv_robotics $HOME/ros
 else
