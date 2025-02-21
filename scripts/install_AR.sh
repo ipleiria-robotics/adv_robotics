@@ -63,9 +63,6 @@ if [ ! -d "$HOME/ros" ]; then
     #echo ". $HOME/.venvs/advrob/bin/activate" >> $HOME/.bashrc
     #echo "# Make sure ROS2 as access to our virtual environment modules (TODO: get the python version automatically)" >> $HOME/.bashrc
     #echo "export PYTHONPATH=\"${PYTHONPATH}:${HOME}/.venvs/advrob/lib/python3.12/site-packages/\"" >> $HOME/.bashrc
-    echo "# Other utilities for WSL:" >> $HOME/.bashrc
-    echo "export LIBGL_ALWAYS_SOFTWARE=1" >> $HOME/.bashrc
-    echo "alias npp=\"/mnt/c/Program\ Files/Notepad++/notepad++.exe\"" >> $HOME/.bashrc
     # TODO Remove this in 2024/2025
     #echo "export PYTHONWARNINGS=ignore::UserWarning,ignore:::setuptools.command.install,ignore:::setuptools.command.easy_install,ignore:::pkg_resources" >> $HOME/.bashrc
   fi
