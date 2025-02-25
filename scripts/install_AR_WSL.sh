@@ -24,7 +24,7 @@ sudo apt -y install git unrar screen kdiff3 curl synaptic alsa-utils python3-ven
 # Stage related
 sudo apt -y install libfltk1.3-dev
 
-# Transformations
+# Transformations using pip and a virtual environment
 #pip3 install pytransform3d
 #mkdir -p ~/.venvs
 #python3 -m venv ~/.venvs/advrob --system-site-packages
@@ -60,8 +60,6 @@ if [ ! -d "$HOME/ros" ]; then
     echo "# Other utilities for WSL:" >> $HOME/.bashrc
     echo "export LIBGL_ALWAYS_SOFTWARE=1" >> $HOME/.bashrc
     echo "alias npp=\"/mnt/c/Program\ Files/Notepad++/notepad++.exe\"" >> $HOME/.bashrc
-    # TODO Remove this in 2024/2025
-    #echo "export PYTHONWARNINGS=ignore::UserWarning,ignore:::setuptools.command.install,ignore:::setuptools.command.easy_install,ignore:::pkg_resources" >> $HOME/.bashrc
     #echo "export DISPLAY=\$(ip route list default | awk '{print \$3}'):0" >> $HOME/.bashrc
   fi
   git clone --recurse-submodules https://github.com/ipleiria-robotics/adv_robotics $HOME/ros
@@ -71,6 +69,7 @@ fi
 
 # Build our workspace
 source "/opt/ros/jazzy/setup.bash"
+# Activate Python virtual environment
 #source "$HOME/.venvs/advrob/bin/activate"
 cd $HOME/ros
 colcon build --symlink-install

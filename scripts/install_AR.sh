@@ -25,12 +25,12 @@ sudo apt -y install git gimp unrar vlc firefox screen kdiff3 curl synaptic alsa-
 sudo apt -y install libfltk1.3-dev
 
 # Visual Studio Code IDE (see https://code.visualstudio.com/docs/setup/linux)
-#snap install --classic code
-echo "code code/add-microsoft-repo boolean true" | sudo debconf-set-selections
-sudo apt update
-sudo apt install code
+snap install --classic code
+#echo "code code/add-microsoft-repo boolean true" | sudo debconf-set-selections
+#sudo apt update
+#sudo apt install code
 
-# Transformations
+# Transformations using pip and a virtual environment
 #pip3 install pytransform3d
 #mkdir -p ~/.venvs
 #python3 -m venv ~/.venvs/advrob --system-site-packages
@@ -63,8 +63,6 @@ if [ ! -d "$HOME/ros" ]; then
     #echo ". $HOME/.venvs/advrob/bin/activate" >> $HOME/.bashrc
     #echo "# Make sure ROS2 as access to our virtual environment modules (TODO: get the python version automatically)" >> $HOME/.bashrc
     #echo "export PYTHONPATH=\"${PYTHONPATH}:${HOME}/.venvs/advrob/lib/python3.12/site-packages/\"" >> $HOME/.bashrc
-    # TODO Remove this in 2024/2025
-    #echo "export PYTHONWARNINGS=ignore::UserWarning,ignore:::setuptools.command.install,ignore:::setuptools.command.easy_install,ignore:::pkg_resources" >> $HOME/.bashrc
   fi
   git clone --recurse-submodules https://github.com/ipleiria-robotics/adv_robotics $HOME/ros
 else
@@ -73,6 +71,7 @@ fi
 
 # Build our workspace
 source "/opt/ros/jazzy/setup.bash"
+# Activate Python virtual environment
 #source "$HOME/.venvs/advrob/bin/activate"
 cd $HOME/ros
 colcon build --symlink-install

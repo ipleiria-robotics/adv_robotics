@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Copyright (c) 2021, Hugo Costelha
+# Copyright (c) 2025, Hugo Costelha
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -30,8 +30,7 @@
 
 # Library packages needed
 import threading
-import pytransform3d.rotations as pyrot
-import pytransform3d.transformations as pytr
+import transforms3d._gohlketransforms as trf
 import numpy as np
 
 # ROS API
@@ -53,8 +52,8 @@ import ar_py_utils.LocalFrameWorldFrameTransformations as lfwft
 from markers_msgs.msg import Markers
 
 # Specify if the particle filter steps should run
-RUN_PREDICTION_STEP = True
-RUN_OBSERVATION_STEP = True
+RUN_PREDICTION_STEP = False
+RUN_OBSERVATION_STEP = False
 
 # Output debug information to the file only once every DELTA_DEBUG seconds
 DELTA_DEBUG = 1
@@ -300,25 +299,30 @@ class EKFLocalization(Node):
 
         # Get the odom to base_fooprint matrix transformation from the
         # transformation computed above
-        odom_to_base_footprint_tf = pytr.transform_from_pq(
-            [odom_to_base_footprint_trans.transform.translation.x,
-             odom_to_base_footprint_trans.transform.translation.y,
-             odom_to_base_footprint_trans.transform.translation.z,
-             odom_to_base_footprint_trans.transform.rotation.w,
-             odom_to_base_footprint_trans.transform.rotation.x,
-             odom_to_base_footprint_trans.transform.rotation.y,
-             odom_to_base_footprint_trans.transform.rotation.z])
+        odom_to_base_footprint_tf = trf.concatenate_matrices(
+            trf.translation_matrix(
+                [odom_to_base_footprint_trans.transform.translation.x,
+                 odom_to_base_footprint_trans.transform.translation.y,
+                odom_to_base_footprint_trans.transform.translation.z]),  # T
+            trf.quaternion_matrix(
+                [odom_to_base_footprint_trans.transform.rotation.w,
+                 odom_to_base_footprint_trans.transform.rotation.x,
+                 odom_to_base_footprint_trans.transform.rotation.y,
+                 odom_to_base_footprint_trans.transform.rotation.z]))  # R
 
         # Get the transformation matrix from the base_footprint to the map from
         # the particle filter estimate
-        base_footprint_to_map_tf = pytr.transform_from(
-            pyrot.active_matrix_from_angle(2, self.ekf.state[2, 0]),
-            [self.ekf.state[0, 0], self.ekf.state[1, 0], 0.0])
+        base_footprint_to_map_tf = trf.concatenate_matrices(
+            trf.translation_matrix(
+                [self.ekf.state[0, 0],
+                 self.ekf.state[1, 0],
+                 0.0]),  # T
+            trf.rotation_matrix(
+                self.ekf.state[2, 0], [0, 0, 1]))  # R
 
-        # Get the transformation (point and quaternion) from odom to map
-        odom_to_map_pq = pytr.pq_from_transform(pytr.concat(
-                odom_to_base_footprint_tf,
-                base_footprint_to_map_tf))
+        # Get the transformation from odom to map
+        odom_to_map = trf.concatenate_matrices(base_footprint_to_map_tf,
+                                               odom_to_base_footprint_tf)
 
         # Publish transformation from odom to map (map->odom link)
         odom_to_map_trans_stamped = tf2_ros.TransformStamped()
@@ -326,14 +330,15 @@ class EKFLocalization(Node):
         odom_to_map_trans_stamped.header.frame_id = self.get_parameter(
                 'base_frame_id').get_parameter_value().string_value
         odom_to_map_trans_stamped.child_frame_id = f'{self.robot_name}/odom'
-        odom_to_map_trans_stamped.transform.translation.x = odom_to_map_pq[0]
-        odom_to_map_trans_stamped.transform.translation.y = odom_to_map_pq[1]
-        odom_to_map_trans_stamped.transform.translation.z = odom_to_map_pq[2]
+        odom_to_map_trans_stamped.transform.translation.x = odom_to_map[0,3]
+        odom_to_map_trans_stamped.transform.translation.y = odom_to_map[1,3]
+        odom_to_map_trans_stamped.transform.translation.z = odom_to_map[2,3]
+        trf_quat = trf.quaternion_from_matrix(odom_to_map, True)
         odom_to_map_trans_stamped.transform.rotation = Quaternion(
-            x=odom_to_map_pq[4],
-            y=odom_to_map_pq[5],
-            z=odom_to_map_pq[6],
-            w=odom_to_map_pq[3])
+            x = trf_quat[1],
+            y = trf_quat[2],
+            z = trf_quat[3],
+            w = trf_quat[0])
         self._tf_broadcaster.sendTransform(odom_to_map_trans_stamped)
 
 
