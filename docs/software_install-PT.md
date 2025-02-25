@@ -2,7 +2,7 @@
 
 _**NOTA: Fora da aula pode utilizar o Teams ou o e-mail para colocar dúvidas e obter respostas mais rapidamente sobre este assunto. Caso tenha alguma dificuldade, sugere-se que contacte o docente no horário da atendimento, pessoalmente ou através dos canais acima, para não perder demasiado tempo com a instalação/configuração do sistema.**_
 
-O desenvolvimento prático na UC de Robótica Avançada é baseado no ROS2. Não obstante hoje em dia este já ser suportado em Windows, tipicamente este tipo de sistemas é implementado em ambiente Linux, sendo também essa a abordagem utilizada em Robótica Avançada. Em 2023/2024, em Robótica Avançada, a distribuição de Linux instalada nos PCs do Laboratório de Simulação de Sistemas é o Kubuntu 22.04.3 (Jammy Jellyfish). Não sendo obrigatório utilizar o Kubuntu, sugere-se fortemente que, por questões de compatibilidade, utilize uma versão do Ubuntu 22.04, que poderá ser o Kubuntu, o Ubuntu, o Xubuntu, etc., sendo o Xubuntu a que consome menos recursos. No final deste documento encontra as ligações para todo o software referido neste documento, incluindo o Kubuntu, como o Xubuntu.
+O desenvolvimento prático na UC de Robótica Avançada é baseado no ROS2. Não obstante hoje em dia este já ser suportado em Windows, tipicamente este tipo de sistemas é implementado em ambiente Linux, sendo também essa a abordagem utilizada em Robótica Avançada. Em 2024/2025, em Robótica Avançada, a distribuição de Linux instalada nos PCs do Laboratório de Simulação de Sistemas é o Kubuntu 24.04.2 (Noble Numbat). Não sendo obrigatório utilizar o Kubuntu, sugere-se fortemente que, por questões de compatibilidade, utilize uma versão do Ubuntu 24.04, que poderá ser o Kubuntu, o Ubuntu, o Xubuntu, etc., sendo o Xubuntu a que consome menos recursos. No final deste documento encontra as ligações para todo o software referido neste documento, incluindo o Kubuntu, como o Xubuntu.
 
 Existem três formas aconselhadas para instalar a distribuição, resumidas na tabela seguinte.
 
@@ -10,30 +10,30 @@ Existem três formas aconselhadas para instalar a distribuição, resumidas na t
 |:-----------------:|:--------:|:---------:|:------------:|
 |[Windows Subsystem for Linux 2 (WSL2)](#1-windows-subsystem-for-linux-2-wsl2) | Windows 10/11 | Facilidade de utilização e integração entre o Windows e o Linux. | Alguma perda de performance, embora reduzida em geral e mais elevada a nível da visualização 3D. Só disponível para versões do Windows >= 10 2004 (Build 19041).|
 |[Máquina Virtual](#2-máquina-virtual) | Windows (7/8/10/11) | Facilidade de instalação e remoção. | Maior perda de performance, quer em a nível de visualização 3D, quer em geral. Mais adequada para computadores com pelo menos 4 cores e 8Gb de memória.|
-|[Máquina Real](#3-máquina-real) | Linux Ubuntu 22.04.3 | Máxima performance. | Maior complexidade de instalação e maior dificuldade em gerir a ligação entre o Windows e o Linux, não podendo correr os dois sistemas em simultâneo.|
+|[Máquina Real](#3-máquina-real) | Linux Ubuntu 24.04.2 | Máxima performance. | Maior complexidade de instalação e maior dificuldade em gerir a ligação entre o Windows e o Linux, não podendo correr os dois sistemas em simultâneo.|
 
 Cada uma destas hipóteses está mais detalhada nas secções que se seguem.
 
 # 1. Windows Subsystem for Linux 2 (WSL2)
 
-Esta é a opção recomendada se o seu PC tem poucos recursos e não tem interesse em instalar o Linux a par do Windows. A Microsoft tem vindo a desenvolver um sistema baseado em Linux que permite correr as aplicações de Linux mais facilmente num ambiente Windows. Esta abordagem utiliza menos recursos que uma máquina virtual tradicional e permite trabalhar num ambiente mais próximo do Windows. No caso particular desta UC iremos utilizar o WSL2.
+Esta é a opção recomendada se o seu PC tem poucos recursos e não tem interesse em instalar o Linux a par do Windows. A Microsoft tem vindo a desenvolver um sistema baseado em Linux que permite correr as aplicações de Linux mais facilmente num ambiente Windows. Embora seja, na prática, uma máquina virtual, é considerada esta abordagem utiliza menos recursos que uma máquina virtual tradicional e permite trabalhar num ambiente mais próximo do Windows. No caso particular desta UC a versão do WSL que iremos utilizar é o WSL2.
 
 ## 1.1 Instalação do WSL2
 
 Para poder usar o WSL2 tem que ter a versão do Windows 10 2004 (Build 19041) ou superior, como pode confirmar [aqui](https://learn.microsoft.com/en-us/windows/wsl/install). Proceda da seguinte forma para instalar o WSL e o Ubuntu:
 1. Clique no menu iniciar e abra a opção "Ativar ou desativar funcionalidades do Windows" (pode pesquisar por "Funcionalidades" para encontrar esta opção);
 2. Na lista de funcionalidades disponíveis, ative a opção "Subsistema Windows para Linux" e a opção "Virtual Machine Platform". Ser-lhe-á solicitado que reinicie o PC para concluir a instalação;
-3. Após reiniciar o PC, abra a loja do Windows (Microsoft Store), aceda ao [Ubuntu 22.04.3](https://www.microsoft.com/store/productId/9PN20MSR04DW) e obtenha/instale a aplicação (esta é a distribuição de Linux que será utilizada);
+3. Após reiniciar o PC, abra a loja do Windows (Microsoft Store), aceda ao [Ubuntu 24.04.2](https://apps.microsoft.com/detail/9NZ3KLHXDJP5) e obtenha/instale a aplicação (esta é a distribuição de Linux que será utilizada);
 4. Após concluir a instalação do Ubuntu, abra a aplicação através do menu iniciar do Windows. Nessa altura ser-lhe-á solicitado que introduza um nome de utilizador e palavra-passe, para a configuração do Ubuntu (não se esqueça dessa combinação de nome de utilizador e palavra-passe);
 5. Após confirmar que a instalação foi concluída com sucesso, feche a janela do Ubuntu e abra a PowerShell como administrador, clicando com o botão direito do rato no menu iniciar, seguido da opção "Windows PowerShell (admin)" (caso tenha instalado o Terminal do Windows, pode escolher a opção "Terminal (Admin)");
-6. Na janela da Powershell, corra o comando "wsl -l -v" para confirmar a versão do WSL utilizada;
-7. Caso a versão indicada no passo anterior seja a "1", corra o comando `wsl --set-version Ubuntu-22.04 2` para mudar para a versão 2. Se a versão já for a 2, ou se a mudança para a versão 2 (verifique com o comando do ponto 6) tiver sido concluída, pode saltar os passos 8, 9 e 10. Se a a mudança para a versão 2 não tiver sido concluída, continue para o passo 8;
+6. Na janela da Powershell, corra o comando `wsl -l -v` para confirmar a versão do WSL utilizada;
+7. Caso a versão indicada no passo anterior seja a "1", corra o comando `wsl --set-version Ubuntu-24.04 2` para mudar para a versão 2. Se a versão já for a 2, ou se a mudança para a versão 2 (verifique com o comando do ponto 6) tiver sido concluída, pode saltar os passos 8, 9 e 10. Se a a mudança para a versão 2 não tiver sido concluída, continue para o passo 8;
 8. Caso no final do passo 7 o WSL2 não tenha ficado ativo, tal poderá ser devido à necessidade de uma configuração adicional para usar o WSL2. Nesse caso, descarregue e instale a atualização disponível [aqui](https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi);
 9. Reinicie o PC e confirme que tem a opção de virtualização ativada na BIOS. Caso o seu PC não suporte virtualização, não poderá utilizar o WSL2, pelo que nesse caso deve optar pela opção da [máquina virtual](#2-máquina-virtual) ou da [máquina real](#3-máquina-real);
 10. Confirme novamente a versão do WSL utilizada com o Ubuntu. Se necessário, corra novamente o passo 7.
 11. De modo a garantir que está a utilizar a versão mais atual do WSL2, corra o seguinte comando na consola do Windows (aberta no passo 5 com acesso de administrador): `wsl.exe --update`.
 
-Note que pode aceder à pasta "HOME" do Linux usando o Windows Explorer com o caminho `\\wsl.localhost\Ubuntu-22.04\home\USER`, onde `USER` deve ser substituído pelo nome de utilizador que especificou na instalação do Linux.
+Note que pode aceder à pasta "HOME" do Linux usando o Windows Explorer com o caminho `\\wsl.localhost\Ubuntu-24.04\home\USER`, onde `USER` deve ser substituído pelo nome de utilizador que especificou na instalação do Linux.
 
 Proceda agora com a instalação de outras aplicações no Windows que irão ser úteis em Robótica Avançada, seguindo a próxima secção.
 
@@ -49,7 +49,7 @@ Concluída a instalação da distribuição de Linux, interessa agora instalar a
 
 Caso seja utilizador de Windows com um PC suficientemente recente (< 5 anos), esta é a uma boa opção, pois permite-lhe uma instalação mais segura e utilização prática. Naturalmente que tal acontece à custa de uma diminuição de performance, o que poderá implicar alguma lentidão em trabalhos mais pesados. Se tiver um PC com processador superior ou igual ao i5 e placa gráfica da AMD ou NVIDIA, ou uma Intel recente, a performance deverá ser aceitável, mesmo em trabalhos com simulaçõo 3D.
 
-A máquina virtual sugerida é o [VMware Player](#5-ligações-relevantes), a qual é gratuita para uso não comercial. Alternativamente poderia ser utilizado o VirtualBox, no entanto, na última versão que foi estudada, este apresentava um pior desempenho em aplicações 3D, podendo limitar a realização de alguns trabalhos. A utilização do VMware Player também não é isenta de problemas, dado que virtualizar a simulação 3D consome muitos recursos computacionais.
+A máquina virtual sugerida é o [VMware Workstation Pro](#5-ligações-relevantes), a qual é gratuita para uso pessoal. Alternativamente poderia ser utilizado o VirtualBox, no entanto, na última versão que foi estudada, este apresentava um pior desempenho em aplicações 3D, podendo limitar a realização de alguns trabalhos. A utilização do VMware Workstation Pro também não é isenta de problemas, dado que virtualizar a simulação 3D consome muitos recursos computacionais. (Note que, atualmente, não estamos a utilizar o Gazebo, pelo que estal limitação não é necessariamente um problema.)
 
 Uma máquina virtual é uma aplicação que permite correr um sistema operativo num ambiente virtual, podendo assim correr outros sistemas com Windows, Linux ou Mac dentro de qualquer um desses sistemas. Neste ambientes virtuais o Host (anfitrião) é o sistema operativo que alberga a máquina virtual, enquanto o Guest (convidado) é o sistema operativo que corre na máquina virtual. O WSL2 também implementa uma máquina virtual, mas considerada _lightweight_.
 
@@ -62,18 +62,18 @@ Relativamente à instalação da máquina virtual, tem duas opções:
 ## 2.1 Instalação fornecida pelo docente
 Para utilizar a instalação previamente preparada pelo docente, siga os passos abaixo:
 
-1. Descarregue o [Vmware Player](#5-ligações-relevantes) clicando no botão "Download for free", seguido da opção "Go to downloads" e, depois, da opção "Download now" para o seu sistema operativo;
-2. Instale o Vmware Player a partir do ficheiro descarregado (aceite as opções por omissão);
-3. Descarregue a máquina [virtual fornecida pelo docente](https://drive.google.com/file/d/17SYxfxE7aYtO6aJpFTFZD-hDmw8fhU-Z/view?usp=sharing);
+1. Descarregue o [Vmware Workstation Pro](#5-ligações-relevantes);
+2. Instale o Vmware Workstation Pro a partir do ficheiro descarregado (aceite as opções por omissão, instalando o Windows Hypervisor, caso o seu PC o suporte);
+3. Descarregue a máquina [virtual fornecida pelo docente](https://drive.google.com/file/d/1xA70rAbAKqbNPy_Y2VMamxIyPy966k3s/view?usp=sharing);
 4. Descomprima o ficheiro descarregado (máquina virtual) para a pasta onde estão guardadas as máquinas virtuais (no caso do docente, a pasta `C:\Users\hugoc\Documentos\Virtual Machines\`), ou uma outra pasta qualquer à sua escolha. Após descompactar o ficheiro, irá ocupar cerca de 25Gb de armazenamendo no disco;
-5. Abra o Vmware player. Caso apareça informação sobre o VMware Workstation escolha "Skip this version";
-6. Clique em Player --> File --> Open... e abra, na pasta onde guardou a máquina virtual, o ficheiro "Xubuntu 22.04 64-bit AR\Xubuntu 22.04 64-bit AR.vmx";
+5. Abra o Vmware Workstation Pro;
+6. Clique em _File_ --> _Open..._ e abra, na pasta onde guardou a máquina virtual, o ficheiro "Xubuntu 24.04 64-bit\Xubuntu 24.04 64-bit.vmx";
 7. Na mensagem que surge a questionar se a máquina virtual foi movida ou copiada, escolha a opção "I moved it";
 
 O nome de utilizador é `robotics` e a palavra-passe é `robotics`.
 
 
-Neste caso a máquina virtual está totalmente configurada, pelo que não necessita de fazer mais nada, exceto se quiser ter pastas partilhadas entre o Windows (_host_) e o Linux (_guest_) (note que é possível fazer _Copy&Paste_ de conteúdos e ficheiros entre o _host_ e o _guest_, independentemente de partilhar ou não as pastas). Para ativar as pastas partilhadas entre o Windows e o Linux clique, dentro da janela do VMware, no menu _Player_ --> _Manage_ --> _Virtual Machine Settings_ e  seleccione o separador "Options", seguido da opção "Shared Folders". Ative a opção "Always Enabled" e clique em "Add" para adicionar a pasta a partilhar. As pastas criadas ficarão imediatamente disponíveis na máquina virtual em `/mnt/hgfs`.
+Neste caso a máquina virtual está totalmente configurada, pelo que não necessita de fazer mais nada, exceto se quiser ter pastas partilhadas entre o Windows (_host_) e o Linux (_guest_) (note que é possível fazer _Copy&Paste_ de conteúdos e ficheiros entre o _host_ e o _guest_, independentemente de partilhar ou não as pastas). Para ativar as pastas partilhadas entre o Windows e o Linux clique, dentro da janela do VMware, no menu _File_ --> _Manage_ --> _Virtual Machine Settings_ e  seleccione o separador "Options", seguido da opção "Shared Folders". Ative a opção "Always Enabled" e clique em "Add" para adicionar a pasta a partilhar. As pastas criadas ficarão imediatamente disponíveis na máquina virtual em `/mnt/hgfs`.
 
 Antes de prosseguir, abra a máquina virtual e, num terminal dentro da máquina virtual, corra os seguintes comandos para garantir que o sistema está atualizado:
 ```bash
@@ -87,23 +87,23 @@ Neste momento está apto a seguir os tutoriais das aulas laboratoriais, não pre
 
 Para proceder à instalação do sistema na máquina virtual, siga os seguintes passos:
 
-1. Descarregue o [Vmware Player](#5-ligações-relevantes) clicando no botão "Download for free", seguido da opção "Go to downloads" e, depois, da opção "Download now" para o seu sistema operativo;
-2. Descarregue a versão [22.04.3 do Xubuntu 64 bit](#5-ligações-relevantes);
-3. Instale o Vmware Player a partir do ficheiro descarregado (aceite as opções por omissão);
-4. Abra o Vmware player. Caso apareça informação sobre o VMware Workstation escolha "Skip this version";
+1. Descarregue o [Vmware Workstation Pro](#5-ligações-relevantes) clicando no botão "Download for free", seguido da opção "Go to downloads" e, depois, da opção "Download now" para o seu sistema operativo;
+2. Descarregue a versão [24.04.2 do Xubuntu 64 bit](#5-ligações-relevantes);
+3. Instale o Vmware Workstation Pro a partir do ficheiro descarregado (aceite as opções por omissão);
+4. Abra o Vmware Workstation Pro. Caso apareça informação sobre o VMware Workstation escolha "Skip this version";
 5. Clique em "Create a New virtual Machine";
 6. Selecione a opção "Installer disc image file (iso)" e escolha o ficheiro ISO do Xubuntu que descarregou acima. Clique em Next;
 7. Escolha um nome de utilizador e palavra-passe (não a pode esquecer) e clique em Next;
 8. Escolha um nome para a máquina virtual e clique em Next;
 9. Altere o tamanho do disco para 25Gb ou superior e selecione a opção "Store virtual disk as a single file". Clique em Next;
-10. Na configuração do hardware a máquina virtual, acessível clicando em "Customize Hardware...", deverá ter 3GB de memória ou mais (idealmente 4096 Mb caso tenha 8 Gb ou mais de memória) e 1 processador ou mais (idealmente 2 se tiver 4 ou mais _cores_). Clique em "Finish" para iniciar a instalação, processo este que poderá 10 a 20  minutos dependendo do seu hardware;
+10. Na configuração do hardware a máquina virtual, acessível clicando em "Customize Hardware...", deverá ter 3GB de memória ou mais (idealmente 4096 Mb caso tenha 8 Gb ou mais de memória) e 1 processador ou mais (idealmente 2 se tiver 4 ou mais _cores_). Clique em "Finish" para iniciar a instalação, processo este que poderá 5 a 20  minutos dependendo do seu hardware;
 11. Caso surja uma janela com o título "Removable devices", poderá fechar a mesma sem problemas;
 
 Terminada a instalação, é necessário proceder à configuração do sistema:
 
 1. Se após a instalação o teclado não estiver correto, pode reconfigurar o mesmo. Para tal aceda ao menu iniciar, pesquise por "Settings Manager" e clique no mesmo. Clique em "Keyboard". No separador Layout remova a opção "Use system defaults", clique em "Edit" e selecione a opção "Portuguese (no dead keys)", seguido de Close. Poderá levar alguns segundos até poder prosseguir;
 2. Ainda na janela "Settings Manager", pesquise por "Time and Date", clique no ícone que aparece, depois clique em "Unlock", introduza a palavra-passe que configurou anteriormente,  altere a "Time zona" para Europe/Lisbon e clique "Close" para terminar;
-3. É possível fazer Copy&Paste de conteúdos e ficheiros entre o _host_ e o _guest_, mas  poderá também ser útil partilhar uma pasta entre o Windows e o Linux. Para tal, clique no menu "Player" (caso não esteja visível, o menu aparece quando desloca o rato para o topo da parte central da janela da maquina virtual) --> "Manage" --> "Virtual Machine Settings". Selecione o separador "Options", seguido da opção "Shared Folders". Ative a opção "Always Enabled" e clique em "Add" para adicionar a pasta a partilhar. O campo "Host path" diz respeito à pasta do Windows que quer partilhar com a máquina virtual Linux. O campo "Name" corresponde ao nome que a pasta terá no Linux (máquina virtual). Após preencher os campos clique "Next" seguido de "Finish". A pasta criada ficará imediatamente disponível no Linux em `/mnt/hgfs`;
+3. É possível fazer Copy&Paste de conteúdos e ficheiros entre o _host_ e o _guest_, mas  poderá também ser útil partilhar uma pasta entre o Windows e o Linux. Para tal, clique no menu "File" (caso não esteja visível, o menu aparece quando desloca o rato para o topo da parte central da janela da maquina virtual) --> "Manage" --> "Virtual Machine Settings". Selecione o separador "Options", seguido da opção "Shared Folders". Ative a opção "Always Enabled" e clique em "Add" para adicionar a pasta a partilhar. O campo "Host path" diz respeito à pasta do Windows que quer partilhar com a máquina virtual Linux. O campo "Name" corresponde ao nome que a pasta terá no Linux (máquina virtual). Após preencher os campos clique "Next" seguido de "Finish". A pasta criada ficará imediatamente disponível no Linux em `/mnt/hgfs`;
 4. Ainda na janela do ponto anterior, selecione a opção "VMWare Tools", ative a opção "Synchronize guest time with host";
 5. Por omissão o Xubuntu bloqueia o ecrã ao fim de 5 minutos. Caso queira alterar esse tempo ou desabilitar esse bloqueio, aceda no menu iniciar a "Settings", seguido de "Screensaver Preferences", e altere aí as configurações que achar necessárias. 
 
@@ -141,20 +141,15 @@ wget https://github.com/ipleiria-robotics/adv_robotics/raw/master/scripts/instal
 3. Ainda no mesmo terminal, execute agora o comando `bash install_AR.sh` (ou o comando `bash install_AR_WSL.sh`, caso esteja a usar o WSL);
 4. Siga as instruções exibidas no terminal, inserindo a palavra-passe, sempre que solicitada, e respondo sim (Y) ou com o ENTER às questões que surjam. Note que, dependendo da velocidade de internet, este passo pode demorar significativamente;
 
-Terminada esta instalação verifique no terminal que não ocorreu nenhum erro durante a execução dos scripts. Caso tenha surgido algum erro, além do indicado abaixo, volte a correr o script (passo 3). Caso o(s) erro(s) não sejam resolvidos, contacte o docente. O erro que se segue pode ser ignorado sem problemas.
-```bash
-WARNING:colcon.colcon_ros.task.ament_python.build:Package 'py_trees_ros_viewer' doesn't explicitly install a marker in the package index (colcon-ros currently does it implicitly but that fallback will be removed in the future)
---- stderr: py_trees_ros_viewer
-/home/user/ros/build/py_trees_ros_viewer/setup.py:5: DeprecationWarning: The distutils package is deprecated and slated for removal in Python 3.12. Use setuptools or check PEP 632 for potential alternatives
-  from distutils import log
-```
+Terminada esta instalação verifique no terminal que não ocorreu nenhum erro durante a execução dos scripts. Caso tenha surgido algum erro, volte a correr o script (passo 3). Caso o(s) erro(s) não sejam resolvidos, contacte o docente.
+
 De seguida deve reiniciar o PC, ficando este pronto para a realização dos trabalhos práticos.
 
 No caso de estar a utilizar uma máquina virtual e queira partilhar pastas entre o sistema operativo anfitrião mas ainda não o tenha feito, siga as indicaçõe no final da [Secção 2.1](#21-instalação-fornecida-pelo-docente).
 
 # 5. Ligações relevantes
 
-* [Kubuntu 22.04.2](https://cdimage.ubuntu.com/kubuntu/releases/22.04.3/release/kubuntu-22.04.3-desktop-amd64.iso)
-* [Xubuntu 22.04.3](https://cdimage.ubuntu.com/xubuntu/releases/22.04.3/release/xubuntu-22.04.3-desktop-amd64.iso)
-* [Vmware Player](https://www.vmware.com/products/workstation-player.html)
+* [Kubuntu 24.04.2](https://cdimage.ubuntu.com/kubuntu/releases/24.04.2/release/kubuntu-24.04.2-desktop-amd64.iso)
+* [Xubuntu 24.04.2](https://cdimage.ubuntu.com/xubuntu/releases/24.04.2/release/xubuntu-24.04.2-desktop-amd64.iso)
+* [Vmware Workstation Pro](https://myipleiria-my.sharepoint.com/:u:/g/personal/hugo_costelha_ipleiria_pt/ETxpWn5RjYlBoZw5I88oT_8B7YV4BGO7hf8Vo2YRFlcvyQ?e=6HtJB6)
 * [balenaEtcher](https://etcher.balena.io/)
