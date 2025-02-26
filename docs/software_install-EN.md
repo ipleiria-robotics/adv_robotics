@@ -24,7 +24,7 @@ This is the recommended option if you use windows and your PC as low resources a
 To install WSL2 you need to have Windows 10 2004 (Build 19041) or later, as you can confirm [here](https://learn.microsoft.com/en-us/windows/wsl/install). Proceed as follows to install WSL2 and Ubuntu:
 1. Click the start menu and open the option "Turn Windows Features on or off" (you can search for "Turn Windows" to find that option);
 2. In the list of available options, activate the options "Windows Subsystem for Linux" and "Virtual Machine Platform", and click OK. You will be asked to restart your PC to conclude the installation;
-3. After restarting the PC, open the Microsoft store, access [Ubuntu 24.04.2](https://www.microsoft.com/store/productId/9PN20MSR04DW) and obtain/install the application (Linux distribution to be used);
+3. After restarting the PC, open the Microsoft store, access [Ubuntu 24.04.x](https://www.microsoft.com/store/productId/9PN20MSR04DW) and obtain/install the application (Linux distribution to be used);
 4. After concluding the Ubuntu 22.04 installation, open the application through the Windows start menu. At that point, you will be asked to introduce a username a password, to configure Ubuntu (do not forget that username/password combination);
 5. After confirming that the installation is concluded, close the Ubuntu window and open the PowerShell as an administrator, by right-clicking the start menu, followed by the option "Windows PowerShell (admin)";
 6. In the Powershell window, run the command `wsl -l -v` to confirm the WSL version being used;
