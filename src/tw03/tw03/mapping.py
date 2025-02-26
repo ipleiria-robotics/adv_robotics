@@ -50,7 +50,7 @@ from std_srvs.srv import Trigger
 # Our utility functions (using the ones from tw02)
 import ar_py_utils.utils as utils
 from ar_py_utils.LocalFrameWorldFrameTransformations \
-    import Point2D, local2World
+    import Point2D, local2WorldPoint
 
 
 class BasicMapping(Node):
@@ -189,7 +189,7 @@ class BasicMapping(Node):
                                       y=msg_laser.ranges[i]*sin(angle))
                 # Transform obstacle position to world frame using the laser
                 # frame
-                pt_in_world = local2World(laser_frame, pt_in_laser)
+                pt_in_world = local2WorldPoint(laser_frame, pt_in_laser)
 
                 # Convert pt_in_world from world coordinates to map coordinates
                 # (must be int)

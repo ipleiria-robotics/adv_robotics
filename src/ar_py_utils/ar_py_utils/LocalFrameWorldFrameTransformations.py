@@ -57,7 +57,7 @@ class Point2Di:
 '''
 
 
-def local2World(baseFrame: Pose2D, vectorInBaseFrame: Point2D) -> Point2D:
+def local2WorldPoint(baseFrame: Pose2D, vectorInBaseFrame: Point2D) -> Point2D:
     '''
     Transform a given vector in local coordinates, referenced to localFrame
     into global coordinates.
@@ -79,7 +79,8 @@ def local2World(baseFrame: Pose2D, vectorInBaseFrame: Point2D) -> Point2D:
     return Point2D(x, y)  # vectorInWorldFrame
 
 
-def world2Local(baseFrame: Pose2D, vectorInWorldFrame: Point2D) -> Point2D:
+def world2LocalPoint(baseFrame: Pose2D,
+                     vectorInWorldFrame: Point2D) -> Point2D:
     '''
     Transform a given vector in world coordinates, into a vector based on the
     given baseFrame.

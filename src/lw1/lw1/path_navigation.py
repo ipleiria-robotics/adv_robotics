@@ -42,7 +42,7 @@ from rcl_interfaces.msg import ParameterType
 
 # Our utility functions (using the ones from tw02)
 import tw04.utils as utils
-from tw03.LocalFrameWorldFrameTransformations import Point2D, world2Local
+from tw03.LocalFrameWorldFrameTransformations import Point2D, world2LocalPoint
 
 # The robot will not move with speeds faster than these, so we better limit out
 # values
@@ -203,7 +203,7 @@ class BasicWaypointPathNavigation(Node):
 
         # The angular velocity will be proportional to the angle of the target
         # as seen by the robot.
-        target_local_pos = world2Local(robot_pose, self.curr_target)
+        target_local_pos = world2LocalPoint(robot_pose, self.curr_target)
         angle_to_target = atan2(target_local_pos.y, target_local_pos.x)
         kp_ang_vel = self.get_parameter(
             'kp_ang_vel').get_parameter_value().double_value

@@ -44,8 +44,7 @@ from ar_py_utils.utils import clearTerminal, printxy, quaternionToYaw
 def odomCallback(msg):
     '''Function to call whe new odometry information is available'''
 
-    # Clear the screen. Check these and other key sequences in:
-    #   http://ascii-table.com/ansi-escape-sequences.php
+    # Clear the screen.
     clearTerminal()
     printxy(
         1, 0,
@@ -72,7 +71,7 @@ def main(args=None):
         'Running tw01 - print robot pose and velocity...')
 
     node = Node('tw01_subscriber')
-    node.create_subscription(Odometry, '/robot_0/base_pose_ground_truth',
+    node.create_subscription(Odometry, 'base_pose_ground_truth',
                              odomCallback, 5)
     rclpy.spin(node)
 

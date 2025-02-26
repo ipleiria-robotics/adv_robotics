@@ -201,8 +201,8 @@ class Move2PosActionServer(Node):
 
                 # The angular velocity will be proportional to the angle of the
                 # target as seen by the robot.
-                target_local_pos = lfwft.world2Local(self.curr_pose,
-                                                     target_position)
+                target_local_pos = lfwft.world2LocalPoint(self.curr_pose,
+                                                          target_position)
                 angle_to_target = atan2(target_local_pos.y, target_local_pos.x)
                 ang_vel = self.Kp_ang_vel * angle_to_target
 
