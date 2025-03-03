@@ -70,7 +70,7 @@ In order to proceed with the installation previously set up by the professor, go
 4. Decompress the file (virtual machine) to the folder where the virtual machines are stored in your PC (in the professor's case, it was in `C:\Users\hugoc\Documentos\Virtual Machines\`), or to any other folder of your choosing. After decompressing the files, it will take about 25Gb of hardrive space;
 5. Open VMware Workstation Pro;
 6. Click in _File_ --> _Open..._ and open, in the folder where you stored the virtual machine, the file "Xubuntu 24.04 64-bit\Xubuntu 24.04 64-bit.vmx";
-7. In the message that pops up questioning if the virtual machine was copied or moved, choose the option "I moved it".
+7. In the message that pops up questioning if the virtual machine was copied or moved, choose the option "Browse..." and choose the file in the folder.
 
 The username is `robotics` and the password is `robotics`.
 
