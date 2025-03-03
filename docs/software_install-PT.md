@@ -68,7 +68,7 @@ Para utilizar a instalação previamente preparada pelo docente, siga os passos 
 4. Descomprima o ficheiro descarregado (máquina virtual) para a pasta onde estão guardadas as máquinas virtuais (no caso do docente, a pasta `C:\Users\hugoc\Documentos\Virtual Machines\`), ou uma outra pasta qualquer à sua escolha. Após descompactar o ficheiro, irá ocupar cerca de 25Gb de armazenamendo no disco;
 5. Abra o Vmware Workstation Pro;
 6. Clique em _File_ --> _Open..._ e abra, na pasta onde guardou a máquina virtual, o ficheiro "Xubuntu 24.04 64-bit\Xubuntu 24.04 64-bit.vmx";
-7. Na mensagem que surge a questionar se a máquina virtual foi movida ou copiada, escolha a opção "I moved it";
+7. Na mensagem que surge a questionar se a máquina virtual foi movida ou copiada, escolha a opção "Browse..." e escolha o ficheiro na pasta;
 
 O nome de utilizador é `robotics` e a palavra-passe é `robotics`.
 
