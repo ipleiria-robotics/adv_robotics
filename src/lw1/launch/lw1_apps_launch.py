@@ -43,24 +43,27 @@ def generate_launch_description():
     namespace = sl.arg('namespace')
 
     # Map server
-    sl.node(package='nav2_map_server',
-            executable='map_server',
-            name='map_server',
-            namespace=namespace,
-            output='screen',
-            emulate_tty=True,  # https://github.com/ros2/launch/issues/188
-            parameters=[
-                {'yaml_filename': sl.find('lw1', 'map.yaml', 'config')}])
+    sl.declare_arg('run-map-server', True,
+                   description='If True, run the map_server node')
+    with sl.group(if_arg='run-map-server'):
+        sl.node(package='nav2_map_server',
+                executable='map_server',
+                name='map_server',
+                namespace=namespace,
+                output='screen',
+                emulate_tty=True,  # https://github.com/ros2/launch/issues/188
+                parameters=[
+                    {'yaml_filename': sl.find('lw1', 'map.yaml', 'config')}])
 
-    # Start lifecycle node manager
-    sl.node(package='nav2_lifecycle_manager',
-            executable='lifecycle_manager',
-            name='lifecycle_manager',
-            namespace=namespace,
-            output='screen',
-            emulate_tty=True,  # https://github.com/ros2/launch/issues/188
-            parameters=[{'autostart': True},
-                        {'node_names': lifecycle_nodes}])
+        # Start lifecycle node manager
+        sl.node(package='nav2_lifecycle_manager',
+                executable='lifecycle_manager',
+                name='lifecycle_manager',
+                namespace=namespace,
+                output='screen',
+                emulate_tty=True,  # https://github.com/ros2/launch/issues/188
+                parameters=[{'autostart': True},
+                            {'node_names': lifecycle_nodes}])
 
     # Localization node
     sl.declare_arg('run-localization', True,

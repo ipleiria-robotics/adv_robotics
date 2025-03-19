@@ -41,8 +41,9 @@ from rcl_interfaces.msg import ParameterDescriptor
 from rcl_interfaces.msg import ParameterType
 
 # Our utility functions (using the ones from tw02)
-import tw04.utils as utils
-from tw03.LocalFrameWorldFrameTransformations import Point2D, world2LocalPoint
+import ar_py_utils.utils as utils
+from ar_py_utils.LocalFrameWorldFrameTransformations import Point2D, \
+    world2LocalPoint
 
 # The robot will not move with speeds faster than these, so we better limit out
 # values
@@ -71,8 +72,6 @@ class BasicWaypointPathNavigation(Node):
         self.lock = Lock()
 
         # TODO: these could be parameters
-        # Robot name
-        self.robot_name = 'robot_0'
 
         # Internal navigation variables
         self.curr_target = 0  # Current target location index
@@ -117,13 +116,10 @@ class BasicWaypointPathNavigation(Node):
         self.declare_parameter('kp_ang_vel', 3.0,  kp_ang_vel_param_desc)
 
         # Subscribe the path plan to follow
-        self.path_sub = self.create_subscription(Path,
-                                                 f'/{self.robot_name}/path',
-                                                 self.path_cb, 1)
+        self.path_sub = self.create_subscription(Path, 'path', self.path_cb, 1)
 
         # Setup velocity publisher
-        self.vel_pub = self.create_publisher(Twist,
-                                             f'/{self.robot_name}/cmd_vel', 1)
+        self.vel_pub = self.create_publisher(Twist, 'cmd_vel', 1)
 
     def path_cb(self, msg):
         '''
@@ -139,11 +135,9 @@ class BasicWaypointPathNavigation(Node):
 
             # Setup odometry or pose subscriber, according to USE_ODOM
             if USE_ODOM:  # Use odometry
-                self.create_subscription(Odometry, f'/{self.robot_name}/odom',
-                                        self.pose_cb, 1)
+                self.create_subscription(Odometry, 'odom', self.pose_cb, 1)
             else:  # Use the localization result
-                self.create_subscription(PoseStamped, f'/{self.robot_name}/pose',
-                                        self.pose_cb, 1)
+                self.create_subscription(PoseStamped, 'pose', self.pose_cb, 1)
 
 
     def pose_cb(self, msg):

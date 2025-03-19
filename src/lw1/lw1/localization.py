@@ -61,9 +61,6 @@ class Trilateration(Node):
         self.robot_estimated_pose = Pose2D()  # Store estimated robot pose
         self.real_pose_updated = False  # True if the real pose was updated
 
-        # Robot name(space)
-        self.robot_name = 'robot_0'
-
         # World reference frame
         self.base_frame_id = 'map'
 
@@ -71,17 +68,16 @@ class Trilateration(Node):
         super().__init__('lw1_localization')
 
         # Setup markers subscriber
-        self.create_subscription(Markers, f'/{self.robot_name}/markers',
-                                 self.markers_callback, 1)
+        self.create_subscription(Markers, 'markers', self.markers_callback, 1)
 
         # Setup ground-truth subscriber
         self.create_subscription(Odometry,
-                                 f'/{self.robot_name}/base_pose_ground_truth',
+                                 'base_pose_ground_truth',
                                  self.pose_gnd_truth_callback, 1)
 
         # Setup pose publisher
         self.pose_pub = self.create_publisher(PoseWithCovarianceStamped,
-                                              f'/{self.robot_name}/pose', 1)
+                                              'pose', 1)
 
     def markers_callback(self, msg: Markers):
         ''' Process received markers data '''
@@ -106,10 +102,10 @@ class Trilateration(Node):
         #
 
         # A matrix, 3 x 2
-        A = np.zeros((3, 2), np.float)
+        A = np.zeros((3, 2), float)
 
         # b matrix, 4 x 1 (columm vector)
-        b = np.zeros((4, 1), np.float)
+        b = np.zeros((4, 1), float)
 
         # Store some test values in A
         A[0, 0] = 1

@@ -39,7 +39,7 @@ from geometry_msgs.msg import PoseStamped, Pose2D
 from nav_msgs.msg import OccupancyGrid, Path
 
 # Our utility functions
-import tw05.utils as utils
+import ar_py_utils.utils as utils
 
 
 class AStarPlanner(Node):
@@ -51,9 +51,6 @@ class AStarPlanner(Node):
         '''
         Initializes the class instance.
         '''
-        # Robot name
-        self.robot_name = 'robot_0'
-
         # Initialize the node itself
         super().__init__('lw1_astar_planner')
 
@@ -66,19 +63,16 @@ class AStarPlanner(Node):
             history=QoSHistoryPolicy.KEEP_LAST, depth=1,
             reliability=QoSReliabilityPolicy.RELIABLE,
             durability=QoSDurabilityPolicy.TRANSIENT_LOCAL)
-        self.sub_map = self.create_subscription(OccupancyGrid, '/map',
+        self.sub_map = self.create_subscription(OccupancyGrid, 'map',
                                                 self.map_cb, qos_profile)
         # Pose susbcriber
-        self.create_subscription(PoseStamped, f'/{self.robot_name}/pose',
-                                 self.pose_cb, 1)
+        self.create_subscription(PoseStamped, 'pose', self.pose_cb, 1)
 
         # Costmap as occupancyGrid (for RViz)
-        self.occ_grid_pub = self.create_publisher(
-            OccupancyGrid, f'/{self.robot_name}/occgrid', 1)
+        self.occ_grid_pub = self.create_publisher(OccupancyGrid, 'occgrid', 1)
 
         # Path publisher
-        self.path_pub = self.create_publisher(Path,
-                                              f'/{self.robot_name}/path', 1)
+        self.path_pub = self.create_publisher(Path, 'path', 1)
 
     def map_cb(self, msg):
         pass

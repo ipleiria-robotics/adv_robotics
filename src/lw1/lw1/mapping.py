@@ -70,24 +70,21 @@ class BasicMapping(Node):
         self.map_height_meters = 6.5  # [m]
         self.map_width_meters = 8.5  # [m]
         self.min_cell_value = 0  # Free space
-        self.unkown_cell_value = 64  # Unkonwn space
+        self.unkown_cell_value = -1  # Unkonwn space
         self.max_cell_value = 100  # Occuppied space
-        self.cell_delta_occ = 4  # Increment update torwards occupied space
-        self.cell_delta_free = -2  # Decrement update torwards free space
+        self.start_value = int((self.max_cell_value-self.min_cell_value)/2.0)
+        self.cell_delta_occ = 4  # Update torwards occupied space
+        self.cell_delta_free = -2  # Update torwards free space
         height_px = ceil(self.map_height_meters/self.map_resolution)
         width_px = ceil(self.map_width_meters/self.map_resolution)
         self.map_origin = [-width_px/2.*self.map_resolution,  # x
                            -height_px/2.*self.map_resolution,  # y
                            0.]  # z
 
-        # All map points are initialized with 64 (unknown)
+        # All map points are initialized with "unknown"
         # TODO: The size could be computed and updated in real-time
         self.occ_map = np.full((height_px, width_px),
                                self.unkown_cell_value, np.int8)
-
-        # Create robot related objects
-        #
-        self.robot_name = 'robot_0'
 
         # Initialize the node itself
         super().__init__('lw1_mapping')
@@ -97,16 +94,14 @@ class BasicMapping(Node):
 
         # Setup subscribers using a ApproximateTimeSynchronizer filter
         # Odometry
-        self.sub_odom = message_filters.Subscriber(self,
-                                                   Odometry,
-                                                   f'/{self.robot_name}/odom')
+        self.sub_odom = message_filters.Subscriber(self, Odometry, 'odom')
         # Localization
         self.sub_pose = message_filters.Subscriber(self,
                                                    PoseWithCovarianceStamped,
-                                                   f'/{self.robot_name}/pose')
+                                                   'pose')
         # LaserScan
-        self.sub_laser = message_filters.Subscriber(
-            self, LaserScan, f'/{self.robot_name}/base_scan')
+        self.sub_laser = message_filters.Subscriber(self, LaserScan,
+                                                    'base_scan')
         # Joint callback
         ts = message_filters.ApproximateTimeSynchronizer(
             [self.sub_odom, self.sub_pose, self.sub_laser], 5, 0.05)
@@ -114,7 +109,7 @@ class BasicMapping(Node):
 
         # Setup publisher
         self.occ_grid_pub = \
-            self.create_publisher(OccupancyGrid, f'/{self.robot_name}/map', 1)
+            self.create_publisher(OccupancyGrid, 'map', 1)
 
         # Run periodic callback (to publish the map)
         self.pubtimer = self.create_timer(5.0, self.timer_cb)
@@ -140,17 +135,8 @@ class BasicMapping(Node):
                                        y=self.map_origin[1],
                                        z=self.map_origin[2]),
                         orientation=Quaternion(x=0., y=0., z=0., w=1.)))
-            # Convert the image to a [0;100] scale, if needed.
-            if self.max_cell_value != 100:
-                map2pub = np.asarray(
-                    100.*(1.-self.occ_map/self.max_cell_value),
-                    dtype=np.int8)
-            else:
-                map2pub = self.occ_map.copy()
-            # Unkown space
-            map2pub[self.occ_map == self.unkown_cell_value] = -1
             # Convert to the expected data
-            occ_grid.data = map2pub.reshape(map2pub.size).tolist()
+            occ_grid.data = self.occ_map.reshape(self.occ_map.size).tolist()
             # Publish occupancy grid map
             self.occ_grid_pub.publish(occ_grid)
 
@@ -179,7 +165,7 @@ class BasicMapping(Node):
                     msg_pose.pose.pose.position.x)/self.map_resolution),
              round((self.map_height_meters/2. +
                     msg_pose.pose.pose.position.y)/self.map_resolution)],
-            dtype=np.int)  # [Col-x, Row-y]
+            dtype=int)  # [Col-x, Row-y]
         # Laser frame is centered with the robot pose
         laser_frame = Pose2D(x=msg_pose.pose.pose.position.x,
                              y=msg_pose.pose.pose.position.y,
@@ -208,16 +194,25 @@ class BasicMapping(Node):
                             pt_in_world.x)/self.map_resolution),  # Col-x
                      round((self.map_height_meters/2. +
                             pt_in_world.y)/self.map_resolution)],  # Row-y
-                    dtype=np.int)
+                    dtype=int)
 
                 with self.lock:
-                    # Update map for free space considering a line from the
-                    # laser up the detected laser point. The last point is
-                    # not included.
-                    # In numpy we need to access the matrices as [row, col]
+                    # Update map considering a line from the laser up the
+                    # detected laser point.Note that, in numpy, we need to
+                    # access the matrices using [row, col]
                     rr, cc = line(laser_map_coord[1],
                                   laser_map_coord[0],
                                   pt_in_map[1], pt_in_map[0])
+                    
+                    # Initialize all unknown cells that will be updated with a
+                    # value between the max and the min values
+                    unknown_pts = self.occ_map[rr, cc] == \
+                                  self.unkown_cell_value
+                    self.occ_map[rr[unknown_pts], cc[unknown_pts]] = \
+                        self.start_value
+
+                    # Update all the points along the laser line as free space,
+                    # exept the last point
                     self.occ_map[rr[0:-1], cc[0:-1]] = \
                         np.clip(self.occ_map[rr[0:-1], cc[0:-1]]
                                 + self.cell_delta_free,
@@ -237,12 +232,12 @@ class BasicMapping(Node):
     def map_saver_svc(self, request, response):
         ''' Service provided to allow saving the current map'''
         with self.lock:
-            # Scale so that free space is 255, occupied is 0.
-            map_save = np.asarray(
-                (self.max_cell_value-self.occ_map)/(
-                    1.0*self.max_cell_value)*255,
-                dtype=np.uint8)
-            # We need to invert the map when saving it to a file.
+            # Scale so that free space is 254, occupied is 0.
+            map_save = np.asarray(254.0*(-self.occ_map/100.0 + 1.0),
+                                  dtype=np.uint8)
+            # Unkown space is converted to 255
+            map_save[self.occ_map == self.unkown_cell_value] = 255
+            # We need to flip the map when saving it to a file.
             cv2.imwrite(self.map_filename, np.flip(map_save, 0))
 
             # Now save typical map information, as shown in
