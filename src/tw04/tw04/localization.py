@@ -71,9 +71,6 @@ class Trilateration(Node):
              Point2D(self.X_MAX_POS, self.Y_MAX_POS),  # 3
              Point2D(self.X_MAX_POS, -self.Y_MAX_POS)]  # 4
 
-        # Robot name(space)
-        self.robot_name = 'robot_0'
-
         # Frame IDs
         self.base_frame_id = 'map'
 
@@ -81,12 +78,11 @@ class Trilateration(Node):
         super().__init__('tw04_localization')
 
         # Setup markers subscriber
-        self.create_subscription(Markers, f'/{self.robot_name}/markers',
-                                 self.markers_callback, 1)
+        self.create_subscription(Markers, 'markers', self.markers_callback, 1)
 
         # Setup velocity commands publisher
         self.pose_pub = self.create_publisher(PoseWithCovarianceStamped,
-                                              f'/{self.robot_name}/pose', 1)
+                                              'pose', 1)
 
     def markers_callback(self, msg: Markers):
         ''' Process received markers data '''

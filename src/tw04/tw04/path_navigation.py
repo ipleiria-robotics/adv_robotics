@@ -72,8 +72,6 @@ class BasicWaypointPathNavigation(Node):
         self.lock = Lock()
 
         # TODO: these could be parameters
-        # Robot name
-        self.robot_name = 'robot_0'
 
         # Internal navigation variables
         self.curr_target = 0  # Current target location index
@@ -125,13 +123,10 @@ class BasicWaypointPathNavigation(Node):
         self.declare_parameter('use_odom', USE_ODOM,  use_odom_param_desc)
 
         # Subscribe the path plan to follow
-        self.path_sub = self.create_subscription(Path,
-                                                 f'/{self.robot_name}/path',
-                                                 self.path_cb, 1)
+        self.path_sub = self.create_subscription(Path, 'path', self.path_cb, 1)
 
         # Setup velocity publisher
-        self.vel_pub = self.create_publisher(Twist,
-                                             f'/{self.robot_name}/cmd_vel', 1)
+        self.vel_pub = self.create_publisher(Twist, 'cmd_vel', 1)
 
     def path_cb(self, msg):
         '''
@@ -157,12 +152,11 @@ class BasicWaypointPathNavigation(Node):
                     return
             # If we got this far, we need to subscribe to the topic
             if use_odom:  # Use odometry
-                self.pose_sub = self.create_subscription(
-                    Odometry, f'/{self.robot_name}/odom',
-                    self.pose_cb, 1)
+                self.pose_sub = self.create_subscription(Odometry, 'odom',
+                                                         self.pose_cb, 1)
             else:  # Use the localization result
                 self.pose_sub = self.create_subscription(
-                    PoseWithCovarianceStamped, f'/{self.robot_name}/pose',
+                    PoseWithCovarianceStamped, 'pose',
                     self.pose_cb, 1)
             self.last_use_odom = use_odom
 
@@ -184,12 +178,11 @@ class BasicWaypointPathNavigation(Node):
         if use_odom != self.last_use_odom:
             self.destroy_subscription(self.pose_sub)
             if use_odom:  # Use odometry
-                self.pose_sub = self.create_subscription(
-                    Odometry, f'/{self.robot_name}/odom',
-                    self.pose_cb, 1)
+                self.pose_sub = self.create_subscription(Odometry, 'odom',
+                                                         self.pose_cb, 1)
             else:  # Use the localization result
                 self.pose_sub = self.create_subscription(
-                    PoseWithCovarianceStamped, f'/{self.robot_name}/pose',
+                    PoseWithCovarianceStamped, 'pose',
                     self.pose_cb, 1)
             self.last_use_odom = use_odom
 

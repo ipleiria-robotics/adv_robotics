@@ -51,9 +51,6 @@ class PeriodicFixedPathPublisher(Node):
         # Initialize the node itself
         super().__init__('periodic_fixed_path_publisher')
 
-        # Robot name(space)
-        self.robot_name = 'robot_0'
-
         #  Store the given list of targets as a Path. Since te path is fixed,
         # we do this only once, at the beggining.
         num_targets = len(targets)
@@ -82,8 +79,7 @@ class PeriodicFixedPathPublisher(Node):
             self.path.poses.append(pose)
 
         # Create the path publisher
-        self.path_pub = self.create_publisher(Path,
-                                              f'/{self.robot_name}/path', 1)
+        self.path_pub = self.create_publisher(Path, 'path', 1)
         # Immediately publish a path, so as not to wait for the periodic
         # callback for the path to be published for the first time.
         self.path_pub.publish(self.path)
