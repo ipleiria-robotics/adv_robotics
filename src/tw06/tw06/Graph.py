@@ -216,7 +216,7 @@ class Graph:
                 self.root_ = node
             if self.debug_mode:
                 self.dbg_img[node.map_position_.y, node.map_position_.x] = \
-                    [0, 0, 255]
+                    [0, np.max([255-node.cost_,0]), 255]
 
     def removeNode(self, node_label: str):
         '''Remove node from graph'''
@@ -238,7 +238,7 @@ class Graph:
     def showGraph(self, img_pub, stamp, frame_id):
         '''
         Publish an image view of the graph (for debug purposes), given an Image
-        pubsliher.
+        publisher.
         '''
         if self.debug_mode is False:
             print('Debug mode was not activated during initialization')
