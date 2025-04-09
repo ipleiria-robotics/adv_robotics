@@ -107,7 +107,7 @@ def meter2cell(pt_in_meters: Point2D, map_origin: Pose, map_resolution: float):
         raise Exception('meter2cell: Conversion with orientation other than 0'
                         + ' not implemented yet!')
 
-    # Do the actua conversion
+    # Do the actual conversion
     target_pxl = Point2Di(round((pt_in_meters.x-map_origin.position.x) /
                                 map_resolution),
                           round((pt_in_meters.y-map_origin.position.y) /
