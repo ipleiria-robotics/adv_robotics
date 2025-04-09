@@ -302,7 +302,7 @@ class SearchAndPlanning(Node):
             # position corresponds to the goal position. If so, the search ends
             # now.
             if ((node.map_position_.x == goal_position.x) and
-               (node.map_position_.y == goal_position.y)):
+                (node.map_position_.y == goal_position.y)):
                 # We found the solution, leave...
                 solutionFound = True
                 break

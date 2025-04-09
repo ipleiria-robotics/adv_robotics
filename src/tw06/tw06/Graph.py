@@ -148,17 +148,10 @@ class Node:
 
             # Check if the new position was already processed
             if (map_point.label in self.graph_.nodes_list_):
-                node = self.graph_.getNode(map_point.label)
-                # If the new cost to the node is better, change the node cost
-                # and parent given the newly born child cost and parent
-                if (child_cost < node.cost_):
-                    # Remove the node from the graph. We will read it with the
-                    # new cost.
-                    self.graph_.removeNode(map_point.label)
-                else:
-                    # There is already an equal node with lower cost, so forget
-                    # this one.
-                    continue
+                # In this case, ignore the previous generated node.
+                # This is OK for DEPTH_FIRST and BREADTH_FIRST. For A_STAR, it
+                # is only OK if the heuristic is admissible and consistent.
+                continue
 
             # If we reached this far, then we have a new node
             child = Node(self.graph_, self, child_cost, self.hf_, map_point,
@@ -169,6 +162,11 @@ class Node:
             addedNodes.append(child)
             # Add new child to the list of nodes in the graph
             self.graph_.addNode(child)
+
+        # Node was expanded, change its color in the debug image
+        if self.graph_.debug_mode:
+            self.graph_.dbg_img[self.map_position_.y, self.map_position_.x] = \
+                [0, np.max([255-self.cost_,0]), 255]
 
         return addedNodes
 
@@ -216,7 +214,7 @@ class Graph:
                 self.root_ = node
             if self.debug_mode:
                 self.dbg_img[node.map_position_.y, node.map_position_.x] = \
-                    [0, np.max([255-node.cost_,0]), 255]
+                    [128, np.max([255-node.cost_,0]), 128]
 
     def removeNode(self, node_label: str):
         '''Remove node from graph'''
