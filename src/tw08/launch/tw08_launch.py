@@ -114,9 +114,9 @@ def generate_launch_description():
                    description='If True, run navigation node.')
     with sl.group(if_arg='run-navigation'):
         # Path navigation (TW04)
-        sl.node(package='tw04',
-                executable='path_navigation',
-                name='tw04_path_navigation',
+        sl.node(package='tw07',
+                executable='tf_path_navigation',
+                name='tw07_tf_path_navigation',
                 namespace=namespace,
                 output='screen',
                 emulate_tty=True,
