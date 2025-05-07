@@ -113,7 +113,7 @@ def generate_launch_description():
     sl.declare_arg('run-navigation', True,
                    description='If True, run navigation node.')
     with sl.group(if_arg='run-navigation'):
-        # Path navigation (TW04)
+        # Path navigation (TW07)
         sl.node(package='tw07',
                 executable='tf_path_navigation',
                 name='tw07_tf_path_navigation',
