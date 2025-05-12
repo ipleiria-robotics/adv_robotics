@@ -97,8 +97,8 @@ def generate_launch_description():
             output='screen')
 
     # EKF node
-    # Started by default
-    sl.declare_arg('run-ekf-localization', True,
+    # No started by default
+    sl.declare_arg('run-ekf-localization', False,
                    description='If True, run the EKF-based localization node.')
     with sl.group(if_arg='run-ekf-localization'):
         # Publish (fixed) navigation path (from TW07)
@@ -109,18 +109,27 @@ def generate_launch_description():
                 emulate_tty=True,
                 parameters=[configured_params])
 
-    # Path navigation node (from TW03)
+    # Planning and Navigation part
     sl.declare_arg('run-navigation', True,
-                   description='If True, run navigatioxn node.')
+                   description='If True, run navigation node.')
     with sl.group(if_arg='run-navigation'):
-        sl.node(package='tw03',
-                executable='navigation',
-                name='tw03_navigation',
+        # Path navigation (TW07)
+        sl.node(package='tw07',
+                executable='tf_path_navigation',
+                name='tw07_tf_path_navigation',
                 namespace=namespace,
                 output='screen',
                 emulate_tty=True,
                 parameters=[configured_params])
-
+        # Publish (fixed) navigation path (from TW08)
+        sl.node(package='tw08',
+                executable='publish_fixed_path',
+                name='tw08_publish_fixed_path',
+                namespace=namespace,
+                output='screen',
+                emulate_tty=True,
+                parameters=[configured_params])
+        
     # Start lifecycle node manager
     sl.node(package='nav2_lifecycle_manager',
             executable='lifecycle_manager',

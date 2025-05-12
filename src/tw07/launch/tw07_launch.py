@@ -4,7 +4,7 @@ from nav2_common.launch import RewrittenYaml
 
 
 def generate_launch_description():
-    lifecycle_nodes = ['map_server', 'amcl']
+    lifecycle_nodes = ['map_server']
 
     sl = SimpleLauncher(use_sim_time=True)
 
@@ -67,13 +67,18 @@ def generate_launch_description():
             output='screen')
 
     # NAV2-based particle filter
-    sl.node(package='nav2_amcl',
-            executable='amcl',
-            name='amcl',
-            namespace=namespace,
-            output='screen',
-            remappings=[('amcl_pose', 'pose')],
-            parameters=[configured_params])
+    # Navigation part
+    sl.declare_arg('run-amcl', True,
+                   description='If True, run the nav2 amcl navigation node')
+    with sl.group(if_arg='run-amcl'):
+        lifecycle_nodes.append('amcl')
+        sl.node(package='nav2_amcl',
+                executable='amcl',
+                name='amcl',
+                namespace=namespace,
+                output='screen',
+                remappings=[('amcl_pose', 'pose')],
+                parameters=[configured_params])
 
     # Navigation part
     sl.declare_arg('run-navigation', True,

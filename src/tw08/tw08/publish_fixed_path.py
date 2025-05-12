@@ -34,8 +34,6 @@ from rclpy.node import Node
 from geometry_msgs.msg import PoseStamped
 from nav_msgs.msg import Path
 
-import time
-
 # Our utility functions
 from ar_py_utils.LocalFrameWorldFrameTransformations import Point2D
 
@@ -82,14 +80,12 @@ class PeriodicFixedPathPublisher(Node):
 
         # Create the path publisher
         self.path_pub = self.create_publisher(Path, 'path', 1)
-        # Waitt a few seconds and immediately publish a path, so as not to wait
-        # for the periodic callback for the path to be published for the first
-        # time.
-        time.sleep(5.0)
-        self.path_pub.publish(self.path)
+        # Immediately publish a path, so as not to wait for the periodic
+        # callback for the path to be published for the first time.
+        self.path_pub_cb()
 
-        # Setup periodic callback to publish the path evey 50 secs
-        self.pubtimer = self.create_timer(120.0, self.path_pub_cb)
+        # Setup periodic callback to publish the path evey n secs
+        self.pubtimer = self.create_timer(10.0, self.path_pub_cb)
 
     def path_pub_cb(self):
         '''
@@ -112,13 +108,13 @@ def main(args=None):
 
     # List of waypoints the robot should pass by. We are considering only the
     # desired position, with no orientation
-    targets = [Point2D(6.0, 4.0),  # 0
-               Point2D(7.0, 7.5),  # 1
-               Point2D(-1.0, 7.0),  # 2
-               Point2D(-7.0, 2.0),  # 3
-               Point2D(-5.0, -7.0),  # 4
-               Point2D(0.0, -7.0),  # 5
-               Point2D(6.0, -4.0)]  # 6
+    targets = [Point2D(2.0, 2.0),  # 1
+               Point2D(6.0, 2.0),  # 2
+               Point2D(6.0, 7.0),  # 3
+               Point2D(-2.0, 7.0),  # 4
+               Point2D(-7.0, 0.0),  # 5
+               Point2D(-5.0, -7.0),  # 6
+               Point2D(0.0, -7.0)]  # 7
 
     # Create our navigation node
     node = PeriodicFixedPathPublisher(targets)

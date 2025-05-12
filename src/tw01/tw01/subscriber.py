@@ -44,7 +44,8 @@ from ar_py_utils.utils import clearTerminal, printxy, quaternionToYaw
 def odomCallback(msg):
     '''Function to call whe new odometry information is available'''
 
-    # Clear the screen.
+    # Clear the screen. Check these and other key sequences in:
+    #   http://ascii-table.com/ansi-escape-sequences.php
     clearTerminal()
     printxy(
         1, 0,

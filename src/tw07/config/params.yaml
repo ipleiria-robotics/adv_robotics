@@ -2,7 +2,6 @@
 
 path_navigation:
   ros__parameters:
-    use_odom: false
     ref_lin_vel: 0.5
     ref_ang_vel: 1.0
 

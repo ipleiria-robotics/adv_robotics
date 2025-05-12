@@ -87,9 +87,6 @@ class BasicWaypointPathNavigation(Node):
         self.lock = Lock()
 
         # TODO: these could be parameters
-        # Robot name
-        self.robot_name = 'robot_0'
-
         # Internal navigation variables
         self.curr_target = 0  # Current target location index
         self.min_distance = 0.08  # Minimum acceptance distance to target
@@ -106,6 +103,9 @@ class BasicWaypointPathNavigation(Node):
 
         # Store our TF buffer
         self.tf_buffer = tf_buffer
+
+        # Get our namespace (we need this for the TF)
+        self.namespace = self.get_namespace()[1:]
 
         # Parameters
         # Maximum linear velocity
@@ -177,7 +177,7 @@ class BasicWaypointPathNavigation(Node):
             try:
                 # Get the transformation from map to base_footprint
                 map_to_base_footprint_trans = self.tf_buffer.lookup_transform(
-                    'map', f'{self.robot_name}/base_footprint',
+                    'map', f'{self.namespace}/base_footprint',
                     rclpy.time.Time(), Duration(seconds=0.1))
             except (tf2_ros.LookupException, tf2_ros.ConnectivityException,
                     tf2_ros.ExtrapolationException) as e:
