@@ -3,7 +3,7 @@ Advanced Robotics
 
 Repository for the Advanced Robotics class, taught at the School of Tecnhology and Management, Polytechnic of Leiria, Portugal.
 
-Content currently being updated for the 2nd semester of 2023/2024 with ROS2 Humble and Ubuntu 22.04. Also running and tested on WSL2. For previous years, check the corresponding tags.
+Content currently being updated for the 2nd semester of 2024/2025 with ROS2 Humble and Ubuntu 24.04. Also running and tested on WSL2. For previous years, check the corresponding tags.
 
 Created and maintained by Hugo Costelha <hugo.costelha@ipleiria.pt>
 

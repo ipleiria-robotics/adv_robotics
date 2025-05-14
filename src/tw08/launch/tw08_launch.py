@@ -34,8 +34,9 @@ from nav2_common.launch import RewrittenYaml
 
 def generate_launch_description():
     lifecycle_nodes = ['map_server']
+    use_sim_time = True
 
-    sl = SimpleLauncher(use_sim_time=True)
+    sl = SimpleLauncher(use_sim_time=use_sim_time)
 
     # Declare arguments
     sl.declare_arg('namespace', 'robot_0',
@@ -71,7 +72,8 @@ def generate_launch_description():
                 name='stageros',
                 output='screen',
                 arguments=sl.find('worlds', 'map_laser_with_landmarks2.world',
-                                  'stage_worlds'))
+                                  'stage_worlds'),
+                parameters={'use_sim_time': use_sim_time})
 
     # Map server (use map from TW07)
     sl.node(package='nav2_map_server',
@@ -81,7 +83,8 @@ def generate_launch_description():
             output='screen',
             emulate_tty=True,  # https://github.com/ros2/launch/issues/188
             parameters=[
-                {'yaml_filename': sl.find('tw07', 'map.yaml', 'config')}])
+                {'yaml_filename': sl.find('tw07', 'map.yaml', 'config'),
+                 'use_sim_time': use_sim_time}}])
 
     # RViz
     sl.declare_arg('run-rviz', True,
@@ -94,7 +97,8 @@ def generate_launch_description():
             executable='ground_truth_republisher',
             name='tw07_ground_truth_republisher',
             namespace=namespace,
-            output='screen')
+            output='screen',
+            parameters={'use_sim_time': use_sim_time})
 
     # EKF node
     # No started by default
@@ -107,7 +111,8 @@ def generate_launch_description():
                 namespace=namespace,
                 output='screen',
                 emulate_tty=True,
-                parameters=[configured_params])
+                parameters=[configured_params,
+                            {'use_sim_time': use_sim_time}])
 
     # Planning and Navigation part
     sl.declare_arg('run-navigation', True,
@@ -120,7 +125,8 @@ def generate_launch_description():
                 namespace=namespace,
                 output='screen',
                 emulate_tty=True,
-                parameters=[configured_params])
+                parameters=[configured_params,
+                            {'use_sim_time': use_sim_time}])
         # Publish (fixed) navigation path (from TW08)
         sl.node(package='tw08',
                 executable='publish_fixed_path',
@@ -128,7 +134,8 @@ def generate_launch_description():
                 namespace=namespace,
                 output='screen',
                 emulate_tty=True,
-                parameters=[configured_params])
+                parameters=[configured_params,
+                            {'use_sim_time': use_sim_time}])
         
     # Start lifecycle node manager
     sl.node(package='nav2_lifecycle_manager',
@@ -138,6 +145,7 @@ def generate_launch_description():
             output='screen',
             emulate_tty=True,  # https://github.com/ros2/launch/issues/188
             parameters=[{'autostart': True},
-                        {'node_names': lifecycle_nodes}])
+                        {'node_names': lifecycle_nodes},
+                        {'use_sim_time': use_sim_time}])
 
     return sl.launch_description()

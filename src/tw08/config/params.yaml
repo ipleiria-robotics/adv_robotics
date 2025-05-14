@@ -1,6 +1,6 @@
 # Configuration file for this package
 
-tw03_navigation:
+tw07_tf_path_navigation:
   ros__parameters:
     ref_lin_vel: 0.5
     ref_ang_vel: 1.0
