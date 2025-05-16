@@ -84,7 +84,7 @@ def generate_launch_description():
             emulate_tty=True,  # https://github.com/ros2/launch/issues/188
             parameters=[
                 {'yaml_filename': sl.find('tw07', 'map.yaml', 'config'),
-                 'use_sim_time': use_sim_time}}])
+                 'use_sim_time': use_sim_time}])
 
     # RViz
     sl.declare_arg('run-rviz', True,
