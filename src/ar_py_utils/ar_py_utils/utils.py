@@ -231,6 +231,29 @@ def clearLine():
 
 # def in_wsl() -> bool:
 #     return 'WSL' in uname().release
+def speak_text(text: str, play_async=True, cancel_others=False):
+    '''Speak given text. Should be called only within a ROS node.
+       If play_async is True, the method starts the sound play and returns
+    immediately, otherwise it waits for the speach to finish.
+    '''
+    if cancel_others:
+        stop_all_speaches()
+    
+    if play_async:
+        # Asyncrhonous play. Function will continue on background
+        thread = threading.Thread(target=play_sound(text, False))
+        thread.start()
+    else:
+        # Synchronous play, will only return when finished
+        result = subprocess.run(['espeak-ng', '-vmb-us1', '-s 120', text],
+                                capture_output=True, text=True)
+        # If something went wrong, output the error
+        if result.returncode != 0:
+            rclpy.logging._root_logger.warn(
+                f'Problem in speach module: {result.stderr}')
+            return False
+        else:
+            return True
 
 
 def play_sound(sound_file, play_async=True, cancel_others=False):
@@ -270,3 +293,7 @@ def play_sound(sound_file, play_async=True, cancel_others=False):
 def stop_all_sounds():
     '''Stop all sounds by shutting down aplay executions'''
     subprocess.run(['killall', 'paplay'], capture_output=True)
+
+def stop_all_speaches():
+    '''Stop all sounds by shutting down aplay executions'''
+    subprocess.run(['killall', 'espeak-ng'], capture_output=True)

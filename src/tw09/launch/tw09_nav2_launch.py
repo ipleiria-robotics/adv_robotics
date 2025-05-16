@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
 
+"""Launch file for tw09 navigation stack with simulation and localization nodes.
+
+This module sets up the launch description for the tw09 package, including
+simulation, localization, navigation, and visualization nodes.
+"""
+
 # Copyright (c) 2024, Hugo Costelha
 # All rights reserved.
 #

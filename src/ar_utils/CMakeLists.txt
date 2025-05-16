@@ -36,7 +36,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "action/Move2Pos.action"
   "action/MoveVisualServoing.action"
   "action/MoveForklift.action"
-  "action/PlaySound.action"
+  "action/SpeakText.action"
   "action/Recharge.action"
   "action/Rotate2Angle.action"
   "action/Stop.action"

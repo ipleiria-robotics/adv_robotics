@@ -1,0 +1,7 @@
+# Goal: text to be spoken
+string text_to_speak
+---
+# Result: True if the given text was fully spoken, false otherwise
+bool text_spoken
+---
+# Feedback: None
