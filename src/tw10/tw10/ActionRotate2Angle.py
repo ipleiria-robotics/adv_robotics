@@ -47,7 +47,6 @@ from rclpy.node import Node
 from geometry_msgs.msg import Twist, PoseWithCovarianceStamped
 
 # Our modules
-import tw10.myglobals as myglobals
 from ar_utils.action import Rotate2Angle
 from ar_py_utils.utils import quaternionToYaw, clipValue
 

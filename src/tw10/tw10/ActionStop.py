@@ -49,7 +49,6 @@ from geometry_msgs.msg import Twist
 from nav_msgs.msg import Odometry
 
 # Our modules
-import tw10.myglobals as myglobals
 from ar_utils.action import Stop
 
 
@@ -71,8 +70,7 @@ class StopActionServer(Node):
         self.curr_odom = None
 
         # Setup publisher for velocity commands
-        self.vel_pub = self.create_publisher(
-            Twist, 'cmd_vel', 1)
+        self.vel_pub = self.create_publisher(Twist, 'cmd_vel', 1)
         self.vel_cmd = Twist()  # Velocity commands
 
         # Pose subscriber (to be used later on)
@@ -220,7 +218,7 @@ def main(args=None):
 
     # Use 2 threads to make sure callbacks can run in parallel and the action
     # does not block.
-    executor = MultiThreadedExecutor(num_threads=3)
+    executor = MultiThreadedExecutor(num_threads=2)
     executor.add_node(stop_action_server)
     executor.spin()
 

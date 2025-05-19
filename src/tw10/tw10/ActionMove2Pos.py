@@ -64,7 +64,7 @@ class Move2PosActionServer(Node):
 
         # Create condition to manage access to the goal variable, wich will be
         # accessed in multiple callbacks
-        self._goal_handle = None
+        self.goal_handle = None
         self.goal_lock = Lock()
 
         ''' Initialize members for navigation control '''
@@ -116,12 +116,11 @@ class Move2PosActionServer(Node):
         ''' This function runs whenever a new goal is accepted.'''
         with self.goal_lock:
             # This server only allows one goal at a time
-            if (self._goal_handle is not None) and \
-               (self._goal_handle.is_active):
+            if (self.goal_handle is not None) and (self.goal_handle.is_active):
                 self.get_logger().info(f'{ACTION_NAME} aborting previous goal')
                 # Abort the existing goal
-                self._goal_handle.abort()
-            self._goal_handle = goal_handle
+                self.goal_handle.abort()
+            self.goal_handle = goal_handle
         # Start runing the execute callback
         goal_handle.execute()
 
