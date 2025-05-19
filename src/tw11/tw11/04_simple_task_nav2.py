@@ -80,17 +80,17 @@ def tutorial_create_root() -> py_trees.behaviour.Behaviour:
     # Add the children of the topics2bb
     topics2bb.add_children([battery2bb, force_recharge2bb, start2bb])
 
-    '''
-    Tasks
-    '''
+    ########################################################################
+    # Tasks
+    ########################################################################
     # Parent composite for running the actual tasks
     tasks = py_trees.composites.Selector(name="Tasks", memory=False)
     # The tasks composite node will also be a root child
     root.add_child(tasks)
 
-    '''
-    Tasks - Recharging/battery component
-    '''
+    ########################################################################
+    # Tasks - Recharging/battery component
+    ########################################################################
     # Build a sequence so that the robot recharges when the battery is low
     recharge_seq = py_trees.composites.Sequence(name="RechargeSeq",
                                                 memory=True)
@@ -132,13 +132,12 @@ def tutorial_create_root() -> py_trees.behaviour.Behaviour:
                                recharge,
                                endedRechargeBehavior])
 
-    # Behaviour for the ActionClient PlaySound (warning sound)
+    # Behaviour for the ActionClient SpeakText (warning sound)
     warn_bat_low = py_trees_ros.action_clients.FromConstant(
-        action_type=action.PlaySound,
-        action_name="ActionPlaySound",
-        action_goal=action.PlaySound.Goal(
-            sound_file=get_package_share_directory('tw10') +
-            '/sounds/low_battery.wav'),
+        action_type=action.SpeakText,
+        action_name="ActionSpeakText",
+        action_goal=action.SpeakText.Goal(
+            text_to_speak='Warning, low battery!'),
         name="WarnBatteryLow"
     )
 
@@ -188,9 +187,9 @@ def tutorial_create_root() -> py_trees.behaviour.Behaviour:
     # Add this decorator as a child of the battery sequence
     tasks.add_child(battery_emergency)
 
-    '''
-    Tasks - Move to a pose component
-    '''
+    ########################################################################
+    # Tasks - Move to a pose component
+    ########################################################################
 
     # Build a subtree to move the robot to a desired pose, which will be formed
     # by a sequence of Move2Pos and Rotate2Angle actions
@@ -233,9 +232,7 @@ def tutorial_create_root() -> py_trees.behaviour.Behaviour:
 
 
 def main():
-    """
-    Entry point for the demo script.
-    """
+    """Entry point for the demo script."""
     rclpy.init(args=None)
     root = tutorial_create_root()
     tree = py_trees_ros.trees.BehaviourTree(
