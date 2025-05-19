@@ -144,7 +144,7 @@ def tutorial_create_root() -> py_trees.behaviour.Behaviour:
                                recharge,
                                endedRechargeBehavior])
 
-    # Behaviour for the ActionClient PlaySound (warning sound)
+    # Behaviour for the ActionClient SpeakText (warning sound)
     warn_bat_low = py_trees_ros.action_clients.FromConstant(
         action_type=action.SpeakText,
         action_name='ActionSpeakText',
