@@ -33,7 +33,7 @@ NAV2 planner and controller.
 '''
 
 # Non-ROS modules
-from math import radians
+from math import radians, degrees
 import os
 from threading import Lock
 
@@ -121,7 +121,7 @@ class Move2PoseActionServer(Node):
             f'Executing action {ACTION_NAME} with goal pose ' +
             f'[{goal_handle.request.target_pose.x:0.2f} m,' +
             f' {goal_handle.request.target_pose.y:0.2f} m,' +
-            f' {goal_handle.request.target_pose.theta:0.2f} deg]')
+            f' {degrees(goal_handle.request.target_pose.theta):0.2f} deg]')
 
         # Used for feedback purposes
         feedback = Move2Pose.Feedback()
@@ -132,7 +132,7 @@ class Move2PoseActionServer(Node):
         target.pose.position = Point(x=goal_handle.request.target_pose.x,
                                      y=goal_handle.request.target_pose.y, z=0.)
         target.pose.orientation = rpyToQuaternion(
-            0., 0., radians(goal_handle.request.target_pose.theta))
+            0., 0., goal_handle.request.target_pose.theta)
         path = self.nav2.getPath(start=PoseStamped(),  # Not used
                                  goal=target,
                                  planner_id="GridBased",
