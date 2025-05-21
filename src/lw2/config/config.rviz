@@ -126,12 +126,27 @@ Visualization Manager:
     - Alpha: 1
       Axes Length: 1
       Axes Radius: 0.10000000149011612
-      Class: rviz_default_plugins/Pose
-      Color: 32; 74; 135
+      Class: rviz_default_plugins/PoseWithCovariance
+      Color: 0; 0; 127
+      Covariance:
+        Orientation:
+          Alpha: 0.5
+          Color: 255; 255; 127
+          Color Style: Unique
+          Frame: Local
+          Offset: 1
+          Scale: 1
+          Value: true
+        Position:
+          Alpha: 0.30000001192092896
+          Color: 204; 51; 204
+          Scale: 1
+          Value: true
+        Value: true
       Enabled: true
       Head Length: 0.30000001192092896
       Head Radius: 0.10000000149011612
-      Name: Pose
+      Name: PoseWithCovariance
       Shaft Length: 1
       Shaft Radius: 0.05000000074505806
       Shape: Arrow
@@ -144,6 +159,8 @@ Visualization Manager:
         Value: /robot_0/pose
       Value: true
     - Alpha: 0.699999988079071
+      Binary representation: false
+      Binary threshold: 100
       Class: rviz_default_plugins/Map
       Color Scheme: map
       Draw Behind: false
@@ -278,5 +295,5 @@ Window Geometry:
   Views:
     collapsed: true
   Width: 1255
-  X: 111
-  Y: 200
+  X: 78
+  Y: 293
