@@ -2,7 +2,7 @@
 
 _**NOTA: Fora da aula pode utilizar o Teams ou o e-mail para colocar dúvidas e obter respostas mais rapidamente sobre este assunto. Caso tenha alguma dificuldade, sugere-se que contacte o docente no horário da atendimento, pessoalmente ou através dos canais acima, para não perder demasiado tempo com a instalação/configuração do sistema.**_
 
-O desenvolvimento prático na UC de Robótica Avançada é baseado no ROS2. Não obstante hoje em dia este já ser suportado em Windows, tipicamente este tipo de sistemas é implementado em ambiente Linux, sendo também essa a abordagem utilizada em Robótica Avançada. Em 2024/2025, em Robótica Avançada, a distribuição de Linux instalada nos PCs do Laboratório de Simulação de Sistemas é o Kubuntu 24.04.2 (Noble Numbat). Não sendo obrigatório utilizar o Kubuntu, sugere-se fortemente que, por questões de compatibilidade, utilize uma versão do Ubuntu 24.04, que poderá ser o Kubuntu, o Ubuntu, o Xubuntu, etc., sendo o Xubuntu a que consome menos recursos. No final deste documento encontra as ligações para todo o software referido neste documento, incluindo o Kubuntu, como o Xubuntu.
+O desenvolvimento prático na UC de Robótica Avançada é baseado no ROS2. Não obstante hoje em dia este já ser suportado em Windows, tipicamente este tipo de sistemas é implementado em ambiente Linux, sendo também essa a abordagem utilizada em Robótica Avançada. Em 2024/2025, em Robótica Avançada, a distribuição de Linux instalada nos PCs do Laboratório de Simulação de Sistemas é o Kubuntu 24.04.4 (Noble Numbat). Não sendo obrigatório utilizar o Kubuntu, sugere-se fortemente que, por questões de compatibilidade, utilize uma versão do Ubuntu 24.04, que poderá ser o Kubuntu, o Ubuntu, o Xubuntu, etc., sendo o Xubuntu a que consome menos recursos. No final deste documento encontra as ligações para todo o software referido neste documento, incluindo o Kubuntu, como o Xubuntu.
 
 Existem três formas aconselhadas para instalar a distribuição, resumidas na tabela seguinte.
 
@@ -10,7 +10,7 @@ Existem três formas aconselhadas para instalar a distribuição, resumidas na t
 |:-----------------:|:--------:|:---------:|:------------:|
 |[Windows Subsystem for Linux 2 (WSL2)](#1-windows-subsystem-for-linux-2-wsl2) | Windows 10/11 | Facilidade de utilização e integração entre o Windows e o Linux. | Alguma perda de performance, embora reduzida em geral e mais elevada a nível da visualização 3D. Só disponível para versões do Windows >= 10 2004 (Build 19041).|
 |[Máquina Virtual](#2-máquina-virtual) | Windows (7/8/10/11) | Facilidade de instalação e remoção. | Maior perda de performance, quer em a nível de visualização 3D, quer em geral. Mais adequada para computadores com pelo menos 4 cores e 8Gb de memória.|
-|[Máquina Real](#3-máquina-real) | Linux Ubuntu 24.04.2 | Máxima performance. | Maior complexidade de instalação e maior dificuldade em gerir a ligação entre o Windows e o Linux, não podendo correr os dois sistemas em simultâneo.|
+|[Máquina Real](#3-máquina-real) | Linux Ubuntu 24.04.4 | Máxima performance. | Maior complexidade de instalação e maior dificuldade em gerir a ligação entre o Windows e o Linux, não podendo correr os dois sistemas em simultâneo.|
 
 Cada uma destas hipóteses está mais detalhada nas secções que se seguem.
 
@@ -88,7 +88,7 @@ Neste momento está apto a seguir os tutoriais das aulas laboratoriais, não pre
 Para proceder à instalação do sistema na máquina virtual, siga os seguintes passos:
 
 1. Descarregue o [Vmware Workstation Pro](#5-ligações-relevantes) clicando no botão "Download for free", seguido da opção "Go to downloads" e, depois, da opção "Download now" para o seu sistema operativo;
-2. Descarregue a versão [24.04.2 do Xubuntu 64 bit](#5-ligações-relevantes);
+2. Descarregue a versão [24.04.x do Xubuntu 64 bit](#5-ligações-relevantes);
 3. Instale o Vmware Workstation Pro a partir do ficheiro descarregado (aceite as opções por omissão);
 4. Abra o Vmware Workstation Pro. Caso apareça informação sobre o VMware Workstation escolha "Skip this version";
 5. Clique em "Create a New virtual Machine";
@@ -149,7 +149,7 @@ No caso de estar a utilizar uma máquina virtual e queira partilhar pastas entre
 
 # 5. Ligações relevantes
 
-* [Kubuntu 24.04.2](https://cdimage.ubuntu.com/kubuntu/releases/24.04.2/release/kubuntu-24.04.2-desktop-amd64.iso)
-* [Xubuntu 24.04.2](https://cdimage.ubuntu.com/xubuntu/releases/24.04.2/release/xubuntu-24.04.2-desktop-amd64.iso)
-* [Vmware Workstation Pro](https://myipleiria-my.sharepoint.com/:u:/g/personal/hugo_costelha_ipleiria_pt/ETxpWn5RjYlBoZw5I88oT_8B7YV4BGO7hf8Vo2YRFlcvyQ?e=6HtJB6)
+* [Kubuntu 24.04.4](https://cdimage.ubuntu.com/kubuntu/releases/24.04.4/release/kubuntu-24.04.4-desktop-amd64.iso)
+* [Xubuntu 24.04.4](https://cdimage.ubuntu.com/xubuntu/releases/24.04.4/release/xubuntu-24.04.4-desktop-amd64.iso)
+* [Vmware Workstation Pro](https://myipleiria-my.sharepoint.com/:u:/g/personal/hugo_costelha_ipleiria_pt/IQDUsTO3bj0hTL6ogGKGbN08AUI6q371pEUm8UsuiGzENbk?e=sXgGZi)
 * [balenaEtcher](https://etcher.balena.io/)

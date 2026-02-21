@@ -2,14 +2,14 @@
 
 _**NOTE: Outside classes you can use the Teams or the e-mail to place questions on this subject, to have a faster reply. In case you have some difficulty, I suggest you contact the professor during the attendance hours, or as stated above, so as not to loose too much time with the configuration/installation.**_
 
-The pratical developlent in the Advanced Robotics class is based on ROS2. Even though, nowadays, ROS2 is alredy suported on Windows, typically this type of systems is implemented in a Linux environment, thus we use the same approach in Advanced Robotics. The Linux distribution used in 2022/2023 in Advanced Robotics, and which is installed in the System Simulation Laboratory PCs, is Kubuntu 24.04.02 (Noble Numbat). Although you are not obliged to use Kubuntu, I strongly suggest that, for compatibility reasons, you use one of the 24.04 Ubuntu versions (either Kubuntu, Ubuntu, Xubuntu, etc., being Xubuntu the one that consumes less resources).  At the end of this document you will find the links for Kubuntu and Xubuntu.
+The pratical developlent in the Advanced Robotics class is based on ROS2. Even though, nowadays, ROS2 is alredy suported on Windows, typically this type of systems is implemented in a Linux environment, thus we use the same approach in Advanced Robotics. The Linux distribution used in 2022/2023 in Advanced Robotics, and which is installed in the System Simulation Laboratory PCs, is Kubuntu 24.04.04 (Noble Numbat). Although you are not obliged to use Kubuntu, I strongly suggest that, for compatibility reasons, you use one of the 24.04 Ubuntu versions (either Kubuntu, Ubuntu, Xubuntu, etc., being Xubuntu the one that consumes less resources).  At the end of this document you will find the links for Kubuntu and Xubuntu.
 
 You have three advisable ways of installing the Linux distribution, summarized in the followin Table.
 |Installation type | Environment | Advantages | Disadvantages |
 |:-----------------:|:--------:|:---------:|:------------:|
 |[Windows Subsystem for Linux 2 (WSL2)](#1-windows-subsystem-for-linux-2-wsl) | Windows 10/11 | Easy to use and good integration between Windows and Linux. | Performance loss which is low in general, but higher for 3D applications. Only available for  Windows versions >= 10 2004 (Build 19041).|
 |[Virtual Machine](#2-virtual-machine) | Windows (7/8/10/11) | Easy to install and uninstall. | Higher performance loss. More suited for computers with at least 4 cores and 8Gb of memory.|
-|[Real Machine](#3-real-machine) | Linux Ubuntu 24.04.2 | Higher performance. | Higher installation complexity and more difficult to share date between Windows and Linux - you cannot run both systems simultaneously.|
+|[Real Machine](#3-real-machine) | Linux Ubuntu 24.04.4 | Higher performance. | Higher installation complexity and more difficult to share date between Windows and Linux - you cannot run both systems simultaneously.|
 
 Each of these options is detailed in the secions below.
 
@@ -89,7 +89,7 @@ You are now ready to follow the laboratory tutorials, you do not need to do anyt
 To install the system as a virtual machine from scratch, proceed ad follows:
 
 1. Download [Vmware Workstation Pro](#5-relevant-links) (click the "Download for free", followed by the "Go to downloads" option, and tehn by the "Download now" option for your operating system;
-2. Download [24.04.2 do Xubuntu 64 bit](#5-relevant-links);
+2. Download [24.04.x do Xubuntu 64 bit](#5-relevant-links);
 3. Install Vmware Workstation Pro from the downloaded file (accept all the default options);
 4. Open Vmware Workstation Pro. If you get a window about VMware Workstation Pro, choose "Skip this version";
 5. Click "Create a New virtual Machine";
@@ -150,7 +150,7 @@ In case you are using a virtual machine and wish to share folders between the ho
 
 # 5. Relevant links
 
-* [Kubuntu 24.04.2](https://cdimage.ubuntu.com/kubuntu/releases/24.04.2/release/kubuntu-24.04.2-desktop-amd64.iso)
-* [Xubuntu 24.04.2](https://cdimage.ubuntu.com/xubuntu/releases/24.04.2/release/xubuntu-24.04.2-desktop-amd64.iso)
-* [Vmware Workstation Pro](https://myipleiria-my.sharepoint.com/:u:/g/personal/hugo_costelha_ipleiria_pt/ETxpWn5RjYlBoZw5I88oT_8B7YV4BGO7hf8Vo2YRFlcvyQ?e=6HtJB6)
+* [Kubuntu 24.04.4](https://cdimage.ubuntu.com/kubuntu/releases/24.04.4/release/kubuntu-24.04.4-desktop-amd64.iso)
+* [Xubuntu 24.04.4](https://cdimage.ubuntu.com/xubuntu/releases/24.04.4/release/xubuntu-24.04.4-desktop-amd64.iso)
+* [Vmware Workstation Pro](https://myipleiria-my.sharepoint.com/:u:/g/personal/hugo_costelha_ipleiria_pt/IQDUsTO3bj0hTL6ogGKGbN08AUI6q371pEUm8UsuiGzENbk?e=sXgGZi)
 * [balenaEtcher](https://etcher.balena.io/)
