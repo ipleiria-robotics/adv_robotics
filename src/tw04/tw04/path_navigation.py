@@ -161,9 +161,7 @@ class BasicWaypointPathNavigation(Node):
             self.last_use_odom = use_odom
 
     def pose_cb(self, msg):
-        '''
-            Navigation callback, executes on odometry or pose message received
-        '''
+        ''' Navigation callback, executes on odometry/pose message received '''
         with self.lock:
             # If we have not received any path, or if the last one we have
             # received has already finished, there is not thing to do here.
@@ -186,16 +184,10 @@ class BasicWaypointPathNavigation(Node):
                     self.pose_cb, 1)
             self.last_use_odom = use_odom
 
-        if USE_ODOM:  # Get robot pose from the odometry message
-            robot_pose = Pose2D(
-                x=msg.pose.pose.position.x,
-                y=msg.pose.pose.position.y,
-                theta=utils.quaternionToYaw(msg.pose.pose.orientation))
-        else:  # Get the robot pose from the PoseWithCovarianceStamped message
-            robot_pose = Pose2D(
-                x=msg.pose.pose.position.x,
-                y=msg.pose.pose.position.y,
-                theta=utils.quaternionToYaw(msg.pose.pose.orientation))
+        robot_pose = Pose2D(
+            x=msg.pose.pose.position.x,
+            y=msg.pose.pose.position.y,
+            theta=utils.quaternionToYaw(msg.pose.pose.orientation))
 
         with self.lock:
             # -...
