@@ -253,7 +253,7 @@ marker(
 
 marker(
   name "marker29"
-  pose [7.82 -7.86 0 135]
+  pose [7.81 -7.86 0 135]
   fiducial_return 29
 )
 
@@ -295,37 +295,37 @@ marker(
 
 marker(
   name "marker36"
-  pose [-5.92 2.38 0 45]
+  pose [-3.79 2.38 0 45]
   fiducial_return 36
 )
 
 marker(
   name "marker37"
-  pose [-3.79 2.38 0 -45]
+  pose [-3.57 2.38 0 -45]
   fiducial_return 37
 )
 
 marker(
   name "marker38"
-  pose [-3.57 2.38 0 45]
+  pose [-1.41 2.38 0 45]
   fiducial_return 38
 )
 
 marker(
   name "marker39"
-  pose [-1.41 2.38 0 -45]
+  pose [-1.17 2.38 0 -45]
   fiducial_return 39
 )
 
 marker(
   name "marker40"
-  pose [-1.17 2.38 0 45]
+  pose [1.05 2.38 0 45]
   fiducial_return 40
 )
 
 marker(
   name "marker41"
-  pose [1.05 2.38 0 -45]
+  pose [1.28 2.38 0 -45]
   fiducial_return 41
 )
 
