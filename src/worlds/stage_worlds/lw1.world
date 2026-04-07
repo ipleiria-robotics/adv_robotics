@@ -266,7 +266,7 @@ marker(
 marker(
   name "marker31"
   pose [-4.98 3.08 0 90]
-  fiducial_return 30
+  fiducial_return 31
 )
 
 marker(
@@ -284,7 +284,7 @@ marker(
 marker(
   name "marker34"
   pose [5.38 4.78 0 90]
-  fiducial_return 32
+  fiducial_return 34
 )
 
 marker(
