@@ -24,7 +24,6 @@ setup(
     entry_points={
         'console_scripts': [
             'ekf_localization = tw08.ekf_localization:main',
-            'publish_fixed_path = tw08.publish_fixed_path:main'
         ],
     },
 )
